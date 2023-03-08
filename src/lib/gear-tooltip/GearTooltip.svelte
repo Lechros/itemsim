@@ -1,5 +1,7 @@
 <script lang="ts">
 	import type { Gear } from '@malib/gear';
+	import Attribute from './parts/Attribute.svelte';
+	import GearGrade from './parts/GearGrade.svelte';
 
 	import Star from './parts/Star.svelte';
 	import Title from './parts/Title.svelte';
@@ -7,15 +9,19 @@
 	export let gear: Gear;
 </script>
 
+{#if gear}
 <div class="gear-tooltip">
 	<div class="frame-top" />
 	<div class="frame-line">
 		<Star {gear} />
 		<Title {gear} />
+		<GearGrade {gear} />
+		<Attribute {gear} />
 	</div>
 	<div class="frame-bottom" />
 	<div class="frame-cover" />
 </div>
+{/if}
 
 <style>
 	.gear-tooltip {

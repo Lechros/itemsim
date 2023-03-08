@@ -2,7 +2,7 @@
 	import GearTooltip from '../lib/gear-tooltip/GearTooltip.svelte';
 
 	import { createGearFromId, createSoulFromId } from '@malib/create-gear';
-	import { EnhancementLogic, GearPropType, SoulLogic, UpgradeLogic } from '@malib/gear';
+	import { EnhancementLogic, GearPropType, Potential, PotentialGrade, SoulLogic, UpgradeLogic } from '@malib/gear';
 
 	const gear = createGearFromId(1004424)!;
 	const enchant = new EnhancementLogic();
@@ -14,6 +14,13 @@
 	soul.setSoul(gear, createSoulFromId(2591708)!);
 
 	upgrade.applySpellTrace(gear, GearPropType.incDEX, 30);
+
+	gear.grade = PotentialGrade.legendary;
+	gear.potentials.push(new Potential());
+
+	gear.props.set(GearPropType.tradeBlock, 1);
+	gear.props.set(GearPropType.blockGoldHammer, 1);
+	gear.props.set(GearPropType.onlyEquip, 1);
 </script>
 
 <h1>Gear Tooltip</h1>
