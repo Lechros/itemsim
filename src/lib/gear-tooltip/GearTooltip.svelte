@@ -1,24 +1,27 @@
 <script lang="ts">
-	import type { Gear } from "@malib/gear";
+	import type { Gear } from '@malib/gear';
 
-	import Star from "./parts/Star.svelte";
+	import Star from './parts/Star.svelte';
+	import Title from './parts/Title.svelte';
 
 	export let gear: Gear;
 </script>
 
 <div class="gear-tooltip">
-	<div class="frame-top"/>
+	<div class="frame-top" />
 	<div class="frame-line">
-		<Star gear={gear}/>
+		<Star {gear} />
+		<Title {gear} />
 	</div>
-	<div class="frame-bottom"/>
-	<div class="frame-cover"/>
+	<div class="frame-bottom" />
+	<div class="frame-cover" />
 </div>
 
 <style>
 	.gear-tooltip {
 		width: 261px;
 		position: relative;
+		image-rendering: pixelated;
 	}
 
 	.frame-top {

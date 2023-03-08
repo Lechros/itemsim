@@ -16,7 +16,7 @@
 {#each { length: lineCount } as _, i}
 	<div class="star-line">
 		{#each stars.slice(i * 15, (i + 1) * 15) as star}
-			<div class={`star ${star}`} />
+			<div class="star {star}" />
 		{/each}
 	</div>
 {/each}
@@ -25,11 +25,11 @@
 	.star-line {
 		display: flex;
 		flex-direction: row;
-        height: 18px;
+		height: 18px;
 	}
-    .star-line:last-child {
-        height: 16px;
-    }
+	.star-line:last-child {
+		height: 16px;
+	}
 
 	.star {
 		width: 11px;
@@ -39,9 +39,9 @@
 	.star:nth-child(5n) {
 		margin-right: 5px;
 	}
-    .star:last-child {
-        margin-right: 0px;
-    }
+	.star:last-child {
+		margin-right: 0px;
+	}
 
 	.star.yellow {
 		background-image: url(../images/star/yellow.png);
