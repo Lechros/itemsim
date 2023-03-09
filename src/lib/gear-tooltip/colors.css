@@ -1,13 +1,13 @@
 :root {
-	--white: rgb(255, 255, 255);
-	--red: rgb(255, 0, 102);
-	--orange: rgb(255, 170, 0);
-	--orange2: rgb(255, 204, 0);
-	--orange3: rgb(255, 136, 17);
-	--yellow: rgb(255, 255, 68);
-	--green: rgb(204, 255, 0);
-	--blue: rgb(102, 255, 255);
-	--purple: rgb(153, 102, 255);
-	--gray: rgb(187, 187, 187);
-	--gray2: rgb(153, 153, 153);
+	--gear-white: rgb(255, 255, 255);
+	--gear-red: rgb(255, 0, 102);
+	--gear-orange: rgb(255, 170, 0);
+	--gear-orange2: rgb(255, 204, 0);
+	--gear-orange3: rgb(255, 136, 17);
+	--gear-yellow: rgb(255, 255, 68);
+	--gear-green: rgb(204, 255, 0);
+	--gear-blue: rgb(102, 255, 255);
+	--gear-purple: rgb(153, 102, 255);
+	--gear-gray: rgb(187, 187, 187);
+	--gear-gray2: rgb(153, 153, 153);
 }

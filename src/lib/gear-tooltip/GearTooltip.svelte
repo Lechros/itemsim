@@ -2,25 +2,37 @@
 	import type { Gear } from '@malib/gear';
 	import Attribute from './parts/Attribute.svelte';
 	import GearGrade from './parts/GearGrade.svelte';
-
+	import Icon from './parts/Icon.svelte';
 	import Star from './parts/Star.svelte';
 	import Title from './parts/Title.svelte';
 
 	export let gear: Gear;
+
+	export let iconSrc = 'https://maplestory.io/api/KMS/367/item/{}/icon';
 </script>
 
 {#if gear}
-<div class="gear-tooltip">
-	<div class="frame-top" />
-	<div class="frame-line">
-		<Star {gear} />
-		<Title {gear} />
-		<GearGrade {gear} />
-		<Attribute {gear} />
+	<div class="gear-tooltip">
+		<div class="frame-top" />
+		<div class="frame-line main">
+			<Star {gear} />
+			<Title {gear} />
+			<GearGrade {gear} />
+			<Attribute {gear} />
+			<hr class="dotline" />
+			<div class="icon-area">
+				<div class="icon-wrapper">
+					<Icon
+						{gear}
+						iconSrc={iconSrc.replace('{}', gear.icon.toString())}
+						iconOrigin={gear.origin}
+					/>
+				</div>
+			</div>
+		</div>
+		<div class="frame-bottom" />
+		<div class="frame-cover" />
 	</div>
-	<div class="frame-bottom" />
-	<div class="frame-cover" />
-</div>
 {/if}
 
 <style>
@@ -30,16 +42,18 @@
 		image-rendering: pixelated;
 	}
 
+	.main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
 	.frame-top {
 		background-image: url(images/frame/top.png);
 		width: 261px;
 		height: 13px;
 	}
 	.frame-line {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-
 		background-image: url(images/frame/line.png);
 		width: 261px;
 	}
@@ -55,5 +69,28 @@
 		position: absolute;
 		top: 0;
 		left: 0;
+	}
+	.dotline {
+		background-image: url(images/frame/dotline.png);
+		width: 261px;
+		height: 2px;
+		margin: 9px 0 0 0;
+		border: none;
+	}
+
+	.icon-area {
+		box-sizing: border-box;
+		display: grid;
+		margin-top: 7px;
+		width: 100%;
+		padding-left: 12px;
+		padding-right: 8px;
+		grid-template-columns: 82px auto;
+		grid-template-rows: 43px 36px;
+		row-gap: 2px;
+	}
+	.icon-wrapper {
+		grid-column: 1;
+		margin-top: 1px;
 	}
 </style>

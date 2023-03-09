@@ -9,7 +9,7 @@
 
 	let attributes: HTMLDivElement;
 
-    // Remove ', ' after last attribute of line
+	// Remove ', ' after last attribute of line
 	afterUpdate(() => {
 		const children = attributes.children;
 		for (let i = 0; i < children.length - 1; i++) {
@@ -72,16 +72,14 @@
 </script>
 
 {#if attrs.length > 0}
-<div class="attributes" bind:this={attributes}>
-	{#each attrs as attr}
-		<span class="text">{attr}</span>
-	{/each}
-</div>
+	<div class="attributes" bind:this={attributes}>
+		{#each attrs as attr}
+			<span class="text">{attr}</span>
+		{/each}
+	</div>
 {/if}
 
 <style>
-	@import '../colors.css';
-
 	.attributes {
 		display: flex;
 		flex-direction: row;
@@ -94,7 +92,7 @@
 		height: 15px;
 		font-size: 11px;
 		font-family: 돋움;
-		color: var(--orange);
+		color: var(--gear-orange);
 		white-space: pre;
 	}
 	.text:not(.last):not(:last-child)::after {

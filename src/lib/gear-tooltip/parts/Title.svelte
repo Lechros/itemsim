@@ -29,6 +29,6 @@
 	}
 
 	.soul.title {
-		color: var(--green);
+		color: var(--gear-green);
 	}
 </style>
