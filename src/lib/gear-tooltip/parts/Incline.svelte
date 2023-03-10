@@ -21,7 +21,7 @@
 
 <div class="diff">
 	<div class="text">공격력 증가량</div>
-	<div class={type} class:small={small}>
+	<div class={type} class:small>
 		{#each inclineString as letter}
 			<div class="letter {getLetterName(letter)}" />
 		{/each}
@@ -52,14 +52,14 @@
 		margin-top: 3px;
 	}
 
-    .letter {
-        position: relative;
-    }
+	.letter {
+		position: relative;
+	}
 
-    .small .letter {
-        image-rendering: crisp-edges;
-        transform-origin: top right;
-    }
+	.small .letter {
+		image-rendering: crisp-edges;
+		transform-origin: top right;
+	}
 
 	.plus {
 		width: 18px;
@@ -67,130 +67,130 @@
 		margin-top: 4px;
 		margin-right: 5px;
 	}
-    .small .plus {
-        margin-top: 3px;
-        margin-right: -1px;
-    }
+	.small .plus {
+		margin-top: 3px;
+		margin-right: -1px;
+	}
 	.minus {
 		width: 16px;
 		height: 8px;
 		margin-top: 9px;
 		margin-right: 5px;
 	}
-    .small .minus {
-        margin-top: 8px;
-        margin-right: -1px;
-    }
+	.small .minus {
+		margin-top: 8px;
+		margin-right: -1px;
+	}
 	.number-0 {
 		width: 19px;
 		height: 26px;
 		margin-left: 1px;
 	}
-    .small .number-0 {
-        width: 18px;
-        height: 24px;
+	.small .number-0 {
+		width: 18px;
+		height: 24px;
 		margin-left: 0px;
-        transform: scale(calc(18 / 19), calc(24 / 26));
-    }
+		transform: scale(calc(18 / 19), calc(24 / 26));
+	}
 	.number-1 {
 		width: 14px;
 		height: 26px;
 		margin-left: 4px;
 	}
-    .small .number-1 {
-        width: 13px;
-        height: 24px;
+	.small .number-1 {
+		width: 13px;
+		height: 24px;
 		margin-left: 3px;
-        transform: scale(calc(13 / 14), calc(24 / 26));
-    }
+		transform: scale(calc(13 / 14), calc(24 / 26));
+	}
 	.number-2 {
 		width: 18px;
 		height: 26px;
 		margin-left: 1px;
 	}
-    .small .number-2 {
+	.small .number-2 {
 		width: 17px;
-        height: 24px;
+		height: 24px;
 		margin-left: 0px;
-        transform: scale(calc(17 / 18), calc(24 / 26));
-    }
+		transform: scale(calc(17 / 18), calc(24 / 26));
+	}
 	.number-3 {
 		width: 17px;
 		height: 26px;
 		margin-left: 2px;
 	}
-    .small .number-3 {
+	.small .number-3 {
 		width: 16px;
-        height: 24px;
+		height: 24px;
 		margin-left: 1px;
-        transform: scale(calc(16 / 17), calc(24 / 26));
-    }
+		transform: scale(calc(16 / 17), calc(24 / 26));
+	}
 	.number-4 {
 		width: 20px;
 		height: 26px;
 		margin-left: 1px;
 	}
-    .small .number-4 {
+	.small .number-4 {
 		width: 19px;
-        height: 24px;
+		height: 24px;
 		margin-left: 0px;
-        transform: scale(calc(19 / 20), calc(24 / 26));
-    }
+		transform: scale(calc(19 / 20), calc(24 / 26));
+	}
 	.number-5 {
 		width: 17px;
 		height: 26px;
 		margin-left: 2px;
 	}
-    .small .number-5 {
+	.small .number-5 {
 		width: 16px;
-        height: 24px;
+		height: 24px;
 		margin-left: 1px;
-        transform: scale(calc(16 / 17), calc(24 / 26));
-    }
+		transform: scale(calc(16 / 17), calc(24 / 26));
+	}
 	.number-6 {
 		width: 18px;
 		height: 26px;
 		margin-left: 1px;
 	}
-    .small .number-6 {
+	.small .number-6 {
 		width: 17px;
-        height: 24px;
+		height: 24px;
 		margin-left: 0px;
-        transform: scale(calc(17 / 18), calc(24 / 26));
-    }
+		transform: scale(calc(17 / 18), calc(24 / 26));
+	}
 	.number-7 {
 		width: 18px;
 		height: 26px;
 		margin-left: 2px;
 	}
-    .small .number-7 {
+	.small .number-7 {
 		width: 17px;
-        height: 24px;
+		height: 24px;
 		margin-left: 1px;
-        transform: scale(calc(17 / 18), calc(24 / 26));
-    }
+		transform: scale(calc(17 / 18), calc(24 / 26));
+	}
 	.number-8 {
 		width: 19px;
 		height: 26px;
 		margin-left: 1px;
 	}
-    .small .number-8 {
+	.small .number-8 {
 		width: 18px;
-        height: 24px;
+		height: 24px;
 		margin-left: 0px;
-        transform: scale(calc(18 / 19), calc(24 / 26));
-    }
+		transform: scale(calc(18 / 19), calc(24 / 26));
+	}
 	.number-9 {
 		width: 19px;
 		height: 26px;
 		margin-left: 1px;
 	}
-    .small .number-9 {
+	.small .number-9 {
 		width: 18px;
-        height: 24px;
+		height: 24px;
 		margin-left: 0px;
-        transform: scale(calc(18 / 19), calc(24 / 26));
-    }
+		transform: scale(calc(18 / 19), calc(24 / 26));
+	}
 
 	.incline .plus {
 		background-image: url(../images/summary/incline/plus.png);

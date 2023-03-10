@@ -4,6 +4,7 @@
 	import GearGrade from './parts/GearGrade.svelte';
 	import Icon from './parts/Icon.svelte';
 	import Incline from './parts/Incline.svelte';
+	import Req from './parts/Req.svelte';
 	import Star from './parts/Star.svelte';
 	import Title from './parts/Title.svelte';
 
@@ -29,7 +30,8 @@
 						iconOrigin={gear.origin}
 					/>
 				</div>
-				<Incline incline={1124091}/>
+				<Incline incline={1124091} />
+				<Req {gear} />
 			</div>
 		</div>
 		<div class="frame-bottom" />
@@ -93,6 +95,8 @@
 	}
 	.icon-wrapper {
 		grid-column: 1;
+		grid-row-start: 1;
+		grid-row-end: 3;
 		margin-top: 1px;
 	}
 </style>

@@ -2,7 +2,14 @@
 	import GearTooltip from '../lib/gear-tooltip/GearTooltip.svelte';
 
 	import { createGearFromId, createSoulFromId } from '@malib/create-gear';
-	import { EnhancementLogic, GearPropType, Potential, PotentialGrade, SoulLogic, UpgradeLogic } from '@malib/gear';
+	import {
+		EnhancementLogic,
+		GearPropType,
+		Potential,
+		PotentialGrade,
+		SoulLogic,
+		UpgradeLogic
+	} from '@malib/gear';
 
 	const gear = createGearFromId(1004424)!;
 	const enchant = new EnhancementLogic();
@@ -21,6 +28,8 @@
 	gear.props.set(GearPropType.tradeBlock, 1);
 	gear.props.set(GearPropType.blockGoldHammer, 1);
 	gear.props.set(GearPropType.onlyEquip, 1);
+
+	gear.option(GearPropType.reduceReq).bonus = 15;
 </script>
 
 <h1>Gear Tooltip</h1>
