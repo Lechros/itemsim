@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Gear } from '@malib/gear';
 	import Attribute from './parts/Attribute.svelte';
+	import DiffExtra from './parts/DiffExtra.svelte';
 	import GearGrade from './parts/GearGrade.svelte';
 	import Icon from './parts/Icon.svelte';
 	import Incline from './parts/Incline.svelte';
@@ -32,6 +33,9 @@
 				</div>
 				<Incline incline={1124091} />
 				<Req {gear} />
+			</div>
+			<div class="diff-wrapper">
+				<DiffExtra />
 			</div>
 		</div>
 		<div class="frame-bottom" />
@@ -92,7 +96,7 @@
 		padding-left: 12px;
 		padding-right: 8px;
 		grid-template-columns: 82px 159px;
-		grid-template-rows: 43px 36px;
+		grid-template-rows: 44px 36px;
 		row-gap: 2px;
 	}
 	.icon-wrapper {
@@ -100,5 +104,11 @@
 		grid-row-start: 1;
 		grid-row-end: 3;
 		margin-top: 1px;
+	}
+
+	.diff-wrapper {
+		align-self: flex-start;
+		margin-top: 3px;
+		margin-left: 12px;
 	}
 </style>

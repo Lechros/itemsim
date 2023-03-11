@@ -49,7 +49,7 @@
 		flex-direction: row;
 		align-self: flex-end;
 		align-items: center;
-		margin-top: 3px;
+		margin-top: 4px;
 	}
 
 	.letter {
