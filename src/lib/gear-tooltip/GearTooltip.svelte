@@ -40,6 +40,8 @@
 {/if}
 
 <style>
+	@import "colors.css";
+
 	.gear-tooltip {
 		width: 261px;
 		position: relative;

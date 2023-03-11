@@ -18,8 +18,6 @@
 </div>
 
 <style>
-	@import '../colors.css';
-
 	.title {
 		height: 19px;
 		white-space: pre;
