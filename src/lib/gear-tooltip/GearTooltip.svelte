@@ -5,6 +5,7 @@
 	import GearGrade from './parts/GearGrade.svelte';
 	import Icon from './parts/Icon.svelte';
 	import Incline from './parts/Incline.svelte';
+	import JobReq from './parts/JobReq.svelte';
 	import Req from './parts/Req.svelte';
 	import Star from './parts/Star.svelte';
 	import Title from './parts/Title.svelte';
@@ -37,6 +38,7 @@
 			<div class="diff-wrapper">
 				<DiffExtra />
 			</div>
+			<JobReq {gear} job={0x1f} />
 		</div>
 		<div class="frame-bottom" />
 		<div class="frame-cover" />
