@@ -36,7 +36,6 @@
 
 	.text {
 		margin-right: 4px;
-		height: 15px;
 		font-size: 11px;
 		font-family: 돋움;
 		text-align: right;
@@ -49,7 +48,7 @@
 		flex-direction: row;
 		align-self: flex-end;
 		align-items: center;
-		margin-top: 4px;
+		margin-top: 5px;
 	}
 
 	.letter {

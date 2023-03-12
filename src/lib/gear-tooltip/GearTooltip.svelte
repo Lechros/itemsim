@@ -7,6 +7,7 @@
 	import Icon from './parts/Icon.svelte';
 	import Incline from './parts/Incline.svelte';
 	import JobReq from './parts/JobReq.svelte';
+	import Options from './parts/Options.svelte';
 	import Req from './parts/Req.svelte';
 	import Star from './parts/Star.svelte';
 	import Superior from './parts/Superior.svelte';
@@ -22,10 +23,12 @@
 		<div class="frame-top" />
 		<div class="frame-line main">
 			<Star {gear} />
-			<Title {gear} />
+			<div class="titles">
+				<Title {gear} />
+			</div>
 			<GearGrade {gear} />
 			<Attribute {gear} />
-			<hr class="dotline" />
+			<hr class="dotline" style="margin-top: 10px" />
 			<div class="icon-area">
 				<div class="icon-wrapper">
 					<Icon
@@ -40,11 +43,14 @@
 			<div class="diff-wrapper">
 				<DiffExtra />
 			</div>
-			<JobReq {gear} job={0x1f} />
-			<hr class="dotline" />
+			<div class="job-wrapper">
+				<JobReq {gear} job={0x1f} />
+			</div>
+			<hr class="dotline" style="margin-top: 9px" />
 			<div class="item-detail">
 				<Superior {gear} />
 				<GearType {gear} />
+				<Options {gear} />
 			</div>
 		</div>
 		<div class="frame-bottom" />
@@ -53,7 +59,7 @@
 {/if}
 
 <style>
-	@import "colors.css";
+	@import 'colors.css';
 
 	.gear-tooltip {
 		width: 261px;
@@ -65,6 +71,47 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+	}
+
+	.titles {
+		display: flex;
+		flex-direction: column;
+		margin-top: -2px;
+		align-items: center;
+	}
+	.icon-area {
+		box-sizing: border-box;
+		display: grid;
+		margin-top: 7px;
+		width: 100%;
+		padding-left: 12px;
+		padding-right: 8px;
+		grid-template-columns: 82px 159px;
+		grid-template-rows: 44px 36px;
+		row-gap: 2px;
+	}
+	.icon-wrapper {
+		grid-column: 1;
+		grid-row-start: 1;
+		grid-row-end: 3;
+		margin-top: 1px;
+	}
+
+	.diff-wrapper {
+		align-self: flex-start;
+		margin-top: 3px;
+		margin-left: 12px;
+	}
+	.job-wrapper {
+		margin-top: 3px;
+	}
+
+	.item-detail {
+		width: 100%;
+		box-sizing: border-box;
+		margin-top: 4px;
+		padding-left: 13px;
+		padding-right: 13px;
 	}
 
 	.frame-top {
@@ -93,39 +140,7 @@
 		background-image: url(images/frame/dotline.png);
 		width: 261px;
 		height: 2px;
-		margin: 9px 0 0 0;
+		margin: 0;
 		border: none;
-	}
-
-	.icon-area {
-		box-sizing: border-box;
-		display: grid;
-		margin-top: 7px;
-		width: 100%;
-		padding-left: 12px;
-		padding-right: 8px;
-		grid-template-columns: 82px 159px;
-		grid-template-rows: 44px 36px;
-		row-gap: 2px;
-	}
-	.icon-wrapper {
-		grid-column: 1;
-		grid-row-start: 1;
-		grid-row-end: 3;
-		margin-top: 1px;
-	}
-
-	.diff-wrapper {
-		align-self: flex-start;
-		margin-top: 3px;
-		margin-left: 12px;
-	}
-
-	.item-detail {
-		width: 100%;
-		box-sizing: border-box;
-		margin-top: 5px;
-		padding-left: 13px;
-		padding-right: 13px;
 	}
 </style>

@@ -15,3 +15,19 @@ export function getGearNameColor(gear: Gear): string {
 	if (diff < 70) return '--gear-green';
 	return '--gear-red';
 }
+
+export function parseColorString(
+	text: string,
+	colorClass: Record<'c' | 'g' | '$' | 'r', string>
+): string {
+	return text
+		.replaceAll(/#c(.+?)#(?![c$gr])/g, `<span class="${colorClass['c']}">$1</span>`)
+		.replaceAll(/\$(.+?)#(?![c$gr])/g, `<span class="${colorClass['$']}">$1</span>`)
+		.replaceAll(/#g(.+?)#(?![c$gr])/g, `<span class="${colorClass['g']}">$1</span>`)
+		.replaceAll(/#r(.+?)#(?![c$gr])/g, `<span class="${colorClass['r']}">$1</span>`)
+		.replaceAll('#c', '')
+		.replaceAll('#$', '')
+		.replaceAll('#g', '')
+		.replaceAll('#r', '')
+		.replaceAll('#', '');
+}

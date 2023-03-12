@@ -74,7 +74,7 @@
 {#if attrs.length > 0}
 	<div class="attributes" bind:this={attributes}>
 		{#each attrs as attr}
-			<span class="text">{attr}</span>
+			<span class="item">{attr}</span>
 		{/each}
 	</div>
 {/if}
@@ -85,17 +85,16 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: center;
-		width: 250px;
-	}
-
-	.text {
-		height: 15px;
+		padding-left: 7px;
+		padding-right: 7px;
+		line-height: 15px;
 		font-size: 11px;
 		font-family: 돋움;
 		color: var(--gear-orange);
 		white-space: pre;
 	}
-	.text:not(.last):not(:last-child)::after {
+
+	.item:not(.last):not(:last-child)::after {
 		content: ', ';
 	}
 </style>

@@ -1,6 +1,7 @@
 import { GearOption, GearPropType, GearType, PotentialGrade } from '@malib/gear';
 
 export function getGearPropString(type: GearPropType, value: number): string {
+	if (value === 0) return '';
 	switch (type) {
 		case GearPropType.incSTR:
 			return `STR : +${value}`;
@@ -35,7 +36,7 @@ export function getGearPropString(type: GearPropType, value: number): string {
 		case GearPropType.knockback:
 			return `직접 타격시 ${value}%의 확률로 넉백`;
 		case GearPropType.bdR:
-			return `보스 몬스터 공격 시 데미지 : +${value}%`;
+			return `보스 몬스터 공격 시 데미지 +${value}%`;
 		case GearPropType.imdR:
 			return `몬스터 방어율 무시 : +${value}%`;
 		case GearPropType.damR:
@@ -53,52 +54,47 @@ export function getGearPropString(type: GearPropType, value: number): string {
 		case GearPropType.incCr:
 			return `크리티컬 확률 : +${value}%`;
 
-		default:
-			if (value > 0) {
-				switch (type) {
-					case GearPropType.only:
-						return '고유 아이템';
-					case GearPropType.tradeBlock:
-						return '교환 불가';
-					case GearPropType.equipTradeBlock:
-						return '장착 시 교환 불가';
-					case GearPropType.accountSharable:
-						return '월드 내 나의 캐릭터간 이동만 가능';
-					case GearPropType.sharableOnce:
-						return '월드 내 나의 캐릭터 간 1회 이동 가능\n(이동 후 교환불가)';
-					case GearPropType.onlyEquip:
-						return '고유장착 아이템';
-					case GearPropType.blockGoldHammer:
-						return '황금망치 사용 불가';
-					case GearPropType.noPotential:
-						return '잠재능력 설정 불가';
-					case GearPropType.fixedPotential:
-						return '잠재능력 재설정 불가';
-					case GearPropType.exceptUpgrade:
-						return '강화불가';
-					case GearPropType.tradeAvailable:
-						switch (value) {
-							case 1:
-								return '#c카르마의 가위 또는 실버 카르마의 가위를 사용하면 1회 교환이 가능하게 할 수 있습니다.#';
-							case 2:
-								return '#c플래티넘 카르마의 가위를 사용하면 1회 교환이 가능하게 할 수 있습니다.#';
-						}
-						break;
-					case GearPropType.accountShareTag:
-						return '#c쉐어 네임 텍을 사용하면 월드 내 나의 캐릭터 간 1회 이동할 수 있습니다.#';
-					case GearPropType.superiorEqp:
-						return '아이템 강화 성공시 더욱 높은 효과를 받을 수 있습니다.';
-					case GearPropType.jokerToSetItem:
-						return '#c3개 이상 착용하고 있는 모든 세트 아이템에 포함되는 럭키 아이템! (단, 2개 이상의 럭키 아이템 착용 시 1개만 효과 적용.)#';
-				}
+		case GearPropType.only:
+			return '고유 아이템';
+		case GearPropType.tradeBlock:
+			return '교환 불가';
+		case GearPropType.equipTradeBlock:
+			return '장착 시 교환 불가';
+		case GearPropType.accountSharable:
+			return '월드 내 나의 캐릭터간 이동만 가능';
+		case GearPropType.sharableOnce:
+			return '월드 내 나의 캐릭터 간 1회 이동 가능\n(이동 후 교환불가)';
+		case GearPropType.onlyEquip:
+			return '고유장착 아이템';
+		case GearPropType.blockGoldHammer:
+			return '황금망치 사용 불가';
+		case GearPropType.noPotential:
+			return '잠재능력 설정 불가';
+		case GearPropType.fixedPotential:
+			return '잠재능력 재설정 불가';
+		case GearPropType.exceptUpgrade:
+			return '강화불가';
+		case GearPropType.tradeAvailable:
+			switch (value) {
+				case 1:
+					return '#c카르마의 가위 또는 실버 카르마의 가위를 사용하면 1회 교환이 가능하게 할 수 있습니다.#';
+				case 2:
+					return '#c플래티넘 카르마의 가위를 사용하면 1회 교환이 가능하게 할 수 있습니다.#';
 			}
-			return '';
+			break;
+		case GearPropType.accountShareTag:
+			return '#c쉐어 네임 텍을 사용하면 월드 내 나의 캐릭터 간 1회 이동할 수 있습니다.#';
+		case GearPropType.superiorEqp:
+			return '아이템 강화 성공시 더욱 높은 효과를 받을 수 있습니다.';
+		case GearPropType.jokerToSetItem:
+			return '#c3개 이상 착용하고 있는 모든 세트 아이템에 포함되는 럭키 아이템! (단, 2개 이상의 럭키 아이템 착용 시 1개만 효과 적용.)#';
 	}
+	return '';
 }
 
 export function getGearOptionString(type: GearPropType, option: GearOption): string {
 	let propStr = getGearPropString(type, option.sum);
-	if (option.sum > option.base) {
+	if (option.bonus > 0 || option.upgrade + option.enchant > 0) {
 		let subfix = '';
 		let bonusStr = '';
 		let enchantStr = '';
@@ -122,6 +118,8 @@ export function getGearOptionString(type: GearPropType, option: GearOption): str
 				}
 				if (option.upgrade + option.enchant > 0) {
 					enchantStr = ` #$+${option.upgrade + option.enchant}#`;
+				} else if (option.upgrade + option.enchant < 0) {
+					enchantStr = ` #r${option.upgrade + option.enchant}#`;
 				}
 				subfix = `(${option.base}${bonusStr}${enchantStr})`;
 				break;
@@ -138,9 +136,13 @@ export function getGearOptionString(type: GearPropType, option: GearOption): str
 				}
 				if (option.upgrade + option.enchant > 0) {
 					enchantStr = ` #$+${option.upgrade + option.enchant}%#`;
+				} else if (option.upgrade + option.enchant < 0) {
+					enchantStr = ` #r${option.upgrade + option.enchant}%#`;
 				}
-				subfix = `(${option.base}%${bonusStr}%${enchantStr}%)`;
+				subfix = `(${option.base}%${bonusStr}${enchantStr})`;
 				break;
+			case GearPropType.reduceReq:
+				return `#g${propStr}#`;
 		}
 		propStr = `#$${propStr}# ${subfix}`;
 	}

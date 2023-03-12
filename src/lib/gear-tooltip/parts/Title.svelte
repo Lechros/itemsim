@@ -19,11 +19,11 @@
 
 <style>
 	.title {
-		height: 19px;
-		white-space: pre;
+		line-height: 19px;
 		font-size: 14px;
 		font-family: 돋움;
 		font-weight: bold;
+		white-space: pre;
 	}
 
 	.soul.title {

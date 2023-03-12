@@ -14,7 +14,7 @@
 <style>
 	.grade-text {
 		margin-top: 4px;
-		height: 15px;
+		line-height: 15px;
 		font-size: 11px;
 		font-family: 돋움;
 		color: var(--gear-white);
