@@ -3,11 +3,13 @@
 	import Attribute from './parts/Attribute.svelte';
 	import DiffExtra from './parts/DiffExtra.svelte';
 	import GearGrade from './parts/GearGrade.svelte';
+	import GearType from './parts/GearType.svelte';
 	import Icon from './parts/Icon.svelte';
 	import Incline from './parts/Incline.svelte';
 	import JobReq from './parts/JobReq.svelte';
 	import Req from './parts/Req.svelte';
 	import Star from './parts/Star.svelte';
+	import Superior from './parts/Superior.svelte';
 	import Title from './parts/Title.svelte';
 
 	export let gear: Gear;
@@ -39,6 +41,11 @@
 				<DiffExtra />
 			</div>
 			<JobReq {gear} job={0x1f} />
+			<hr class="dotline" />
+			<div class="item-detail">
+				<Superior {gear} />
+				<GearType {gear} />
+			</div>
 		</div>
 		<div class="frame-bottom" />
 		<div class="frame-cover" />
@@ -112,5 +119,13 @@
 		align-self: flex-start;
 		margin-top: 3px;
 		margin-left: 12px;
+	}
+
+	.item-detail {
+		width: 100%;
+		box-sizing: border-box;
+		margin-top: 5px;
+		padding-left: 13px;
+		padding-right: 13px;
 	}
 </style>

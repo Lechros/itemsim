@@ -11,7 +11,7 @@
 		UpgradeLogic
 	} from '@malib/gear';
 
-	const gear = createGearFromId(1004424)!;
+	const gear = createGearFromId(1452265)!;
 	const enchant = new EnhancementLogic();
 	const soul = new SoulLogic();
 	const upgrade = new UpgradeLogic();
