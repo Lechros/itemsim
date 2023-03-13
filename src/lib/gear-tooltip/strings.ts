@@ -601,3 +601,16 @@ export function getExtraJobReqStringByJob(specJob: number) {
 			return '';
 	}
 }
+
+export function getSoulOptionString(option: Map<GearPropType, number>) {
+	if (option.size !== 1) {
+		return '';
+	}
+	const [type, value] = [...option][0];
+	switch (type) {
+		case GearPropType.bdR:
+			return `보스 몬스터 공격 시 데미지 : +${value}%`;
+		default:
+			return getGearPropString(type, value);
+	}
+}

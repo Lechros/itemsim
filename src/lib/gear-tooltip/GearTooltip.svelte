@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GearPropType, PotentialGrade, type Gear } from '@malib/gear';
+	import { GearPropType, PotentialGrade, SoulSlot, type Gear } from '@malib/gear';
 	import { getGearNameColor } from './graphics';
 	import Attributes from './parts/Attributes.svelte';
 	import DiffExtra from './parts/DiffExtra.svelte';
@@ -11,6 +11,7 @@
 	import Option from './parts/Option.svelte';
 	import Potential from './parts/Potential.svelte';
 	import Req from './parts/Req.svelte';
+	import Soul from './parts/Soul.svelte';
 	import Star from './parts/Star.svelte';
 	import Superior from './parts/Superior.svelte';
 	import Superior2 from './parts/Superior2.svelte';
@@ -18,7 +19,6 @@
 	import Tuc from './parts/Tuc.svelte';
 
 	export let gear: Gear;
-
 	export let iconSrc = 'https://maplestory.io/api/KMS/367/item/{}/icon';
 
 	$: gearName = `${gear.name} ${gear.upgradeCount > 0 ? `(+${gear.upgradeCount})` : ''}`;
@@ -113,6 +113,18 @@
 				<hr class="dotline" style="margin-top: 2px" />
 				<div class="add-potential part">
 					<Potential additional grade={gear.grade} potentials={gear.potentials} />
+				</div>
+			{/if}
+
+			{#if gear.soulSlot.enchanted}
+				<hr class="dotline" style="margin-top: 2px" />
+				<div class="soul part">
+					<Soul
+						soul={gear.soulSlot.soul}
+						charge={gear.soulSlot.charge}
+						pad={gear.soulSlot.chargeOption.get(GearPropType.incPAD) ?? 0}
+						mad={gear.soulSlot.chargeOption.get(GearPropType.incMAD) ?? 0}
+					/>
 				</div>
 			{/if}
 		</div>

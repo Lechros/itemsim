@@ -1,7 +1,7 @@
 <script lang="ts">
 	import GearTooltip from '../lib/gear-tooltip/GearTooltip.svelte';
 
-	import { createGearFromId, createPotentialFromCode, createSoulFromId, gearJson } from '@malib/create-gear';
+	import { createGearFromId, createPotentialFromCode, createSoulFromId, gearJson, MagnificentSoulOptionType } from '@malib/create-gear';
 	import {
 	BonusStatLogic,
 		BonusStatType,
@@ -14,13 +14,14 @@
 		UpgradeLogic
 	} from '@malib/gear';
 
-	const name = "타일런트 알테어 클록";
-	const id = Number(Object.entries(gearJson).find(value => value[1].name === name)?.[0]);
-	const gear = createGearFromId(id)!;
 	const enchant = new EnhancementLogic();
 	const soul = new SoulLogic();
 	const upgrade = new UpgradeLogic();
 	const bonus = new BonusStatLogic();
+
+	const name = "제네시스 보우";
+	const id = Number(Object.entries(gearJson).find(value => value[1].name === name)?.[0]);
+	const gear = createGearFromId(id)!;
 
 	bonus.addBonusStat(gear, BonusStatType.STR, 4);
 	bonus.addBonusStat(gear, BonusStatType.PAD, 6);
@@ -40,9 +41,9 @@
 	gear.additionalPotentials.push(createPotentialFromCode(30291, Potential.getPotentialLevel(gear.req.level))!);
 	gear.additionalPotentials.push(createPotentialFromCode(40602, Potential.getPotentialLevel(gear.req.level))!);
 
-	gear.soulSlot.enchanted = true;
-	gear.soulSlot.soul = new Soul();
-	gear.soulSlot.soul.name = "위대한 카리아인의 소울"
+	soul.enchant(gear);
+	soul.setSoul(gear, createSoulFromId(2591590, MagnificentSoulOptionType.bdR)!);
+	soul.setCharge(gear, 0);
 </script>
 
 <h1>Gear Tooltip</h1>
