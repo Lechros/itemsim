@@ -1,13 +1,14 @@
 <script lang="ts">
-	import type { Gear } from '@malib/gear';
-	import Attribute from './parts/Attribute.svelte';
+	import { GearPropType, PotentialGrade, type Gear } from '@malib/gear';
+	import { getGearNameColor } from './graphics';
+	import Attributes from './parts/Attributes.svelte';
 	import DiffExtra from './parts/DiffExtra.svelte';
 	import GearGrade from './parts/GearGrade.svelte';
 	import GearType from './parts/GearType.svelte';
 	import Icon from './parts/Icon.svelte';
 	import Incline from './parts/Incline.svelte';
 	import JobReq from './parts/JobReq.svelte';
-	import Options from './parts/Options.svelte';
+	import Option from './parts/Option.svelte';
 	import Potential from './parts/Potential.svelte';
 	import Req from './parts/Req.svelte';
 	import Star from './parts/Star.svelte';
@@ -19,54 +20,99 @@
 	export let gear: Gear;
 
 	export let iconSrc = 'https://maplestory.io/api/KMS/367/item/{}/icon';
+
+	$: gearName = `${gear.name} ${gear.upgradeCount > 0 ? `(+${gear.upgradeCount})` : ''}`;
+	$: superior = gear.getBooleanValue(GearPropType.superiorEqp);
+
+	function getSortedOptions(gear: Gear) {
+		return [...gear.options]
+			.sort((a, b) => a[0] - b[0])
+			.filter((kv) => kv[1].sum != 0)
+			.map((kv) => ({ type: kv[0], option: kv[1] }));
+	}
 </script>
 
 {#if gear}
 	<div class="gear-tooltip">
 		<div class="frame-top" />
 		<div class="frame-line main">
-			<Star {gear} />
-			<div class="titles">
-				<Title {gear} />
+			<Star star={gear.star} maxStar={gear.maxStar} amazing={gear.amazing} />
+
+			<div class="title-area">
+				{#if gear.soulSlot.enchanted && gear.soulSlot.soul}
+					<Title text={gear.soulSlot.soul.name.replace(/ 소울$/, ' ')} color="green" />
+				{/if}
+				<Title text={gearName} color={getGearNameColor(gear)} />
 			</div>
-			<GearGrade {gear} />
-			<Attribute {gear} />
+
+			{#if gear.grade > PotentialGrade.normal}
+				<GearGrade
+					grade={gear.grade}
+					specialGrade={gear.getBooleanValue(GearPropType.specialGrade)}
+				/>
+			{/if}
+			<Attributes {gear} />
+
 			<hr class="dotline" style="margin-top: 10px" />
+
 			<div class="icon-area">
 				<div class="icon-wrapper">
 					<Icon
-						{gear}
-						iconSrc={iconSrc.replace('{}', gear.icon.toString())}
-						iconOrigin={gear.origin}
+						src={iconSrc.replace('{}', gear.icon.toString())}
+						origin={gear.origin}
+						alt={gearName}
+						grade={Math.max(gear.grade, gear.additionalGrade)}
 					/>
 				</div>
 				<Incline incline={1124091} />
-				<Req {gear} />
+				<Req req={gear.req} reduceReq={gear.getPropValue(GearPropType.reduceReq)} />
 			</div>
 			<div class="diff-wrapper">
-				<DiffExtra />
+				<DiffExtra pddDiff={0} bdrDiff={0} imdrDiff={0} />
 			</div>
 			<div class="job-wrapper">
-				<JobReq {gear} job={0x1f} />
+				<JobReq
+					gearType={gear.type}
+					reqJob={gear.req.job}
+					reqSpecJob={gear.req.specJob}
+					characterJob={0x1f}
+				/>
 			</div>
+
 			<hr class="dotline" style="margin-top: 9px" />
+
 			<div class="item-detail">
-				<Superior {gear} />
-				<GearType {gear} />
-				<Options {gear} />
-				<Tuc {gear} />
-				<Superior2 {gear} />
+				{#if superior}
+					<Superior />
+				{/if}
+				<GearType type={gear.type} attackSpeed={gear.getPropValue(GearPropType.attackSpeed)} />
+				{#each getSortedOptions(gear) as entry}
+					<Option type={entry.type} option={entry.option} />
+				{/each}
+				{#if gear.totalUpgradeCount > 0}
+					<Tuc
+						canUpgrade={!gear.getBooleanValue(GearPropType.exceptUpgrade)}
+						upgradeCountLeft={gear.upgradeCountLeft}
+						upgradeFailCount={gear.upgradeFailCount}
+						hammerCount={gear.hammerCount}
+					/>
+				{/if}
+				{#if superior}
+					<Superior2 />
+				{/if}
 			</div>
+
 			{#if gear.canPotential && gear.potentials.length > 0}
 				<hr class="dotline" style="margin-top: 2px" />
-				<div class="part">
-					<Potential {gear} />
+				<div class="potential part">
+					<Potential grade={gear.grade} potentials={gear.potentials} />
 				</div>
 			{/if}
+
 			{#if gear.canPotential && gear.additionalPotentials.length > 0}
 				<hr class="dotline" style="margin-top: 2px" />
-				<div class="part">
-					<Potential additional {gear} />
+				<div class="add-potential part">
+					<Potential additional grade={gear.grade} potentials={gear.potentials} />
 				</div>
 			{/if}
 		</div>
@@ -90,7 +136,7 @@
 		align-items: center;
 	}
 
-	.titles {
+	.title-area {
 		display: flex;
 		flex-direction: column;
 		margin-top: -2px;

@@ -2,9 +2,7 @@
 	export let incline: number;
 
 	$: inclineString = (incline > 0 ? '+' : '') + incline.toString();
-
 	$: type = incline >= 0 ? 'incline' : 'decline';
-
 	$: small = Math.abs(incline) >= 10_000_000;
 
 	function getLetterName(letter: string): string {

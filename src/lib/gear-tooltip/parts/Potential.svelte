@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { GearPropType, PotentialGrade, type Gear } from '@malib/gear';
+	import { Potential, PotentialGrade } from '@malib/gear';
 
-	export let gear: Gear;
 	export let additional: boolean = false;
-
-    $: grade = additional ? gear.additionalGrade : gear.grade;
-    $: potentials = additional ? gear.additionalPotentials : gear.potentials;
+	export let grade: PotentialGrade;
+	export let potentials: Potential[];
 
 	function getGradeName(grade: PotentialGrade) {
 		switch (grade) {
@@ -23,26 +21,23 @@
 	}
 </script>
 
-{#if gear.canPotential && potentials.length > 0}
-	<slot />
-	<div class="text {getGradeName(grade)}">
-		<span class="icon" />
+<div class="text {getGradeName(grade)}">
+	<span class="icon" />
+	{#if additional}
+		에디셔널 잠재옵션
+	{:else}
+		잠재옵션
+	{/if}
+</div>
+{#each potentials as potential}
+	<div class="text">
 		{#if additional}
-			에디셔널 잠재옵션
+			+ {potential.convertSummary}
 		{:else}
-			잠재옵션
+			{potential.convertSummary}
 		{/if}
 	</div>
-    {#each potentials as potential}
-        <div class="text">
-			{#if additional}
-				+ {potential.convertSummary}
-			{:else}
-				{potential.convertSummary}
-			{/if}
-		</div>
-    {/each}
-{/if}
+{/each}
 
 <style>
 	.text {
@@ -50,7 +45,7 @@
 		line-height: 15px;
 		font-size: 11px;
 		font-family: 돋움;
-        color: var(--gear-white);
+		color: var(--gear-white);
 	}
 
 	.rare {

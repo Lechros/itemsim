@@ -1,13 +1,9 @@
 <script lang="ts">
-	import { GearPropType, type Gear } from '@malib/gear';
+	import { GearPropType } from '@malib/gear';
 	import { getGearPropString } from '../strings';
-
-	export let gear: Gear;
 </script>
 
-{#if gear.getBooleanValue(GearPropType.superiorEqp)}
-	<div class="text">{getGearPropString(GearPropType.superiorEqp, 1)}</div>
-{/if}
+<div class="text">{getGearPropString(GearPropType.superiorEqp, 1)}</div>
 
 <style>
 	.text {

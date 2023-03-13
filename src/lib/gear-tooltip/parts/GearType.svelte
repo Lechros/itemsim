@@ -1,25 +1,26 @@
 <script lang="ts">
-	import { Gear, GearPropType, GearType } from '@malib/gear';
+	import { Gear, GearType } from '@malib/gear';
 	import { getAttackSpeedString, getGearTypeString } from '../strings';
 
-	export let gear: Gear;
+	export let type: GearType;
+	export let attackSpeed: number = 0;
 </script>
 
-{#if Gear.isWeapon(gear.type)}
+{#if Gear.isWeapon(type)}
 	<div class="text">
-        무기분류 : {getGearTypeString(gear.type)}
-        {#if Gear.isLeftWeapon(gear.type) || gear.type === GearType.katara}
-            (한손무기)
-        {:else}
-            (두손무기)
-        {/if}
+		무기분류 : {getGearTypeString(type)}
+		{#if Gear.isLeftWeapon(type) || type === GearType.katara}
+			(한손무기)
+		{:else}
+			(두손무기)
+		{/if}
 	</div>
-    <div class="text">
-        공격속도 : {getAttackSpeedString(gear.getPropValue(GearPropType.attackSpeed))}
-    </div>
+	<div class="text">
+		공격속도 : {getAttackSpeedString(attackSpeed)}
+	</div>
 {:else}
 	<div class="text">
-        장비분류 : {getGearTypeString(gear.type)}
+		장비분류 : {getGearTypeString(type)}
 	</div>
 {/if}
 

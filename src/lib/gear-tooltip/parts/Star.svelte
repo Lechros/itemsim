@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { Gear } from '@malib/gear';
+	export let star: number;
+	export let maxStar: number;
+	export let amazing: boolean = false;
 
-	export let gear: Gear;
-
-	$: maxStar = Math.max(gear.maxStar, gear.star);
+	$: maxStar = Math.max(maxStar, star);
 	$: lineCount = Math.ceil(maxStar / 15);
-	$: stars = getStars(maxStar, gear.star, gear.amazing);
+	$: stars = getStars(maxStar, star, amazing);
 
 	function getStars(maxStar: number, star: number, amazing: boolean) {
 		const color = amazing ? 'blue' : 'yellow';

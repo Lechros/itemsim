@@ -9,6 +9,7 @@
 		GearPropType,
 		Potential,
 		PotentialGrade,
+		Soul,
 		SoulLogic,
 		UpgradeLogic
 	} from '@malib/gear';
@@ -39,6 +40,9 @@
 	gear.additionalPotentials.push(createPotentialFromCode(30291, Potential.getPotentialLevel(gear.req.level))!);
 	gear.additionalPotentials.push(createPotentialFromCode(40602, Potential.getPotentialLevel(gear.req.level))!);
 
+	gear.soulSlot.enchanted = true;
+	gear.soulSlot.soul = new Soul();
+	gear.soulSlot.soul.name = "위대한 카리아인의 소울"
 </script>
 
 <h1>Gear Tooltip</h1>

@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { GearPropType, PotentialGrade, type Gear } from '@malib/gear';
+	import { GearPropType, PotentialGrade } from '@malib/gear';
 	import { getGradeString } from '../strings';
 
-	export let gear: Gear;
+	export let grade: PotentialGrade;
+	export let specialGrade: boolean;
 
-	$: grade = gear.getBooleanValue(GearPropType.specialGrade) ? PotentialGrade.special : gear.grade;
+	$: grade = specialGrade ? PotentialGrade.special : grade;
 </script>
 
-{#if grade > PotentialGrade.normal}
-	<div class="grade-text">{getGradeString(grade)}</div>
-{/if}
+<div class="grade-text">{getGradeString(grade)}</div>
 
 <style>
 	.grade-text {

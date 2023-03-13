@@ -1,24 +1,24 @@
 <script lang="ts">
-	import type { Gear } from '@malib/gear';
+	import type { GearType } from '@malib/gear';
 	import { getExtraJobReqString, getExtraJobReqStringByJob } from '../strings';
 
-	export let gear: Gear;
+	export let gearType: GearType;
+	export let reqJob: number;
+	export let reqSpecJob: number;
+	export let characterJob: number;
 
-	export let job: number;
+	$: extraReq = getExtraReq(gearType, reqSpecJob);
 
-	$: extraReq = getExtraReq(gear);
-
-	function getExtraReq(gear: Gear) {
-		let req = getExtraJobReqString(gear.type);
+	function getExtraReq(gearType: GearType, specJob: number) {
+		let req = getExtraJobReqString(gearType);
 		if (req === '') {
-			req = getExtraJobReqStringByJob(gear.req.specJob);
+			req = getExtraJobReqStringByJob(specJob);
 		}
 		return req;
 	}
 
-	function getEnableStates(gear: Gear, job: number) {
+	function getEnableStates(reqJob: number, job: number) {
 		const enable: boolean[] = [];
-		let reqJob = gear.req.job;
 		for (let i = 0; i <= 5; i++) {
 			if (i === 0) {
 				enable.push(reqJob <= 0);
@@ -33,29 +33,29 @@
 		);
 	}
 
-    function checkJobReq(job: number, jobIndex: number): boolean {
-        if(jobIndex === 0) return true;
-        return (job & (1 << (jobIndex - 1))) !== 0;
-    }
+	function checkJobReq(job: number, jobIndex: number): boolean {
+		if (jobIndex === 0) return true;
+		return (job & (1 << (jobIndex - 1))) !== 0;
+	}
 </script>
 
 <div class="job-frame" class:expand={extraReq !== ''}>
 	<div class="job-branch">
-		{#each getEnableStates(gear, job) as enable, index}
+		{#each getEnableStates(reqJob, characterJob) as enable, index}
 			<span class="job-{index} {enable}" />
 		{/each}
 	</div>
-    {#if extraReq !== ''}
-        <div class="spec-job">
-            {extraReq}
-        </div>
-    {/if}
+	{#if extraReq !== ''}
+		<div class="spec-job">
+			{extraReq}
+		</div>
+	{/if}
 </div>
 
 <style>
 	.job-frame {
-        display: flex;
-        flex-direction: column;
+		display: flex;
+		flex-direction: column;
 		background-image: url(../images/job/normal.png);
 		width: 237px;
 		height: 24px;
@@ -73,13 +73,13 @@
 		grid-template-columns: 45px 33px 44px 34px 33px 33px;
 	}
 
-    .spec-job {
-        align-self: center;
-        margin-top: 6px;
+	.spec-job {
+		align-self: center;
+		margin-top: 6px;
 		font-size: 11px;
 		font-family: 돋움;
-        color: var(--gear-orange2)
-    }
+		color: var(--gear-orange2);
+	}
 
 	.job-0 {
 		width: 31px;

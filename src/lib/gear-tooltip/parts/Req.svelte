@@ -1,17 +1,18 @@
 <script lang="ts">
-	import { GearPropType, type Gear } from '@malib/gear';
+	import type { GearReq } from '@malib/gear';
 
-	export let gear: Gear;
+	export let req: GearReq;
+	export let reduceReq: number = 0;
 
-	$: reduceReq = Math.min(gear.option(GearPropType.reduceReq).sum, gear.req.level);
-	$: reqLevel = gear.req.level - reduceReq;
+	$: reduceReq = Math.min(reduceReq, req.level);
+	$: reqLevel = req.level - reduceReq;
 
 	$: can = {
 		lev: getCanState(reqLevel, 250),
-		str: getCanState(gear.req.str, 1000),
-		dex: getCanState(gear.req.dex, 1000),
-		int: getCanState(gear.req.int, 1000),
-		luk: getCanState(gear.req.luk, 1000)
+		str: getCanState(req.str, 1000),
+		dex: getCanState(req.dex, 1000),
+		int: getCanState(req.int, 1000),
+		luk: getCanState(req.luk, 1000)
 	};
 
 	function getCanState(req: number, value: number): string {
@@ -29,7 +30,7 @@
 		{/each}
 		{#if reduceReq > 0}
 			<span class="open can" />
-			{#each gear.req.level.toString() as num}
+			{#each req.level.toString() as num}
 				<span class="number-{num} can extra-gap" />
 			{/each}
 			<span class="minus yellowNumber" />
@@ -41,25 +42,25 @@
 	</li>
 	<li class="req-item">
 		<span class="str {can.str}" />
-		{#each gear.req.str.toString().padStart(3, '0') as num}
+		{#each req.str.toString().padStart(3, '0') as num}
 			<span class="number-{num} {can.str}" />
 		{/each}
 	</li>
 	<li class="req-item">
 		<span class="luk {can.luk}" />
-		{#each gear.req.luk.toString().padStart(3, '0') as num}
+		{#each req.luk.toString().padStart(3, '0') as num}
 			<span class="number-{num} {can.luk}" />
 		{/each}
 	</li>
 	<li class="req-item">
 		<span class="dex {can.dex}" />
-		{#each gear.req.dex.toString().padStart(3, '0') as num}
+		{#each req.dex.toString().padStart(3, '0') as num}
 			<span class="number-{num} {can.dex}" />
 		{/each}
 	</li>
 	<li class="req-item">
 		<span class="int {can.int}" />
-		{#each gear.req.int.toString().padStart(3, '0') as num}
+		{#each req.int.toString().padStart(3, '0') as num}
 			<span class="number-{num} {can.int}" />
 		{/each}
 	</li>

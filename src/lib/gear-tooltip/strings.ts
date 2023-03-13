@@ -1,6 +1,6 @@
 import { GearOption, GearPropType, GearType, PotentialGrade } from '@malib/gear';
 
-export function getGearPropString(type: GearPropType, value: number): string {
+export function getGearPropString(type: GearPropType, value: number) {
 	if (value === 0) return '';
 	switch (type) {
 		case GearPropType.incSTR:
@@ -92,7 +92,7 @@ export function getGearPropString(type: GearPropType, value: number): string {
 	return '';
 }
 
-export function getGearOptionString(type: GearPropType, option: GearOption): string {
+export function getGearOptionString(type: GearPropType, option: GearOption) {
 	let propStr = getGearPropString(type, option.sum);
 	if (option.bonus > 0 || option.upgrade + option.enchant > 0) {
 		let subfix = '';
@@ -149,7 +149,7 @@ export function getGearOptionString(type: GearPropType, option: GearOption): str
 	return propStr;
 }
 
-export function getGradeString(grade: PotentialGrade): string {
+export function getGradeString(grade: PotentialGrade) {
 	switch (grade) {
 		case PotentialGrade.rare:
 			return '(레어 아이템)';
@@ -166,7 +166,7 @@ export function getGradeString(grade: PotentialGrade): string {
 	}
 }
 
-export function getGearTypeString(type: GearType): string {
+export function getGearTypeString(type: GearType) {
 	switch (type) {
 		case GearType.faceAccessory:
 			return '얼굴장식';
@@ -426,7 +426,7 @@ export function getAttackSpeedString(attackSpeed: number) {
 	return `${str} (${10 - attackSpeed}단계)`;
 }
 
-export function getExtraJobReqString(type: GearType): string {
+export function getExtraJobReqString(type: GearType) {
 	switch (type) {
 		// 0xxx
 		case GearType.medallion:
@@ -551,7 +551,7 @@ export function getExtraJobReqString(type: GearType): string {
 	}
 }
 
-export function getExtraJobReqStringByJob(specJob: number): string {
+export function getExtraJobReqStringByJob(specJob: number) {
 	switch (specJob) {
 		case 21:
 			return '아란 착용 가능';
@@ -571,10 +571,6 @@ export function getExtraJobReqStringByJob(specJob: number): string {
 			return '제논 착용 가능';
 		case 37:
 			return '블래스터 착용 가능';
-		case 41:
-			return '剑豪可穿戴装备';
-		case 42:
-			return '阴阳师可穿戴装备';
 		case 51:
 			return '미하일 착용 가능';
 		case 61:

@@ -1,17 +1,16 @@
 <script lang="ts">
 	import { PotentialGrade, type Gear } from '@malib/gear';
 
-	export let gear: Gear;
-	export let iconSrc: string;
-	export let iconOrigin: [number, number];
+	export let src: string;
+	export let origin: [number, number];
+	export let alt: string;
+	export let grade: PotentialGrade;
 
-	$: color = getBorderColor(gear);
+	$: color = getBorderColor(grade);
+	$: originX = 6 + (1 - origin[0]) * 2;
+	$: originY = 6 + (33 - origin[1]) * 2;
 
-	$: originX = 6 + (1 - iconOrigin[0]) * 2;
-	$: originY = 6 + (33 - iconOrigin[1]) * 2;
-
-	function getBorderColor(gear: Gear) {
-		const grade = Math.max(gear.grade, gear.additionalGrade);
+	function getBorderColor(grade: PotentialGrade) {
 		switch (grade) {
 			case PotentialGrade.rare:
 				return 'rare';
@@ -31,12 +30,7 @@
 		<div class="border {color}" />
 	{/if}
 	<div class="base">
-		<img
-			class="icon"
-			src={iconSrc}
-			alt={gear.name}
-			style="margin-left: {originX}px; margin-top: {originY}px"
-		/>
+		<img class="icon" {src} {alt} style="margin-left: {originX}px; margin-top: {originY}px" />
 	</div>
 	<div class="cover" />
 </div>

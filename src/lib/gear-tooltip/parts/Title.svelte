@@ -1,20 +1,14 @@
 <script lang="ts">
-	import type { Gear } from '@malib/gear';
-	import { getGearNameColor } from '../graphics';
+	import type { getGearNameColor } from '../graphics';
 
-	export let gear: Gear;
+	type GearNameColor = ReturnType<typeof getGearNameColor>;
 
-	$: color = getGearNameColor(gear);
+	export let text: string;
+	export let color: GearNameColor;
 </script>
 
-{#if gear.soulSlot.enchanted && gear.soulSlot.soul?.name}
-	<div class="soul title">
-		{gear.soulSlot.soul.name.replace(/ 소울$/, ' ')}
-	</div>
-{/if}
-
-<div class="title" style="color: var({color})">
-	{gear.name + (gear.upgradeCount > 0 ? ` (+${gear.upgradeCount})` : '')}
+<div class="title {color}">
+	{text}
 </div>
 
 <style>
@@ -26,7 +20,28 @@
 		white-space: pre;
 	}
 
-	.soul.title {
+	.gray {
+		color: var(--gear-gray);
+	}
+	.orange2 {
+		color: var(--gear-orange2);
+	}
+	.white {
+		color: var(--gear-white);
+	}
+	.blue {
+		color: var(--gear-blue);
+	}
+	.purple {
+		color: var(--gear-purple);
+	}
+	.orange2 {
+		color: var(--gear-orange2);
+	}
+	.green {
 		color: var(--gear-green);
+	}
+	.red {
+		color: var(--gear-red);
 	}
 </style>
