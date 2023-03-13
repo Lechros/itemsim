@@ -2,6 +2,7 @@
 	import { GearPropType, PotentialGrade, SoulSlot, type Gear } from '@malib/gear';
 	import { getGearNameColor } from './graphics';
 	import Attributes from './parts/Attributes.svelte';
+	import Desc from './parts/Desc.svelte';
 	import DiffExtra from './parts/DiffExtra.svelte';
 	import GearGrade from './parts/GearGrade.svelte';
 	import GearType from './parts/GearType.svelte';
@@ -17,18 +18,65 @@
 	import Superior2 from './parts/Superior2.svelte';
 	import Title from './parts/Title.svelte';
 	import Tuc from './parts/Tuc.svelte';
+	import { getGearPropString } from './strings';
 
 	export let gear: Gear;
 	export let iconSrc = 'https://maplestory.io/api/KMS/367/item/{}/icon';
 
 	$: gearName = `${gear.name} ${gear.upgradeCount > 0 ? `(+${gear.upgradeCount})` : ''}`;
 	$: superior = gear.getBooleanValue(GearPropType.superiorEqp);
+	$: desc = getDescs(gear);
 
 	function getSortedOptions(gear: Gear) {
 		return [...gear.options]
 			.sort((a, b) => a[0] - b[0])
 			.filter((kv) => kv[1].sum != 0)
 			.map((kv) => ({ type: kv[0], option: kv[1] }));
+	}
+
+	function getDescs(gear: Gear) {
+		const desc: string[] = [];
+		let value: number;
+
+		if (gear.desc.length > 0) {
+			desc.push(gear.desc);
+		}
+		if (
+			gear.getPropValue(GearPropType.tradeBlock) > 0 &&
+			(value = gear.getPropValue(GearPropType.tradeAvailable)) > 0
+		) {
+			desc.push(getGearPropString(GearPropType.tradeAvailable, value));
+		}
+		if ((value = gear.getPropValue(GearPropType.accountShareTag)) > 0) {
+			desc.push(getGearPropString(GearPropType.accountShareTag, value));
+		}
+		if ((value = gear.getPropValue(GearPropType.jokerToSetItem)) > 0) {
+			desc.push(getGearPropString(GearPropType.jokerToSetItem, value));
+		}
+
+		const traits = [
+			[GearPropType.charismaEXP, '카리스마'],
+			[GearPropType.insightEXP, '통찰력'],
+			[GearPropType.willEXP, '의지'],
+			[GearPropType.craftEXP, '손재주'],
+			[GearPropType.senseEXP, '감성'],
+			[GearPropType.charmEXP, '매력']
+		] as const;
+		let traitStr = '';
+		for (const [type, name] of traits) {
+			if ((value = gear.getPropValue(type)) > 0) {
+				traitStr += `, ${name} ${value}`;
+			}
+		}
+		if (traitStr.length > 0) {
+			desc.push(`#c장착 시 1회에 한해 ${traitStr.substring(2)}의 경험치를 얻을 수 있습니다.(일일제한, 최대치 초과 시 제외)#`);
+		}
+
+		if (gear.amazing && gear.star > 0) {
+			desc.push('#c놀라운 장비강화 주문서가 사용되었습니다.#');
+		}
+
+		return desc;
 	}
 </script>
 
@@ -127,6 +175,15 @@
 					/>
 				</div>
 			{/if}
+
+			{#if desc.length > 0}
+				<hr class="dotline" style="margin-top: 2px" />
+				<div class="desc part">
+					{#each desc as text}
+						<Desc {text} />
+					{/each}
+				</div>
+			{/if}
 		</div>
 		<div class="frame-bottom" />
 		<div class="frame-cover" />
@@ -195,6 +252,10 @@
 		margin-top: 4px;
 		padding-left: 13px;
 		padding-right: 13px;
+	}
+	.part.desc {
+		padding-left: 10px;
+		padding-right: 17px;
 	}
 
 	.frame-top {

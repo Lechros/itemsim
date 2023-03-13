@@ -1,15 +1,20 @@
 <script lang="ts">
 	import GearTooltip from '../lib/gear-tooltip/GearTooltip.svelte';
 
-	import { createGearFromId, createPotentialFromCode, createSoulFromId, gearJson, MagnificentSoulOptionType } from '@malib/create-gear';
 	import {
-	BonusStatLogic,
+		createGearFromId,
+		createPotentialFromCode,
+		createSoulFromId,
+		gearJson,
+		MagnificentSoulOptionType
+	} from '@malib/create-gear';
+	import {
+		BonusStatLogic,
 		BonusStatType,
 		EnhancementLogic,
 		GearPropType,
 		Potential,
 		PotentialGrade,
-		Soul,
 		SoulLogic,
 		UpgradeLogic
 	} from '@malib/gear';
@@ -19,9 +24,12 @@
 	const upgrade = new UpgradeLogic();
 	const bonus = new BonusStatLogic();
 
-	const name = "제네시스 보우";
-	const id = Number(Object.entries(gearJson).find(value => value[1].name === name)?.[0]);
+	const name = '아케인셰이드 아처케이프';
+	const id = Number(Object.entries(gearJson).find((value) => value[1].name === name)?.[0]);
 	const gear = createGearFromId(id)!;
+
+	gear.props.set(GearPropType.tradeBlock, 1);
+	gear.amazing = true;
 
 	bonus.addBonusStat(gear, BonusStatType.STR, 4);
 	bonus.addBonusStat(gear, BonusStatType.PAD, 6);
@@ -32,14 +40,26 @@
 	for (let i = 0; i < 17; i++) enchant.addStarforce(gear);
 
 	gear.grade = PotentialGrade.legendary;
-	gear.potentials.push(createPotentialFromCode(40602, Potential.getPotentialLevel(gear.req.level))!);
-	gear.potentials.push(createPotentialFromCode(30051, Potential.getPotentialLevel(gear.req.level))!);
-	gear.potentials.push(createPotentialFromCode(30291, Potential.getPotentialLevel(gear.req.level))!);
+	gear.potentials.push(
+		createPotentialFromCode(40602, Potential.getPotentialLevel(gear.req.level))!
+	);
+	gear.potentials.push(
+		createPotentialFromCode(30051, Potential.getPotentialLevel(gear.req.level))!
+	);
+	gear.potentials.push(
+		createPotentialFromCode(30291, Potential.getPotentialLevel(gear.req.level))!
+	);
 
 	gear.additionalGrade = PotentialGrade.unique;
-	gear.additionalPotentials.push(createPotentialFromCode(30051, Potential.getPotentialLevel(gear.req.level))!);
-	gear.additionalPotentials.push(createPotentialFromCode(30291, Potential.getPotentialLevel(gear.req.level))!);
-	gear.additionalPotentials.push(createPotentialFromCode(40602, Potential.getPotentialLevel(gear.req.level))!);
+	gear.additionalPotentials.push(
+		createPotentialFromCode(30051, Potential.getPotentialLevel(gear.req.level))!
+	);
+	gear.additionalPotentials.push(
+		createPotentialFromCode(30291, Potential.getPotentialLevel(gear.req.level))!
+	);
+	gear.additionalPotentials.push(
+		createPotentialFromCode(40602, Potential.getPotentialLevel(gear.req.level))!
+	);
 
 	soul.enchant(gear);
 	soul.setSoul(gear, createSoulFromId(2591590, MagnificentSoulOptionType.bdR)!);

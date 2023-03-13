@@ -16,14 +16,12 @@ export function getGearNameColor(gear: Gear) {
 	return 'red';
 }
 
-export function parseColorString(
-	text: string,
-	colorClass: Record<'c' | 'g' | '$' | 'r', string>
-): string {
+export function parseColorString(text: string): string {
 	return text
-		.replaceAll(/#c(.+?)#(?![c$gr])/g, `<span class="${colorClass['c']}">$1</span>`)
-		.replaceAll(/\$(.+?)#(?![c$gr])/g, `<span class="${colorClass['$']}">$1</span>`)
-		.replaceAll(/#g(.+?)#(?![c$gr])/g, `<span class="${colorClass['g']}">$1</span>`)
-		.replaceAll(/#r(.+?)#(?![c$gr])/g, `<span class="${colorClass['r']}">$1</span>`)
+		.replaceAll(/(\\r)?\\n/g, '\n')
+		.replaceAll(/#c(.+?)#(?![c$gr])/g, `<span class="orange">$1</span>`)
+		.replaceAll(/\$(.+?)#(?![c$gr])/g, `<span class="blue">$1</span>`)
+		.replaceAll(/#g(.+?)#(?![c$gr])/g, `<span class="green">$1</span>`)
+		.replaceAll(/#r(.+?)#(?![c$gr])/g, `<span class="red">$1</span>`)
 		.replaceAll(/#(c|\$|g|r)?/g, '');
 }

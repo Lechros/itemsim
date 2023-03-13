@@ -5,17 +5,10 @@
 
 	export let type: GearPropType;
 	export let option: GearOption;
-
-	const colorClass = {
-		c: 'orange',
-		$: 'blue',
-		g: 'green',
-		r: 'red'
-	};
 </script>
 
 <div class="option">
-	{@html parseColorString(getGearOptionString(type, option), colorClass)}
+	{@html parseColorString(getGearOptionString(type, option))}
 </div>
 
 <style>
