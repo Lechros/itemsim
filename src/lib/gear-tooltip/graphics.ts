@@ -25,9 +25,5 @@ export function parseColorString(
 		.replaceAll(/\$(.+?)#(?![c$gr])/g, `<span class="${colorClass['$']}">$1</span>`)
 		.replaceAll(/#g(.+?)#(?![c$gr])/g, `<span class="${colorClass['g']}">$1</span>`)
 		.replaceAll(/#r(.+?)#(?![c$gr])/g, `<span class="${colorClass['r']}">$1</span>`)
-		.replaceAll('#c', '')
-		.replaceAll('#$', '')
-		.replaceAll('#g', '')
-		.replaceAll('#r', '')
-		.replaceAll('#', '');
+		.replaceAll(/#(c|\$|g|r)?/g, '');
 }

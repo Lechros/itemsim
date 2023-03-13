@@ -5,8 +5,6 @@
 
 	export let gear: Gear;
 
-	$: options = gear.options
-
 	const colorClass = {
 		c: 'orange',
 		$: 'blue',

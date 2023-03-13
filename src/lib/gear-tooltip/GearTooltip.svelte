@@ -12,6 +12,7 @@
 	import Star from './parts/Star.svelte';
 	import Superior from './parts/Superior.svelte';
 	import Title from './parts/Title.svelte';
+	import Tuc from './parts/Tuc.svelte';
 
 	export let gear: Gear;
 
@@ -51,6 +52,7 @@
 				<Superior {gear} />
 				<GearType {gear} />
 				<Options {gear} />
+				<Tuc {gear} />
 			</div>
 		</div>
 		<div class="frame-bottom" />
