@@ -8,6 +8,7 @@
 	import Incline from './parts/Incline.svelte';
 	import JobReq from './parts/JobReq.svelte';
 	import Options from './parts/Options.svelte';
+	import Potential from './parts/Potential.svelte';
 	import Req from './parts/Req.svelte';
 	import Star from './parts/Star.svelte';
 	import Superior from './parts/Superior.svelte';
@@ -56,9 +57,18 @@
 				<Tuc {gear} />
 				<Superior2 {gear} />
 			</div>
-			<div class="part2">
-
-			</div>
+			{#if gear.canPotential && gear.potentials.length > 0}
+				<hr class="dotline" style="margin-top: 2px" />
+				<div class="part">
+					<Potential {gear} />
+				</div>
+			{/if}
+			{#if gear.canPotential && gear.additionalPotentials.length > 0}
+				<hr class="dotline" style="margin-top: 2px" />
+				<div class="part">
+					<Potential additional {gear} />
+				</div>
+			{/if}
 		</div>
 		<div class="frame-bottom" />
 		<div class="frame-cover" />
@@ -117,11 +127,16 @@
 		width: 100%;
 		box-sizing: border-box;
 		margin-top: 4px;
+		margin-bottom: 8px;
 		padding-left: 13px;
 		padding-right: 13px;
 	}
-	.part2 {
-
+	.part {
+		width: 100%;
+		box-sizing: border-box;
+		margin-top: 4px;
+		padding-left: 13px;
+		padding-right: 13px;
 	}
 
 	.frame-top {

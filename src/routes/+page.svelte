@@ -1,7 +1,7 @@
 <script lang="ts">
 	import GearTooltip from '../lib/gear-tooltip/GearTooltip.svelte';
 
-	import { createGearFromId, createSoulFromId, gearJson } from '@malib/create-gear';
+	import { createGearFromId, createPotentialFromCode, createSoulFromId, gearJson } from '@malib/create-gear';
 	import {
 	BonusStatLogic,
 		BonusStatType,
@@ -29,17 +29,16 @@
 	for (let i = 0; i < 8; i++) upgrade.applySpellTrace(gear, GearPropType.incDEX, 30);
 	for (let i = 0; i < 17; i++) enchant.addStarforce(gear);
 
-	// gear.soulSlot.enchanted = true;
-	// soul.setSoul(gear, createSoulFromId(2591708)!);
-
 	gear.grade = PotentialGrade.legendary;
-	gear.potentials.push(new Potential());
+	gear.potentials.push(createPotentialFromCode(40602, Potential.getPotentialLevel(gear.req.level))!);
+	gear.potentials.push(createPotentialFromCode(30051, Potential.getPotentialLevel(gear.req.level))!);
+	gear.potentials.push(createPotentialFromCode(30291, Potential.getPotentialLevel(gear.req.level))!);
 
-	// gear.props.set(GearPropType.tradeBlock, 1);
-	// // gear.props.set(GearPropType.blockGoldHammer, 1);
-	// gear.props.set(GearPropType.onlyEquip, 1);
+	gear.additionalGrade = PotentialGrade.unique;
+	gear.additionalPotentials.push(createPotentialFromCode(30051, Potential.getPotentialLevel(gear.req.level))!);
+	gear.additionalPotentials.push(createPotentialFromCode(30291, Potential.getPotentialLevel(gear.req.level))!);
+	gear.additionalPotentials.push(createPotentialFromCode(40602, Potential.getPotentialLevel(gear.req.level))!);
 
-	// gear.option(GearPropType.reduceReq).bonus = 15;
 </script>
 
 <h1>Gear Tooltip</h1>
