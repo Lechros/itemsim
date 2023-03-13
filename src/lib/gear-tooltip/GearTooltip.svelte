@@ -11,6 +11,7 @@
 	import Req from './parts/Req.svelte';
 	import Star from './parts/Star.svelte';
 	import Superior from './parts/Superior.svelte';
+	import Superior2 from './parts/Superior2.svelte';
 	import Title from './parts/Title.svelte';
 	import Tuc from './parts/Tuc.svelte';
 
@@ -53,6 +54,10 @@
 				<GearType {gear} />
 				<Options {gear} />
 				<Tuc {gear} />
+				<Superior2 {gear} />
+			</div>
+			<div class="part2">
+
 			</div>
 		</div>
 		<div class="frame-bottom" />
@@ -114,6 +119,9 @@
 		margin-top: 4px;
 		padding-left: 13px;
 		padding-right: 13px;
+	}
+	.part2 {
+
 	}
 
 	.frame-top {

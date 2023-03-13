@@ -13,7 +13,7 @@
 		UpgradeLogic
 	} from '@malib/gear';
 
-	const name = "앱솔랩스 아처후드";
+	const name = "타일런트 알테어 클록";
 	const id = Number(Object.entries(gearJson).find(value => value[1].name === name)?.[0]);
 	const gear = createGearFromId(id)!;
 	const enchant = new EnhancementLogic();
