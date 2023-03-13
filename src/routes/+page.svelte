@@ -24,46 +24,39 @@
 	const upgrade = new UpgradeLogic();
 	const bonus = new BonusStatLogic();
 
-	const name = '아케인셰이드 아처케이프';
+	const name = '트릭스터 레인져팬츠';
 	const id = Number(Object.entries(gearJson).find((value) => value[1].name === name)?.[0]);
 	const gear = createGearFromId(id)!;
 
 	gear.props.set(GearPropType.tradeBlock, 1);
-	gear.amazing = true;
+	gear.props.delete(GearPropType.equipTradeBlock);
+	gear.props.delete(GearPropType.charmEXP);
 
-	bonus.addBonusStat(gear, BonusStatType.STR, 4);
-	bonus.addBonusStat(gear, BonusStatType.PAD, 6);
-	bonus.addBonusStat(gear, BonusStatType.PDD, 5);
-	bonus.addBonusStat(gear, BonusStatType.bdR, 5);
+	bonus.addBonusStat(gear, BonusStatType.STR_DEX, 6);
+	bonus.addBonusStat(gear, BonusStatType.DEX, 6);
+	bonus.addBonusStat(gear, BonusStatType.LUK, 5);
+	bonus.addBonusStat(gear, BonusStatType.allStatR, 6);
+
 	upgrade.applyGoldHammer(gear);
 	for (let i = 0; i < 8; i++) upgrade.applySpellTrace(gear, GearPropType.incDEX, 30);
-	for (let i = 0; i < 17; i++) enchant.addStarforce(gear);
+	for (let i = 0; i < 12; i++) enchant.addAmazingEnhancement(gear, i < 2);
 
-	gear.grade = PotentialGrade.legendary;
-	gear.potentials.push(
-		createPotentialFromCode(40602, Potential.getPotentialLevel(gear.req.level))!
-	);
-	gear.potentials.push(
-		createPotentialFromCode(30051, Potential.getPotentialLevel(gear.req.level))!
-	);
-	gear.potentials.push(
-		createPotentialFromCode(30291, Potential.getPotentialLevel(gear.req.level))!
-	);
+	const potLevel = Potential.getPotentialLevel(gear.req.level);
+	gear.grade = PotentialGrade.unique;
+	gear.potentials.push(createPotentialFromCode(30042, potLevel)!);
+	gear.potentials.push(createPotentialFromCode(20042, potLevel)!);
+	gear.potentials.push(createPotentialFromCode(30042, potLevel)!);
 
-	gear.additionalGrade = PotentialGrade.unique;
-	gear.additionalPotentials.push(
-		createPotentialFromCode(30051, Potential.getPotentialLevel(gear.req.level))!
-	);
-	gear.additionalPotentials.push(
-		createPotentialFromCode(30291, Potential.getPotentialLevel(gear.req.level))!
-	);
-	gear.additionalPotentials.push(
-		createPotentialFromCode(40602, Potential.getPotentialLevel(gear.req.level))!
-	);
+	gear.additionalGrade = PotentialGrade.epic;
+	gear.additionalPotentials.push(createPotentialFromCode(22042, potLevel)!);
+	gear.additionalPotentials.push(createPotentialFromCode(12011, potLevel)!);
+	gear.additionalPotentials.push(createPotentialFromCode(12011, potLevel)!);
 
 	soul.enchant(gear);
 	soul.setSoul(gear, createSoulFromId(2591590, MagnificentSoulOptionType.bdR)!);
 	soul.setCharge(gear, 0);
+
+	console.log(gear.origin)
 </script>
 
 <h1>Gear Tooltip</h1>

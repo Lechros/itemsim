@@ -21,7 +21,7 @@
 	import { getGearPropString } from './strings';
 
 	export let gear: Gear;
-	export let iconSrc = 'https://maplestory.io/api/KMS/367/item/{}/icon';
+	export let iconSrc = 'https://maplestory.io/api/KMS/367/item/{}/iconRaw';
 
 	$: gearName = `${gear.name} ${gear.upgradeCount > 0 ? `(+${gear.upgradeCount})` : ''}`;
 	$: superior = gear.getBooleanValue(GearPropType.superiorEqp);
@@ -69,7 +69,10 @@
 			}
 		}
 		if (traitStr.length > 0) {
-			desc.push(`#c장착 시 1회에 한해 ${traitStr.substring(2)}의 경험치를 얻을 수 있습니다.(일일제한, 최대치 초과 시 제외)#`);
+			const str = traitStr.substring(2);
+			desc.push(
+				`#c장착 시 1회에 한해 ${str}의 경험치를 얻을 수 있습니다.(일일제한, 최대치 초과 시 제외)#`
+			);
 		}
 
 		if (gear.amazing && gear.star > 0) {
@@ -150,17 +153,21 @@
 				{/if}
 			</div>
 
-			{#if gear.canPotential && gear.potentials.length > 0}
+			{#if gear.canPotential && gear.grade > 0 && gear.potentials.length > 0}
 				<hr class="dotline" style="margin-top: 2px" />
 				<div class="potential part">
 					<Potential grade={gear.grade} potentials={gear.potentials} />
 				</div>
 			{/if}
 
-			{#if gear.canPotential && gear.additionalPotentials.length > 0}
+			{#if gear.canPotential && gear.additionalGrade > 0 && gear.additionalPotentials.length > 0}
 				<hr class="dotline" style="margin-top: 2px" />
 				<div class="add-potential part">
-					<Potential additional grade={gear.grade} potentials={gear.potentials} />
+					<Potential
+						additional
+						grade={gear.additionalGrade}
+						potentials={gear.additionalPotentials}
+					/>
 				</div>
 			{/if}
 

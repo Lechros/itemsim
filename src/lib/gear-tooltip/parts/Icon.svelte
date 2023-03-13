@@ -8,7 +8,7 @@
 
 	$: color = getBorderColor(grade);
 	$: originX = 6 + (1 - origin[0]) * 2;
-	$: originY = 6 + (33 - origin[1]) * 2;
+	$: originY = 5 + (33 - origin[1]) * 2;
 
 	function getBorderColor(grade: PotentialGrade) {
 		switch (grade) {
@@ -30,6 +30,7 @@
 		<div class="border {color}" />
 	{/if}
 	<div class="base">
+		<div class="shade" />
 		<img class="icon" {src} {alt} style="margin-left: {originX}px; margin-top: {originY}px" />
 	</div>
 	<div class="cover" />
@@ -79,5 +80,15 @@
 		position: absolute;
 		top: 4px;
 		left: 4px;
+	}
+
+	.shade {
+		background-image: url(../images/itemIcon/shade.png);
+		width: 49px;
+		height: 15px;
+		position: absolute;
+		top: 59px;
+		left: 15px;
+		opacity: 0.5;
 	}
 </style>
