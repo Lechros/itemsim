@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GearPropType, PotentialGrade, SoulSlot, type Gear } from '@malib/gear';
+	import { GearPropType, PotentialGrade, type Gear } from '@malib/gear';
 	import { getGearNameColor } from './graphics';
 	import Attributes from './parts/Attributes.svelte';
 	import Desc from './parts/Desc.svelte';
@@ -9,6 +9,7 @@
 	import Icon from './parts/Icon.svelte';
 	import Incline from './parts/Incline.svelte';
 	import JobReq from './parts/JobReq.svelte';
+	import Karma from './parts/Karma.svelte';
 	import Option from './parts/Option.svelte';
 	import Potential from './parts/Potential.svelte';
 	import Req from './parts/Req.svelte';
@@ -21,9 +22,10 @@
 	import { getGearPropString } from './strings';
 
 	export let gear: Gear;
-	export let iconSrc = 'https://maplestory.io/api/KMS/367/item/{}/iconRaw';
+	export let iconSrc = 'https://maplestory.io/api/KMS/367/item/{}/icon';
 
 	$: gearName = `${gear.name} ${gear.upgradeCount > 0 ? `(+${gear.upgradeCount})` : ''}`;
+	$: icon = gear.anvil ?? gear.icon;
 	$: superior = gear.getBooleanValue(GearPropType.superiorEqp);
 	$: desc = getDescs(gear);
 
@@ -90,8 +92,8 @@
 			<Star star={gear.star} maxStar={gear.maxStar} amazing={gear.amazing} />
 
 			<div class="title-area">
-				{#if gear.soulSlot.enchanted && gear.soulSlot.soul}
-					<Title text={gear.soulSlot.soul.name.replace(/ 소울$/, ' ')} color="green" />
+				{#if gear.soulWeapon.enchanted && gear.soulWeapon.soul}
+					<Title text={gear.soulWeapon.soul.name.replace(/ 소울$/, ' ')} color="green" />
 				{/if}
 				<Title text={gearName} color={getGearNameColor(gear)} />
 			</div>
@@ -109,13 +111,14 @@
 			<div class="icon-area">
 				<div class="icon-wrapper">
 					<Icon
-						src={iconSrc.replace('{}', gear.icon.toString())}
-						origin={gear.origin}
+						src={iconSrc.replace('{}', icon.id.toString())}
+						origin={icon.origin}
 						alt={gearName}
 						grade={Math.max(gear.grade, gear.additionalGrade)}
+						newBonus={gear.isNewBonusType}
 					/>
 				</div>
-				<Incline incline={1124091} />
+				<Incline incline={0} />
 				<Req req={gear.req} reduceReq={gear.getPropValue(GearPropType.reduceReq)} />
 			</div>
 			<div class="diff-wrapper">
@@ -138,7 +141,7 @@
 				{/if}
 				<GearType type={gear.type} attackSpeed={gear.getPropValue(GearPropType.attackSpeed)} />
 				{#each getSortedOptions(gear) as entry}
-					<Option type={entry.type} option={entry.option} />
+					<Option type={entry.type} option={entry.option} amazing={gear.amazing} />
 				{/each}
 				{#if gear.totalUpgradeCount > 0}
 					<Tuc
@@ -147,6 +150,9 @@
 						upgradeFailCount={gear.upgradeFailCount}
 						hammerCount={gear.hammerCount}
 					/>
+				{/if}
+				{#if gear.karma !== undefined}
+					<Karma count={gear.karma} />
 				{/if}
 				{#if superior}
 					<Superior2 />
@@ -171,14 +177,14 @@
 				</div>
 			{/if}
 
-			{#if gear.soulSlot.enchanted}
+			{#if gear.soulWeapon.enchanted}
 				<hr class="dotline" style="margin-top: 2px" />
 				<div class="soul part">
 					<Soul
-						soul={gear.soulSlot.soul}
-						charge={gear.soulSlot.charge}
-						pad={gear.soulSlot.chargeOption.get(GearPropType.incPAD) ?? 0}
-						mad={gear.soulSlot.chargeOption.get(GearPropType.incMAD) ?? 0}
+						soul={gear.soulWeapon.soul}
+						charge={gear.soulWeapon.charge}
+						pad={gear.soulWeapon.chargeOption.get(GearPropType.incPAD) ?? 0}
+						mad={gear.soulWeapon.chargeOption.get(GearPropType.incMAD) ?? 0}
 					/>
 				</div>
 			{/if}

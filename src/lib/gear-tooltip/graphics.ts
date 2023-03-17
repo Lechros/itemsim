@@ -23,5 +23,7 @@ export function parseColorString(text: string): string {
 		.replaceAll(/\$(.+?)#(?![c$gr])/g, `<span class="blue">$1</span>`)
 		.replaceAll(/#g(.+?)#(?![c$gr])/g, `<span class="green">$1</span>`)
 		.replaceAll(/#r(.+?)#(?![c$gr])/g, `<span class="red">$1</span>`)
-		.replaceAll(/#(c|\$|g|r)?/g, '');
+		.replaceAll(/#p(.+?)#(?![c$gr])/g, `<span class="purple2">$1</span>`)
+		.replaceAll(/#o(.+?)#(?![c$gr])/g, `<span class="orange2">$1</span>`)
+		.replaceAll(/#(c|\$|g|r|p|o)?/g, '');
 }

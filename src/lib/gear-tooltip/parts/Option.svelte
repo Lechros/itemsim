@@ -5,10 +5,11 @@
 
 	export let type: GearPropType;
 	export let option: GearOption;
+	export let amazing: boolean;
 </script>
 
 <div class="option">
-	{@html parseColorString(getGearOptionString(type, option))}
+	{@html parseColorString(getGearOptionString(type, option, amazing))}
 </div>
 
 <style>
@@ -30,5 +31,11 @@
 	}
 	.option :global(.red) {
 		color: var(--gear-red);
+	}
+	.option :global(.purple2) {
+		color: var(--gear-purple2);
+	}
+	.option :global(.orange2) {
+		color: var(--gear-orange2);
 	}
 </style>

@@ -92,12 +92,15 @@ export function getGearPropString(type: GearPropType, value: number) {
 	return '';
 }
 
-export function getGearOptionString(type: GearPropType, option: GearOption) {
+export function getGearOptionString(type: GearPropType, option: GearOption, amazing: boolean) {
 	let propStr = getGearPropString(type, option.sum);
 	if (option.bonus > 0 || option.upgrade + option.enchant > 0) {
+		let p = '';
 		let subfix = '';
 		let bonusStr = '';
+		let upgradeStr = '';
 		let enchantStr = '';
+		let upgradeVal = 0;
 		switch (type) {
 			case GearPropType.incSTR:
 			case GearPropType.incDEX:
@@ -113,17 +116,7 @@ export function getGearOptionString(type: GearPropType, option: GearOption) {
 			case GearPropType.incPDD:
 			case GearPropType.incSpeed:
 			case GearPropType.incJump:
-				if (option.bonus > 0) {
-					bonusStr = ` #g+${option.bonus}#`;
-				}
-				if (option.upgrade + option.enchant > 0) {
-					enchantStr = ` #$+${option.upgrade + option.enchant}#`;
-				} else if (option.upgrade + option.enchant < 0) {
-					enchantStr = ` #r${option.upgrade + option.enchant}#`;
-				}
-				subfix = `(${option.base}${bonusStr}${enchantStr})`;
 				break;
-
 			case GearPropType.bdR:
 			case GearPropType.incBDR:
 			case GearPropType.imdR:
@@ -131,19 +124,24 @@ export function getGearOptionString(type: GearPropType, option: GearOption) {
 			case GearPropType.damR:
 			case GearPropType.incDAMr:
 			case GearPropType.statR:
-				if (option.bonus > 0) {
-					bonusStr = ` #g+${option.bonus}%#`;
-				}
-				if (option.upgrade + option.enchant > 0) {
-					enchantStr = ` #$+${option.upgrade + option.enchant}%#`;
-				} else if (option.upgrade + option.enchant < 0) {
-					enchantStr = ` #r${option.upgrade + option.enchant}%#`;
-				}
-				subfix = `(${option.base}%${bonusStr}${enchantStr})`;
+				p = '%';
 				break;
 			case GearPropType.reduceReq:
 				return `#g${propStr}#`;
 		}
+		if (option.bonus > 0) {
+			bonusStr = ` #g+${option.bonus}${p}#`;
+		}
+		upgradeVal = amazing ? option.upgrade + option.enchant : option.upgrade;
+		if (upgradeVal > 0) {
+			upgradeStr = ` #p+${upgradeVal}${p}#`;
+		} else if (upgradeVal < 0) {
+			upgradeStr = ` #r+${upgradeVal}${p}#`;
+		}
+		if (!amazing && option.enchant > 0) {
+			enchantStr = ` #o+${option.enchant}${p}#`;
+		}
+		subfix = `(${option.base}${p}${bonusStr}${upgradeStr}${enchantStr})`;
 		propStr = `#$${propStr}# ${subfix}`;
 	}
 	return propStr;

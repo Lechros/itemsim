@@ -5,10 +5,11 @@
 	export let origin: [number, number];
 	export let alt: string;
 	export let grade: PotentialGrade;
+	export let newBonus: boolean;
 
 	$: color = getBorderColor(grade);
 	$: originX = 6 + (1 - origin[0]) * 2;
-	$: originY = 5 + (33 - origin[1]) * 2;
+	$: originY = 6 + (33 - origin[1]) * 2;
 
 	function getBorderColor(grade: PotentialGrade) {
 		switch (grade) {
@@ -30,9 +31,12 @@
 		<div class="border {color}" />
 	{/if}
 	<div class="base">
-		<div class="shade" />
 		<img class="icon" {src} {alt} style="margin-left: {originX}px; margin-top: {originY}px" />
 	</div>
+	<div class="old-dot" />
+	{#if newBonus}
+		<div class="new-dot" />
+	{/if}
 	<div class="cover" />
 </div>
 
@@ -73,6 +77,23 @@
 		background-image: url(../images/itemIcon/legendary.png);
 	}
 
+	.old-dot {
+		background-image: url(../images/itemIcon/old.png);
+		width: 10px;
+		height: 10px;
+		position: absolute;
+		top: 5px;
+		left: 5px;
+	}
+	.new-dot {
+		background-image: url(../images/itemIcon/new.png);
+		width: 6px;
+		height: 6px;
+		position: absolute;
+		top: 7px;
+		left: 7px;
+	}
+
 	.cover {
 		background-image: url(../images/itemIcon/cover.png);
 		width: 74px;
@@ -80,15 +101,5 @@
 		position: absolute;
 		top: 4px;
 		left: 4px;
-	}
-
-	.shade {
-		background-image: url(../images/itemIcon/shade.png);
-		width: 49px;
-		height: 15px;
-		position: absolute;
-		top: 59px;
-		left: 15px;
-		opacity: 0.5;
 	}
 </style>
