@@ -54,4 +54,16 @@
 
 <h1>Gear Tooltip</h1>
 
-<GearTooltip {gear} />
+<GearTooltip
+	{gear}
+	characterLevel={250}
+	characterSTR={6000}
+	characterDEX={50000}
+	characterINT={2000}
+	characterLUK={1000}
+	characterJob={4}
+	incline={1234841}
+	pddDiff={0}
+	bdrDiff={0}
+	imdrDiff={0}
+/>

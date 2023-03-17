@@ -3,16 +3,21 @@
 
 	export let req: GearReq;
 	export let reduceReq: number = 0;
+	export let characterLevel: number;
+	export let characterSTR: number;
+	export let characterDEX: number;
+	export let characterINT: number;
+	export let characterLUK: number;
 
 	$: reduceReq = Math.min(reduceReq, req.level);
 	$: reqLevel = req.level - reduceReq;
 
 	$: can = {
-		lev: getCanState(reqLevel, 250),
-		str: getCanState(req.str, 1000),
-		dex: getCanState(req.dex, 1000),
-		int: getCanState(req.int, 1000),
-		luk: getCanState(req.luk, 1000)
+		lev: getCanState(reqLevel, characterLevel),
+		str: getCanState(req.str, characterSTR),
+		dex: getCanState(req.dex, characterDEX),
+		int: getCanState(req.int, characterINT),
+		luk: getCanState(req.luk, characterLUK)
 	};
 
 	function getCanState(req: number, value: number): string {

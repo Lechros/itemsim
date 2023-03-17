@@ -21,7 +21,52 @@
 	import Tuc from './parts/Tuc.svelte';
 	import { getGearPropString } from './strings';
 
+	/**
+	 * 툴팁에 표시할 장비.
+	 */
 	export let gear: Gear;
+	/**
+	 * 캐릭터 레벨. 기본값은 `300`입니다. REQ LEV을 표시하는데 사용됩니다.
+	 */
+	export let characterLevel: number = 300;
+	/**
+	 * 캐릭터 STR. 기본값은 `900`입니다. REQ LEV을 표시하는데 사용됩니다.
+	 */
+	export let characterSTR: number = 900;
+	/**
+	 * 캐릭터 DEX. 기본값은 `900`입니다. REQ DEX을 표시하는데 사용됩니다.
+	 */
+	export let characterDEX: number = 900;
+	/**
+	 * 캐릭터 INT. 기본값은 `900`입니다. REQ INT을 표시하는데 사용됩니다.
+	 */
+	export let characterINT: number = 900;
+	/**
+	 * 캐릭터 LUK. 기본값은 `900`입니다. REQ LUK을 표시하는데 사용됩니다.
+	 */
+	export let characterLUK: number = 900;
+	/**
+	 * 캐릭터 직업. 기본값은 `31`입니다. 착용 가능 직업을 표시하는데 사용됩니다.
+	 * 초보자는 `0`, 전사는 `1`, 마법사는 `2`, 궁수는 `4`, 도적은 `8`, 해적은 `16`이고 해당하는 직업 분류의 합으료 나타냅니다.
+	 */
+	export let characterJob: number = 0x1F;
+	/**
+	 * 장비의 공격력 증가량입니다. 기본값은 `0`입니다.
+	 */
+	export let incline: number = 0;
+	/**
+	 * 장비의 방어력 차이입니다. 기본값은 `0`입니다.
+	 */
+	export let pddDiff: number = 0;
+	/**
+	 * 장비의 보스 공격 시 데미지 차이입니다. 기본값은 `0`입니다.
+	 */
+	export let bdrDiff: number = 0;
+	/**
+	 * 장비의 몬스터 방어율 무시 차이입니다. 기본값은 `0`입니다.
+	 */
+	export let imdrDiff: number = 0;
+
 	export let iconSrc = 'https://maplestory.io/api/KMS/367/item/{}/icon';
 
 	$: gearName = `${gear.name} ${gear.upgradeCount > 0 ? `(+${gear.upgradeCount})` : ''}`;
@@ -93,7 +138,7 @@
 
 			<div class="title-area">
 				{#if gear.soulWeapon.enchanted && gear.soulWeapon.soul}
-					<Title text={gear.soulWeapon.soul.name.replace(/ 소울$/, ' ')} color="green" />
+					<Title text={gear.soulWeapon.soul.name.replace(/소울$/, '')} color="green" />
 				{/if}
 				<Title text={gearName} color={getGearNameColor(gear)} />
 			</div>
@@ -118,18 +163,26 @@
 						newBonus={gear.isNewBonusType}
 					/>
 				</div>
-				<Incline incline={0} />
-				<Req req={gear.req} reduceReq={gear.getPropValue(GearPropType.reduceReq)} />
+				<Incline {incline} />
+				<Req
+					req={gear.req}
+					reduceReq={gear.option(GearPropType.reduceReq).sum}
+					{characterLevel}
+					{characterSTR}
+					{characterDEX}
+					{characterINT}
+					{characterLUK}
+				/>
 			</div>
 			<div class="diff-wrapper">
-				<DiffExtra pddDiff={0} bdrDiff={0} imdrDiff={0} />
+				<DiffExtra {pddDiff} {bdrDiff} {imdrDiff} />
 			</div>
 			<div class="job-wrapper">
 				<JobReq
 					gearType={gear.type}
 					reqJob={gear.req.job}
 					reqSpecJob={gear.req.specJob}
-					characterJob={0x1f}
+					{characterJob}
 				/>
 			</div>
 
