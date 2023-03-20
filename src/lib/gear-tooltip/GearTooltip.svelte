@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { GearPropType, PotentialGrade, type Gear } from '@malib/gear';
 	import { getGearNameColor } from './graphics';
+	import Anvil from './parts/Anvil.svelte';
 	import Attributes from './parts/Attributes.svelte';
 	import Desc from './parts/Desc.svelte';
 	import DiffExtra from './parts/DiffExtra.svelte';
@@ -70,7 +71,7 @@
 	export let iconSrc = 'https://maplestory.io/api/KMS/367/item/{}/icon';
 
 	$: gearName = `${gear.name} ${gear.upgradeCount > 0 ? `(+${gear.upgradeCount})` : ''}`;
-	$: icon = gear.anvil ?? gear.icon;
+	$: icon = gear.anvilIcon ?? gear.icon;
 	$: superior = gear.getBooleanValue(GearPropType.superiorEqp);
 	$: desc = getDescs(gear);
 
@@ -248,6 +249,12 @@
 					{#each desc as text}
 						<Desc {text} />
 					{/each}
+				</div>
+			{/if}
+
+			{#if gear.anvilIcon && gear.anvilName}
+				<div class="anvil part">
+					<Anvil name={gear.anvilName} />
 				</div>
 			{/if}
 		</div>
