@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { GearPropType, PotentialGrade, type Gear } from '@malib/gear';
 	import { getGearNameColor } from './graphics';
-	import Anvil from './parts/Anvil.svelte';
 	import Attributes from './parts/Attributes.svelte';
 	import Desc from './parts/Desc.svelte';
 	import DiffExtra from './parts/DiffExtra.svelte';
@@ -10,15 +9,11 @@
 	import Icon from './parts/Icon.svelte';
 	import Incline from './parts/Incline.svelte';
 	import JobReq from './parts/JobReq.svelte';
-	import Karma from './parts/Karma.svelte';
 	import Option from './parts/Option.svelte';
 	import Potential from './parts/Potential.svelte';
 	import Req from './parts/Req.svelte';
 	import Soul from './parts/Soul.svelte';
 	import Star from './parts/Star.svelte';
-	import Superior from './parts/Superior.svelte';
-	import Superior2 from './parts/Superior2.svelte';
-	import Title from './parts/Title.svelte';
 	import Tuc from './parts/Tuc.svelte';
 	import { getGearPropString } from './strings';
 
@@ -50,7 +45,7 @@
 	 * 캐릭터 직업. 기본값은 `31`입니다. 착용 가능 직업을 표시하는데 사용됩니다.
 	 * 초보자는 `0`, 전사는 `1`, 마법사는 `2`, 궁수는 `4`, 도적은 `8`, 해적은 `16`이고 해당하는 직업 분류의 합으료 나타냅니다.
 	 */
-	export let characterJob: number = 0x1F;
+	export let characterJob: number = 0x1f;
 	/**
 	 * 장비의 공격력 증가량입니다. 기본값은 `0`입니다.
 	 */
@@ -139,9 +134,9 @@
 
 			<div class="title-area">
 				{#if gear.soulWeapon.enchanted && gear.soulWeapon.soul}
-					<Title text={gear.soulWeapon.soul.name.replace(/소울$/, '')} color="green" />
+					<div class="title green">{gear.soulWeapon.soul.name.replace(/소울$/, '')}</div>
 				{/if}
-				<Title text={gearName} color={getGearNameColor(gear)} />
+				<div class="title {getGearNameColor(gear)}">{gearName}</div>
 			</div>
 
 			{#if gear.grade > PotentialGrade.normal}
@@ -191,7 +186,7 @@
 
 			<div class="item-detail">
 				{#if superior}
-					<Superior />
+					<div class="text green">슈페리얼</div>
 				{/if}
 				<GearType type={gear.type} attackSpeed={gear.getPropValue(GearPropType.attackSpeed)} />
 				{#each getSortedOptions(gear) as entry}
@@ -206,10 +201,10 @@
 					/>
 				{/if}
 				{#if gear.karma !== undefined}
-					<Karma count={gear.karma} />
+					<div class="text orange2">가위 사용 가능 횟수 : {gear.karma}회</div>
 				{/if}
 				{#if superior}
-					<Superior2 />
+					<div class="text green">{getGearPropString(GearPropType.superiorEqp, 1)}</div>
 				{/if}
 			</div>
 
@@ -254,7 +249,8 @@
 
 			{#if gear.anvilIcon && gear.anvilName}
 				<div class="anvil part">
-					<Anvil name={gear.anvilName} />
+					<div class="text">{' '}</div>
+					<div class="text green">신비의 모루에 의해 [{gear.anvilName}]의 외형이 합성됨</div>
 				</div>
 			{/if}
 		</div>
@@ -330,6 +326,49 @@
 	.part.desc {
 		padding-left: 10px;
 		padding-right: 17px;
+	}
+
+	.part.anvil {
+		margin-top: 0px;
+	}
+
+	.title {
+		line-height: 19px;
+		font-size: 14px;
+		font-family: 돋움;
+		font-weight: bold;
+		white-space: pre;
+	}
+	.text {
+		line-height: 15px;
+		font-size: 11px;
+		font-family: 돋움;
+		white-space: pre-wrap;
+	}
+
+	.gray {
+		color: var(--gear-gray);
+	}
+	.orange2 {
+		color: var(--gear-orange2);
+	}
+	.white {
+		color: var(--gear-white);
+	}
+	.blue {
+		color: var(--gear-blue);
+	}
+	.purple {
+		color: var(--gear-purple);
+	}
+	.orange2 {
+		color: var(--gear-orange2);
+	}
+	.green {
+		color: var(--gear-green);
+	}
+	.red {
+		color: var(--gear-red);
 	}
 
 	.frame-top {
