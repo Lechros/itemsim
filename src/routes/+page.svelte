@@ -1,69 +1,136 @@
 <script lang="ts">
-	import GearTooltip from '../lib/gear-tooltip/GearTooltip.svelte';
+	import GearTooltip from '$lib/gear-tooltip/GearTooltip.svelte';
+	import { createGearFromId, gearJson, ItemIndex } from '@malib/create-gear';
+	import type { Gear } from '@malib/gear';
+	import BonusStat from './BonusStat.svelte';
+	import Enhance from './Enhance.svelte';
+	import { gear, inventory, selected } from './gear-store';
+	import Potentials from './Potentials.svelte';
+	import Search from './Search.svelte';
+	import Upgrade from './Upgrade.svelte';
 
-	import {
-		createGearFromId,
-		createPotentialFromCode,
-		createSoulFromId,
-		gearJson,
-		MagnificentSoulOptionType
-	} from '@malib/create-gear';
-	import {
-		addBonusStat,
-		addStarforce,
-		applyGoldHammer,
-		applySpellTrace,
-		BonusStatType,
-		GearPropType,
-		Potential,
-		PotentialGrade
-	} from '@malib/gear';
+	function addItem(event: CustomEvent) {
+		const gear = createGearFromId(Number(event.detail));
+		if (!gear) return;
+		for (let i = 0; i < $inventory.length; i++) {
+			if ($inventory[i] === undefined) {
+				$inventory[i] = gear;
+				return;
+			}
+		}
+	}
 
-	const name = '아케인셰이드 클로';
-	const id = Number(Object.entries(gearJson).find((value) => value[1].name === name)?.[0]);
-	const gear = createGearFromId(id)!;
+	function deleteItem() {
+		$inventory[$selected] = undefined;
+		$selected = -1;
+	}
 
-	gear.props.set(GearPropType.tradeBlock, 1);
-	gear.props.delete(GearPropType.equipTradeBlock);
+	// mouse cursor tooltip
+	let cursorGear: Gear | undefined;
 
-	addBonusStat(gear, BonusStatType.STR, 5);
-	addBonusStat(gear, BonusStatType.INT, 5);
-	addBonusStat(gear, BonusStatType.PAD, 6);
-	addBonusStat(gear, BonusStatType.bdR, 6);
-	gear.karma = 10;
+	let m = { x: 0, y: 0 };
 
-	applyGoldHammer(gear);
-	for (let i = 0; i < 9; i++) applySpellTrace(gear, GearPropType.incSTR, 15);
-	for (let i = 0; i < 12; i++) addStarforce(gear);
+	$: if ($selected > -1) {
+		cursorGear = undefined;
+	}
 
-	const potLevel = Potential.getPotentialLevel(gear.req.level);
-	gear.grade = PotentialGrade.unique;
-	gear.potentials.push(createPotentialFromCode(30601, potLevel)!);
-	gear.potentials.push(createPotentialFromCode(30051, potLevel)!);
-	gear.potentials.push(createPotentialFromCode(30086, potLevel)!);
-
-	gear.additionalGrade = PotentialGrade.epic;
-	gear.additionalPotentials.push(createPotentialFromCode(22057, potLevel)!);
-	gear.additionalPotentials.push(createPotentialFromCode(22058, potLevel)!);
-	gear.additionalPotentials.push(createPotentialFromCode(12047, potLevel)!);
-
-	gear.soulWeapon.enchant();
-	gear.soulWeapon.setSoul(createSoulFromId(2591055)!);
-	gear.soulWeapon.setCharge(1000);
+	function handleMousemove(event: MouseEvent) {
+		m.x = event.clientX;
+		m.y = event.clientY;
+	}
 </script>
 
-<h1>Gear Tooltip</h1>
+<div class="container" on:mousemove={handleMousemove}>
+	{#if $selected > -1}
+		<div class="tooltip-area">
+			<GearTooltip gear={$gear} />
+		</div>
+		<div style="width: 261px" />
+		<div>
+			<h2>아이템 관리</h2>
+			<button on:click={() => ($selected = -1)}>돌아가기</button>
+			<button on:click={deleteItem}>삭제</button>
+			<h2>추가옵션</h2>
+			<BonusStat />
+			<h2>주문서</h2>
+			<Upgrade />
+			<h2>강화</h2>
+			<Enhance />
+			<h2>잠재옵션</h2>
+			<Potentials />
+			<div style="height: 90%" />
+		</div>
+	{:else}
+		<div>
+			<h2>아이템 생성</h2>
+			<Search
+				on:click={addItem}
+				onMouseEnter={(data) => (cursorGear = createGearFromId(Number(data[0])))}
+				onMouseLeave={(data) => (cursorGear = undefined)}
+			/>
+		</div>
+		<div>
+			<h2>인벤토리</h2>
+			<div class="inventory">
+				{#each $inventory as item, i}
+					<button
+						class="cell"
+						on:click={() => ($selected = i)}
+						on:mouseenter={() => (cursorGear = item)}
+						on:mouseleave={() => (cursorGear = undefined)}
+						disabled={!item}
+					>
+						{#if item}
+							<img
+								src="https://maplestory.io/api/KMS/367/item/{item.icon.id}/icon"
+								alt={item.name}
+								class="icon"
+								style="
+								margin-left: {-10 + (1 - item.icon.origin[0]) * 2}px;
+								margin-top: {-5 + (33 - item.icon.origin[1]) * 2}px;"
+							/>
+						{/if}
+					</button>
+				{/each}
+			</div>
+		</div>
+	{/if}
+	<div class="cursor-tooltip" style="top: {m.y}px; left: {m.x}px;">
+		{#if cursorGear}
+			<GearTooltip gear={cursorGear} />
+		{/if}
+	</div>
+</div>
 
-<GearTooltip
-	{gear}
-	characterLevel={250}
-	characterSTR={6000}
-	characterDEX={50000}
-	characterINT={2000}
-	characterLUK={1000}
-	characterJob={4}
-	incline={1234841}
-	pddDiff={0}
-	bdrDiff={0}
-	imdrDiff={0}
-/>
+<style>
+	.container {
+		position: relative;
+		display: flex;
+		gap: 1rem;
+	}
+
+	.inventory {
+		display: grid;
+		grid-template-columns: repeat(4, 66px);
+		gap: 18px;
+	}
+
+	.cell {
+		display: flex;
+		aspect-ratio: 1/1;
+	}
+
+	.icon {
+		image-rendering: pixelated;
+		scale: 2;
+		transform-origin: top left;
+	}
+
+	.tooltip-area {
+		position: fixed;
+	}
+
+	.cursor-tooltip {
+		position: absolute;
+	}
+</style>

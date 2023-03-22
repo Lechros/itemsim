@@ -11,6 +11,7 @@
 
 	// Remove ', ' after last attribute of line
 	afterUpdate(() => {
+		if(!attributes) return;
 		const children = attributes.children;
 		for (let i = 0; i < children.length - 1; i++) {
 			const thisAttr = children[i] as HTMLSpanElement;

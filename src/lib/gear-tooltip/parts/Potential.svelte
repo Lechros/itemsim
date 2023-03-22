@@ -30,13 +30,15 @@
 	{/if}
 </div>
 {#each potentials as potential}
-	<div class="text">
-		{#if additional}
-			+ {potential.convertSummary}
-		{:else}
-			{potential.convertSummary}
-		{/if}
-	</div>
+	{#if potential && potential.summary.length > 0}
+		<div class="text">
+			{#if additional}
+				+ {potential.convertSummary}
+			{:else}
+				{potential.convertSummary}
+			{/if}
+		</div>
+	{/if}
 {/each}
 
 <style>
