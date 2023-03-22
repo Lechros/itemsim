@@ -7,6 +7,10 @@
 	import { gear, inventory, selected } from './gear-store';
 	import Potentials from './Potentials.svelte';
 	import Search from './Search.svelte';
+	import Tab from './Tab.svelte';
+	import TabList from './TabList.svelte';
+	import TabPanel from './TabPanel.svelte';
+	import Tabs from './Tabs.svelte';
 	import Upgrade from './Upgrade.svelte';
 
 	function addItem(event: CustomEvent) {
@@ -46,20 +50,32 @@
 			<GearTooltip gear={$gear} />
 		</div>
 		<div style="width: 261px" />
-		<div>
-			<h2>아이템 관리</h2>
-			<button on:click={() => ($selected = -1)}>돌아가기</button>
-			<button on:click={deleteItem}>삭제</button>
-			<h2>추가옵션</h2>
-			<BonusStat />
-			<h2>주문서</h2>
-			<Upgrade />
-			<h2>강화</h2>
-			<Enhance />
-			<h2>잠재옵션</h2>
-			<Potentials />
-			<div style="height: 90%" />
-		</div>
+		<Tabs>
+			<TabList>
+				<Tab>아이템 관리</Tab>
+				<Tab>추가옵션</Tab>
+				<Tab>주문서</Tab>
+				<Tab>강화</Tab>
+				<Tab>잠재옵션</Tab>
+			</TabList>
+
+			<TabPanel>
+				<button on:click={() => ($selected = -1)}>돌아가기</button>
+				<button on:click={deleteItem}>삭제</button>
+			</TabPanel>
+			<TabPanel>
+				<BonusStat />
+			</TabPanel>
+			<TabPanel>
+				<Upgrade />
+			</TabPanel>
+			<TabPanel>
+				<Enhance />
+			</TabPanel>
+			<TabPanel>
+				<Potentials />
+			</TabPanel>
+		</Tabs>
 	{:else}
 		<div>
 			<h2>아이템 생성</h2>
