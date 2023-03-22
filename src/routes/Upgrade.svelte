@@ -18,8 +18,8 @@
 	import { gear } from './gear-store';
 	import { optionToStrings } from './strings';
 
-	function canUpgrade(gear: Gear) {
-		return gear.totalUpgradeCount > 0 && !gear.getBooleanValue(GearPropType.onlyUpgrade);
+	function canUpgrade() {
+		return $gear.totalUpgradeCount > 0 && !$gear.getBooleanValue(GearPropType.onlyUpgrade);
 	}
 
 	$: canHammer = !$gear.getBooleanValue(GearPropType.exceptUpgrade) && $gear.hammerCount === 0;
@@ -164,7 +164,7 @@
 	}
 </script>
 
-{#if canUpgrade($gear)}
+{#if $gear && canUpgrade()}
 	<div class="upgrade">
 		<div class="general">
 			<button on:click={() => hammer()} disabled={!canHammer}>

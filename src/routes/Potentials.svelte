@@ -139,7 +139,7 @@
 	}
 </script>
 
-{#if canPotential()}
+{#if $gear && canPotential()}
 	<div class="potentials">
 		<label>
 			잠재옵션 등급
@@ -171,11 +171,7 @@
 	<div class="additional potentials">
 		<label>
 			에디셔널 잠재옵션 등급
-			<select
-				class="grade"
-				bind:value={$gear.additionalGrade}
-				on:change={onAddGradeChange}
-			>
+			<select class="grade" bind:value={$gear.additionalGrade} on:change={onAddGradeChange}>
 				<option value={PotentialGrade.normal}>---</option>
 				<option value={PotentialGrade.rare}>레어</option>
 				<option value={PotentialGrade.epic}>에픽</option>

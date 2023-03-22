@@ -4,27 +4,52 @@
 	import type { Gear } from '@malib/gear';
 	import BonusStat from './BonusStat.svelte';
 	import Enhance from './Enhance.svelte';
-	import { gear } from './gear-store';
+	import { gear, inventory, selected } from './gear-store';
 	import Potentials from './Potentials.svelte';
+	import Search from './Search.svelte';
 	import Upgrade from './Upgrade.svelte';
 
-	let inventory: (Gear | undefined)[] = Array(32).fill(null);
+	function addItem(event: CustomEvent) {
+		const gear = createGearFromId(Number(event.detail));
+		if (!gear) return;
+		for (let i = 0; i < $inventory.length; i++) {
+			if ($inventory[i] === undefined) {
+				$inventory[i] = gear;
+				return;
+			}
+		}
+	}
 
-	let gearIndex = new ItemIndex(gearJson);
-	inventory[0] = createGearFromId(gearIndex.getId('아케인셰이드 아처케이프')!);
-	inventory[2] = createGearFromId(gearIndex.getId('도미네이터 펜던트')!);
-	inventory[3] = createGearFromId(gearIndex.getId('아케인셰이드 보우')!);
+	function deleteItem() {
+		$inventory[$selected] = undefined;
+		$selected = -1;
+	}
 
-	$gear = createGearFromId(gearIndex.getId('에테르넬 아처햇')!)!;
+	// mouse cursor tooltip
+	let cursorGear: Gear | undefined;
+
+	let m = { x: 0, y: 0 };
+
+	$: if ($selected > -1) {
+		cursorGear = undefined;
+	}
+
+	function handleMousemove(event: MouseEvent) {
+		m.x = event.clientX;
+		m.y = event.clientY;
+	}
 </script>
 
-{#if gear}
-	<div class="container">
+<div class="container" on:mousemove={handleMousemove}>
+	{#if $selected > -1}
 		<div class="tooltip-area">
 			<GearTooltip gear={$gear} />
 		</div>
-		<div style="width: 261px"> </div>
+		<div style="width: 261px" />
 		<div>
+			<h2>아이템 관리</h2>
+			<button on:click={() => ($selected = -1)}>돌아가기</button>
+			<button on:click={deleteItem}>삭제</button>
 			<h2>추가옵션</h2>
 			<BonusStat />
 			<h2>주문서</h2>
@@ -33,32 +58,53 @@
 			<Enhance />
 			<h2>잠재옵션</h2>
 			<Potentials />
-			<div style="height: 90%"> </div>
+			<div style="height: 90%" />
 		</div>
-	</div>
-{:else}
-	<div class="container">
+	{:else}
 		<div>
 			<h2>아이템 생성</h2>
-			<label>검색<input></label>
+			<Search
+				on:click={addItem}
+				onMouseEnter={(data) => (cursorGear = createGearFromId(Number(data[0])))}
+				onMouseLeave={(data) => (cursorGear = undefined)}
+			/>
 		</div>
 		<div>
 			<h2>인벤토리</h2>
 			<div class="inventory">
-				{#each inventory as item}
-					<div class="cell">
+				{#each $inventory as item, i}
+					<button
+						class="cell"
+						on:click={() => ($selected = i)}
+						on:mouseenter={() => (cursorGear = item)}
+						on:mouseleave={() => (cursorGear = undefined)}
+						disabled={!item}
+					>
 						{#if item}
-							{item.name}
+							<img
+								src="https://maplestory.io/api/KMS/367/item/{item.icon.id}/icon"
+								alt={item.name}
+								class="icon"
+								style="
+								margin-left: {-10 + (1 - item.icon.origin[0]) * 2}px;
+								margin-top: {-5 + (33 - item.icon.origin[1]) * 2}px;"
+							/>
 						{/if}
-					</div>
+					</button>
 				{/each}
 			</div>
 		</div>
+	{/if}
+	<div class="cursor-tooltip" style="top: {m.y}px; left: {m.x}px;">
+		{#if cursorGear}
+			<GearTooltip gear={cursorGear} />
+		{/if}
 	</div>
-{/if}
+</div>
 
 <style>
 	.container {
+		position: relative;
 		display: flex;
 		gap: 1rem;
 	}
@@ -70,11 +116,21 @@
 	}
 
 	.cell {
-		border: solid 1px black;
+		display: flex;
 		aspect-ratio: 1/1;
+	}
+
+	.icon {
+		image-rendering: pixelated;
+		scale: 2;
+		transform-origin: top left;
 	}
 
 	.tooltip-area {
 		position: fixed;
+	}
+
+	.cursor-tooltip {
+		position: absolute;
 	}
 </style>

@@ -52,7 +52,7 @@
 	}
 </script>
 
-{#if canEnhance($gear)}
+{#if $gear && canEnhance($gear)}
 	<div class="enhance">
 		<button on:click={starforce} disabled={!canStar}>
 			<div class="starforce icon" />

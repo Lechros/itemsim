@@ -45,24 +45,24 @@
 		gear.set($gear);
 	}
 
-	function canBonus(gear: Gear) {
-		if (Gear.isArmor(gear.type)) {
-			if (Gear.isShield(gear.type)) {
+	function canBonus() {
+		if (Gear.isArmor($gear.type)) {
+			if (Gear.isShield($gear.type)) {
 				return false;
 			}
 			return true;
 		}
-		if (Gear.isAccessory(gear.type)) {
-			if (gear.type === GearType.ring) {
+		if (Gear.isAccessory($gear.type)) {
+			if ($gear.type === GearType.ring) {
 				return false;
 			}
-			if (gear.type === GearType.shoulder) {
-				if (gear.itemID === 1152155) return true;
+			if ($gear.type === GearType.shoulder) {
+				if ($gear.itemID === 1152155) return true;
 				return false;
 			}
 			return true;
 		}
-		if (Gear.isWeapon(gear.type)) {
+		if (Gear.isWeapon($gear.type)) {
 			return true;
 		}
 		return false;
@@ -127,7 +127,7 @@
 	}
 </script>
 
-{#if canBonus($gear)}
+{#if $gear && canBonus()}
 	<button class="reset" on:click={reset}>초기화</button>
 	<div class="bonus">
 		{#each selected as bonus}
