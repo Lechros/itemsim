@@ -46,36 +46,35 @@
 
 <div class="container" on:mousemove={handleMousemove}>
 	{#if $selected > -1}
-		<div class="tooltip-area">
-			<GearTooltip gear={$gear} />
-		</div>
-		<div style="width: 261px" />
-		<Tabs>
-			<TabList>
-				<Tab>아이템 관리</Tab>
-				<Tab>추가옵션</Tab>
-				<Tab>주문서</Tab>
-				<Tab>강화</Tab>
-				<Tab>잠재옵션</Tab>
-			</TabList>
+		<GearTooltip gear={$gear} />
+		<div class="ui">
+			<Tabs>
+				<TabList>
+					<Tab>아이템 관리</Tab>
+					<Tab>추가옵션</Tab>
+					<Tab>주문서</Tab>
+					<Tab>강화</Tab>
+					<Tab>잠재옵션</Tab>
+				</TabList>
 
-			<TabPanel>
-				<button on:click={() => ($selected = -1)}>돌아가기</button>
-				<button on:click={deleteItem}>삭제</button>
-			</TabPanel>
-			<TabPanel>
-				<BonusStat />
-			</TabPanel>
-			<TabPanel>
-				<Upgrade />
-			</TabPanel>
-			<TabPanel>
-				<Enhance />
-			</TabPanel>
-			<TabPanel>
-				<Potentials />
-			</TabPanel>
-		</Tabs>
+				<TabPanel>
+					<button on:click={() => ($selected = -1)}>돌아가기</button>
+					<button on:click={deleteItem}>삭제</button>
+				</TabPanel>
+				<TabPanel>
+					<BonusStat />
+				</TabPanel>
+				<TabPanel>
+					<Upgrade />
+				</TabPanel>
+				<TabPanel>
+					<Enhance />
+				</TabPanel>
+				<TabPanel>
+					<Potentials />
+				</TabPanel>
+			</Tabs>
+		</div>
 	{:else}
 		<div>
 			<h2>아이템 생성</h2>
@@ -123,6 +122,11 @@
 		position: relative;
 		display: flex;
 		gap: 1rem;
+		justify-content: center;
+	}
+
+	.ui {
+		width: 30rem;
 	}
 
 	.inventory {
@@ -140,10 +144,6 @@
 		image-rendering: pixelated;
 		scale: 2;
 		transform-origin: top left;
-	}
-
-	.tooltip-area {
-		position: fixed;
 	}
 
 	.cursor-tooltip {
