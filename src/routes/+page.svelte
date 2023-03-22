@@ -1,69 +1,79 @@
 <script lang="ts">
-	import GearTooltip from '../lib/gear-tooltip/GearTooltip.svelte';
+	import GearTooltip from '$lib/gear-tooltip/GearTooltip.svelte';
+	import { createGearFromId, gearJson, ItemIndex } from '@malib/create-gear';
+	import type { Gear } from '@malib/gear';
+	import BonusStat from './BonusStat.svelte';
+	import Enhance from './Enhance.svelte';
+	import Potentials from './Potentials.svelte';
+	import Upgrade from './Upgrade.svelte';
 
-	import {
-		createGearFromId,
-		createPotentialFromCode,
-		createSoulFromId,
-		gearJson,
-		MagnificentSoulOptionType
-	} from '@malib/create-gear';
-	import {
-		addBonusStat,
-		addStarforce,
-		applyGoldHammer,
-		applySpellTrace,
-		BonusStatType,
-		GearPropType,
-		Potential,
-		PotentialGrade
-	} from '@malib/gear';
+	let inventory: (Gear | undefined)[] = Array(32).fill(null);
 
-	const name = '아케인셰이드 클로';
-	const id = Number(Object.entries(gearJson).find((value) => value[1].name === name)?.[0]);
-	const gear = createGearFromId(id)!;
+	let gearIndex = new ItemIndex(gearJson);
+	inventory[0] = createGearFromId(gearIndex.getId('아케인셰이드 아처케이프')!);
+	inventory[2] = createGearFromId(gearIndex.getId('도미네이터 펜던트')!);
+	inventory[3] = createGearFromId(gearIndex.getId('아케인셰이드 보우')!);
 
-	gear.props.set(GearPropType.tradeBlock, 1);
-	gear.props.delete(GearPropType.equipTradeBlock);
-
-	addBonusStat(gear, BonusStatType.STR, 5);
-	addBonusStat(gear, BonusStatType.INT, 5);
-	addBonusStat(gear, BonusStatType.PAD, 6);
-	addBonusStat(gear, BonusStatType.bdR, 6);
-	gear.karma = 10;
-
-	applyGoldHammer(gear);
-	for (let i = 0; i < 9; i++) applySpellTrace(gear, GearPropType.incSTR, 15);
-	for (let i = 0; i < 12; i++) addStarforce(gear);
-
-	const potLevel = Potential.getPotentialLevel(gear.req.level);
-	gear.grade = PotentialGrade.unique;
-	gear.potentials.push(createPotentialFromCode(30601, potLevel)!);
-	gear.potentials.push(createPotentialFromCode(30051, potLevel)!);
-	gear.potentials.push(createPotentialFromCode(30086, potLevel)!);
-
-	gear.additionalGrade = PotentialGrade.epic;
-	gear.additionalPotentials.push(createPotentialFromCode(22057, potLevel)!);
-	gear.additionalPotentials.push(createPotentialFromCode(22058, potLevel)!);
-	gear.additionalPotentials.push(createPotentialFromCode(12047, potLevel)!);
-
-	gear.soulWeapon.enchant();
-	gear.soulWeapon.setSoul(createSoulFromId(2591055)!);
-	gear.soulWeapon.setCharge(1000);
+	let gear = createGearFromId(gearIndex.getId('에테르넬 아처햇')!)!;
 </script>
 
-<h1>Gear Tooltip</h1>
+{#if gear}
+	<div class="container">
+		<div class="tooltip-area">
+			<GearTooltip {gear} />
+		</div>
+		<div style="width: 261px"> </div>
+		<div>
+			<h2>추가옵션</h2>
+			<BonusStat {gear} on:change={() => (gear = gear)} />
+			<h2>주문서</h2>
+			<Upgrade {gear} on:change={() => (gear = gear)} />
+			<h2>강화</h2>
+			<Enhance {gear} on:change={() => (gear = gear)} />
+			<h2>잠재옵션</h2>
+			<Potentials {gear} on:change={() => (gear = gear)} />
+			<div style="height: 90%"> </div>
+		</div>
+	</div>
+{:else}
+	<div class="container">
+		<div>
+			<h2>아이템 생성</h2>
+			<label>검색<input></label>
+		</div>
+		<div>
+			<h2>인벤토리</h2>
+			<div class="inventory">
+				{#each inventory as item}
+					<div class="cell">
+						{#if item}
+							{item.name}
+						{/if}
+					</div>
+				{/each}
+			</div>
+		</div>
+	</div>
+{/if}
 
-<GearTooltip
-	{gear}
-	characterLevel={250}
-	characterSTR={6000}
-	characterDEX={50000}
-	characterINT={2000}
-	characterLUK={1000}
-	characterJob={4}
-	incline={1234841}
-	pddDiff={0}
-	bdrDiff={0}
-	imdrDiff={0}
-/>
+<style>
+	.container {
+		display: flex;
+		gap: 1rem;
+	}
+
+	.inventory {
+		display: grid;
+		grid-template-columns: repeat(4, 66px);
+		gap: 18px;
+	}
+
+	.cell {
+		border: solid 1px black;
+		aspect-ratio: 1/1;
+	}
+
+	.tooltip-area {
+		position: fixed;
+	}
+</style>
