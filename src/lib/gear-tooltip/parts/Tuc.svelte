@@ -2,7 +2,6 @@
 	export let canUpgrade: boolean;
 	export let upgradeCountLeft: number;
 	export let upgradeFailCount: number;
-	export let hammerCount: number;
 </script>
 
 {#if canUpgrade}
@@ -10,9 +9,6 @@
 		업그레이드 가능 횟수 : {upgradeCountLeft}
 		<span class="orange2">(복구 가능 횟수 : {upgradeFailCount})</span>
 	</div>
-	{#if hammerCount > 0}
-		<div class="text">황금망치 제련 적용</div>
-	{/if}
 {:else}
 	<div class="text">강화불가</div>
 {/if}

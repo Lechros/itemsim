@@ -197,11 +197,19 @@
 						canUpgrade={!gear.getBooleanValue(GearPropType.exceptUpgrade)}
 						upgradeCountLeft={gear.upgradeCountLeft}
 						upgradeFailCount={gear.upgradeFailCount}
-						hammerCount={gear.hammerCount}
 					/>
 				{/if}
 				{#if gear.karma !== undefined}
 					<div class="text orange2">가위 사용 가능 횟수 : {gear.karma}회</div>
+				{/if}
+				{#if !gear.canPotential}
+					<div class="text white">잠재능력 설정 불가</div>
+				{/if}
+				{#if gear.getBooleanValue(GearPropType.fixedPotential)}
+					<div class="text white">에디셔널 잠재능력 설정 불가</div>
+				{/if}
+				{#if gear.hammerCount > 0}
+					<div class="text white">황금망치 제련 적용</div>
 				{/if}
 				{#if superior}
 					<div class="text green">{getGearPropString(GearPropType.superiorEqp, 1)}</div>
