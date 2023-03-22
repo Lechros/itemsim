@@ -4,6 +4,7 @@
 	import type { Gear } from '@malib/gear';
 	import BonusStat from './BonusStat.svelte';
 	import Enhance from './Enhance.svelte';
+	import { gear } from './gear-store';
 	import Potentials from './Potentials.svelte';
 	import Upgrade from './Upgrade.svelte';
 
@@ -14,24 +15,24 @@
 	inventory[2] = createGearFromId(gearIndex.getId('도미네이터 펜던트')!);
 	inventory[3] = createGearFromId(gearIndex.getId('아케인셰이드 보우')!);
 
-	let gear = createGearFromId(gearIndex.getId('에테르넬 아처햇')!)!;
+	$gear = createGearFromId(gearIndex.getId('에테르넬 아처햇')!)!;
 </script>
 
 {#if gear}
 	<div class="container">
 		<div class="tooltip-area">
-			<GearTooltip {gear} />
+			<GearTooltip gear={$gear} />
 		</div>
 		<div style="width: 261px"> </div>
 		<div>
 			<h2>추가옵션</h2>
-			<BonusStat {gear} on:change={() => (gear = gear)} />
+			<BonusStat />
 			<h2>주문서</h2>
-			<Upgrade {gear} on:change={() => (gear = gear)} />
+			<Upgrade />
 			<h2>강화</h2>
-			<Enhance {gear} on:change={() => (gear = gear)} />
+			<Enhance />
 			<h2>잠재옵션</h2>
-			<Potentials {gear} on:change={() => (gear = gear)} />
+			<Potentials />
 			<div style="height: 90%"> </div>
 		</div>
 	</div>

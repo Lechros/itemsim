@@ -1,43 +1,42 @@
 <script lang="ts">
 	import { createPotentialFromCode } from '@malib/create-gear';
 	import { Gear, GearPropType, Potential, PotentialGrade } from '@malib/gear';
-	import { createEventDispatcher } from 'svelte';
+	import { gear } from './gear-store';
 
-	export let gear: Gear;
+	$: potentialLevel = Potential.getPotentialLevel($gear.req.level);
 
-	$: potentialLevel = Potential.getPotentialLevel(gear.req.level);
-
-	$: pots = buildGradeNames(gear, getPotCodes);
-	$: addPots = buildGradeNames(gear, getAddPotCodes);
+	$: pots = buildGradeNames($gear, getPotCodes);
+	$: addPots = buildGradeNames($gear, getAddPotCodes);
 
 	let codes = [0, 0, 0];
 	let addCodes = [0, 0, 0];
 
-	const dispatch = createEventDispatcher();
-
-	function canPotential(gear: Gear) {
-		return gear.canPotential && !gear.getBooleanValue(GearPropType.fixedPotential);
+	function canPotential() {
+		return $gear.canPotential && !$gear.getBooleanValue(GearPropType.fixedPotential);
 	}
 
-	function onGradeChange(gear: Gear) {
-		if (gear.grade > PotentialGrade.normal) {
-			gear.potentials = [];
+	function onGradeChange() {
+		if ($gear.grade > PotentialGrade.normal) {
+			$gear.potentials = [];
 		}
+		gear.set($gear);
 		codes = [0, 0, 0];
-		dispatch('change');
 	}
 
-	function onAddGradeChange(gear: Gear) {
-		if (gear.additionalGrade > PotentialGrade.normal) {
-			gear.additionalPotentials = [];
+	function onAddGradeChange() {
+		if ($gear.additionalGrade > PotentialGrade.normal) {
+			$gear.additionalPotentials = [];
 		}
+		gear.set($gear);
 		addCodes = [0, 0, 0];
-		dispatch('change');
 	}
 
-	function onOptionChange(pots: Potential[], index: number) {
-		gear.potentials[index] = createPotentialFromCode(codes[index], potentialLevel)!;
-		dispatch('change');
+	function onOptionChange(index: number) {
+		$gear.potentials[index] = createPotentialFromCode(codes[index], potentialLevel)!;
+	}
+
+	function onAddOptionChange(index: number) {
+		$gear.additionalPotentials[index] = createPotentialFromCode(addCodes[index], potentialLevel)!;
 	}
 
 	function getGradePots(data: typeof pots, grade: PotentialGrade, first: boolean = false) {
@@ -140,11 +139,11 @@
 	}
 </script>
 
-{#if canPotential(gear)}
+{#if canPotential()}
 	<div class="potentials">
 		<label>
 			잠재옵션 등급
-			<select class="grade" bind:value={gear.grade} on:change={() => onGradeChange(gear)}>
+			<select class="grade" bind:value={$gear.grade} on:change={onGradeChange}>
 				<option value={PotentialGrade.normal}>---</option>
 				<option value={PotentialGrade.rare}>레어</option>
 				<option value={PotentialGrade.epic}>에픽</option>
@@ -158,11 +157,11 @@
 				<select
 					class="option"
 					bind:value={codes[i]}
-					on:change={() => onOptionChange(gear.potentials, i)}
-					disabled={gear.grade === 0}
+					on:change={() => onOptionChange(i)}
+					disabled={$gear.grade === 0}
 				>
 					<option value={0}>---</option>
-					{#each getGradePots(pots, gear.grade, i === 0) as pot}
+					{#each getGradePots(pots, $gear.grade, i === 0) as pot}
 						<option value={pot.code}>{pot.convertSummary}</option>
 					{/each}
 				</select>
@@ -174,8 +173,8 @@
 			에디셔널 잠재옵션 등급
 			<select
 				class="grade"
-				bind:value={gear.additionalGrade}
-				on:change={() => onAddGradeChange(gear)}
+				bind:value={$gear.additionalGrade}
+				on:change={onAddGradeChange}
 			>
 				<option value={PotentialGrade.normal}>---</option>
 				<option value={PotentialGrade.rare}>레어</option>
@@ -190,11 +189,11 @@
 				<select
 					class="option"
 					bind:value={addCodes[i]}
-					on:change={() => onOptionChange(gear.additionalPotentials, i)}
-					disabled={gear.additionalGrade === 0}
+					on:change={() => onAddOptionChange(i)}
+					disabled={$gear.additionalGrade === 0}
 				>
 					<option value={0}>---</option>
-					{#each getGradePots(addPots, gear.additionalGrade, i === 0) as pot}
+					{#each getGradePots(addPots, $gear.additionalGrade, i === 0) as pot}
 						<option value={pot.code}>{pot.convertSummary}</option>
 					{/each}
 				</select>

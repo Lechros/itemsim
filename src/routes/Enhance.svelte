@@ -1,54 +1,58 @@
 <script lang="ts">
-	import { addAmazingEnhancement, addStarforce, GearPropType, resetEnhancement, type Gear } from '@malib/gear';
-	import { createEventDispatcher } from 'svelte';
+	import {
+		addAmazingEnhancement,
+		addStarforce,
+		GearPropType,
+		resetEnhancement,
+		type Gear
+	} from '@malib/gear';
+	import { gear } from './gear-store';
 
-	const dispatch = createEventDispatcher();
-
-	export let gear: Gear;
-
-	$: canStar = gear.maxStar > gear.star;
-	$: canStar17 = gear.star < 17 && gear.maxStar >= 17;
-	$: canStar22 = gear.star < 22 && gear.maxStar >= 22;
-    $: canAmazing = gear.req.level <= 150 && !gear.getBooleanValue(GearPropType.superiorEqp) && canStar;
-    $: canReset = gear.star > 0;
+	$: canStar = $gear.maxStar > $gear.star;
+	$: canStar17 = $gear.star < 17 && $gear.maxStar >= 17;
+	$: canStar22 = $gear.star < 22 && $gear.maxStar >= 22;
+	$: canAmazing =
+		$gear.req.level <= 150 && !$gear.getBooleanValue(GearPropType.superiorEqp) && canStar;
+	$: canReset = $gear.star > 0;
 
 	function starforce() {
-		addStarforce(gear);
-		dispatch('change');
+		addStarforce($gear);
+
+		gear.set($gear);
 	}
 
 	function starforce17() {
-		const count = 17 - gear.star;
+		const count = 17 - $gear.star;
 		for (let i = 0; i < count; i++) {
-			addStarforce(gear);
+			addStarforce($gear);
 		}
-		dispatch('change');
+		gear.set($gear);
 	}
 
 	function starforce22() {
-		const count = 22 - gear.star;
+		const count = 22 - $gear.star;
 		for (let i = 0; i < count; i++) {
-			addStarforce(gear);
+			addStarforce($gear);
 		}
-		dispatch('change');
+		gear.set($gear);
 	}
 
 	function amazing() {
-		addAmazingEnhancement(gear);
-		dispatch('change');
+		addAmazingEnhancement($gear);
+		gear.set($gear);
 	}
 
-    function reset() {
-        resetEnhancement(gear);
-        dispatch('change');
-    }
+	function reset() {
+		resetEnhancement($gear);
+		gear.set($gear);
+	}
 
 	function canEnhance(gear: Gear) {
 		return gear.maxStar > 0;
 	}
 </script>
 
-{#if canEnhance(gear)}
+{#if canEnhance($gear)}
 	<div class="enhance">
 		<button on:click={starforce} disabled={!canStar}>
 			<div class="starforce icon" />

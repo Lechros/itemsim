@@ -15,26 +15,23 @@
 		type SpellTraceProbability,
 		type SpellTraceStatType
 	} from '@malib/gear';
-	import { createEventDispatcher } from 'svelte';
+	import { gear } from './gear-store';
 	import { optionToStrings } from './strings';
-
-	export let gear: Gear;
-
-	const dispatch = createEventDispatcher();
 
 	function canUpgrade(gear: Gear) {
 		return gear.totalUpgradeCount > 0 && !gear.getBooleanValue(GearPropType.onlyUpgrade);
 	}
 
-	$: canHammer = !gear.getBooleanValue(GearPropType.exceptUpgrade) && gear.hammerCount === 0;
-	$: canFail = !gear.getBooleanValue(GearPropType.exceptUpgrade) && gear.upgradeCountLeft > 0;
-	$: canRestore = gear.upgradeFailCount > 0;
+	$: canHammer = !$gear.getBooleanValue(GearPropType.exceptUpgrade) && $gear.hammerCount === 0;
+	$: canFail = !$gear.getBooleanValue(GearPropType.exceptUpgrade) && $gear.upgradeCountLeft > 0;
+	$: canRestore = $gear.upgradeFailCount > 0;
 	$: canInnocent =
-		gear.hammerCount > 0 || gear.upgradeCount > 0 || gear.upgradeFailCount > 0 || gear.star > 0;
+		$gear.hammerCount > 0 || $gear.upgradeCount > 0 || $gear.upgradeFailCount > 0 || $gear.star > 0;
 	$: canArkInnocent =
-		!gear.amazing && (gear.hammerCount > 0 || gear.upgradeCount > 0 || gear.upgradeFailCount > 0);
+		!$gear.amazing &&
+		($gear.hammerCount > 0 || $gear.upgradeCount > 0 || $gear.upgradeFailCount > 0);
 
-	$: canScroll = gear.upgradeCountLeft > 0;
+	$: canScroll = $gear.upgradeCountLeft > 0;
 
 	const chaosTypes = [
 		['STR', GearPropType.incSTR],
@@ -52,55 +49,54 @@
 
 	const chaosStats = chaosTypes.map((e) => ({ type: e[1], name: e[0], value: 0 }));
 
-	function hammer(gear: Gear) {
-		applyGoldHammer(gear);
-		dispatch('change');
+	function hammer() {
+		applyGoldHammer($gear);
+		gear.set($gear);
 	}
 
-	function fail(gear: Gear) {
-		addUpgradeFailCount(gear);
-		dispatch('change');
+	function fail() {
+		addUpgradeFailCount($gear);
+		gear.set($gear);
 	}
 
-	function restore(gear: Gear) {
-		restoreUpgradeCount(gear);
-		dispatch('change');
+	function restore() {
+		restoreUpgradeCount($gear);
+		gear.set($gear);
 	}
 
-	function innocent(gear: Gear) {
-		resetUpgrade(gear);
-		resetEnhancement(gear);
-		dispatch('change');
+	function innocent() {
+		resetUpgrade($gear);
+		resetEnhancement($gear);
+		gear.set($gear);
 	}
 
-	function arkInnocent(gear: Gear) {
-		resetUpgrade(gear);
-        recalculateStarforce(gear);
-		dispatch('change');
+	function arkInnocent() {
+		resetUpgrade($gear);
+		recalculateStarforce($gear);
+		gear.set($gear);
 	}
 
-	function scrollSingle(gear: Gear, scroll: Scroll) {
-		applyScroll(gear, scroll);
-        recalculateStarforce(gear);
-		dispatch('change');
+	function scrollSingle(scroll: Scroll) {
+		applyScroll($gear, scroll);
+		recalculateStarforce($gear);
+		gear.set($gear);
 	}
 
-	function scrollFull(gear: Gear, scroll: Scroll) {
-		const count = gear.upgradeCountLeft;
+	function scrollFull(scroll: Scroll) {
+		const count = $gear.upgradeCountLeft;
 		for (let i = 0; i < count; i++) {
-			applyScroll(gear, scroll);
+			applyScroll($gear, scroll);
 		}
-        recalculateStarforce(gear);
-		dispatch('change');
+		recalculateStarforce($gear);
 	}
 
-	function spellTraceFull(gear: Gear, type: SpellTraceStatType, prob: SpellTraceProbability) {
-		const count = gear.upgradeCountLeft;
+	function spellTraceFull(type: SpellTraceStatType, prob: SpellTraceProbability) {
+		const count = $gear.upgradeCountLeft;
 		for (let i = 0; i < count; i++) {
-			applySpellTrace(gear, type, prob);
+			applySpellTrace($gear, type, prob);
 		}
-        recalculateStarforce(gear);
-		dispatch('change');
+		recalculateStarforce($gear);
+		gear.set($gear);
 	}
 
 	function createChaosScroll(chaos: typeof chaosStats) {
@@ -168,26 +164,26 @@
 	}
 </script>
 
-{#if canUpgrade(gear)}
+{#if canUpgrade($gear)}
 	<div class="upgrade">
 		<div class="general">
-			<button on:click={() => hammer(gear)} disabled={!canHammer}>
+			<button on:click={() => hammer()} disabled={!canHammer}>
 				<div class="hammer icon" />
 				황금 망치
 			</button>
-			<button on:click={() => fail(gear)} disabled={!canFail}>
+			<button on:click={() => fail()} disabled={!canFail}>
 				<div class="fail icon" />
 				주문서 실패
 			</button>
-			<button on:click={() => restore(gear)} disabled={!canRestore}>
+			<button on:click={() => restore()} disabled={!canRestore}>
 				<div class="restore icon" />
 				순백의 주문서
 			</button>
-			<button on:click={() => innocent(gear)} disabled={!canInnocent}>
+			<button on:click={() => innocent()} disabled={!canInnocent}>
 				<div class="reset icon" />
 				이노센트
 			</button>
-			<button on:click={() => arkInnocent(gear)} disabled={!canArkInnocent}>
+			<button on:click={() => arkInnocent()} disabled={!canArkInnocent}>
 				<div class="reset icon" />
 				아크 이노센트
 			</button>
@@ -197,11 +193,11 @@
 			<h4>주문의 흔적</h4>
 		</div>
 		<div class="st">
-			{#each getSpellTraceInfos(gear, getTypes(gear)) as info}
+			{#each getSpellTraceInfos($gear, getTypes($gear)) as info}
 				<div class="st-wrapper">
 					<button
 						title={optionToStrings(info.scroll.stat).join('\n')}
-						on:click={() => scrollSingle(gear, info.scroll)}
+						on:click={() => scrollSingle(info.scroll)}
 						disabled={!canScroll}
 					>
 						<div class="spelltrace-{info.prob} icon" />
@@ -209,10 +205,10 @@
 					</button>
 					<button
 						title="완작"
-						on:click={() => spellTraceFull(gear, info.type, info.prob)}
+						on:click={() => spellTraceFull(info.type, info.prob)}
 						disabled={!canScroll}
 					>
-						+{gear.upgradeCountLeft}
+						+{$gear.upgradeCountLeft}
 					</button>
 				</div>
 			{/each}
@@ -231,7 +227,7 @@
 				</div>
 			{/each}
 		</div>
-		<button class="apply-chaos" on:click={() => scrollSingle(gear, createChaosScroll(chaosStats))}>
+		<button class="apply-chaos" on:click={() => scrollSingle(createChaosScroll(chaosStats))}>
 			혼돈의 주문서 적용
 		</button>
 	</div>
@@ -279,7 +275,7 @@
 		align-items: center;
 		column-gap: 0.5em;
 		width: 15rem;
-        height: 2rem;
+		height: 2rem;
 	}
 
 	.st button:nth-of-type(2) {

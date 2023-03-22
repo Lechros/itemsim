@@ -9,13 +9,11 @@
 		resetBonusStat,
 		type BonusStatGrade
 	} from '@malib/gear';
-	import { createEventDispatcher } from 'svelte';
+	import { gear } from './gear-store';
 	import { getName } from './strings';
 
-	export let gear: Gear;
-
-	$: bossReward = gear.getBooleanValue(GearPropType.bossReward);
-	$: types = getTypes(gear);
+	$: bossReward = $gear.getBooleanValue(GearPropType.bossReward);
+	$: types = getTypes($gear);
 
 	type Bonus = { type: -1 | BonusStatType; grade: 0 | BonusStatGrade };
 
@@ -26,16 +24,14 @@
 		{ type: -1, grade: 0 }
 	];
 
-	const dispatch = createEventDispatcher();
-
 	function onChange() {
-		resetBonusStat(gear);
+		resetBonusStat($gear);
 		for (const bonus of selected) {
 			if (bonus.grade > 0) {
-				addBonusStat(gear, bonus.type, bonus.grade as BonusStatGrade);
+				addBonusStat($gear, bonus.type, bonus.grade as BonusStatGrade);
 			}
 		}
-		dispatch('change');
+		gear.set($gear);
 	}
 
 	function reset() {
@@ -45,8 +41,8 @@
 			{ type: -1, grade: 0 },
 			{ type: -1, grade: 0 }
 		];
-		resetBonusStat(gear);
-		dispatch('change');
+		resetBonusStat($gear);
+		gear.set($gear);
 	}
 
 	function canBonus(gear: Gear) {
@@ -127,11 +123,11 @@
 				percent = '%';
 				break;
 		}
-		return `${plus}${getBonusStatValue(gear, type, grade)}${percent} (${grade}등급)`;
+		return `${plus}${getBonusStatValue($gear, type, grade)}${percent} (${grade}등급)`;
 	}
 </script>
 
-{#if canBonus(gear)}
+{#if canBonus($gear)}
 	<button class="reset" on:click={reset}>초기화</button>
 	<div class="bonus">
 		{#each selected as bonus}
@@ -177,7 +173,7 @@
 
 	.reset {
 		margin-bottom: 1rem;
-        padding: 0.5rem;
-        min-width: 5rem;
+		padding: 0.5rem;
+		min-width: 5rem;
 	}
 </style>
