@@ -1,9 +1,9 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@malib/create-gear': ^0.4.2
-  '@malib/gear': ^0.6.0
-  '@malib/serialize-gear': ^0.1.1
+  '@malib/create-gear': ^0.4.3
+  '@malib/gear': ^0.7.0
+  '@malib/serialize-gear': ^0.2.1
   '@playwright/test': ^1.31.2
   '@sveltejs/adapter-auto': ^2.0.0
   '@sveltejs/adapter-cloudflare': ^2.2.0
@@ -23,9 +23,9 @@ specifiers:
   vitest: ^0.29.7
 
 dependencies:
-  '@malib/create-gear': 0.4.2
-  '@malib/gear': 0.6.0
-  '@malib/serialize-gear': 0.1.1
+  '@malib/create-gear': 0.4.3
+  '@malib/gear': 0.7.0
+  '@malib/serialize-gear': 0.2.1
 
 devDependencies:
   '@playwright/test': 1.31.2
@@ -521,20 +521,20 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@malib/create-gear/0.4.2:
-    resolution: {integrity: sha512-hGeYF0rfIChBUOWvI40RBX3fCYpCSb0K2KZKIKS1KvtxIYC16AVY8Qux7SH/ZQtDVh0O5++JIuO9Zu1aKlt/Sg==}
+  /@malib/create-gear/0.4.3:
+    resolution: {integrity: sha512-PTfhWsqdaVaA8H2ELh9g7bZaGBOC173YUGappp1GKAVkrOUlmIrk5eIQn+RLm+MDsq2t5vISiAcCkSlLisCH4w==}
     dependencies:
-      '@malib/gear': 0.6.0
+      '@malib/gear': 0.7.0
     dev: false
 
-  /@malib/gear/0.6.0:
-    resolution: {integrity: sha512-gJMKKno2HtCytHi5TpocU1230lKseaUvMYR45zqmepL49TR7qTe9Im7Qb04+feTC4P8VNhk9yhWxwk3UohVRkw==}
+  /@malib/gear/0.7.0:
+    resolution: {integrity: sha512-IG8Y3uQ6SN9tFb/pEZTSc0RAvUXtNfb3PGZ6OYQSElxnzNvodxEVooDQ29zQiUD4kHR2k7I1MQ1KTcDFoJdNsg==}
     dev: false
 
-  /@malib/serialize-gear/0.1.1:
-    resolution: {integrity: sha512-fk5ZQVO1qPJOIdB5iD/UBHBMKuOx4rFBln+yMjPtLT1Q+aj0+HNmcw5aevFEnp8luF2D4LCefFJPhrDDz+lVNw==}
+  /@malib/serialize-gear/0.2.1:
+    resolution: {integrity: sha512-vJWZ+bHt/yW/DvHWjFCVr2x3Vr+r25t0rnHqATatfucv4C04vRRKANbWXYFwY1gR8NuyVpK1z6EZ+z7Xn8y/ZA==}
     dependencies:
-      '@malib/gear': 0.6.0
+      '@malib/gear': 0.7.0
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:

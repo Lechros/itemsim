@@ -9,7 +9,7 @@
 		resetBonusStat,
 		type BonusStatGrade
 	} from '@malib/gear';
-	import { gear } from './gear-store';
+	import { gear, meta } from './gear-store';
 	import { getName } from './strings';
 
 	$: bossReward = $gear.getBooleanValue(GearPropType.bossReward);
@@ -17,16 +17,9 @@
 
 	type Bonus = { type: -1 | BonusStatType; grade: 0 | BonusStatGrade };
 
-	let selected: Bonus[] = [
-		{ type: -1, grade: 0 },
-		{ type: -1, grade: 0 },
-		{ type: -1, grade: 0 },
-		{ type: -1, grade: 0 }
-	];
-
 	function onChange() {
 		resetBonusStat($gear);
-		for (const bonus of selected) {
+		for (const bonus of $meta.bonus) {
 			if (bonus.grade > 0) {
 				addBonusStat($gear, bonus.type, bonus.grade as BonusStatGrade);
 			}
@@ -35,7 +28,7 @@
 	}
 
 	function reset() {
-		selected = [
+		$meta.bonus = [
 			{ type: -1, grade: 0 },
 			{ type: -1, grade: 0 },
 			{ type: -1, grade: 0 },
@@ -130,7 +123,7 @@
 {#if $gear && canBonus()}
 	<button class="reset" on:click={reset}>초기화</button>
 	<div class="bonus">
-		{#each selected as bonus}
+		{#each $meta.bonus as bonus}
 			<select
 				bind:value={bonus.type}
 				on:change={() => {
