@@ -8,8 +8,18 @@
 	$: pots = buildGradeNames($gear, getPotCodes);
 	$: addPots = buildGradeNames($gear, getAddPotCodes);
 
-	let codes = [0, 0, 0];
-	let addCodes = [0, 0, 0];
+	let codes = [
+		$gear.potentials[0]?.code ?? 0,
+		$gear.potentials[1]?.code ?? 0,
+		$gear.potentials[2]?.code ?? 0
+	];
+	let addCodes = [
+		$gear.additionalPotentials[0]?.code ?? 0,
+		$gear.additionalPotentials[1]?.code ?? 0,
+		$gear.additionalPotentials[2]?.code ?? 0
+	];
+
+
 
 	function canPotential() {
 		return $gear.canPotential && !$gear.getBooleanValue(GearPropType.fixedPotential);

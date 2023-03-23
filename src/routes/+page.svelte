@@ -17,15 +17,15 @@
 		const gear = createGearFromId(Number(event.detail));
 		if (!gear) return;
 		for (let i = 0; i < $inventory.length; i++) {
-			if ($inventory[i] === undefined) {
-				$inventory[i] = gear;
+			if ($inventory[i].gear === undefined) {
+				$inventory[i].gear = gear;
 				return;
 			}
 		}
 	}
 
 	function deleteItem() {
-		$inventory[$selected] = undefined;
+		$inventory[$selected].gear = undefined;
 		$selected = -1;
 	}
 
@@ -87,22 +87,22 @@
 		<div>
 			<h2>인벤토리</h2>
 			<div class="inventory">
-				{#each $inventory as item, i}
+				{#each $inventory as slot, i}
 					<button
 						class="cell"
 						on:click={() => ($selected = i)}
-						on:mouseenter={() => (cursorGear = item)}
+						on:mouseenter={() => (cursorGear = slot.gear)}
 						on:mouseleave={() => (cursorGear = undefined)}
-						disabled={!item}
+						disabled={!slot.gear}
 					>
-						{#if item}
+						{#if slot.gear}
 							<img
-								src="https://maplestory.io/api/KMS/367/item/{item.icon.id}/icon"
-								alt={item.name}
+								src="https://maplestory.io/api/KMS/367/item/{slot.gear.icon.id}/icon"
+								alt={slot.gear.name}
 								class="icon"
 								style="
-								margin-left: {-10 + (1 - item.icon.origin[0]) * 2}px;
-								margin-top: {-5 + (33 - item.icon.origin[1]) * 2}px;"
+								margin-left: {-10 + (1 - slot.gear.icon.origin[0]) * 2}px;
+								margin-top: {-5 + (33 - slot.gear.icon.origin[1]) * 2}px;"
 							/>
 						{/if}
 					</button>
