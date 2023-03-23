@@ -40,6 +40,7 @@
 	}
 
 	function getGradePots(data: typeof pots, grade: PotentialGrade, first: boolean = false) {
+		console.log(data.get(grade));
 		if (!first && grade !== PotentialGrade.normal) {
 			return [...data.get(grade)!.values(), ...data.get(grade - 1)!.values()];
 		}
@@ -122,9 +123,9 @@
 				];
 			case PotentialGrade.unique:
 				return [
-					32001, 32002, 32003, 32004, 32005, 32006, 32011, 32012, 32013, 32041, 32042, 32043, 32045,
-					32046, 32051, 32053, 32057, 32059, 32060, 32061, 32062, 32070, 32087, 32091, 32092, 32093,
-					32094, 32201, 32206, 32291, 32601
+					32001, 32002, 32003, 32004, 32005, 32006, 32011, 32012, 32013, 32041, 32042, 32043, 32044,
+					32045, 32046, 32051, 32053, 32055, 32057, 32059, 32060, 32061, 32062, 32070, 32086, 32087,
+					32091, 32092, 32093, 32094, 32201, 32206, 32291, 32551, 32601
 				];
 			case PotentialGrade.legendary:
 				return [
