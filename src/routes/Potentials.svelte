@@ -50,7 +50,6 @@
 	}
 
 	function getGradePots(data: typeof pots, grade: PotentialGrade, first: boolean = false) {
-		console.log(data.get(grade));
 		if (!first && grade !== PotentialGrade.normal) {
 			return [...data.get(grade)!.values(), ...data.get(grade - 1)!.values()];
 		}
