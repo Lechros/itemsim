@@ -2,6 +2,7 @@
 	import { GearPropType, type Gear } from '@malib/gear';
 	import { afterUpdate } from 'svelte';
 	import { getGearPropString } from '../strings';
+	import GearGrade from './GearGrade.svelte';
 
 	export let gear: Gear;
 
@@ -11,7 +12,7 @@
 
 	// Remove ', ' after last attribute of line
 	afterUpdate(() => {
-		if(!attributes) return;
+		if (!attributes) return;
 		const children = attributes.children;
 		for (let i = 0; i < children.length - 1; i++) {
 			const thisAttr = children[i] as HTMLSpanElement;
@@ -36,7 +37,9 @@
 			tags.push(getGearPropString(GearPropType.onlyEquip, value));
 		}
 		if ((value = gear.getPropValue(GearPropType.equipTradeBlock))) {
-			tags.push(getGearPropString(GearPropType.equipTradeBlock, value));
+			if (!gear.getBooleanValue(GearPropType.tradeBlock)) {
+				tags.push(getGearPropString(GearPropType.equipTradeBlock, value));
+			}
 		}
 		if ((value = gear.getPropValue(GearPropType.accountSharable))) {
 			let value2: number;
@@ -48,9 +51,6 @@
 		}
 		if ((value = gear.getPropValue(GearPropType.blockGoldHammer))) {
 			tags.push(getGearPropString(GearPropType.blockGoldHammer, value));
-		}
-		if ((value = gear.getPropValue(GearPropType.noPotential))) {
-			tags.push(getGearPropString(GearPropType.noPotential, value));
 		}
 		if (
 			(value = gear.getPropValue(GearPropType.fixedPotential)) ||
