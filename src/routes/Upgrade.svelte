@@ -7,11 +7,12 @@
 		Gear,
 		GearPropType,
 		GearType,
+		getSpellTraceScroll,
 		recalculateStarforce,
 		resetEnhancement,
 		resetUpgrade,
 		restoreUpgradeCount,
-		Scroll,
+		type Scroll,
 		type SpellTraceProbability,
 		type SpellTraceStatType
 	} from '@malib/gear';
@@ -100,7 +101,7 @@
 	}
 
 	function createChaosScroll(chaos: typeof chaosStats) {
-		return new Scroll('', new Map(chaos.map((e) => [e.type, e.value])));
+		return { name: '', stat: new Map(chaos.map((e) => [e.type, e.value])) };
 	}
 
 	function getTypes(gear: Gear) {
@@ -154,7 +155,7 @@
 				: ([100, 70, 30] as const);
 		for (const type of types) {
 			for (const prob of probs) {
-				const scroll = Scroll.getSpellTraceScroll(gear, type, prob);
+				const scroll = getSpellTraceScroll(gear, type, prob);
 				if (scroll && !infos.some((info) => info.scroll.name === scroll.name)) {
 					infos.push({ scroll: scroll, type: type, prob: prob });
 				}

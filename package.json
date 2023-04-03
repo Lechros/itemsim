@@ -34,8 +34,7 @@
 		"vitest": "^0.29.8"
 	},
 	"dependencies": {
-		"@malib/create-gear": "^0.4.4",
-		"@malib/gear": "^0.7.0",
-		"@malib/serialize-gear": "^0.2.1"
+		"@malib/create-gear": "^0.5.1",
+		"@malib/gear": "^0.9.0"
 	}
 }
