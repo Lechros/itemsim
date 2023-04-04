@@ -12,6 +12,35 @@
 	import TabPanel from './TabPanel.svelte';
 	import Tabs from './Tabs.svelte';
 	import Upgrade from './Upgrade.svelte';
+	import {
+		Button,
+		Tile,
+		Column,
+		Row,
+		Grid,
+		Content,
+		RecursiveList,
+		Header,
+		Table,
+		TableBody,
+		TableRow,
+		TableCell,
+		UnorderedList,
+		ListItem,
+		ListBoxMenu,
+		ListBox,
+		TableContainer,
+		OverflowMenu,
+		OverflowMenuItem,
+		DataTable,
+		ListBoxMenuIcon,
+		ListBoxMenuItem,
+		AspectRatio,
+		ClickableTile,
+		TileGroup
+	} from 'carbon-components-svelte';
+	import 'carbon-components-svelte/css/g10.css';
+	import InvSlot from './InvSlot.svelte';
 
 	function addItem(event: CustomEvent) {
 		const gear = createGearFromId(Number(event.detail));
@@ -32,6 +61,10 @@
 	// mouse cursor tooltip
 	let cursorGear: Gear | undefined;
 
+	function setCursorGear(gear: Gear | undefined) {
+		cursorGear = gear;
+	}
+
 	let m = { x: 0, y: 0 };
 
 	$: if ($selected > -1) {
@@ -44,9 +77,30 @@
 	}
 </script>
 
-<div class="container" on:mousemove={handleMousemove}>
+<div on:mousemove={handleMousemove}>
+	<Content>
+		<Grid noGutter>
+			<Row noGutter style="justify-content: center;">
+				<Column style="max-width: 32rem;">
+					<h2>인벤토리</h2>
+					<div class="inventory">
+						{#each $inventory as slot, i}
+							<InvSlot
+								on:click={() => ($selected = i)}
+								on:mouseenter={() => setCursorGear(slot.gear)}
+								on:mouseleave={() => setCursorGear(undefined)}
+								{slot}
+							/>
+						{/each}
+					</div>
+				</Column>
+			</Row>
+		</Grid>
+	</Content>
+</div>
+
+<div>
 	{#if $selected > -1}
-		<GearTooltip gear={$gear} />
 		<div class="ui">
 			<Tabs>
 				<TabList>
@@ -118,35 +172,26 @@
 </div>
 
 <style>
-	.container {
-		position: relative;
-		display: flex;
-		gap: 1rem;
-		justify-content: center;
-	}
-
-	.ui {
-		width: 30rem;
-	}
-
 	.inventory {
 		display: grid;
-		grid-template-columns: repeat(4, 66px);
-		gap: 18px;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 1rem;
 	}
 
-	.cell {
-		display: flex;
-		aspect-ratio: 1/1;
-	}
-
-	.icon {
-		image-rendering: pixelated;
-		scale: 2;
-		transform-origin: top left;
+	@media (max-width: 640px) {
+		.inventory {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1rem;
+		}
 	}
 
 	.cursor-tooltip {
 		position: absolute;
+		pointer-events: none;
+	}
+
+	h2 {
+		margin-bottom: 1rem;
 	}
 </style>

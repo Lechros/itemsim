@@ -9,7 +9,7 @@ import {
 } from '@malib/gear';
 import { writable } from 'svelte/store';
 
-type GearSlot = {
+export type GearSlot = {
 	gear: Gear | undefined;
 	meta: {
 		bonus: {
@@ -19,7 +19,7 @@ type GearSlot = {
 	};
 };
 
-type GearSlotLike = {
+export type GearSlotLike = {
 	gear: GearLike | undefined;
 	meta: GearSlot['meta'];
 };

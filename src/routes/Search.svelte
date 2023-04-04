@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { gearJson, type GearData } from '@malib/create-gear';
 	import { createEventDispatcher } from 'svelte';
+	import { Search } from "carbon-components-svelte";
 
 	export let onMouseEnter: (v: (typeof datas)[0]) => any = () => {};
 	export let onMouseLeave: (v: (typeof datas)[0]) => any = () => {};
@@ -33,7 +34,7 @@
 	}
 </script>
 
-<label>검색 <input type="text" bind:value={name} /></label>
+<Search placeholder="아이템 검색" bind:value={name}/>
 <ul>
 	{#each search(name) as data}
 		<li>
