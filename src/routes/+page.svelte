@@ -6,13 +6,9 @@
 	import Enhance from './Enhance.svelte';
 	import { gear, inventory, selected } from './gear-store';
 	import Potentials from './Potentials.svelte';
-	import Tab from './Tab.svelte';
-	import TabList from './TabList.svelte';
-	import TabPanel from './TabPanel.svelte';
-	import Tabs from './Tabs.svelte';
 	import Upgrade from './Upgrade.svelte';
 	import 'carbon-components-svelte/css/white.css';
-	import { Button, Column, Row, Grid, Content, Modal } from 'carbon-components-svelte';
+	import { Button, Column, Row, Grid, Content, Modal, Tab, Tabs, Tile, TabContent } from 'carbon-components-svelte';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import InvSlot from './InvSlot.svelte';
 	import AddGear from './AddGear.svelte';
@@ -60,7 +56,7 @@
 <div on:mousemove={handleMousemove}>
 	<Content>
 		<Grid noGutter style="max-width: 32rem;">
-			<Row noGutter style="margin-bottom: 1rem;">
+			<Row noGutter>
 				<Column>
 					<h2>인벤토리</h2>
 				</Column>
@@ -88,11 +84,41 @@
 	</Content>
 </div>
 
-<div class="enchant">
-	<Content>
-		asdfasdf
-	</Content>
-</div>
+<Modal
+	passiveModal
+	preventCloseOnClickOutside
+	modalHeading="아이템 강화"
+	open={$selected > -1}
+	on:close={() => $selected = -1}
+>
+	{#if $gear}
+		<div class="enchant">
+				<GearTooltip gear={$gear} />
+			<div>
+				<Tabs autoWidth>
+					<Tab>추가옵션</Tab>
+					<Tab>주문서</Tab>
+					<Tab>강화</Tab>
+					<Tab>잠재옵션</Tab>
+					<svelte:fragment slot="content">
+						<TabContent>
+							<BonusStat />
+						</TabContent>
+						<TabContent>
+							<Upgrade />
+						</TabContent>
+						<TabContent>
+							<Enhance />
+						</TabContent>
+						<TabContent>
+							<Potentials />
+						</TabContent>
+					</svelte:fragment>
+				</Tabs>
+			</div>
+		</div>
+	{/if}
+</Modal>
 
 <Modal
 	bind:open={addOpen}
@@ -117,47 +143,15 @@
 	<AddGear selectedIds={addIds} bind:count={addCount} bind:this={addGear}/>
 </Modal>
 
-<div class="cursor-tooltip" style="top: {m.y}px; left: {m.x}px;">
+<div class="cursor-tooltip" class:hidden={$gear !== undefined} style="top: {m.y}px; left: {m.x}px;">
 	{#if cursorGear}
 		<GearTooltip gear={cursorGear} />
 	{/if}
 </div>
 
-<div>
-	{#if $selected > -1}
-		<div class="ui">
-			<Tabs>
-				<TabList>
-					<Tab>아이템 관리</Tab>
-					<Tab>추가옵션</Tab>
-					<Tab>주문서</Tab>
-					<Tab>강화</Tab>
-					<Tab>잠재옵션</Tab>
-				</TabList>
-
-				<TabPanel>
-					<button on:click={() => ($selected = -1)}>돌아가기</button>
-					<button on:click={deleteItem}>삭제</button>
-				</TabPanel>
-				<TabPanel>
-					<BonusStat />
-				</TabPanel>
-				<TabPanel>
-					<Upgrade />
-				</TabPanel>
-				<TabPanel>
-					<Enhance />
-				</TabPanel>
-				<TabPanel>
-					<Potentials />
-				</TabPanel>
-			</Tabs>
-		</div>
-	{/if}
-</div>
-
 <style>
 	.inventory {
+		margin-top: 1rem;
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
 		gap: 1rem;
@@ -175,10 +169,26 @@
 		position: absolute;
 		pointer-events: none;
 	}
-
+	.cursor-tooltip.hidden {
+		display: none;
+	}
 	@media (hover: none) {
 		.cursor-tooltip {
 			display: none;
+		}
+	}
+
+	.enchant {
+		display: grid;
+		grid-template-columns: 261px 1fr;
+		gap: 1rem
+	}
+
+	@media (max-width: 50rem) {
+		.enchant {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
 		}
 	}
 </style>
