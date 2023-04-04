@@ -6,49 +6,31 @@
 	import Enhance from './Enhance.svelte';
 	import { gear, inventory, selected } from './gear-store';
 	import Potentials from './Potentials.svelte';
-	import Search from './Search.svelte';
 	import Tab from './Tab.svelte';
 	import TabList from './TabList.svelte';
 	import TabPanel from './TabPanel.svelte';
 	import Tabs from './Tabs.svelte';
 	import Upgrade from './Upgrade.svelte';
-	import {
-		Button,
-		Tile,
-		Column,
-		Row,
-		Grid,
-		Content,
-		RecursiveList,
-		Header,
-		Table,
-		TableBody,
-		TableRow,
-		TableCell,
-		UnorderedList,
-		ListItem,
-		ListBoxMenu,
-		ListBox,
-		TableContainer,
-		OverflowMenu,
-		OverflowMenuItem,
-		DataTable,
-		ListBoxMenuIcon,
-		ListBoxMenuItem,
-		AspectRatio,
-		ClickableTile,
-		TileGroup
-	} from 'carbon-components-svelte';
-	import 'carbon-components-svelte/css/g10.css';
+	import 'carbon-components-svelte/css/white.css';
+	import { Button, Column, Row, Grid, Content, Modal } from 'carbon-components-svelte';
+	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import InvSlot from './InvSlot.svelte';
+	import AddGear from './AddGear.svelte';
 
-	function addItem(event: CustomEvent) {
-		const gear = createGearFromId(Number(event.detail));
-		if (!gear) return;
-		for (let i = 0; i < $inventory.length; i++) {
-			if ($inventory[i].gear === undefined) {
-				$inventory[i].gear = gear;
-				return;
+	let addGear: AddGear;
+	let addOpen = false;
+	let addIds: Set<string> = new Set();
+	let addCount = 0;
+
+	function addItems(ids: Set<string>) {
+		for (const id of ids) {
+			const gear = createGearFromId(Number(id));
+			if (!gear) continue;
+			for (let i = 0; i < $inventory.length; i++) {
+				if ($inventory[i].gear === undefined) {
+					$inventory[i].gear = gear;
+					break;
+				}
 			}
 		}
 	}
@@ -58,19 +40,17 @@
 		$selected = -1;
 	}
 
-	// mouse cursor tooltip
+	/* mouse cursor tooltip */
 	let cursorGear: Gear | undefined;
+	$: if ($selected > -1) {
+		cursorGear = undefined;
+	}
 
 	function setCursorGear(gear: Gear | undefined) {
 		cursorGear = gear;
 	}
 
 	let m = { x: 0, y: 0 };
-
-	$: if ($selected > -1) {
-		cursorGear = undefined;
-	}
-
 	function handleMousemove(event: MouseEvent) {
 		m.x = event.clientX;
 		m.y = event.clientY;
@@ -79,10 +59,19 @@
 
 <div on:mousemove={handleMousemove}>
 	<Content>
-		<Grid noGutter>
-			<Row noGutter style="justify-content: center;">
-				<Column style="max-width: 32rem;">
+		<Grid noGutter style="max-width: 32rem;">
+			<Row noGutter style="margin-bottom: 1rem;">
+				<Column>
 					<h2>인벤토리</h2>
+				</Column>
+				<Column>
+					<div style="display: flex; justify-content: right">
+						<Button icon={Add} on:click={() => (addOpen = true)}>아이템 추가</Button>
+					</div>
+				</Column>
+			</Row>
+			<Row noGutter>
+				<Column>
 					<div class="inventory">
 						{#each $inventory as slot, i}
 							<InvSlot
@@ -97,6 +86,41 @@
 			</Row>
 		</Grid>
 	</Content>
+</div>
+
+<div class="enchant">
+	<Content>
+		asdfasdf
+	</Content>
+</div>
+
+<Modal
+	bind:open={addOpen}
+	size="sm"
+	modalHeading="아이템 추가"
+	primaryButtonText={addCount > 0 ? `선택한 ${addCount}개의 아이템 추가` : "선택한 아이템이 없습니다"}
+	primaryButtonDisabled={addCount === 0}
+	secondaryButtonText="취소"
+	selectorPrimaryFocus="input"
+	on:click:button--secondary={() => {
+		addGear.resetSearchValue();
+		addGear.resetIds();
+		addOpen = false;
+	}}
+	on:submit={() => {
+		addItems(addIds);
+		addGear.resetSearchValue();
+		addGear.resetIds();
+		addOpen = false;
+	}}
+>
+	<AddGear selectedIds={addIds} bind:count={addCount} bind:this={addGear}/>
+</Modal>
+
+<div class="cursor-tooltip" style="top: {m.y}px; left: {m.x}px;">
+	{#if cursorGear}
+		<GearTooltip gear={cursorGear} />
+	{/if}
 </div>
 
 <div>
@@ -129,46 +153,7 @@
 				</TabPanel>
 			</Tabs>
 		</div>
-	{:else}
-		<div>
-			<h2>아이템 생성</h2>
-			<Search
-				on:click={addItem}
-				onMouseEnter={(data) => (cursorGear = createGearFromId(Number(data[0])))}
-				onMouseLeave={(data) => (cursorGear = undefined)}
-			/>
-		</div>
-		<div>
-			<h2>인벤토리</h2>
-			<div class="inventory">
-				{#each $inventory as slot, i}
-					<button
-						class="cell"
-						on:click={() => ($selected = i)}
-						on:mouseenter={() => (cursorGear = slot.gear)}
-						on:mouseleave={() => (cursorGear = undefined)}
-						disabled={!slot.gear}
-					>
-						{#if slot.gear}
-							<img
-								src="https://maplestory.io/api/KMS/367/item/{slot.gear.icon.id}/icon"
-								alt={slot.gear.name}
-								class="icon"
-								style="
-								margin-left: {-10 + (1 - slot.gear.icon.origin[0]) * 2}px;
-								margin-top: {-5 + (33 - slot.gear.icon.origin[1]) * 2}px;"
-							/>
-						{/if}
-					</button>
-				{/each}
-			</div>
-		</div>
 	{/if}
-	<div class="cursor-tooltip" style="top: {m.y}px; left: {m.x}px;">
-		{#if cursorGear}
-			<GearTooltip gear={cursorGear} />
-		{/if}
-	</div>
 </div>
 
 <style>
@@ -178,7 +163,7 @@
 		gap: 1rem;
 	}
 
-	@media (max-width: 640px) {
+	@media (max-width: 32rem) {
 		.inventory {
 			display: grid;
 			grid-template-columns: repeat(3, 1fr);
@@ -191,7 +176,9 @@
 		pointer-events: none;
 	}
 
-	h2 {
-		margin-bottom: 1rem;
+	@media (hover: none) {
+		.cursor-tooltip {
+			display: none;
+		}
 	}
 </style>

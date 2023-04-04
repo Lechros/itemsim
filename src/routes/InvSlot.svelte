@@ -73,7 +73,7 @@
 		left: -0.5rem;
 		display: flex;
 		font-size: 12px;
-		gap: 1px;
+		gap: 2px;
 		align-items: baseline;
 	}
 

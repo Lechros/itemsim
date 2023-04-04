@@ -10,6 +10,7 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^5.57.0
   '@typescript-eslint/parser': ^5.57.0
   carbon-components-svelte: ^0.73.5
+  carbon-icons-svelte: ^11.4.0
   eslint: ^8.37.0
   eslint-config-prettier: ^8.8.0
   eslint-plugin-svelte3: ^4.0.0
@@ -34,6 +35,7 @@ devDependencies:
   '@typescript-eslint/eslint-plugin': 5.57.0_z24sz2fazj3bxoipp6m4s7b2mi
   '@typescript-eslint/parser': 5.57.0_vwh6htx42aidho2qgfca5u5rwm
   carbon-components-svelte: 0.73.5
+  carbon-icons-svelte: 11.4.0
   eslint: 8.37.0
   eslint-config-prettier: 8.8.0_eslint@8.37.0
   eslint-plugin-svelte3: 4.0.0_4gllgxcu6gmiyy5rrmqexpx7de
@@ -949,6 +951,10 @@ packages:
     resolution: {integrity: sha512-emHxfMurN6ZiBCnPB6VErw/uKoXCuTBB70Q/woj+9DhTtKoGT1ejBZ75DUxXoDP/n7ZEGJ/y1dmqQ8xM3TJ8Hg==}
     dependencies:
       flatpickr: 4.6.9
+    dev: true
+
+  /carbon-icons-svelte/11.4.0:
+    resolution: {integrity: sha512-p/llZde2kP2BI9SOqM+QFKGfQnYrW+4dVxF1rAYriEADXDsjt9EYlh+KpQ5qf4JpXAq+e2+TB/r/lIG1xdUbAQ==}
     dev: true
 
   /chai/4.3.7:
