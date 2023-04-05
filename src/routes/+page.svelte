@@ -1,6 +1,6 @@
 <script lang="ts">
 	import GearTooltip from '$lib/gear-tooltip/GearTooltip.svelte';
-	import { createGearFromId, gearJson, ItemIndex } from '@malib/create-gear';
+	import { createGearFromId } from '@malib/create-gear';
 	import type { Gear } from '@malib/gear';
 	import BonusStat from './BonusStat.svelte';
 	import Enhance from './Enhance.svelte';
@@ -17,16 +17,17 @@
 		Tab,
 		Tabs,
 		TabContent,
-
-		SelectableTile
-
+		SelectableTile,
+		ClickableTile,
+		ToastNotification
 	} from 'carbon-components-svelte';
 	import 'carbon-components-svelte/css/all.css';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
-	import InvSlot from './InvSlot.svelte';
+	import InvSlot from './InvSlotContent.svelte';
 	import AddGear from './AddGear.svelte';
-	import { TrashCan } from 'carbon-icons-svelte';
+	import { Close, TrashCan } from 'carbon-icons-svelte';
 
+	/* theme */
 	let theme: 'white' | 'g10' | 'g80' | 'g90' | 'g100';
 	theme = 'g10';
 	$: if (typeof document !== 'undefined') {
@@ -65,11 +66,14 @@
 
 	/* inventory: delete */
 	let deleteMode = false;
-	let toDelete = new Map<number, string>();
+	let toDelete = new Set<number>();
+	let lastDeleted = 0;
 
-	function deleteItem() {
-		$inventory[$selected].gear = undefined;
-		$selected = -1;
+	function deleteItems() {
+		lastDeleted = toDelete.size;
+		for (const idx of toDelete) {
+			$inventory[idx].gear = undefined;
+		}
 	}
 
 	/* modal */
@@ -114,12 +118,26 @@
 								on:click={() => (deleteMode = true)}
 							/>
 						{:else}
-							<Button kind="secondary" on:click={() => (deleteMode = false)}>취소</Button>
 							<Button
 								kind="danger"
 								icon={TrashCan}
-								iconDescription="아이템 삭제"
-								on:click={() => (deleteMode = true)}
+								disabled={toDelete.size === 0}
+								on:click={() => {
+									deleteItems();
+									deleteMode = false;
+									toDelete.clear();
+								}}
+							>
+								아이템 {toDelete.size}개 삭제
+							</Button>
+							<Button
+								kind="secondary"
+								icon={Close}
+								iconDescription="취소"
+								on:click={() => {
+									deleteMode = false;
+									toDelete.clear();
+								}}
 							/>
 						{/if}
 					</div>
@@ -129,14 +147,36 @@
 				<Column>
 					<div class="inventory">
 						{#each $inventory as slot, i}
-							<InvSlot
-								on:click={() => {
-									if (slot.gear) $selected = i;
-								}}
-								on:mouseenter={() => setCursorGear(slot.gear)}
-								on:mouseleave={() => setCursorGear(undefined)}
-								{slot}
-							/>
+							{#if !deleteMode}
+								<ClickableTile
+									disabled={!slot.gear}
+									on:click={() => {
+										if (slot.gear) $selected = i;
+									}}
+									on:mouseenter={() => setCursorGear(slot.gear)}
+									on:mouseleave={() => setCursorGear(undefined)}
+								>
+									<InvSlot _slot={slot} />
+								</ClickableTile>
+							{:else}
+								<SelectableTile
+									disabled={!slot.gear}
+									selected={toDelete.has(i)}
+									on:select={() => {
+										toDelete.add(i);
+										toDelete = toDelete;
+									}}
+									on:deselect={() => {
+										toDelete.delete(i);
+										toDelete = toDelete;
+									}}
+									on:mouseenter={() => setCursorGear(slot.gear)}
+									on:mouseleave={() => setCursorGear(undefined)}
+									style="padding: calc(var(--cds-spacing-05) - 1px);"
+								>
+									<InvSlot _slot={slot} />
+								</SelectableTile>
+							{/if}
 						{/each}
 					</div>
 				</Column>

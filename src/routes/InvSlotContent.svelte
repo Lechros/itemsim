@@ -4,9 +4,9 @@
 
 	import type { GearSlot } from './gear-store';
 
-	export let slot: GearSlot;
+	export let _slot: GearSlot;
 
-	$: gear = slot.gear;
+	$: gear = _slot.gear;
 
 	function getIconName(grade: PotentialGrade) {
 		switch (grade) {
@@ -26,32 +26,30 @@
 	}
 </script>
 
-<ClickableTile on:click on:mouseenter on:mouseleave disabled={!gear} style="min-width: 0;">
-	<AspectRatio ratio="1x1">
-		{#if gear}
-			<div class="icon-wrapper">
-				<img
-					src="https://maplestory.io/api/KMS/367/item/{gear.icon.id}/icon"
-					alt={gear.name}
-					class="gear-icon"
-					style="
-						margin-left: {1 - gear.icon.origin[0]}px;
-						margin-top: {33 - gear.icon.origin[1]}px;"
-				/>
-				{#if gear.star > 0}
-					<div class="star">
-						<span class="icon {gear.amazing ? 'blue' : 'yellow'}" />
-						{gear.star}
-					</div>
-				{/if}
-				<div class="grade-wrapper">
-					<div class="grade-icon {getIconName(gear.grade)}" />
-					<div class="grade-icon {getIconName(gear.additionalGrade)}" />
+<AspectRatio ratio="1x1">
+	{#if gear}
+		<div class="icon-wrapper">
+			<img
+				src="https://maplestory.io/api/KMS/367/item/{gear.icon.id}/icon"
+				alt={gear.name}
+				class="gear-icon"
+				style="
+					margin-left: {1 - gear.icon.origin[0]}px;
+					margin-top: {33 - gear.icon.origin[1]}px;"
+			/>
+			{#if gear.star > 0}
+				<div class="star">
+					<span class="icon {gear.amazing ? 'blue' : 'yellow'}" />
+					{gear.star}
 				</div>
+			{/if}
+			<div class="grade-wrapper">
+				<div class="grade-icon {getIconName(gear.grade)}" />
+				<div class="grade-icon {getIconName(gear.additionalGrade)}" />
 			</div>
-		{/if}
-	</AspectRatio>
-</ClickableTile>
+		</div>
+	{/if}
+</AspectRatio>
 
 <style>
 	.icon-wrapper {

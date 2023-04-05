@@ -13,6 +13,10 @@
 	import { gear, meta } from './gear-store';
 	import { getName } from './strings';
 
+	$: if($meta.bonus.length === 0) {
+		reset();
+	}
+
 	$: bossReward = $gear.getBooleanValue(GearPropType.bossReward);
 	$: types = getTypes($gear);
 
@@ -151,7 +155,7 @@
 					</Select>
 				</Column>
 				<Column>
-					<Select disabled={bonus.type === -1} bind:selected={bonus.grade} on:change={onChange}>
+					<Select bind:selected={bonus.grade} on:change={onChange}>
 						<SelectItem value={0} text="---" />
 						{#if bonus.type !== -1}
 							{#each getGrades(bossReward) as grade}
@@ -172,6 +176,5 @@
 		margin-top: var(--cds-spacing-07);
 		display: flex;
 		flex-direction: column;
-		gap: var(--cds-spacing-03);
 	}
 </style>
