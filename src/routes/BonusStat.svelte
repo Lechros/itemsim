@@ -19,7 +19,7 @@
 	function onChange() {
 		resetBonusStat($gear);
 		for (const bonus of $meta.bonus) {
-			if (bonus.grade > 0) {
+			if (bonus.type !== -1 && bonus.grade > 0) {
 				addBonusStat($gear, bonus.type, bonus.grade as BonusStatGrade);
 			}
 		}
@@ -120,7 +120,7 @@
 </script>
 
 {#if $gear && canBonus()}
-	<Row style="margin-top: 1rem;">
+	<Row style="margin-top: var(--cds-spacing-05);">
 		<Column>
 			<Button kind="danger" class="reset" on:click={reset}>초기화</Button>
 		</Column>
@@ -153,9 +153,11 @@
 				<Column>
 					<Select disabled={bonus.type === -1} bind:selected={bonus.grade} on:change={onChange}>
 						<SelectItem value={0} text="---" />
-						{#each getGrades(bossReward) as grade}
-							<SelectItem value={grade} text={getGradeRepr(bonus.type, grade)} />
-						{/each}
+						{#if bonus.type !== -1}
+							{#each getGrades(bossReward) as grade}
+								<SelectItem value={grade} text={getGradeRepr(bonus.type, grade)} />
+							{/each}
+						{/if}
 					</Select>
 				</Column>
 			</Row>
@@ -167,9 +169,9 @@
 
 <style>
 	.bonus-wrapper {
-		margin-top: 2rem;
+		margin-top: var(--cds-spacing-07);
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
+		gap: var(--cds-spacing-03);
 	}
 </style>

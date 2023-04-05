@@ -69,8 +69,8 @@
 
 	.star {
 		position: absolute;
-		top: -0.5rem;
-		left: -0.5rem;
+		top: calc(var(--cds-spacing-03) * -1);
+		left: calc(var(--cds-spacing-03) * -1);
 		display: flex;
 		font-size: 12px;
 		gap: 2px;
@@ -90,8 +90,8 @@
 
 	.grade-wrapper {
 		position: absolute;
-		right: -0.5rem;
-		bottom: -0.5rem;
+		right: calc(var(--cds-spacing-03) * -1);
+		bottom: calc(var(--cds-spacing-03) * -1);
 		display: flex;
 		flex-direction: column;
 	}

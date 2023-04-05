@@ -7,7 +7,6 @@
 	import { gear, inventory, selected } from './gear-store';
 	import Potentials from './Potentials.svelte';
 	import Upgrade from './Upgrade.svelte';
-	import 'carbon-components-svelte/css/white.css';
 	import {
 		Button,
 		Column,
@@ -19,9 +18,16 @@
 		Tabs,
 		TabContent
 	} from 'carbon-components-svelte';
+	import 'carbon-components-svelte/css/all.css';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import InvSlot from './InvSlot.svelte';
 	import AddGear from './AddGear.svelte';
+
+	let theme: 'white' | 'g10' | 'g80' | 'g90' | 'g100';
+	theme = 'g10';
+	$: if(typeof document !== "undefined") {
+		document.documentElement.setAttribute('theme', theme);
+	}
 
 	let addGear: AddGear;
 	let addOpen = false;
@@ -97,7 +103,9 @@
 					<div class="inventory">
 						{#each $inventory as slot, i}
 							<InvSlot
-								on:click={() => {if(slot.gear) $selected = i;}}
+								on:click={() => {
+									if (slot.gear) $selected = i;
+								}}
 								on:mouseenter={() => setCursorGear(slot.gear)}
 								on:mouseleave={() => setCursorGear(undefined)}
 								{slot}
@@ -114,6 +122,7 @@
 	passiveModal
 	modalHeading="아이템 강화"
 	open={$selected > -1}
+	selectorPrimaryFocus="a"
 	on:close={() => ($selected = -1)}
 	style="align-items: start; padding-top: {topPadding}vh;"
 >
@@ -178,17 +187,17 @@
 
 <style>
 	.inventory {
-		margin-top: 1rem;
+		margin-top: var(--cds-spacing-05);
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
-		gap: 1rem;
+		gap: var(--cds-spacing-05)
 	}
 
 	@media (max-width: 32rem) {
 		.inventory {
 			display: grid;
 			grid-template-columns: repeat(3, 1fr);
-			gap: 1rem;
+			gap: var(--cds-spacing-05);
 		}
 	}
 
@@ -206,7 +215,7 @@
 	.enchant {
 		display: grid;
 		grid-template-columns: 261px 1fr;
-		gap: 1rem;
+		gap: var(--cds-spacing-05);
 	}
 
 	@media (max-width: 50rem) {

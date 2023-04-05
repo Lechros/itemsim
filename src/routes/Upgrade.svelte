@@ -32,14 +32,17 @@
 	import { text } from 'svelte/internal';
 	import { gear } from './gear-store';
 	import { optionToStrings } from './strings';
+	import { getOnlyScrolls } from './upgrade';
 
 	/* general */
 	function canUpgrade() {
-		return $gear.totalUpgradeCount > 0 && !$gear.getBooleanValue(GearPropType.onlyUpgrade);
+		return $gear.totalUpgradeCount > 0;
 	}
 
-	$: canHammer = !$gear.getBooleanValue(GearPropType.exceptUpgrade) && $gear.hammerCount === 0;
-	$: canFail = !$gear.getBooleanValue(GearPropType.exceptUpgrade) && $gear.upgradeCountLeft > 0;
+	$: exceptUpgrade = $gear.getBooleanValue(GearPropType.exceptUpgrade);
+	$: onlyUpgrade = $gear.getBooleanValue(GearPropType.onlyUpgrade);
+	$: canHammer = !exceptUpgrade && !onlyUpgrade && $gear.hammerCount === 0;
+	$: canFail = !exceptUpgrade && !onlyUpgrade && $gear.upgradeCountLeft > 0;
 	$: canRestore = $gear.upgradeFailCount > 0;
 	$: canInnocent =
 		$gear.hammerCount > 0 || $gear.upgradeCount > 0 || $gear.upgradeFailCount > 0 || $gear.star > 0;
@@ -47,7 +50,8 @@
 		!$gear.amazing &&
 		($gear.hammerCount > 0 || $gear.upgradeCount > 0 || $gear.upgradeFailCount > 0);
 
-	$: canScroll = $gear.upgradeCountLeft > 0;
+	$: canNormalScroll = !onlyUpgrade && $gear.upgradeCountLeft > 0;
+	$: canOnlyScroll = onlyUpgrade && $gear.upgradeCountLeft > 0;
 
 	function hammer() {
 		applyGoldHammer($gear);
@@ -93,10 +97,19 @@
 
 	let selectedId = 0;
 
+	$: {
+		if(onlyUpgrade) {
+			if(selectedId !== 4) selectedId = 4;
+		}
+		else {
+			if(selectedId === 4) selectedId = 0;
+		}
+	}
+
 	/* 0: spell trace */
 	$: spellTraces = getSpellTraceInfos($gear, getTypes($gear));
 	let spellTraceProbIdx = 0;
-	$: if (!is15gear($gear) && spellTraceProbIdx === 4) spellTraceProbIdx = 0;
+	$: if (!is15Gear($gear) && spellTraceProbIdx === 4) spellTraceProbIdx = 0;
 	$: selectedProb = [-1, 100, 70, 30, 15][spellTraceProbIdx];
 
 	function spellTraceFull(type: SpellTraceStatType, prob: SpellTraceProbability) {
@@ -153,7 +166,7 @@
 
 	function getSpellTraceInfos(gear: Gear, types: SpellTraceStatType[]) {
 		const infos: { scroll: Scroll; type: SpellTraceStatType; prob: SpellTraceProbability }[] = [];
-		const probs = is15gear(gear) ? ([100, 70, 30, 15] as const) : ([100, 70, 30] as const);
+		const probs = is15Gear(gear) ? ([100, 70, 30, 15] as const) : ([100, 70, 30] as const);
 		for (const type of types) {
 			for (const prob of probs) {
 				const scroll = getSpellTraceScroll(gear, type, prob);
@@ -165,7 +178,7 @@
 		return infos;
 	}
 
-	function is15gear(gear: Gear) {
+	function is15Gear(gear: Gear) {
 		return Gear.isWeapon(gear.type) || gear.type === GearType.katara;
 	}
 
@@ -251,6 +264,10 @@
 	function createChaosScroll(stats: typeof chaosStats) {
 		return { name: '', stat: new Map(stats.map((e) => [e.type, e.value])) };
 	}
+
+	/* 3: special scroll */
+
+	/* 4: only scroll */
 </script>
 
 {#if $gear && canUpgrade()}
@@ -310,18 +327,18 @@
 		titleText="주문서 분류"
 		bind:selectedId
 		items={[
-			{ id: 0, text: '주문의 흔적' },
-			{ id: 1, text: '공격력/마력 주문서' },
-			{ id: 2, text: '혼돈의 주문서' },
-			{ id: 3, text: '특수 주문서' },
-			{ id: 4, text: '전용 주문서' }
+			{ id: 0, text: '주문의 흔적', disabled: onlyUpgrade },
+			{ id: 1, text: '공격력/마력 주문서', disabled: onlyUpgrade },
+			{ id: 2, text: '혼돈의 주문서', disabled: onlyUpgrade },
+			{ id: 3, text: '특수 주문서', disabled: onlyUpgrade },
+			{ id: 4, text: '전용 주문서', disabled: !onlyUpgrade }
 		]}
-		style="margin-top: 1rem;"
+		style="margin-top: var(--cds-spacing-05);"
 		let:item
 	>
 		<div class="dropdown-item">
 			<div class="icon-wrapper">
-				<div class="scroll-icon-{item.id}" />
+				<div class="scroll-icon-{item.id} icon" />
 			</div>
 			{item.text}
 		</div>
@@ -331,13 +348,13 @@
 		<!-- spell trace -->
 		<ContentSwitcher
 			bind:selectedIndex={spellTraceProbIdx}
-			style="margin-top: 2rem; margin-bottom: 1rem"
+			style="margin-top: var(--cds-spacing-07); margin-bottom: var(--cds-spacing-05);"
 		>
 			<Switch text="전체" />
 			<Switch text="100%" />
 			<Switch text="70%" />
 			<Switch text="30%" />
-			{#if is15gear($gear)}
+			{#if is15Gear($gear)}
 				<Switch text="15%" />
 			{/if}
 		</ContentSwitcher>
@@ -348,7 +365,7 @@
 					light
 					title={optionToStrings(info.scroll.stat).join('\n')}
 					on:click={() => scrollSingle(info.scroll)}
-					disabled={!canScroll}
+					disabled={!canNormalScroll}
 					style="min-height: 0;"
 				>
 					<div class="st-content-wrapper">
@@ -362,7 +379,7 @@
 				<ClickableTile
 					light
 					on:click={() => spellTraceFull(info.type, info.prob)}
-					disabled={!canScroll}
+					disabled={!canNormalScroll}
 					style="min-width: 0; min-height: 0;"
 				>
 					+{$gear.upgradeCountLeft}
@@ -371,7 +388,7 @@
 		{/each}
 	{:else if selectedId === 1}
 		<!-- pad, mad scroll -->
-		<Row style="margin-top: 2rem;">
+		<Row style="margin-top: var(--cds-spacing-07);">
 			<Column>
 				<Select bind:selected={pad} labelText="공격력">
 					{#each { length: MAX_PAD + 1 } as _, i}
@@ -387,14 +404,14 @@
 				</Select>
 			</Column>
 		</Row>
-		<Row style="margin-top: 1rem;">
+		<Row style="margin-top: var(--cds-spacing-05);">
 			<Column>
-				<Button disabled={!canScroll} on:click={() => scrollSingle(getPadScroll(pad, mad))}>
+				<Button disabled={!canNormalScroll} on:click={() => scrollSingle(getPadScroll(pad, mad))}>
 					{getPadName(pad, mad)}
 				</Button>
 				<Button
 					kind="tertiary"
-					disabled={!canScroll}
+					disabled={!canNormalScroll}
 					on:click={() => scrollFull(getPadScroll(pad, mad))}
 				>
 					{$gear.upgradeCountLeft}회 적용
@@ -403,9 +420,9 @@
 		</Row>
 	{:else if selectedId === 2}
 		<!-- chaos scroll -->
-		<Row style="margin-top: 1rem;">
+		<Row style="margin-top: var(--cds-spacing-05);">
 			{#each chaosStats as chaos}
-				<Column style="margin-top: 1rem;">
+				<Column style="margin-top: var(--cds-spacing-05);">
 					<NumberInput
 						label={chaos.name}
 						bind:value={chaos.value}
@@ -417,88 +434,48 @@
 				</Column>
 			{/each}
 		</Row>
-		<Row style="margin-top: 1rem;">
+		<Row style="margin-top: var(--cds-spacing-05);">
 			<Column>
-				<Button disabled={!canScroll} on:click={() => scrollSingle(createChaosScroll(chaosStats))}>
+				<Button
+					disabled={!canNormalScroll}
+					on:click={() => scrollSingle(createChaosScroll(chaosStats))}
+				>
 					<span class="collapse-text">{getChaosStatsName(chaosStats)}</span>
 				</Button>
 				<Button
 					kind="tertiary"
-					disabled={!canScroll}
+					disabled={!canNormalScroll}
 					on:click={() => scrollFull(createChaosScroll(chaosStats))}
 				>
 					{$gear.upgradeCountLeft}회 적용
 				</Button>
 			</Column>
 		</Row>
-	{/if}
-	{#if false}
-		<div class="upgrade">
-			<div class="general">
-				<button on:click={() => hammer()} disabled={!canHammer}>
-					<div class="hammer icon" />
-					황금 망치
-				</button>
-				<button on:click={() => fail()} disabled={!canFail}>
-					<div class="fail icon" />
-					주문서 실패
-				</button>
-				<button on:click={() => restore()} disabled={!canRestore}>
-					<div class="restore icon" />
-					순백의 주문서
-				</button>
-				<button on:click={() => innocent()} disabled={!canInnocent}>
-					<div class="reset icon" />
-					이노센트
-				</button>
-				<button on:click={() => arkInnocent()} disabled={!canArkInnocent}>
-					<div class="reset icon" />
-					아크 이노센트
-				</button>
+	{:else if selectedId === 4}
+		<!-- only scroll -->
+		<br><br>
+		{#each getOnlyScrolls($gear) as scroll, i}
+			<div class="st-line-wrapper {i === 0 ? 'first' : ''}">
+				<ClickableTile
+					light
+					title={optionToStrings(scroll.stat).join('\n')}
+					on:click={() => scrollSingle(scroll)}
+					disabled={!canOnlyScroll}
+					style="min-height: 0;"
+				>
+					{scroll.name}
+				</ClickableTile>
+				<div class="vr" />
+				<ClickableTile
+					light
+					on:click={() => scrollFull(scroll)}
+					disabled={!canOnlyScroll}
+					style="min-width: 0; min-height: 0;"
+				>
+					+{$gear.upgradeCountLeft}
+				</ClickableTile>
 			</div>
-			<div class="label">
-				<div class="spelltrace" />
-				<h4>주문의 흔적</h4>
-			</div>
-			<div class="st">
-				{#each getSpellTraceInfos($gear, getTypes($gear)) as info}
-					<div class="st-wrapper">
-						<button
-							title={optionToStrings(info.scroll.stat).join('\n')}
-							on:click={() => scrollSingle(info.scroll)}
-							disabled={!canScroll}
-						>
-							<div class="spelltrace-{info.prob} icon" />
-							{info.scroll.name}
-						</button>
-						<button
-							title="완작"
-							on:click={() => spellTraceFull(info.type, info.prob)}
-							disabled={!canScroll}
-						>
-							+{$gear.upgradeCountLeft}
-						</button>
-					</div>
-				{/each}
-			</div>
-			<div class="label">
-				<div class="chaos" />
-				<h4>혼돈의 주문서</h4>
-			</div>
-			<div class="chaos-wrapper">
-				{#each chaosStats as chaos}
-					<div>
-						<label>
-							{chaos.name}
-							<input type="number" bind:value={chaos.value} />
-						</label>
-					</div>
-				{/each}
-			</div>
-			<button class="apply-chaos" on:click={() => scrollSingle(createChaosScroll(chaosStats))}>
-				혼돈의 주문서 적용
-			</button>
-		</div>
+		{/each}
 	{/if}
 {:else}
 	주문서 강화 불가
@@ -508,13 +485,13 @@
 	.label {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--cds-spacing-03);
 	}
 
 	.general {
 		display: grid;
 		grid-template-columns: repeat(5, 1fr);
-		margin-top: 1rem;
+		margin-top: var(--cds-spacing-05);
 	}
 	.general > * {
 		border: 5px solid red;
@@ -531,8 +508,7 @@
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
-		line-height: normal;
-		gap: 0.5rem;
+		gap: var(--cds-spacing-03);
 	}
 
 	.st-line-wrapper {
@@ -545,22 +521,22 @@
 		}
 	}
 	.st-line-wrapper:not(.first) {
-		border-top: 1px solid #e0e0e0;
+		border-top: 1px solid var(--cds-border-subtle);
 	}
 
 	.vr {
-		background-color: #e0e0e0;
+		background-color: var(--cds-border-subtle);
 	}
 
 	.st-content-wrapper {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--cds-spacing-03);
 	}
 
 	.st-icon-wrapper {
 		display: flex;
-		height: 1em;
+		height: var(--cds-spacing-05);
 		align-items: center;
 	}
 
@@ -568,8 +544,8 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		gap: 0.5rem;
-		height: 1rem;
+		gap: var(--cds-spacing-03);
+		height: var(--cds-spacing-05);
 	}
 
 	.icon-wrapper {
@@ -577,7 +553,7 @@
 		height: 2rem;
 	}
 
-	* p .icon {
+	* p .icon, * div[disabled="true"] .icon {
 		filter: grayscale(1) contrast(0.5) brightness(1.3);
 	}
 

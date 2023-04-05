@@ -31,7 +31,7 @@
 	const datas = Object.entries(gearJson);
 
 	$: result = search(datas, name.trim());
-	$: filtered = result.filter((data) => canJob(data[1], job));
+	$: filtered = job > 0 ? result.filter((data) => canJob(data[1], job)) : result;
 
 	function search(datas: [string, GearData][], word: string) {
 		if (word.length < 1) {
@@ -64,7 +64,7 @@
 
 <Search placeholder="아이템 검색" bind:value={name} />
 
-<ContentSwitcher bind:selectedIndex={job} style="margin-top: 1rem; margin-bottom: 1rem">
+<ContentSwitcher bind:selectedIndex={job} style="margin-top: var(--cds-spacing-05); margin-bottom: var(--cds-spacing-05)">
 	<Switch text="전체" />
 	<Switch text="전사" />
 	<Switch text="마법사" />
@@ -110,10 +110,10 @@
 	.add-item {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
+		gap: var(--cds-spacing-05);
 	}
 
 	.row:not(.first) {
-		border-top: 1px solid #E0E0E0;
+		border-top: 1px solid var(--cds-border-subtle);
 	}
 </style>
