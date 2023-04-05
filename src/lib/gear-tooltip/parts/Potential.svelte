@@ -3,7 +3,7 @@
 
 	export let additional: boolean = false;
 	export let grade: PotentialGrade;
-	export let potentials: Potential[];
+	export let potentials: (Potential | null)[];
 
 	function getGradeName(grade: PotentialGrade) {
 		switch (grade) {
@@ -47,6 +47,7 @@
 		line-height: 15px;
 		font-size: 11px;
 		font-family: 돋움;
+		letter-spacing: normal;
 		color: var(--gear-white);
 	}
 

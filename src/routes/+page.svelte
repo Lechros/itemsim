@@ -8,18 +8,28 @@
 	import Potentials from './Potentials.svelte';
 	import Upgrade from './Upgrade.svelte';
 	import 'carbon-components-svelte/css/white.css';
-	import { Button, Column, Row, Grid, Content, Modal, Tab, Tabs, Tile, TabContent } from 'carbon-components-svelte';
+	import {
+		Button,
+		Column,
+		Row,
+		Grid,
+		Content,
+		Modal,
+		Tab,
+		Tabs,
+		TabContent
+	} from 'carbon-components-svelte';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import InvSlot from './InvSlot.svelte';
 	import AddGear from './AddGear.svelte';
 
 	let addGear: AddGear;
 	let addOpen = false;
-	let addIds: Set<string> = new Set();
+	let addIds: Map<string, string> = new Map();
 	let addCount = 0;
 
-	function addItems(ids: Set<string>) {
-		for (const id of ids) {
+	function addItems(ids: Map<string, string>) {
+		for (const id of ids.keys()) {
 			const gear = createGearFromId(Number(id));
 			if (!gear) continue;
 			for (let i = 0; i < $inventory.length; i++) {
@@ -35,6 +45,20 @@
 		$inventory[$selected].gear = undefined;
 		$selected = -1;
 	}
+
+	function getAddMessage(ids: Map<string, string>, count: number) {
+		if (count > 1) {
+			return `선택한 ${count}개의 아이템 추가`;
+		} else if (count === 1) {
+			return `'${ids.values().next().value}' 추가`;
+		} else {
+			return '선택한 아이템이 없습니다';
+		}
+	}
+
+	let innerWidth: number;
+
+	$: topPadding = innerWidth > 1056 ? 10 : 5;
 
 	/* mouse cursor tooltip */
 	let cursorGear: Gear | undefined;
@@ -52,6 +76,8 @@
 		m.y = event.clientY;
 	}
 </script>
+
+<svelte:window bind:innerWidth />
 
 <div on:mousemove={handleMousemove}>
 	<Content>
@@ -71,7 +97,7 @@
 					<div class="inventory">
 						{#each $inventory as slot, i}
 							<InvSlot
-								on:click={() => ($selected = i)}
+								on:click={() => {if(slot.gear) $selected = i;}}
 								on:mouseenter={() => setCursorGear(slot.gear)}
 								on:mouseleave={() => setCursorGear(undefined)}
 								{slot}
@@ -86,14 +112,14 @@
 
 <Modal
 	passiveModal
-	preventCloseOnClickOutside
 	modalHeading="아이템 강화"
 	open={$selected > -1}
-	on:close={() => $selected = -1}
+	on:close={() => ($selected = -1)}
+	style="align-items: start; padding-top: {topPadding}vh;"
 >
 	{#if $gear}
 		<div class="enchant">
-				<GearTooltip gear={$gear} />
+			<GearTooltip gear={$gear} />
 			<div>
 				<Tabs autoWidth>
 					<Tab>추가옵션</Tab>
@@ -124,7 +150,7 @@
 	bind:open={addOpen}
 	size="sm"
 	modalHeading="아이템 추가"
-	primaryButtonText={addCount > 0 ? `선택한 ${addCount}개의 아이템 추가` : "선택한 아이템이 없습니다"}
+	primaryButtonText={getAddMessage(addIds, addCount)}
 	primaryButtonDisabled={addCount === 0}
 	secondaryButtonText="취소"
 	selectorPrimaryFocus="input"
@@ -139,11 +165,12 @@
 		addGear.resetIds();
 		addOpen = false;
 	}}
+	style="align-items: start; padding-top: {topPadding}vh;"
 >
-	<AddGear selectedIds={addIds} bind:count={addCount} bind:this={addGear}/>
+	<AddGear selectedIds={addIds} bind:count={addCount} bind:this={addGear} />
 </Modal>
 
-<div class="cursor-tooltip" class:hidden={$gear !== undefined} style="top: {m.y}px; left: {m.x}px;">
+<div class="cursor-tooltip" style="top: {m.y}px; left: {m.x}px;">
 	{#if cursorGear}
 		<GearTooltip gear={cursorGear} />
 	{/if}
@@ -169,9 +196,7 @@
 		position: absolute;
 		pointer-events: none;
 	}
-	.cursor-tooltip.hidden {
-		display: none;
-	}
+
 	@media (hover: none) {
 		.cursor-tooltip {
 			display: none;
@@ -181,7 +206,7 @@
 	.enchant {
 		display: grid;
 		grid-template-columns: 261px 1fr;
-		gap: 1rem
+		gap: 1rem;
 	}
 
 	@media (max-width: 50rem) {

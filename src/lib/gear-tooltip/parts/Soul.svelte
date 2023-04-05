@@ -33,6 +33,7 @@
 		line-height: 16px;
 		font-size: 12px;
 		font-family: 돋움;
+		letter-spacing: normal;
 	}
 
 	.white {

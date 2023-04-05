@@ -1,12 +1,17 @@
 <script lang="ts">
 	import { gearJson, type GearData } from '@malib/create-gear';
-	import { ContentSwitcher, Search, SelectableTile, Switch } from 'carbon-components-svelte';
+	import {
+		ContentSwitcher,
+		Search,
+		SelectableTile,
+		Switch
+	} from 'carbon-components-svelte';
 
-	export let selectedIds: Set<string>;
+	export let selectedIds: Map<string, string>;
 	export let count: number;
 
 	export function resetSearchValue() {
-		name = "";
+		name = '';
 	}
 
 	export function resetJob() {
@@ -59,7 +64,7 @@
 
 <Search placeholder="아이템 검색" bind:value={name} />
 
-<ContentSwitcher bind:selectedIndex={job} style="margin: 1rem 0;">
+<ContentSwitcher bind:selectedIndex={job} style="margin-top: 1rem; margin-bottom: 1rem">
 	<Switch text="전체" />
 	<Switch text="전사" />
 	<Switch text="마법사" />
@@ -68,23 +73,31 @@
 	<Switch text="해적" />
 </ContentSwitcher>
 
-{#each filtered as data}
-	<SelectableTile
-		selected={selectedIds.has(data[0])}
-		on:select={() => {selectedIds.add(data[0]); count = selectedIds.size}}
-		on:deselect={() => {selectedIds.delete(data[0]); count = selectedIds.size}}
-	>
-		<div class="add-item">
-			<img
-				src="https://maplestory.io/api/KMS/367/item/{data[0]}/icon"
-				alt={data[1].name}
-				style="
-					margin-left: {1 - data[1].origin[0]}px;
-					margin-top: {33 - data[1].origin[1]}px;"
-			/>
-			{data[1].name}
-		</div>
-	</SelectableTile>
+{#each filtered as data, i}
+	<div class="row" class:first={i === 0}>
+		<SelectableTile
+			selected={selectedIds.has(data[0])}
+			on:select={() => {
+				selectedIds.set(data[0], data[1].name);
+				count = selectedIds.size;
+			}}
+			on:deselect={() => {
+				selectedIds.delete(data[0]);
+				count = selectedIds.size;
+			}}
+		>
+			<div class="add-item">
+				<img
+					src="https://maplestory.io/api/KMS/367/item/{data[0]}/icon"
+					alt={data[1].name}
+					style="
+						margin-left: {1 - data[1].origin[0]}px;
+						margin-top: {33 - data[1].origin[1]}px;"
+				/>
+				{data[1].name}
+			</div>
+		</SelectableTile>
+	</div>
 {:else}
 	{#if name.length > 0}
 		검색된 아이템이 없습니다.
@@ -98,5 +111,9 @@
 		display: flex;
 		align-items: center;
 		gap: 1rem;
+	}
+
+	.row:not(.first) {
+		border-top: 1px solid #E0E0E0;
 	}
 </style>

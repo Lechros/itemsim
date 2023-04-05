@@ -120,15 +120,23 @@
 </script>
 
 {#if $gear && canBonus()}
-	<Row>
+	<Row style="margin-top: 1rem;">
 		<Column>
 			<Button kind="danger" class="reset" on:click={reset}>초기화</Button>
 		</Column>
 	</Row>
-	<div class="bonus">
+	<div class="bonus-wrapper">
+		<Row>
+			<Column>
+				<p>종류</p>
+			</Column>
+			<Column>
+				<p>등급</p>
+			</Column>
+		</Row>
 		{#each $meta.bonus as bonus}
 			<Row>
-				<Column noGutterRight>
+				<Column>
 					<Select
 						bind:selected={bonus.type}
 						on:change={() => {
@@ -143,7 +151,7 @@
 					</Select>
 				</Column>
 				<Column>
-					<Select bind:selected={bonus.grade} on:change={onChange} disabled={bonus.type === -1}>
+					<Select disabled={bonus.type === -1} bind:selected={bonus.grade} on:change={onChange}>
 						<SelectItem value={0} text="---" />
 						{#each getGrades(bossReward) as grade}
 							<SelectItem value={grade} text={getGradeRepr(bonus.type, grade)} />
@@ -156,3 +164,12 @@
 {:else}
 	추가옵션 설정 불가
 {/if}
+
+<style>
+	.bonus-wrapper {
+		margin-top: 2rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+</style>

@@ -346,12 +346,14 @@
 		font-family: 돋움;
 		font-weight: bold;
 		white-space: pre;
+		letter-spacing: normal;
 	}
 	.text {
 		line-height: 15px;
 		font-size: 11px;
 		font-family: 돋움;
 		white-space: pre-wrap;
+		letter-spacing: normal;
 	}
 
 	.gray {
