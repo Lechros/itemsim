@@ -14,6 +14,7 @@ specifiers:
   eslint: ^8.37.0
   eslint-config-prettier: ^8.8.0
   eslint-plugin-svelte3: ^4.0.0
+  lz-string: ^1.5.0
   prettier: ^2.8.7
   prettier-plugin-svelte: ^2.10.0
   svelte: ^3.58.0
@@ -39,6 +40,7 @@ devDependencies:
   eslint: 8.37.0
   eslint-config-prettier: 8.8.0_eslint@8.37.0
   eslint-plugin-svelte3: 4.0.0_4gllgxcu6gmiyy5rrmqexpx7de
+  lz-string: 1.5.0
   prettier: 2.8.7
   prettier-plugin-svelte: 2.10.0_ur5pqdgn24bclu6l6i7qojopk4
   svelte: 3.58.0
@@ -1597,6 +1599,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+    dev: true
+
+  /lz-string/1.5.0:
+    resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
+    hasBin: true
     dev: true
 
   /magic-string/0.27.0:

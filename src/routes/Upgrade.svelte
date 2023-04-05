@@ -98,11 +98,10 @@
 	let selectedId = 0;
 
 	$: {
-		if(onlyUpgrade) {
-			if(selectedId !== 4) selectedId = 4;
-		}
-		else {
-			if(selectedId === 4) selectedId = 0;
+		if (onlyUpgrade) {
+			if (selectedId !== 4) selectedId = 4;
+		} else {
+			if (selectedId === 4) selectedId = 0;
 		}
 	}
 
@@ -274,20 +273,30 @@
 	<Row>
 		<Column>
 			<div class="general">
-				<Button kind="secondary" on:click={() => hammer()} disabled={!canHammer} style="padding: var(--cds-spacing-05);">
+				<Button
+					kind="secondary"
+					on:click={() => hammer()}
+					disabled={!canHammer}
+					style="padding: var(--cds-spacing-05);"
+				>
 					<div class="wrapper">
 						<div class="hammer icon" />
 						황금 망치
 					</div>
 				</Button>
-				<Button kind="secondary"  on:click={() => fail()} disabled={!canFail} style="padding: var(--cds-spacing-05);">
+				<Button
+					kind="secondary"
+					on:click={() => fail()}
+					disabled={!canFail}
+					style="padding: var(--cds-spacing-05);"
+				>
 					<div class="wrapper">
 						<div class="fail icon" />
 						주문서 실패
 					</div>
 				</Button>
-				<Button kind="secondary"
-
+				<Button
+					kind="secondary"
 					on:click={() => restore()}
 					disabled={!canRestore}
 					style="padding: var(--cds-spacing-05);"
@@ -297,20 +306,22 @@
 						순백의 주문서
 					</div>
 				</Button>
-				<Button kind="secondary"
-
+				<Button
+					kind="secondary"
 					on:click={() => innocent()}
-					disabled={!canInnocent} style="padding: var(--cds-spacing-05);"
+					disabled={!canInnocent}
+					style="padding: var(--cds-spacing-05);"
 				>
 					<div class="wrapper">
 						<div class="reset icon" />
 						이노센트
 					</div>
 				</Button>
-				<Button kind="secondary"
-
+				<Button
+					kind="secondary"
 					on:click={() => arkInnocent()}
-					disabled={!canArkInnocent} style="padding: var(--cds-spacing-05);"
+					disabled={!canArkInnocent}
+					style="padding: var(--cds-spacing-05);"
 				>
 					<div class="wrapper">
 						<div class="reset icon" />
@@ -418,7 +429,7 @@
 		</Row>
 	{:else if selectedId === 2}
 		<!-- chaos scroll -->
-		<Row style="margin-top: var(--cds-spacing-05);">
+		<Row style="margin-top: var(--cds-spacing-05)">
 			{#each chaosStats as chaos}
 				<Column style="margin-top: var(--cds-spacing-05);">
 					<NumberInput
@@ -431,6 +442,8 @@
 					/>
 				</Column>
 			{/each}
+			<!-- Placeholder since there's only 11 columns -->
+			<Column />
 		</Row>
 		<Row style="margin-top: var(--cds-spacing-05);">
 			<Column>
@@ -451,13 +464,11 @@
 		</Row>
 	{:else if selectedId === 3}
 		<Row style="margin-top: var(--cds-spacing-07);">
-			<Column>
-				해당 장비에 사용 가능한 특수 주문서가 존재하지 않습니다.
-			</Column>
+			<Column>해당 장비에 사용 가능한 특수 주문서가 존재하지 않습니다.</Column>
 		</Row>
 	{:else if selectedId === 4}
 		<!-- only scroll -->
-		<br><br>
+		<br /><br />
 		{#each getOnlyScrolls($gear) as scroll, i}
 			<div class="st-line-wrapper {i === 0 ? 'first' : ''}">
 				<ClickableTile
@@ -558,7 +569,8 @@
 		height: 2rem;
 	}
 
-	* p .icon, * div[disabled="true"] .icon {
+	* p .icon,
+	* div[disabled='true'] .icon {
 		filter: grayscale(1) contrast(0.5) brightness(1.3);
 	}
 

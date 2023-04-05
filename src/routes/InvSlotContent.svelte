@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PotentialGrade } from '@malib/gear';
-	import { AspectRatio, ClickableTile } from 'carbon-components-svelte';
+	import { AspectRatio, ClickableTile, Tag } from 'carbon-components-svelte';
 
 	import type { GearSlot } from './gear-store';
 
@@ -37,12 +37,21 @@
 					margin-left: {1 - gear.icon.origin[0]}px;
 					margin-top: {33 - gear.icon.origin[1]}px;"
 			/>
-			{#if gear.star > 0}
-				<div class="star">
-					<span class="icon {gear.amazing ? 'blue' : 'yellow'}" />
-					{gear.star}
-				</div>
-			{/if}
+			<div class="star-wrapper">
+				{#if gear.star > 0}
+					<Tag size="sm" type="high-contrast">
+						<div class="star">
+							<div class="icon {gear.amazing ? 'blue' : 'yellow'}" />
+							{gear.star}
+						</div>
+					</Tag>
+				{/if}
+				{#if gear.upgradeCount > 0}
+					<Tag size="sm">
+						+{gear.upgradeCount}
+					</Tag>
+				{/if}
+			</div>
 			<div class="grade-wrapper">
 				<div class="grade-icon {getIconName(gear.grade)}" />
 				<div class="grade-icon {getIconName(gear.additionalGrade)}" />
@@ -65,33 +74,50 @@
 		scale: 2;
 	}
 
-	.star {
+	.star-wrapper {
 		position: absolute;
 		top: calc(var(--cds-spacing-03) * -1);
 		left: calc(var(--cds-spacing-03) * -1);
+	}
+
+	.star {
 		display: flex;
 		font-size: 12px;
 		gap: 2px;
 		align-items: baseline;
 	}
 
-	.star > .icon {
+	.star .icon {
 		width: 11px;
 		height: 10px;
 	}
-	.star > .yellow {
+	.star .yellow {
 		background-image: url(../images/yellow.png);
 	}
-	.star > .blue {
+	.star .blue {
 		background-image: url(../images/blue.png);
 	}
 
 	.grade-wrapper {
 		position: absolute;
-		right: calc(var(--cds-spacing-03) * -1);
-		bottom: calc(var(--cds-spacing-03) * -1);
+		right: calc(var(--cds-spacing-02) * -1);
+		bottom: calc(var(--cds-spacing-02) * -1);
 		display: flex;
 		flex-direction: column;
+		gap: var(--cds-spacing-01);
+	}
+
+	@media (max-width: 24rem) {
+		.star-wrapper {
+			top: calc(var(--cds-spacing-04) * -1);
+			left: calc(var(--cds-spacing-04) * -1);
+		}
+
+		.grade-wrapper {
+			right: calc(var(--cds-spacing-03) * -1);
+			bottom: calc(var(--cds-spacing-03) * -1);
+			gap: 0;
+		}
 	}
 
 	.grade-icon {

@@ -18,14 +18,15 @@
 		Tabs,
 		TabContent,
 		SelectableTile,
-		ClickableTile,
-		ToastNotification
+		ClickableTile
 	} from 'carbon-components-svelte';
 	import 'carbon-components-svelte/css/all.css';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import InvSlot from './InvSlotContent.svelte';
 	import AddGear from './AddGear.svelte';
 	import { Close, TrashCan } from 'carbon-icons-svelte';
+	import Manage from './Manage.svelte';
+	import { afterUpdate } from 'svelte';
 
 	/* theme */
 	let theme: 'white' | 'g10' | 'g80' | 'g90' | 'g100';
@@ -77,11 +78,13 @@
 	}
 
 	/* modal */
-	let innerWidth: number;
+	let innerWidth: number, innerHeight: number;
 
 	$: topPadding = innerWidth > 1056 ? 10 : 5;
 
 	/* mouse cursor tooltip */
+	let cursorTooltip: HTMLDivElement;
+
 	let cursorGear: Gear | undefined;
 	$: if ($selected > -1) {
 		cursorGear = undefined;
@@ -92,13 +95,16 @@
 	}
 
 	let m = { x: 0, y: 0 };
+
 	function handleMousemove(event: MouseEvent) {
-		m.x = event.clientX;
-		m.y = event.clientY;
+		if (cursorTooltip) {
+			m.x = Math.max(0, Math.min(event.clientX, innerWidth - cursorTooltip.clientWidth));
+			m.y = Math.max(0, Math.min(event.clientY, innerHeight - cursorTooltip.clientHeight));
+		}
 	}
 </script>
 
-<svelte:window bind:innerWidth />
+<svelte:window bind:innerWidth bind:innerHeight />
 
 <div on:mousemove={handleMousemove}>
 	<Content>
@@ -110,26 +116,49 @@
 				<Column>
 					<div class="inv-buttons">
 						{#if !deleteMode}
-							<Button icon={Add} on:click={() => (addOpen = true)}>아이템 추가</Button>
+							{#if innerWidth > 16 * 24}
+								<Button icon={Add} on:click={() => (addOpen = true)}>아이템 추가</Button>
+							{:else}
+								<Button
+									icon={Add}
+									iconDescription="아이템 추가"
+									on:click={() => (addOpen = true)}
+								/>
+							{/if}
 							<Button
 								kind="danger"
 								icon={TrashCan}
-								iconDescription="아이템 삭제"
+								iconDescription="삭제"
+								disabled={!$inventory.some((slot) => slot.gear !== undefined)}
 								on:click={() => (deleteMode = true)}
 							/>
 						{:else}
-							<Button
-								kind="danger"
-								icon={TrashCan}
-								disabled={toDelete.size === 0}
-								on:click={() => {
-									deleteItems();
-									deleteMode = false;
-									toDelete.clear();
-								}}
-							>
-								아이템 {toDelete.size}개 삭제
-							</Button>
+							{#if innerWidth > 16 * 24}
+								<Button
+									kind="danger"
+									icon={TrashCan}
+									disabled={toDelete.size === 0}
+									on:click={() => {
+										deleteItems();
+										toDelete.clear();
+										toDelete = toDelete;
+									}}
+								>
+									아이템 {toDelete.size}개 삭제
+								</Button>
+							{:else}
+								<Button
+									kind="danger"
+									icon={TrashCan}
+									iconDescription="아이템 삭제"
+									disabled={toDelete.size === 0}
+									on:click={() => {
+										deleteItems();
+										toDelete.clear();
+										toDelete = toDelete;
+									}}
+								/>
+							{/if}
 							<Button
 								kind="secondary"
 								icon={Close}
@@ -155,6 +184,7 @@
 									}}
 									on:mouseenter={() => setCursorGear(slot.gear)}
 									on:mouseleave={() => setCursorGear(undefined)}
+									style="min-width: 0;"
 								>
 									<InvSlot _slot={slot} />
 								</ClickableTile>
@@ -172,7 +202,7 @@
 									}}
 									on:mouseenter={() => setCursorGear(slot.gear)}
 									on:mouseleave={() => setCursorGear(undefined)}
-									style="padding: calc(var(--cds-spacing-05) - 1px);"
+									style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
 								>
 									<InvSlot _slot={slot} />
 								</SelectableTile>
@@ -195,13 +225,16 @@
 >
 	{#if $gear}
 		<div class="enchant">
-			<GearTooltip gear={$gear} />
+			<div class="tooltip-wrapper">
+				<GearTooltip gear={$gear} />
+			</div>
 			<div>
 				<Tabs autoWidth>
 					<Tab>추가옵션</Tab>
 					<Tab>주문서</Tab>
 					<Tab>강화</Tab>
 					<Tab>잠재옵션</Tab>
+					<Tab>관리</Tab>
 					<svelte:fragment slot="content">
 						<TabContent>
 							<BonusStat />
@@ -214,6 +247,9 @@
 						</TabContent>
 						<TabContent>
 							<Potentials />
+						</TabContent>
+						<TabContent>
+							<Manage />
 						</TabContent>
 					</svelte:fragment>
 				</Tabs>
@@ -246,7 +282,7 @@
 	<AddGear selectedIds={addIds} bind:count={addCount} bind:this={addGear} />
 </Modal>
 
-<div class="cursor-tooltip" style="top: {m.y}px; left: {m.x}px;">
+<div class="cursor-tooltip" style="top: {m.y}px; left: {m.x}px;" bind:this={cursorTooltip}>
 	{#if cursorGear}
 		<GearTooltip gear={cursorGear} />
 	{/if}
@@ -275,7 +311,7 @@
 	}
 
 	.cursor-tooltip {
-		position: absolute;
+		position: fixed;
 		pointer-events: none;
 	}
 
@@ -295,7 +331,10 @@
 		.enchant {
 			display: flex;
 			flex-direction: column;
-			align-items: center;
+		}
+
+		.enchant > .tooltip-wrapper {
+			align-self: center;
 		}
 	}
 </style>
