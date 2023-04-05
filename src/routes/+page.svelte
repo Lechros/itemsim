@@ -2,31 +2,30 @@
 	import GearTooltip from '$lib/gear-tooltip/GearTooltip.svelte';
 	import { createGearFromId } from '@malib/create-gear';
 	import type { Gear } from '@malib/gear';
-	import BonusStat from './BonusStat.svelte';
-	import Enhance from './Enhance.svelte';
-	import { gear, inventory, selected } from './gear-store';
-	import Potentials from './Potentials.svelte';
-	import Upgrade from './Upgrade.svelte';
 	import {
 		Button,
+		ClickableTile,
 		Column,
-		Row,
-		Grid,
 		Content,
+		Grid,
 		Modal,
-		Tab,
-		Tabs,
-		TabContent,
+		Row,
 		SelectableTile,
-		ClickableTile
+		Tab,
+		TabContent,
+		Tabs
 	} from 'carbon-components-svelte';
 	import 'carbon-components-svelte/css/all.css';
-	import Add from 'carbon-icons-svelte/lib/Add.svelte';
-	import InvSlot from './InvSlotContent.svelte';
-	import AddGear from './AddGear.svelte';
 	import { Close, TrashCan } from 'carbon-icons-svelte';
+	import Add from 'carbon-icons-svelte/lib/Add.svelte';
+	import AddGear from './AddGear.svelte';
+	import BonusStat from './BonusStat.svelte';
+	import Enhance from './Enhance.svelte';
+	import InvSlot from './InvSlotContent.svelte';
 	import Manage from './Manage.svelte';
-	import { afterUpdate } from 'svelte';
+	import Potentials from './Potentials.svelte';
+	import Upgrade from './Upgrade.svelte';
+	import { gear, inventory, selected } from './gear-store';
 
 	/* theme */
 	let theme: 'white' | 'g10' | 'g80' | 'g90' | 'g100';

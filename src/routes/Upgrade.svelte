@@ -22,14 +22,12 @@
 		Column,
 		ContentSwitcher,
 		Dropdown,
-		Grid,
 		NumberInput,
 		Row,
 		Select,
 		SelectItem,
 		Switch
 	} from 'carbon-components-svelte';
-	import { text } from 'svelte/internal';
 	import { gear } from './gear-store';
 	import { optionToStrings } from './strings';
 	import { getOnlyScrolls } from './upgrade';

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import {
-		addBonusStat,
 		BonusStatType,
 		Gear,
 		GearPropType,
 		GearType,
+		addBonusStat,
 		getBonusStatValue,
 		resetBonusStat,
 		type BonusStatGrade
@@ -13,7 +13,7 @@
 	import { gear, meta } from './gear-store';
 	import { getName } from './strings';
 
-	$: if($meta.bonus.length === 0) {
+	$: if ($meta.bonus.length === 0) {
 		reset();
 	}
 

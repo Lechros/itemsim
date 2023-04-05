@@ -1,11 +1,6 @@
 <script lang="ts">
 	import { gearJson, type GearData } from '@malib/create-gear';
-	import {
-		ContentSwitcher,
-		Search,
-		SelectableTile,
-		Switch
-	} from 'carbon-components-svelte';
+	import { ContentSwitcher, Search, SelectableTile, Switch } from 'carbon-components-svelte';
 
 	export let selectedIds: Map<string, string>;
 	export let count: number;
@@ -64,7 +59,10 @@
 
 <Search placeholder="아이템 검색" bind:value={name} />
 
-<ContentSwitcher bind:selectedIndex={job} style="margin-top: var(--cds-spacing-05); margin-bottom: var(--cds-spacing-05)">
+<ContentSwitcher
+	bind:selectedIndex={job}
+	style="margin-top: var(--cds-spacing-05); margin-bottom: var(--cds-spacing-05)"
+>
 	<Switch text="전체" />
 	<Switch text="전사" />
 	<Switch text="마법사" />

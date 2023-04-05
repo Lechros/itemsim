@@ -1,11 +1,11 @@
 import {
 	BonusStatType,
 	Gear,
-	type BonusStatGrade,
-	type GearLike,
 	gearToPlain,
+	isGearLike,
 	plainToGear,
-	isGearLike
+	type BonusStatGrade,
+	type GearLike
 } from '@malib/gear';
 import { writable } from 'svelte/store';
 

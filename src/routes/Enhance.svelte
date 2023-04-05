@@ -1,13 +1,13 @@
 <script lang="ts">
 	import {
+		GearPropType,
 		addAmazingEnhancement,
 		addStarforce,
-		GearPropType,
 		resetEnhancement,
 		type Gear
 	} from '@malib/gear';
+	import { Button, Column, Row } from 'carbon-components-svelte';
 	import { gear } from './gear-store';
-	import { Button, ButtonSet, Column, Row } from 'carbon-components-svelte';
 
 	$: canStar = $gear.maxStar > $gear.star;
 	$: canStar17 = $gear.star < 17 && $gear.maxStar >= 17;

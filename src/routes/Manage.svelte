@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { stringifyGear } from '@malib/gear';
 	import { Button } from 'carbon-components-svelte';
-	import { gear } from './gear-store';
 	import { Download } from 'carbon-icons-svelte';
 	import lzs from 'lz-string';
+	import { gear } from './gear-store';
 
 	$: gearStr = stringifyGear($gear);
 	$: gearURI = lzs.compressToEncodedURIComponent(gearStr);
