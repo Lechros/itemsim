@@ -531,6 +531,7 @@
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
+		line-height: normal;
 		gap: 0.5rem;
 	}
 
