@@ -7,6 +7,7 @@
 		type Gear
 	} from '@malib/gear';
 	import { gear } from './gear-store';
+	import { Button, ButtonSet, Column, Row } from 'carbon-components-svelte';
 
 	$: canStar = $gear.maxStar > $gear.star;
 	$: canStar17 = $gear.star < 17 && $gear.maxStar >= 17;
@@ -53,49 +54,59 @@
 </script>
 
 {#if $gear && canEnhance($gear)}
-	<div class="enhance">
-		<button on:click={starforce} disabled={!canStar}>
-			<div class="starforce icon" />
-			스타포스
-		</button>
-		<button on:click={starforce17} disabled={!canStar17}>
-			<div class="starforce-17 icon" />
-			스타포스 17성
-		</button>
-		<button on:click={starforce22} disabled={!canStar22}>
-			<div class="starforce-22 icon" />
-			스타포스 22성
-		</button>
-		<button on:click={amazing} disabled={!canAmazing}>
-			<div class="amazing icon" />
-			놀라운 장비 강화
-		</button>
-		<button on:click={reset} disabled={!canReset}>
-			<div class="reset icon" />
-			스타포스 초기화
-		</button>
-	</div>
+	<Row>
+		<Column>
+			<div class="enhance">
+				<Button kind="secondary" on:click={starforce} disabled={!canStar}>
+					<div class="wrapper">
+						<div class="starforce icon" />
+						스타포스
+					</div>
+				</Button>
+				<Button kind="secondary" on:click={starforce17} disabled={!canStar17}>
+					<div class="wrapper">
+						<div class="starforce-17 icon" />
+						스타포스 17성
+					</div>
+				</Button>
+				<Button kind="secondary" on:click={starforce22} disabled={!canStar22}>
+					<div class="wrapper">
+						<div class="starforce-22 icon" />
+						스타포스 22성
+					</div>
+				</Button>
+				<Button kind="secondary" on:click={amazing} disabled={!canAmazing}>
+					<div class="wrapper">
+						<div class="amazing icon" />
+						놀라운 장비 강화
+					</div>
+				</Button>
+				<Button kind="secondary" on:click={reset} disabled={!canReset}>
+					<div class="wrapper">
+						<div class="reset icon" />
+						스타포스 초기화
+					</div>
+				</Button>
+			</div>
+		</Column>
+	</Row>
 {:else}
 	강화 불가
 {/if}
 
 <style>
 	.enhance {
-		display: grid;
-		grid-template-columns: repeat(5, 5em);
-		grid-template-rows: 5em;
-		gap: 0.5rem;
-	}
-
-	.enhance button {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		row-gap: 0.5rem;
 	}
 
-	button:disabled .icon {
+	.wrapper {
+		display: flex;
+		align-items: center;
+		gap: var(--cds-spacing-03);
+	}
+
+	* *[disabled] .icon {
 		filter: grayscale(1) contrast(0.5) brightness(1.3);
 	}
 
@@ -108,11 +119,15 @@
 		background-image: url(../images/star17.png);
 		width: 32px;
 		height: 31px;
+		margin-top: 2px;
+		margin-left: 1px;
 	}
 	.starforce-22.icon {
 		background-image: url(../images/star22.png);
 		width: 35px;
 		height: 34px;
+		margin-top: -1px;
+		margin-left: -1px;
 	}
 	.amazing.icon {
 		background-image: url(../images/amazing.png);
@@ -123,5 +138,7 @@
 		background-image: url(../images/innocent.png);
 		width: 30px;
 		height: 26px;
+		margin-top: 4px;
+		margin-left: 2px;
 	}
 </style>

@@ -274,51 +274,49 @@
 	<Row>
 		<Column>
 			<div class="general">
-				<ClickableTile light on:click={() => hammer()} disabled={!canHammer} style="min-width: 0;">
+				<Button kind="secondary" on:click={() => hammer()} disabled={!canHammer} style="padding: var(--cds-spacing-05);">
 					<div class="wrapper">
 						<div class="hammer icon" />
 						황금 망치
 					</div>
-				</ClickableTile>
-				<ClickableTile light on:click={() => fail()} disabled={!canFail} style="min-width: 0;">
+				</Button>
+				<Button kind="secondary"  on:click={() => fail()} disabled={!canFail} style="padding: var(--cds-spacing-05);">
 					<div class="wrapper">
 						<div class="fail icon" />
 						주문서 실패
 					</div>
-				</ClickableTile>
-				<ClickableTile
-					light
+				</Button>
+				<Button kind="secondary"
+
 					on:click={() => restore()}
 					disabled={!canRestore}
-					style="min-width: 0;"
+					style="padding: var(--cds-spacing-05);"
 				>
 					<div class="wrapper">
 						<div class="restore icon" />
 						순백의 주문서
 					</div>
-				</ClickableTile>
-				<ClickableTile
-					light
+				</Button>
+				<Button kind="secondary"
+
 					on:click={() => innocent()}
-					disabled={!canInnocent}
-					style="min-width: 0;"
+					disabled={!canInnocent} style="padding: var(--cds-spacing-05);"
 				>
 					<div class="wrapper">
 						<div class="reset icon" />
 						이노센트
 					</div>
-				</ClickableTile>
-				<ClickableTile
-					light
+				</Button>
+				<Button kind="secondary"
+
 					on:click={() => arkInnocent()}
-					disabled={!canArkInnocent}
-					style="min-width: 0;"
+					disabled={!canArkInnocent} style="padding: var(--cds-spacing-05);"
 				>
 					<div class="wrapper">
 						<div class="reset icon" />
 						아크 이노센트
 					</div>
-				</ClickableTile>
+				</Button>
 			</div>
 		</Column>
 	</Row>
@@ -509,6 +507,7 @@
 		align-items: center;
 		text-align: center;
 		gap: var(--cds-spacing-03);
+		width: 100%;
 	}
 
 	.st-line-wrapper {
