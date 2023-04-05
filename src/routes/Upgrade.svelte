@@ -449,6 +449,12 @@
 				</Button>
 			</Column>
 		</Row>
+	{:else if selectedId === 3}
+		<Row style="margin-top: var(--cds-spacing-07);">
+			<Column>
+				해당 장비에 사용 가능한 특수 주문서가 존재하지 않습니다.
+			</Column>
+		</Row>
 	{:else if selectedId === 4}
 		<!-- only scroll -->
 		<br><br>

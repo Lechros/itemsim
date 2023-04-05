@@ -16,24 +16,30 @@
 		Modal,
 		Tab,
 		Tabs,
-		TabContent
+		TabContent,
+
+		SelectableTile
+
 	} from 'carbon-components-svelte';
 	import 'carbon-components-svelte/css/all.css';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import InvSlot from './InvSlot.svelte';
 	import AddGear from './AddGear.svelte';
+	import { TrashCan } from 'carbon-icons-svelte';
 
 	let theme: 'white' | 'g10' | 'g80' | 'g90' | 'g100';
 	theme = 'g10';
-	$: if(typeof document !== "undefined") {
+	$: if (typeof document !== 'undefined') {
 		document.documentElement.setAttribute('theme', theme);
 	}
 
+	/* inventory */
 	let addGear: AddGear;
 	let addOpen = false;
 	let addIds: Map<string, string> = new Map();
 	let addCount = 0;
 
+	/* inventory: add */
 	function addItems(ids: Map<string, string>) {
 		for (const id of ids.keys()) {
 			const gear = createGearFromId(Number(id));
@@ -47,11 +53,6 @@
 		}
 	}
 
-	function deleteItem() {
-		$inventory[$selected].gear = undefined;
-		$selected = -1;
-	}
-
 	function getAddMessage(ids: Map<string, string>, count: number) {
 		if (count > 1) {
 			return `선택한 ${count}개의 아이템 추가`;
@@ -62,6 +63,16 @@
 		}
 	}
 
+	/* inventory: delete */
+	let deleteMode = false;
+	let toDelete = new Map<number, string>();
+
+	function deleteItem() {
+		$inventory[$selected].gear = undefined;
+		$selected = -1;
+	}
+
+	/* modal */
 	let innerWidth: number;
 
 	$: topPadding = innerWidth > 1056 ? 10 : 5;
@@ -93,8 +104,24 @@
 					<h2>인벤토리</h2>
 				</Column>
 				<Column>
-					<div style="display: flex; justify-content: right">
-						<Button icon={Add} on:click={() => (addOpen = true)}>아이템 추가</Button>
+					<div class="inv-buttons">
+						{#if !deleteMode}
+							<Button icon={Add} on:click={() => (addOpen = true)}>아이템 추가</Button>
+							<Button
+								kind="danger"
+								icon={TrashCan}
+								iconDescription="아이템 삭제"
+								on:click={() => (deleteMode = true)}
+							/>
+						{:else}
+							<Button kind="secondary" on:click={() => (deleteMode = false)}>취소</Button>
+							<Button
+								kind="danger"
+								icon={TrashCan}
+								iconDescription="아이템 삭제"
+								on:click={() => (deleteMode = true)}
+							/>
+						{/if}
 					</div>
 				</Column>
 			</Row>
@@ -190,7 +217,7 @@
 		margin-top: var(--cds-spacing-05);
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
-		gap: var(--cds-spacing-05)
+		gap: var(--cds-spacing-05);
 	}
 
 	@media (max-width: 32rem) {
@@ -199,6 +226,12 @@
 			grid-template-columns: repeat(3, 1fr);
 			gap: var(--cds-spacing-05);
 		}
+	}
+
+	.inv-buttons {
+		display: flex;
+		justify-content: right;
+		gap: var(--cds-spacing-03);
 	}
 
 	.cursor-tooltip {

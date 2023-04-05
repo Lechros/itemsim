@@ -98,6 +98,7 @@
 	.enhance {
 		display: flex;
 		flex-direction: column;
+		margin-top: var(--cds-spacing-05);
 	}
 
 	.wrapper {

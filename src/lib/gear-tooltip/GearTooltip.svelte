@@ -216,14 +216,14 @@
 				{/if}
 			</div>
 
-			{#if gear.canPotential && gear.grade > 0 && gear.potentials.length > 0}
+			{#if gear.canPotential && gear.grade > 0 && gear.potentials.some(pot => pot)}
 				<hr class="dotline" style="margin-top: 2px" />
 				<div class="potential part">
 					<Potential grade={gear.grade} potentials={gear.potentials} />
 				</div>
 			{/if}
 
-			{#if gear.canPotential && gear.additionalGrade > 0 && gear.additionalPotentials.length > 0}
+			{#if gear.canPotential && gear.additionalGrade > 0 && gear.additionalPotentials.some(pot => pot)}
 				<hr class="dotline" style="margin-top: 2px" />
 				<div class="add-potential part">
 					<Potential
