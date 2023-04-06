@@ -175,11 +175,10 @@
 							{#each getGradePots(pots, $gear.grade - 1) as pot}
 								<SelectItem value={pot.code} text={pot.convertSummary} />
 							{/each}
-							<SelectItemGroup label="이탈">
-								{#each getGradePots(pots, $gear.grade) as pot}
-									<SelectItem value={pot.code} text={pot.convertSummary} />
-								{/each}
-							</SelectItemGroup>
+							<SelectItemGroup label="이탈" />
+							{#each getGradePots(pots, $gear.grade) as pot}
+								<SelectItem value={pot.code} text={pot.convertSummary} />
+							{/each}
 						{/if}
 					</Select>
 				{/each}
@@ -212,11 +211,10 @@
 							{#each getGradePots(addPots, $gear.additionalGrade - 1) as pot}
 								<SelectItem value={pot.code} text={pot.convertSummary} />
 							{/each}
-							<SelectItemGroup label="이탈">
-								{#each getGradePots(addPots, $gear.additionalGrade) as pot}
-									<SelectItem value={pot.code} text={pot.convertSummary} />
-								{/each}
-							</SelectItemGroup>
+							<SelectItemGroup label="이탈"/>
+							{#each getGradePots(addPots, $gear.additionalGrade) as pot}
+								<SelectItem value={pot.code} text={pot.convertSummary} />
+							{/each}
 						{/if}
 					</Select>
 				{/each}
