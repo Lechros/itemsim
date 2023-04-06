@@ -233,7 +233,7 @@
 	on:close={() => ($selected = -1)}
 	style="align-items: start; padding-top: {topPadding}vh;"
 >
-	{#if $gear}
+	{#if $gear && $gear.itemID > 0}
 		<div class="enchant">
 			<div class="tooltip-wrapper">
 				<GearTooltip gear={$gear} />
@@ -293,7 +293,7 @@
 </Modal>
 
 <div class="cursor-tooltip" style="top: {m.y}px; left: {m.x}px;" bind:this={cursorTooltip}>
-	{#if cursorGear}
+	{#if cursorGear && cursorGear.itemID > 0}
 		<GearTooltip gear={cursorGear} />
 	{/if}
 </div>
