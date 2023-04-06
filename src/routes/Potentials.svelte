@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createPotentialFromCode } from '@malib/create-gear';
 	import { Gear, GearPropType, Potential, PotentialGrade } from '@malib/gear';
+	import { Column, Row, Select, SelectItem, SelectItemGroup } from 'carbon-components-svelte';
 	import { gear } from './gear-store';
 
 	$: potentialLevel = Potential.getPotentialLevel($gear.req.level);
@@ -18,8 +19,6 @@
 		$gear.additionalPotentials[1]?.code ?? 0,
 		$gear.additionalPotentials[2]?.code ?? 0
 	];
-
-
 
 	function canPotential() {
 		return $gear.canPotential && !$gear.getBooleanValue(GearPropType.fixedPotential);
@@ -49,11 +48,12 @@
 		$gear.additionalPotentials[index] = createPotentialFromCode(addCodes[index], potentialLevel)!;
 	}
 
-	function getGradePots(data: typeof pots, grade: PotentialGrade, first: boolean = false) {
-		if (!first && grade !== PotentialGrade.normal) {
-			return [...data.get(grade)!.values(), ...data.get(grade - 1)!.values()];
+	function getGradePots(data: typeof pots, grade: PotentialGrade) {
+		const gradeMap = data.get(grade);
+		if (!gradeMap) {
+			return [];
 		}
-		return [...data.get(grade)!.values()];
+		return [...gradeMap.values()];
 	}
 
 	function buildGradeNames(gear: Gear, getPotCodeFunc: (grade: PotentialGrade) => number[]) {
@@ -150,84 +150,90 @@
 </script>
 
 {#if $gear && canPotential()}
-	<div class="potentials">
-		<label>
-			잠재옵션 등급
-			<select class="grade" bind:value={$gear.grade} on:change={onGradeChange}>
-				<option value={PotentialGrade.normal}>---</option>
-				<option value={PotentialGrade.rare}>레어</option>
-				<option value={PotentialGrade.epic}>에픽</option>
-				<option value={PotentialGrade.unique}>유니크</option>
-				<option value={PotentialGrade.legendary}>레전드리</option>
-			</select>
-		</label>
-		{#each { length: 3 } as _, i}
-			<label>
-				잠재옵션 {i + 1}
-				<select
-					class="option"
-					bind:value={codes[i]}
-					on:change={() => onOptionChange(i)}
-					disabled={$gear.grade === 0}
+	<Row>
+		<Column>
+			<div class="potentials">
+				<Select labelText="잠재옵션" bind:selected={$gear.grade} on:change={onGradeChange}>
+					<SelectItem value={PotentialGrade.normal} text="---" />
+					<SelectItem value={PotentialGrade.rare} text="레어" />
+					<SelectItem value={PotentialGrade.epic} text="에픽" />
+					<SelectItem value={PotentialGrade.unique} text="유니크" />
+					<SelectItem value={PotentialGrade.legendary} text="레전드리" />
+				</Select>
+				{#each { length: 3 } as _, i}
+					<Select
+						bind:selected={codes[i]}
+						on:change={() => onOptionChange(i)}
+						disabled={$gear.grade === 0}
+					>
+						<SelectItem value={0} text="---" />
+						{#if i === 0}
+							{#each getGradePots(pots, $gear.grade) as pot}
+								<SelectItem value={pot.code} text={pot.convertSummary} />
+							{/each}
+						{:else}
+							{#each getGradePots(pots, $gear.grade - 1) as pot}
+								<SelectItem value={pot.code} text={pot.convertSummary} />
+							{/each}
+							<SelectItemGroup label="이탈">
+								{#each getGradePots(pots, $gear.grade) as pot}
+									<SelectItem value={pot.code} text={pot.convertSummary} />
+								{/each}
+							</SelectItemGroup>
+						{/if}
+					</Select>
+				{/each}
+			</div>
+
+			<div class="additional potentials">
+				<Select
+					labelText="에디셔널 잠재옵션"
+					bind:selected={$gear.additionalGrade}
+					on:change={onAddGradeChange}
 				>
-					<option value={0}>---</option>
-					{#each getGradePots(pots, $gear.grade, i === 0) as pot}
-						<option value={pot.code}>{pot.convertSummary}</option>
-					{/each}
-				</select>
-			</label>
-		{/each}
-	</div>
-	<div class="additional potentials">
-		<label>
-			에디셔널 잠재옵션 등급
-			<select class="grade" bind:value={$gear.additionalGrade} on:change={onAddGradeChange}>
-				<option value={PotentialGrade.normal}>---</option>
-				<option value={PotentialGrade.rare}>레어</option>
-				<option value={PotentialGrade.epic}>에픽</option>
-				<option value={PotentialGrade.unique}>유니크</option>
-				<option value={PotentialGrade.legendary}>레전드리</option>
-			</select>
-		</label>
-		{#each { length: 3 } as _, i}
-			<label>
-				에디셔널 잠재옵션 {i + 1}
-				<select
-					class="option"
-					bind:value={addCodes[i]}
-					on:change={() => onAddOptionChange(i)}
-					disabled={$gear.additionalGrade === 0}
-				>
-					<option value={0}>---</option>
-					{#each getGradePots(addPots, $gear.additionalGrade, i === 0) as pot}
-						<option value={pot.code}>{pot.convertSummary}</option>
-					{/each}
-				</select>
-			</label>
-		{/each}
-	</div>
+					<SelectItem value={PotentialGrade.normal} text="---" />
+					<SelectItem value={PotentialGrade.rare} text="레어" />
+					<SelectItem value={PotentialGrade.epic} text="에픽" />
+					<SelectItem value={PotentialGrade.unique} text="유니크" />
+					<SelectItem value={PotentialGrade.legendary} text="레전드리" />
+				</Select>
+				{#each { length: 3 } as _, i}
+					<Select
+						bind:selected={addCodes[i]}
+						on:change={() => onAddOptionChange(i)}
+						disabled={$gear.additionalGrade === 0}
+					>
+						<SelectItem value={0} text="---" />
+						{#if i === 0}
+							{#each getGradePots(addPots, $gear.additionalGrade) as pot}
+								<SelectItem value={pot.code} text={pot.convertSummary} />
+							{/each}
+						{:else}
+							{#each getGradePots(addPots, $gear.additionalGrade - 1) as pot}
+								<SelectItem value={pot.code} text={pot.convertSummary} />
+							{/each}
+							<SelectItemGroup label="이탈">
+								{#each getGradePots(addPots, $gear.additionalGrade) as pot}
+									<SelectItem value={pot.code} text={pot.convertSummary} />
+								{/each}
+							</SelectItemGroup>
+						{/if}
+					</Select>
+				{/each}
+			</div>
+		</Column>
+	</Row>
 {:else}
 	잠재능력 설정 불가
 {/if}
 
 <style>
 	.potentials {
+		margin-top: var(--cds-spacing-05);
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
 	}
 	.additional {
-		margin-top: 1rem;
-	}
-
-	.potentials select {
-		padding: 0.25rem;
-	}
-
-	.grade {
-		width: 10rem;
-	}
-	.option {
-		width: 20rem;
+		margin-top: var(--cds-spacing-07);
 	}
 </style>

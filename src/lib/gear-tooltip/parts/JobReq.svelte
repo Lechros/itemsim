@@ -77,6 +77,7 @@
 		align-self: center;
 		margin-top: 6px;
 		font-size: 11px;
+		letter-spacing: normal;
 		font-family: 돋움;
 		color: var(--gear-orange2);
 	}

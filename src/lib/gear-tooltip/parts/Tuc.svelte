@@ -18,6 +18,7 @@
 		line-height: 15px;
 		font-size: 11px;
 		font-family: 돋움;
+		letter-spacing: normal;
 		color: var(--gear-white);
 	}
 
