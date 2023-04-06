@@ -411,7 +411,7 @@
 				</Select>
 			</Column>
 		</Row>
-		<Row style="margin-top: var(--cds-spacing-05);">
+		<Row style="margin-top: var(--cds-spacing-07);">
 			<Column>
 				<Button disabled={!canNormalScroll} on:click={() => scrollSingle(getPadScroll(pad, mad))}>
 					{getPadName(pad, mad)}
@@ -437,13 +437,14 @@
 						max={6 * getPropWeight(chaos.type)}
 						step={1 * getPropWeight(chaos.type)}
 						invalid={!Number.isInteger(chaos.value / getPropWeight(chaos.type))}
+						style="min-width: 100px; padding-right: var(--cds-spacing-11);"
 					/>
 				</Column>
 			{/each}
 			<!-- Placeholder since there's only 11 columns -->
 			<Column />
 		</Row>
-		<Row style="margin-top: var(--cds-spacing-05);">
+		<Row style="margin-top: var(--cds-spacing-07);">
 			<Column>
 				<Button
 					disabled={!canNormalScroll}

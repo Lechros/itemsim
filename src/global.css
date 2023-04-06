@@ -27,7 +27,8 @@ html body {
 	line-height: normal;
 }
 
+.bx--modal .bx--search button::before,
 .bx--modal .bx--number button::before,
 .bx--modal .bx--number button::after {
-	background-color: var(--cds-field-02, #ffffff);
+	background-color: transparent;
 }
