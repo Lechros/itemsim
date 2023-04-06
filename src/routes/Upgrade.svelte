@@ -466,7 +466,6 @@
 		</Row>
 	{:else if selectedId === 4}
 		<!-- only scroll -->
-		<br /><br />
 		{#each getOnlyScrolls($gear) as scroll, i}
 			<div class="st-line-wrapper {i === 0 ? 'first' : ''}">
 				<ClickableTile
@@ -506,9 +505,6 @@
 		grid-template-columns: repeat(5, 1fr);
 		margin-top: var(--cds-spacing-05);
 	}
-	.general > * {
-		border: 5px solid red;
-	}
 
 	@media (max-width: 32rem) {
 		.general {
@@ -519,10 +515,11 @@
 	.general .wrapper {
 		display: flex;
 		flex-direction: column;
+		width: 100%;
 		align-items: center;
 		text-align: center;
 		gap: var(--cds-spacing-03);
-		width: 100%;
+		word-break: keep-all;
 	}
 
 	.st-line-wrapper {
@@ -537,6 +534,9 @@
 	.st-line-wrapper:not(.first) {
 		border-top: 1px solid var(--cds-border-subtle);
 	}
+	.st-line-wrapper.first {
+		margin-top: var(--cds-spacing-05);
+	}
 
 	.vr {
 		background-color: var(--cds-border-subtle);
@@ -546,6 +546,7 @@
 		display: flex;
 		align-items: center;
 		gap: var(--cds-spacing-03);
+		line-height: normal;
 	}
 
 	.st-icon-wrapper {
@@ -568,7 +569,8 @@
 	}
 
 	* p .icon,
-	* div[disabled='true'] .icon {
+	* *[disabled] .icon,
+	* *[disabled="true"] .icon {
 		filter: grayscale(1) contrast(0.5) brightness(1.3);
 	}
 

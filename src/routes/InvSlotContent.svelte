@@ -84,7 +84,7 @@
 		display: flex;
 		font-size: 12px;
 		gap: 2px;
-		align-items: baseline;
+		align-items: center;
 	}
 
 	.star .icon {

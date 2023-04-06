@@ -9,6 +9,7 @@
 		Content,
 		Grid,
 		Modal,
+		NumberInput,
 		Row,
 		SelectableTile,
 		Tab,
@@ -16,6 +17,7 @@
 		Tabs
 	} from 'carbon-components-svelte';
 	import 'carbon-components-svelte/css/all.css';
+	import '../global.css';
 	import { Close, TrashCan } from 'carbon-icons-svelte';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import AddGear from './AddGear.svelte';
