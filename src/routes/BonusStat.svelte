@@ -1,26 +1,29 @@
 <script lang="ts">
 	import {
-		addBonusStat,
 		BonusStatType,
 		Gear,
 		GearPropType,
 		GearType,
+		addBonusStat,
 		getBonusStatValue,
 		resetBonusStat,
 		type BonusStatGrade
 	} from '@malib/gear';
+	import { Button, Column, Row, Select, SelectItem } from 'carbon-components-svelte';
 	import { gear, meta } from './gear-store';
 	import { getName } from './strings';
+
+	$: if ($meta.bonus.length === 0) {
+		reset();
+	}
 
 	$: bossReward = $gear.getBooleanValue(GearPropType.bossReward);
 	$: types = getTypes($gear);
 
-	type Bonus = { type: -1 | BonusStatType; grade: 0 | BonusStatGrade };
-
 	function onChange() {
 		resetBonusStat($gear);
 		for (const bonus of $meta.bonus) {
-			if (bonus.grade > 0) {
+			if (bonus.type !== -1 && bonus.grade > 0) {
 				addBonusStat($gear, bonus.type, bonus.grade as BonusStatGrade);
 			}
 		}
@@ -121,31 +124,47 @@
 </script>
 
 {#if $gear && canBonus()}
-	<button class="reset" on:click={reset}>초기화</button>
-	<div class="bonus">
+	<Row style="margin-top: var(--cds-spacing-05);">
+		<Column>
+			<Button kind="danger" class="reset" on:click={reset}>초기화</Button>
+		</Column>
+	</Row>
+	<div class="bonus-wrapper">
+		<Row>
+			<Column>
+				<p>종류</p>
+			</Column>
+			<Column>
+				<p>등급</p>
+			</Column>
+		</Row>
 		{#each $meta.bonus as bonus}
-			<select
-				bind:value={bonus.type}
-				on:change={() => {
-					bonus.grade = 0;
-					onChange();
-				}}
-			>
-				<option value={-1}>---</option>
-				{#each types as type}
-					<option value={type}>
-						{getName(type)}
-					</option>
-				{/each}
-			</select>
-			<select bind:value={bonus.grade} on:change={onChange} disabled={bonus.type === -1}>
-				<option value={0}>---</option>
-				{#each getGrades(bossReward) as grade}
-					<option value={grade}>
-						{getGradeRepr(bonus.type, grade)}
-					</option>
-				{/each}
-			</select>
+			<Row>
+				<Column>
+					<Select
+						bind:selected={bonus.type}
+						on:change={() => {
+							bonus.grade = 0;
+							onChange();
+						}}
+					>
+						<SelectItem value={-1} text="---" />
+						{#each types as type}
+							<SelectItem value={type} text={getName(type)} />
+						{/each}
+					</Select>
+				</Column>
+				<Column>
+					<Select bind:selected={bonus.grade} on:change={onChange}>
+						<SelectItem value={0} text="---" />
+						{#if bonus.type !== -1}
+							{#each getGrades(bossReward) as grade}
+								<SelectItem value={grade} text={getGradeRepr(bonus.type, grade)} />
+							{/each}
+						{/if}
+					</Select>
+				</Column>
+			</Row>
 		{/each}
 	</div>
 {:else}
@@ -153,20 +172,9 @@
 {/if}
 
 <style>
-	.bonus {
-		display: grid;
-		grid-template-columns: 16rem 8rem;
-		grid-auto-rows: auto;
-		gap: 0.5rem;
-	}
-
-	select {
-		padding: 0.25rem;
-	}
-
-	.reset {
-		margin-bottom: 1rem;
-		padding: 0.5rem;
-		min-width: 5rem;
+	.bonus-wrapper {
+		margin-top: var(--cds-spacing-07);
+		display: flex;
+		flex-direction: column;
 	}
 </style>

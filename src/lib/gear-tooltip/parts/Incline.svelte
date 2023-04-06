@@ -37,6 +37,7 @@
 		font-size: 11px;
 		font-family: 돋움;
 		text-align: right;
+		letter-spacing: normal;
 		color: var(--gear-gray2);
 	}
 

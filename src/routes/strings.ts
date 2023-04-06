@@ -49,8 +49,48 @@ export function getName(type: BonusStatType): string {
 }
 
 export function optionToStrings(option: Map<GearPropType, number>) {
+	const option2 = new Map(option);
+
+	let temp = option2.get(GearPropType.incSTR);
+	if (
+		temp !== undefined &&
+		temp > 0 &&
+		option2.get(GearPropType.incDEX) === temp &&
+		option2.get(GearPropType.incINT) === temp &&
+		option2.get(GearPropType.incLUK) === temp
+	) {
+		option2.set(GearPropType.incAllStat, temp);
+		option2.set(GearPropType.incSTR, 0);
+		option2.set(GearPropType.incDEX, 0);
+		option2.set(GearPropType.incINT, 0);
+		option2.set(GearPropType.incLUK, 0);
+	}
+
+	const sorted = [...option2].sort((a, b) => a[0] - b[0]);
 	const strings = [];
-	for (const [type, value] of [...option.entries()].sort((e) => e[0] - e[1])) {
+	let skipMMP = false,
+		skipMAD = false;
+	for (const [type, value] of sorted) {
+		if (type === GearPropType.incMHP) {
+			temp = option2.get(GearPropType.incMHP);
+			if (temp !== undefined && temp > 0 && option2.get(GearPropType.incMMP) === temp) {
+				strings.push(`최대 HP / 최대 MP : +${value}`);
+				skipMMP = true;
+				continue;
+			}
+		}
+		if (type === GearPropType.incMMP && skipMMP) continue;
+
+		if (type === GearPropType.incPAD) {
+			temp = option2.get(GearPropType.incPAD);
+			if (temp !== undefined && temp > 0 && option2.get(GearPropType.incMAD) === temp) {
+				strings.push(`공격력 / 마력 : +${value}`);
+				skipMAD = true;
+				continue;
+			}
+		}
+		if (type === GearPropType.incMAD && skipMAD) continue;
+
 		strings.push(getGearPropString(type, value));
 	}
 	return strings;

@@ -1,8 +1,15 @@
-import { BonusStatType, Gear, type BonusStatGrade } from '@malib/gear';
-import { deserializeGear, serializeGear, type GearLike } from '@malib/serialize-gear';
+import {
+	BonusStatType,
+	Gear,
+	gearToPlain,
+	isGearLike,
+	plainToGear,
+	type BonusStatGrade,
+	type GearLike
+} from '@malib/gear';
 import { writable } from 'svelte/store';
 
-type GearSlot = {
+export type GearSlot = {
 	gear: Gear | undefined;
 	meta: {
 		bonus: {
@@ -12,7 +19,7 @@ type GearSlot = {
 	};
 };
 
-type GearSlotLike = {
+export type GearSlotLike = {
 	gear: GearLike | undefined;
 	meta: GearSlot['meta'];
 };
@@ -107,16 +114,19 @@ function deserializeGearOrSlot(like: GearLike | undefined | GearSlotLike) {
 		return deserializeSlot(like);
 	} else {
 		const slot = createGearSlot();
-		slot.gear = deserializeGear(like);
+		slot.gear = plainToGear(like);
 		return slot;
 	}
 }
 
 function serializeSlot(slot: GearSlot): GearSlotLike {
-	return { gear: slot.gear ? serializeGear(slot.gear) : undefined, meta: slot.meta };
+	return { gear: slot.gear ? gearToPlain(slot.gear) : undefined, meta: slot.meta };
 }
 function deserializeSlot(like: GearSlotLike): GearSlot {
-	return { gear: like.gear ? deserializeGear(like.gear) : undefined, meta: like.meta };
+	return {
+		gear: like.gear && isGearLike(like.gear) ? plainToGear(like.gear) : undefined,
+		meta: like.meta
+	};
 }
 
 export const { inventory, selected, gear, meta } =
