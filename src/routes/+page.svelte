@@ -37,6 +37,8 @@
 	}
 
 	/* inventory */
+	$: gearCount = $inventory.reduce((count, slot) => slot.gear ? count + 1 : count, 0);
+
 	let addGear: AddGear;
 	let addOpen = false;
 	let addIds: Map<string, string> = new Map();
@@ -130,7 +132,7 @@
 								kind="danger"
 								icon={TrashCan}
 								iconDescription="삭제"
-								disabled={!$inventory.some((slot) => slot.gear !== undefined)}
+								disabled={gearCount === 0}
 								on:click={() => (deleteMode = true)}
 							/>
 						{:else}
@@ -141,6 +143,9 @@
 									disabled={toDelete.size === 0}
 									on:click={() => {
 										deleteItems();
+										if(gearCount === toDelete.size) {
+											deleteMode = false;
+										}
 										toDelete.clear();
 										toDelete = toDelete;
 									}}
@@ -155,6 +160,9 @@
 									disabled={toDelete.size === 0}
 									on:click={() => {
 										deleteItems();
+										if(gearCount === toDelete.size) {
+											deleteMode = false;
+										}
 										toDelete.clear();
 										toDelete = toDelete;
 									}}
@@ -167,6 +175,7 @@
 								on:click={() => {
 									deleteMode = false;
 									toDelete.clear();
+										toDelete = toDelete;
 								}}
 							/>
 						{/if}
