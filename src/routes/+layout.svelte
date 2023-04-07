@@ -6,9 +6,10 @@
 		HeaderUtilities,
 		SkipToContent
 	} from 'carbon-components-svelte';
+	import 'carbon-components-svelte/css/all.css';
 	import { BrightnessContrast, LogoDiscord } from 'carbon-icons-svelte';
-	import '../global.css';
 	import { onMount } from 'svelte';
+	import '../global.css';
 
 	/* theme */
 	onMount(() => {
@@ -36,7 +37,7 @@
 		<SkipToContent />
 	</svelte:fragment>
 	<HeaderUtilities>
-		<HeaderGlobalAction icon={BrightnessContrast} on:click={toggle}/>
+		<HeaderGlobalAction icon={BrightnessContrast} on:click={toggle} />
 		<HeaderActionLink icon={LogoDiscord} target="_blank" href="https://discord.gg/Kzzn8zuj2p" />
 	</HeaderUtilities>
 </Header>
