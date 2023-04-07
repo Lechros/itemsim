@@ -20,7 +20,6 @@
 	import Close from 'carbon-icons-svelte/lib/Close.svelte';
 	import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 	import Upload from 'carbon-icons-svelte/lib/Upload.svelte';
-	import '../global.css';
 	import AddGear from './AddGear.svelte';
 	import BonusStat from './BonusStat.svelte';
 	import Enhance from './Enhance.svelte';
@@ -32,13 +31,6 @@
 	import { gear, inventory, selected } from './gear-store';
 
 	const TRANSLATION_DURATION = 240;
-
-	/* theme */
-	let theme: 'white' | 'g10' | 'g80' | 'g90' | 'g100';
-	theme = 'g10';
-	$: if (typeof document !== 'undefined') {
-		//document.documentElement.setAttribute('theme', theme);
-	}
 
 	/* inventory */
 	$: gearCount = $inventory.reduce((count, slot) => (slot.gear ? count + 1 : count), 0);
