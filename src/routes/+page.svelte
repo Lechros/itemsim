@@ -16,19 +16,19 @@
 		Tabs
 	} from 'carbon-components-svelte';
 	import 'carbon-components-svelte/css/all.css';
-	import '../global.css';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import Close from 'carbon-icons-svelte/lib/Close.svelte';
 	import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 	import Upload from 'carbon-icons-svelte/lib/Upload.svelte';
+	import '../global.css';
 	import AddGear from './AddGear.svelte';
 	import BonusStat from './BonusStat.svelte';
 	import Enhance from './Enhance.svelte';
+	import ImportGear from './ImportGear.svelte';
 	import InvSlot from './InvSlotContent.svelte';
 	import Manage from './Manage.svelte';
 	import Potentials from './Potentials.svelte';
 	import Upgrade from './Upgrade.svelte';
-	import ImportGear from './ImportGear.svelte';
 	import { gear, inventory, selected } from './gear-store';
 
 	const TRANSLATION_DURATION = 240;

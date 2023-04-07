@@ -2,20 +2,18 @@
 	import { stringifyGear } from '@malib/gear';
 	import { Button, Column, Row } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
-	import lzs from 'lz-string';
-	import { gear } from './gear-store';
+	import { compressToBase64, compressToEncodedURIComponent } from 'lz-string';
 	import { createEventDispatcher } from 'svelte';
+	import { gear } from './gear-store';
 
 	export let tooltipRef: HTMLDivElement;
 	export let display: HTMLDivElement;
 
-	let bindany: HTMLImageElement;
-
 	const dispatch = createEventDispatcher();
 
 	$: gearStr = stringifyGear($gear);
-	$: gear64 = lzs.compressToBase64(gearStr);
-	$: gearURI = lzs.compressToEncodedURIComponent(gearStr);
+	$: gear64 = compressToBase64(gearStr);
+	$: gearURI = compressToEncodedURIComponent(gearStr);
 	$: filename = $gear.name;
 
 	// function createImage() {
@@ -54,11 +52,7 @@
 		</Row>
 		<Row>
 			<Column>
-				<Button
-					disabled
-					on:click={() => {
-					}}>열기</Button
-				>
+				<Button disabled on:click={() => {}}>열기</Button>
 				<p>준비 중입니다</p>
 			</Column>
 		</Row>
@@ -72,7 +66,7 @@
 				<Button
 					kind="danger"
 					on:click={() => {
-						dispatch('delete')
+						dispatch('delete');
 					}}>삭제</Button
 				>
 			</Column>

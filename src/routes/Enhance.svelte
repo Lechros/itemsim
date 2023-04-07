@@ -24,7 +24,7 @@
 	}
 
 	function starforceDown() {
-		if($gear.amazing) return;
+		if ($gear.amazing) return;
 
 		const count = $gear.star - 1;
 		resetEnhancement($gear);

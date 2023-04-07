@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { PotentialGrade } from '@malib/gear';
 	import { AspectRatio, Tag } from 'carbon-components-svelte';
-
 	import type { GearSlot } from './gear-store';
 
 	export let _slot: GearSlot;

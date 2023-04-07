@@ -41,7 +41,10 @@
 
 	$: exceptUpgrade = $gear.getBooleanValue(GearPropType.exceptUpgrade);
 	$: onlyUpgrade = $gear.getBooleanValue(GearPropType.onlyUpgrade);
-	$: canHammer = !exceptUpgrade && !$gear.getBooleanValue(GearPropType.blockGoldHammer) && $gear.hammerCount === 0;
+	$: canHammer =
+		!exceptUpgrade &&
+		!$gear.getBooleanValue(GearPropType.blockGoldHammer) &&
+		$gear.hammerCount === 0;
 	$: canFail = !exceptUpgrade && !onlyUpgrade && $gear.upgradeCountLeft > 0;
 	$: canRestore = $gear.upgradeFailCount > 0;
 	$: canInnocent =
@@ -98,7 +101,7 @@
 
 	$: {
 		if (onlyUpgrade && selectedId !== 4) selectedId = 4;
-		else if(onlyScrolls.length === 0 && selectedId === 4) selectedId = 0;
+		else if (onlyScrolls.length === 0 && selectedId === 4) selectedId = 0;
 	}
 
 	/* 0: spell trace */
@@ -444,10 +447,7 @@
 		</Row>
 		<Row style="margin-top: var(--cds-spacing-07);">
 			<Column>
-				<Button
-					disabled={!canScroll}
-					on:click={() => scrollSingle(createChaosScroll(chaosStats))}
-				>
+				<Button disabled={!canScroll} on:click={() => scrollSingle(createChaosScroll(chaosStats))}>
 					<span class="collapse-text">{getChaosStatsName(chaosStats)}</span>
 				</Button>
 				<Button
@@ -569,7 +569,7 @@
 
 	* p .icon,
 	* *[disabled] .icon,
-	* *[disabled="true"] .icon {
+	* *[disabled='true'] .icon {
 		filter: grayscale(1) contrast(0.5) brightness(1.3);
 	}
 

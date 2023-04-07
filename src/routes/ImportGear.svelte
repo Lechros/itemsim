@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Gear, validateParseGear } from '@malib/gear';
 	import { FileUploader, TextArea } from 'carbon-components-svelte';
-	import lzs from 'lz-string';
+	import { decompressFromBase64, decompressFromEncodedURIComponent } from 'lz-string';
 
 	export let strGear: Gear | null;
 
@@ -25,7 +25,7 @@
 	let files: File[] = [];
 
 	$: {
-		strGear = validateParseGear(lzs.decompressFromBase64(value));
+		strGear = validateParseGear(decompressFromBase64(value));
 	}
 	$: invalid = value.trim().length > 0 && !strGear;
 </script>
@@ -56,7 +56,7 @@
 			file
 				.text()
 				.then((value) => {
-					const gear = validateParseGear(lzs.decompressFromEncodedURIComponent(value));
+					const gear = validateParseGear(decompressFromEncodedURIComponent(value));
 					if (gear) {
 						fileGears.set(file.name, gear);
 						fileGears = fileGears;
