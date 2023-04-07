@@ -37,9 +37,11 @@
 		return $gear.totalUpgradeCount > 0;
 	}
 
+	$: onlyScrolls = getOnlyScrolls($gear);
+
 	$: exceptUpgrade = $gear.getBooleanValue(GearPropType.exceptUpgrade);
 	$: onlyUpgrade = $gear.getBooleanValue(GearPropType.onlyUpgrade);
-	$: canHammer = !exceptUpgrade && !onlyUpgrade && $gear.hammerCount === 0;
+	$: canHammer = !exceptUpgrade && !$gear.getBooleanValue(GearPropType.blockGoldHammer) && $gear.hammerCount === 0;
 	$: canFail = !exceptUpgrade && !onlyUpgrade && $gear.upgradeCountLeft > 0;
 	$: canRestore = $gear.upgradeFailCount > 0;
 	$: canInnocent =
@@ -48,8 +50,7 @@
 		!$gear.amazing &&
 		($gear.hammerCount > 0 || $gear.upgradeCount > 0 || $gear.upgradeFailCount > 0);
 
-	$: canNormalScroll = !onlyUpgrade && $gear.upgradeCountLeft > 0;
-	$: canOnlyScroll = onlyUpgrade && $gear.upgradeCountLeft > 0;
+	$: canScroll = $gear.upgradeCountLeft > 0;
 
 	function hammer() {
 		applyGoldHammer($gear);
@@ -96,11 +97,8 @@
 	let selectedId = 0;
 
 	$: {
-		if (onlyUpgrade) {
-			if (selectedId !== 4) selectedId = 4;
-		} else {
-			if (selectedId === 4) selectedId = 0;
-		}
+		if (onlyUpgrade && selectedId !== 4) selectedId = 4;
+		else if(onlyScrolls.length === 0 && selectedId === 4) selectedId = 0;
 	}
 
 	/* 0: spell trace */
@@ -338,7 +336,7 @@
 			{ id: 1, text: '공격력/마력 주문서', disabled: onlyUpgrade },
 			{ id: 2, text: '혼돈의 주문서', disabled: onlyUpgrade },
 			{ id: 3, text: '특수 주문서', disabled: onlyUpgrade },
-			{ id: 4, text: '전용 주문서', disabled: !onlyUpgrade }
+			{ id: 4, text: '전용 주문서', disabled: onlyScrolls.length === 0 }
 		]}
 		style="margin-top: var(--cds-spacing-05);"
 		let:item
@@ -372,7 +370,7 @@
 					light
 					title={optionToStrings(info.scroll.stat).join('\n')}
 					on:click={() => scrollSingle(info.scroll)}
-					disabled={!canNormalScroll}
+					disabled={!canScroll}
 					style="min-height: 0;"
 				>
 					<div class="st-content-wrapper">
@@ -386,7 +384,7 @@
 				<ClickableTile
 					light
 					on:click={() => spellTraceFull(info.type, info.prob)}
-					disabled={!canNormalScroll}
+					disabled={!canScroll}
 					style="min-width: 0; min-height: 0;"
 				>
 					+{$gear.upgradeCountLeft}
@@ -413,12 +411,12 @@
 		</Row>
 		<Row style="margin-top: var(--cds-spacing-07);">
 			<Column>
-				<Button disabled={!canNormalScroll} on:click={() => scrollSingle(getPadScroll(pad, mad))}>
+				<Button disabled={!canScroll} on:click={() => scrollSingle(getPadScroll(pad, mad))}>
 					{getPadName(pad, mad)}
 				</Button>
 				<Button
 					kind="tertiary"
-					disabled={!canNormalScroll}
+					disabled={!canScroll}
 					on:click={() => scrollFull(getPadScroll(pad, mad))}
 				>
 					{$gear.upgradeCountLeft}회 적용
@@ -447,14 +445,14 @@
 		<Row style="margin-top: var(--cds-spacing-07);">
 			<Column>
 				<Button
-					disabled={!canNormalScroll}
+					disabled={!canScroll}
 					on:click={() => scrollSingle(createChaosScroll(chaosStats))}
 				>
 					<span class="collapse-text">{getChaosStatsName(chaosStats)}</span>
 				</Button>
 				<Button
 					kind="tertiary"
-					disabled={!canNormalScroll}
+					disabled={!canScroll}
 					on:click={() => scrollFull(createChaosScroll(chaosStats))}
 				>
 					{$gear.upgradeCountLeft}회 적용
@@ -467,13 +465,13 @@
 		</Row>
 	{:else if selectedId === 4}
 		<!-- only scroll -->
-		{#each getOnlyScrolls($gear) as scroll, i}
+		{#each onlyScrolls as scroll, i}
 			<div class="st-line-wrapper {i === 0 ? 'first' : ''}">
 				<ClickableTile
 					light
 					title={optionToStrings(scroll.stat).join('\n')}
 					on:click={() => scrollSingle(scroll)}
-					disabled={!canOnlyScroll}
+					disabled={!canScroll}
 					style="min-height: 0;"
 				>
 					{scroll.name}
@@ -482,7 +480,7 @@
 				<ClickableTile
 					light
 					on:click={() => scrollFull(scroll)}
-					disabled={!canOnlyScroll}
+					disabled={!canScroll}
 					style="min-width: 0; min-height: 0;"
 				>
 					+{$gear.upgradeCountLeft}

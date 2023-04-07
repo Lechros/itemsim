@@ -9,7 +9,6 @@
 		Content,
 		Grid,
 		Modal,
-		NumberInput,
 		Row,
 		SelectableTile,
 		Tab,
@@ -18,8 +17,10 @@
 	} from 'carbon-components-svelte';
 	import 'carbon-components-svelte/css/all.css';
 	import '../global.css';
-	import { Close, TrashCan } from 'carbon-icons-svelte';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
+	import Close from 'carbon-icons-svelte/lib/Close.svelte';
+	import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
+	import Upload from 'carbon-icons-svelte/lib/Upload.svelte';
 	import AddGear from './AddGear.svelte';
 	import BonusStat from './BonusStat.svelte';
 	import Enhance from './Enhance.svelte';
@@ -27,40 +28,71 @@
 	import Manage from './Manage.svelte';
 	import Potentials from './Potentials.svelte';
 	import Upgrade from './Upgrade.svelte';
+	import ImportGear from './ImportGear.svelte';
 	import { gear, inventory, selected } from './gear-store';
+
+	const TRANSLATION_DURATION = 240;
 
 	/* theme */
 	let theme: 'white' | 'g10' | 'g80' | 'g90' | 'g100';
 	theme = 'g10';
 	$: if (typeof document !== 'undefined') {
-		document.documentElement.setAttribute('theme', theme);
+		//document.documentElement.setAttribute('theme', theme);
 	}
 
 	/* inventory */
-	$: gearCount = $inventory.reduce((count, slot) => slot.gear ? count + 1 : count, 0);
+	$: gearCount = $inventory.reduce((count, slot) => (slot.gear ? count + 1 : count), 0);
 
+	function addToInv(gear: Gear) {
+		for (let i = 0; i < $inventory.length; i++) {
+			if ($inventory[i].gear === undefined) {
+				$inventory[i].gear = gear;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/* inventory: upload */
+	let importGear: ImportGear;
+	let importOpen = false;
+	let strGear: Gear | null;
+	let uploadGears: Map<string, Gear> = new Map();
+
+	function canUpload(gear: Gear | null, gears: Map<string, Gear>) {
+		return gear || gears.size > 0;
+	}
+
+	function getUploadMessage(gear: Gear | null, gears: Map<string, Gear>) {
+		if (gear) {
+			return `'${gear.name}' 추가`;
+		} else if (gears.size > 0) {
+			if (gears.size > 1) {
+				return `아이템 ${gears.size}개 추가`;
+			} else {
+				return `'${gears.values().next().value.name}' 추가`;
+			}
+		} else {
+			return `아이템이 없습니다`;
+		}
+	}
+
+	/* inventory: add */
 	let addGear: AddGear;
 	let addOpen = false;
 	let addIds: Map<string, string> = new Map();
-	let addCount = 0;
 
-	/* inventory: add */
 	function addItems(ids: Map<string, string>) {
 		for (const id of ids.keys()) {
 			const gear = createGearFromId(Number(id));
 			if (!gear) continue;
-			for (let i = 0; i < $inventory.length; i++) {
-				if ($inventory[i].gear === undefined) {
-					$inventory[i].gear = gear;
-					break;
-				}
-			}
+			addToInv(gear);
 		}
 	}
 
 	function getAddMessage(ids: Map<string, string>, count: number) {
 		if (count > 1) {
-			return `선택한 ${count}개의 아이템 추가`;
+			return `선택한 아이템 ${count}개 추가`;
 		} else if (count === 1) {
 			return `'${ids.values().next().value}' 추가`;
 		} else {
@@ -80,12 +112,14 @@
 		}
 	}
 
-	/* modal */
-	let innerWidth: number, innerHeight: number;
-
-	$: topPadding = innerWidth > 1056 ? 10 : 5;
+	/* enchant tooltip */
+	let enchantTooltip: HTMLDivElement;
+	let display: HTMLDivElement;
+	let imageOpen = false;
 
 	/* mouse cursor tooltip */
+	let innerWidth = 0,
+		innerHeight = 0;
 	let cursorTooltip: HTMLDivElement;
 
 	let cursorGear: Gear | undefined;
@@ -119,7 +153,13 @@
 				<Column>
 					<div class="inv-buttons">
 						{#if !deleteMode}
-							{#if innerWidth > 16 * 24}
+							<Button
+								kind="secondary"
+								icon={Upload}
+								iconDescription="가져오기"
+								on:click={() => (importOpen = true)}
+							/>
+							{#if innerWidth > 16 * 26}
 								<Button icon={Add} on:click={() => (addOpen = true)}>아이템 추가</Button>
 							{:else}
 								<Button
@@ -136,14 +176,14 @@
 								on:click={() => (deleteMode = true)}
 							/>
 						{:else}
-							{#if innerWidth > 16 * 24}
+							{#if innerWidth > 16 * 26}
 								<Button
 									kind="danger"
 									icon={TrashCan}
 									disabled={toDelete.size === 0}
 									on:click={() => {
 										deleteItems();
-										if(gearCount === toDelete.size) {
+										if (gearCount === toDelete.size) {
 											deleteMode = false;
 										}
 										toDelete.clear();
@@ -160,7 +200,7 @@
 									disabled={toDelete.size === 0}
 									on:click={() => {
 										deleteItems();
-										if(gearCount === toDelete.size) {
+										if (gearCount === toDelete.size) {
 											deleteMode = false;
 										}
 										toDelete.clear();
@@ -175,7 +215,7 @@
 								on:click={() => {
 									deleteMode = false;
 									toDelete.clear();
-										toDelete = toDelete;
+									toDelete = toDelete;
 								}}
 							/>
 						{/if}
@@ -225,18 +265,71 @@
 	</Content>
 </div>
 
+<!-- upload modal -->
+<Modal
+	bind:open={importOpen}
+	size="sm"
+	modalHeading="가져오기"
+	primaryButtonText={getUploadMessage(strGear, uploadGears)}
+	primaryButtonDisabled={!canUpload(strGear, uploadGears)}
+	on:submit={() => {
+		if (strGear) {
+			addToInv(strGear);
+		} else if (uploadGears.size > 0) {
+			for (const gear of uploadGears.values()) {
+				addToInv(gear);
+			}
+		}
+		importOpen = false;
+		setTimeout(importGear.reset, TRANSLATION_DURATION);
+	}}
+	on:close={() => {
+		setTimeout(importGear.reset, TRANSLATION_DURATION);
+	}}
+>
+	<ImportGear bind:strGear bind:fileGears={uploadGears} bind:this={importGear} />
+</Modal>
+
+<!-- add modal -->
+<Modal
+	bind:open={addOpen}
+	size="sm"
+	modalHeading="아이템 추가"
+	primaryButtonText={getAddMessage(addIds, addIds.size)}
+	primaryButtonDisabled={addIds.size === 0}
+	secondaryButtonText="취소"
+	selectorPrimaryFocus="input"
+	on:click:button--secondary={() => {
+		addOpen = false;
+		setTimeout(() => {
+			addGear.resetSearchValue();
+			addGear.resetIds();
+		}, TRANSLATION_DURATION);
+	}}
+	on:submit={() => {
+		addItems(addIds);
+		addOpen = false;
+		setTimeout(() => {
+			addGear.resetSearchValue();
+			addGear.resetIds();
+		}, TRANSLATION_DURATION);
+	}}
+>
+	<AddGear bind:selectedIds={addIds} bind:this={addGear} />
+</Modal>
+
+<!-- enchant modal -->
 <Modal
 	passiveModal
 	modalHeading="아이템 강화"
 	open={$selected > -1}
 	selectorPrimaryFocus="a"
 	on:close={() => ($selected = -1)}
-	style="align-items: start; padding-top: {topPadding}vh;"
 >
 	{#if $gear && $gear.itemID > 0}
 		<div class="enchant">
 			<div class="tooltip-wrapper">
-				<GearTooltip gear={$gear} />
+				<GearTooltip gear={$gear} bind:ref={enchantTooltip} />
 			</div>
 			<div>
 				<Tabs autoWidth>
@@ -259,7 +352,14 @@
 							<Potentials />
 						</TabContent>
 						<TabContent>
-							<Manage />
+							<Manage
+								bind:tooltipRef={enchantTooltip}
+								bind:display
+								on:delete={() => {
+									$inventory[$selected].gear = undefined;
+									$selected = -1;
+								}}
+							/>
 						</TabContent>
 					</svelte:fragment>
 				</Tabs>
@@ -268,29 +368,10 @@
 	{/if}
 </Modal>
 
-<Modal
-	bind:open={addOpen}
-	size="sm"
-	modalHeading="아이템 추가"
-	primaryButtonText={getAddMessage(addIds, addCount)}
-	primaryButtonDisabled={addCount === 0}
-	secondaryButtonText="취소"
-	selectorPrimaryFocus="input"
-	on:click:button--secondary={() => {
-		addGear.resetSearchValue();
-		addGear.resetIds();
-		addOpen = false;
-	}}
-	on:submit={() => {
-		addItems(addIds);
-		addGear.resetSearchValue();
-		addGear.resetIds();
-		addOpen = false;
-	}}
-	style="align-items: start; padding-top: {topPadding}vh;"
->
-	<AddGear selectedIds={addIds} bind:count={addCount} bind:this={addGear} />
-</Modal>
+<!-- image modal -->
+<!-- <Modal bind:open={imageOpen} passiveModal size="xs" modalHeading="이미지">
+	<div bind:this={display} />
+</Modal> -->
 
 <div class="cursor-tooltip" style="top: {m.y}px; left: {m.x}px;" bind:this={cursorTooltip}>
 	{#if cursorGear && cursorGear.itemID > 0}

@@ -63,6 +63,8 @@
 	 */
 	export let imdrDiff: number = 0;
 
+	export let ref: HTMLDivElement | undefined = undefined;
+
 	export let iconSrc = 'https://maplestory.io/api/KMS/367/item/{}/icon';
 
 	$: gearName = `${gear.name} ${gear.upgradeCount > 0 ? `(+${gear.upgradeCount})` : ''}`;
@@ -127,7 +129,7 @@
 </script>
 
 {#if gear}
-	<div class="gear-tooltip">
+	<div class="gear-tooltip" bind:this={ref}>
 		<div class="frame-top" />
 		<div class="frame-line main">
 			<Star star={gear.star} maxStar={gear.maxStar} amazing={gear.amazing} />

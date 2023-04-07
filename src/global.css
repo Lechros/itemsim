@@ -23,6 +23,26 @@ html body {
     font-family: 'NEXON Lv1 Gothic OTF', sans-serif;
 }
 
+.bx--modal {
+    align-items: start;
+}
+
+@media (min-width: 42rem) {
+  .bx--modal-container {
+    margin-top: 5vh;
+  }
+}
+@media (min-width: 66rem) {
+  .bx--modal-container {
+    margin-top: 8vh;
+  }
+}
+@media (min-width: 82rem) {
+  .bx--modal-container {
+    margin-top: 5vh;
+  }
+}
+
 .bx--modal-content p {
 	line-height: normal;
 }
@@ -31,4 +51,8 @@ html body {
 .bx--modal .bx--number button::before,
 .bx--modal .bx--number button::after {
 	background-color: transparent;
+}
+
+.bx--modal .bx--file__selected-file {
+  background-color: var(--cds-field-02);
 }

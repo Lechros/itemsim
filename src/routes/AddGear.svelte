@@ -3,7 +3,6 @@
 	import { ContentSwitcher, Search, SelectableTile, Switch } from 'carbon-components-svelte';
 
 	export let selectedIds: Map<string, string>;
-	export let count: number;
 
 	export function resetSearchValue() {
 		name = '';
@@ -15,7 +14,7 @@
 
 	export function resetIds() {
 		selectedIds.clear();
-		count = 0;
+		selectedIds = selectedIds;
 	}
 
 	export function buildIds() {}
@@ -32,7 +31,9 @@
 		if (word.length < 1) {
 			return [];
 		}
-		return datas.filter((data) => match(data[1].name, word));
+		return datas
+			.filter((data) => match(data[1].name, word))
+			.sort((a, b) => compare(a[1].name, b[1].name, word));
 	}
 
 	function match(haystack: string, word: string) {
@@ -43,6 +44,15 @@
 			}
 		}
 		return j === word.length;
+	}
+
+	function compare(name1: string, name2: string, word: string) {
+		const includes1 = name1.includes(word);
+		const includes2 = name2.includes(word);
+		if (includes1 && includes2) return 0;
+		if (includes1) return -1;
+		if (includes2) return 1;
+		return 0;
 	}
 
 	function canJob(data: GearData, jobIndex: number) {
@@ -77,11 +87,11 @@
 			selected={selectedIds.has(data[0])}
 			on:select={() => {
 				selectedIds.set(data[0], data[1].name);
-				count = selectedIds.size;
+				selectedIds = selectedIds;
 			}}
 			on:deselect={() => {
 				selectedIds.delete(data[0]);
-				count = selectedIds.size;
+				selectedIds = selectedIds;
 			}}
 		>
 			<div class="add-item">

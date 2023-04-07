@@ -2,6 +2,47 @@ import { GearPropType, type Gear } from '@malib/gear';
 
 export function getOnlyScrolls(gear: Gear) {
 	switch (gear.itemID) {
+		case 1122000:
+		case 1122076:
+		case 1122278:
+			return [
+				{
+					name: '드래곤의 돌',
+					stat: new Map([
+						[GearPropType.incSTR, 15],
+						[GearPropType.incDEX, 15],
+						[GearPropType.incINT, 15],
+						[GearPropType.incLUK, 15],
+						[GearPropType.incMHP, 750],
+						[GearPropType.incPDD, 350]
+					])
+				}
+			];
+		case 1122150:
+		case 1122372:
+		case 1122373:
+		case 1122374:
+		case 1122375:
+		case 1122376:
+		case 1122377:
+			return [
+				{
+					name: '비틀린 시간의 파편',
+					stat: new Map([
+						[GearPropType.incSTR, 3],
+						[GearPropType.incDEX, 3],
+						[GearPropType.incINT, 3],
+						[GearPropType.incLUK, 3],
+						[GearPropType.incMHP, 40],
+						[GearPropType.incMMP, 40],
+						[GearPropType.incPAD, 3],
+						[GearPropType.incMAD, 3],
+						[GearPropType.incPDD, 25],
+						[GearPropType.incSpeed, 3],
+						[GearPropType.incJump, 2]
+					])
+				}
+			];
 		case 1123007:
 		case 1123008:
 		case 1123009:
