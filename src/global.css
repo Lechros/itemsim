@@ -43,10 +43,6 @@ html body {
   }
 }
 
-.bx--modal-content p {
-	line-height: normal;
-}
-
 .bx--modal .bx--search button::before,
 .bx--modal .bx--number button::before,
 .bx--modal .bx--number button::after {
@@ -55,4 +51,19 @@ html body {
 
 .bx--modal .bx--file__selected-file {
   background-color: var(--cds-field-02);
+}
+
+.bx--modal-content p,
+.bx--modal-content__regular-content {
+  padding-right: var(--cds-spacing-05);
+  line-height: var(--cds-body-short-01-line-height, 1.28572);
+}
+
+/* remove modal content outline */
+.bx--modal-content:focus {
+  outline: none;
+}
+
+.bx--modal-content--overflow-indicator {
+  background-image: linear-gradient(to bottom, transparent, var(--cds-ui-01, #f4f4f4));
 }

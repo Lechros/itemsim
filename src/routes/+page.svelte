@@ -6,9 +6,13 @@
 		Button,
 		ClickableTile,
 		Column,
+		ComposedModal,
 		Content,
 		Grid,
 		Modal,
+		ModalBody,
+		ModalFooter,
+		ModalHeader,
 		Row,
 		SelectableTile,
 		Tab,
@@ -228,6 +232,7 @@
 						{#each $inventory as slot, i}
 							{#if !deleteMode}
 								<ClickableTile
+									href=""
 									disabled={!slot.gear}
 									on:click={() => {
 										if (slot.gear) $selected = i;
@@ -240,6 +245,7 @@
 								</ClickableTile>
 							{:else}
 								<SelectableTile
+									href=""
 									disabled={!slot.gear}
 									selected={toDelete.has(i)}
 									on:select={() => {
@@ -291,21 +297,10 @@
 </Modal>
 
 <!-- add modal -->
-<Modal
+<ComposedModal
 	bind:open={addOpen}
 	size="sm"
-	modalHeading="아이템 추가"
-	primaryButtonText={getAddMessage(addIds, addIds.size)}
-	primaryButtonDisabled={addIds.size === 0}
-	secondaryButtonText="취소"
 	selectorPrimaryFocus="input"
-	on:click:button--secondary={() => {
-		addOpen = false;
-		setTimeout(() => {
-			addGear.resetSearchValue();
-			addGear.resetIds();
-		}, TRANSLATION_DURATION);
-	}}
 	on:submit={() => {
 		addItems(addIds);
 		addOpen = false;
@@ -315,58 +310,75 @@
 		}, TRANSLATION_DURATION);
 	}}
 >
-	<AddGear bind:selectedIds={addIds} bind:this={addGear} />
-</Modal>
+	<ModalHeader title="아이템 추가" />
+	<ModalBody hasForm hasScrollingContent tabindex={-1}>
+		<AddGear bind:selectedIds={addIds} bind:this={addGear} />
+	</ModalBody>
+	<ModalFooter
+		primaryButtonText={getAddMessage(addIds, addIds.size)}
+		primaryButtonDisabled={addIds.size === 0}
+		secondaryButtonText="취소"
+		on:click:button--secondary={() => {
+			addOpen = false;
+			setTimeout(() => {
+				addGear.resetSearchValue();
+				addGear.resetIds();
+			}, TRANSLATION_DURATION);
+		}}
+	/>
+</ComposedModal>
 
 <!-- enchant modal -->
-<Modal
-	passiveModal
-	modalHeading="아이템 강화"
+<ComposedModal
 	open={$selected > -1}
-	selectorPrimaryFocus="a"
+	selectorPrimaryFocus="ul"
 	on:close={() => ($selected = -1)}
 >
-	{#if $gear && $gear.itemID > 0}
-		<div class="enchant">
-			<div class="tooltip-wrapper">
-				<GearTooltip gear={$gear} bind:ref={enchantTooltip} />
+	<ModalHeader title="아이템 강화" />
+	<ModalBody hasForm hasScrollingContent tabindex={-1}>
+		{#if $gear && $gear.itemID > 0}
+			<div class="enchant">
+				<div class="tooltip-wrapper">
+					<GearTooltip gear={$gear} bind:ref={enchantTooltip} />
+				</div>
+				<div>
+					<Tabs autoWidth>
+						<Tab>추가옵션</Tab>
+						<Tab>주문서</Tab>
+						<Tab>강화</Tab>
+						<Tab>잠재옵션</Tab>
+						<Tab>관리</Tab>
+						<svelte:fragment slot="content">
+							<TabContent>
+								<BonusStat />
+							</TabContent>
+							<TabContent>
+								<Upgrade />
+							</TabContent>
+							<TabContent>
+								<Enhance />
+							</TabContent>
+							<TabContent>
+								<Potentials />
+							</TabContent>
+							<TabContent>
+								<Manage
+									bind:tooltipRef={enchantTooltip}
+									bind:display
+									on:delete={() => {
+										$inventory[$selected].gear = undefined;
+										$selected = -1;
+									}}
+								/>
+							</TabContent>
+						</svelte:fragment>
+					</Tabs>
+				</div>
 			</div>
-			<div>
-				<Tabs autoWidth>
-					<Tab>추가옵션</Tab>
-					<Tab>주문서</Tab>
-					<Tab>강화</Tab>
-					<Tab>잠재옵션</Tab>
-					<Tab>관리</Tab>
-					<svelte:fragment slot="content">
-						<TabContent>
-							<BonusStat />
-						</TabContent>
-						<TabContent>
-							<Upgrade />
-						</TabContent>
-						<TabContent>
-							<Enhance />
-						</TabContent>
-						<TabContent>
-							<Potentials />
-						</TabContent>
-						<TabContent>
-							<Manage
-								bind:tooltipRef={enchantTooltip}
-								bind:display
-								on:delete={() => {
-									$inventory[$selected].gear = undefined;
-									$selected = -1;
-								}}
-							/>
-						</TabContent>
-					</svelte:fragment>
-				</Tabs>
-			</div>
-		</div>
-	{/if}
-</Modal>
+		{/if}
+	</ModalBody>
+	<ModalFooter />
+</ComposedModal>
 
 <!-- image modal -->
 <!-- <Modal bind:open={imageOpen} passiveModal size="xs" modalHeading="이미지">

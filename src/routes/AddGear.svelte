@@ -108,9 +108,13 @@
 	</div>
 {:else}
 	{#if name.length > 0}
+	<div>
 		검색된 아이템이 없습니다.
+	</div>
 	{:else}
+	<div>
 		검색어를 입력해 주세요.
+	</div>
 	{/if}
 {/each}
 
