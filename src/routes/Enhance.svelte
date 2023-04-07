@@ -10,15 +10,27 @@
 	import { gear } from './gear-store';
 
 	$: canStar = $gear.maxStar > $gear.star;
+	$: canStarDown = !$gear.amazing && $gear.star > 0;
 	$: canStar17 = $gear.star < 17 && $gear.maxStar >= 17;
 	$: canStar22 = $gear.star < 22 && $gear.maxStar >= 22;
 	$: canAmazing =
-		$gear.req.level <= 150 && !$gear.getBooleanValue(GearPropType.superiorEqp) && canStar;
+		$gear.req.level <= 150 && !$gear.getBooleanValue(GearPropType.superiorEqp) && 15 > $gear.star;
 	$: canReset = $gear.star > 0;
 
 	function starforce() {
 		addStarforce($gear);
 
+		gear.set($gear);
+	}
+
+	function starforceDown() {
+		if ($gear.amazing) return;
+
+		const count = $gear.star - 1;
+		resetEnhancement($gear);
+		for (let i = 0; i < count; i++) {
+			addStarforce($gear);
+		}
 		gear.set($gear);
 	}
 
@@ -61,6 +73,12 @@
 					<div class="wrapper">
 						<div class="starforce icon" />
 						스타포스
+					</div>
+				</Button>
+				<Button kind="secondary" on:click={starforceDown} disabled={!canStarDown}>
+					<div class="wrapper">
+						<div class="starforce down icon" />
+						스타포스 감소
 					</div>
 				</Button>
 				<Button kind="secondary" on:click={starforce17} disabled={!canStar17}>
@@ -107,8 +125,8 @@
 		gap: var(--cds-spacing-03);
 	}
 
-	* *[disabled] .icon {
-		filter: grayscale(1) contrast(0.5) brightness(1.3);
+	.starforce.down.icon {
+		filter: grayscale(1) brightness(0.8);
 	}
 
 	.starforce.icon {
@@ -141,5 +159,9 @@
 		height: 26px;
 		margin-top: 4px;
 		margin-left: 2px;
+	}
+
+	* *[disabled] .icon {
+		filter: grayscale(1) contrast(0.5) brightness(1.3);
 	}
 </style>

@@ -152,74 +152,76 @@
 {#if $gear && canPotential()}
 	<Row>
 		<Column>
+			<h4>잠재옵션</h4>
 			<div class="potentials">
-				<Select labelText="잠재옵션" bind:selected={$gear.grade} on:change={onGradeChange}>
+				<Select labelText="등급" bind:selected={$gear.grade} on:change={onGradeChange}>
 					<SelectItem value={PotentialGrade.normal} text="---" />
 					<SelectItem value={PotentialGrade.rare} text="레어" />
 					<SelectItem value={PotentialGrade.epic} text="에픽" />
 					<SelectItem value={PotentialGrade.unique} text="유니크" />
 					<SelectItem value={PotentialGrade.legendary} text="레전드리" />
 				</Select>
-				{#each { length: 3 } as _, i}
-					<Select
-						bind:selected={codes[i]}
-						on:change={() => onOptionChange(i)}
-						disabled={$gear.grade === 0}
-					>
-						<SelectItem value={0} text="---" />
-						{#if i === 0}
-							{#each getGradePots(pots, $gear.grade) as pot}
-								<SelectItem value={pot.code} text={pot.convertSummary} />
-							{/each}
-						{:else}
-							{#each getGradePots(pots, $gear.grade - 1) as pot}
-								<SelectItem value={pot.code} text={pot.convertSummary} />
-							{/each}
-							<SelectItemGroup label="이탈">
+				<div>
+					{#each { length: 3 } as _, i}
+						<Select
+							labelText={i === 0 ? '옵션' : ''}
+							bind:selected={codes[i]}
+							on:change={() => onOptionChange(i)}
+							disabled={$gear.grade === 0}
+						>
+							<SelectItem value={0} text="---" />
+							{#if i === 0}
 								{#each getGradePots(pots, $gear.grade) as pot}
 									<SelectItem value={pot.code} text={pot.convertSummary} />
 								{/each}
-							</SelectItemGroup>
-						{/if}
-					</Select>
-				{/each}
+							{:else}
+								{#each getGradePots(pots, $gear.grade - 1) as pot}
+									<SelectItem value={pot.code} text={pot.convertSummary} />
+								{/each}
+								<SelectItemGroup label="- 이탈 -" />
+								{#each getGradePots(pots, $gear.grade) as pot}
+									<SelectItem value={pot.code} text={pot.convertSummary} />
+								{/each}
+							{/if}
+						</Select>
+					{/each}
+				</div>
 			</div>
 
+			<h4>에디셔널 잠재옵션</h4>
 			<div class="additional potentials">
-				<Select
-					labelText="에디셔널 잠재옵션"
-					bind:selected={$gear.additionalGrade}
-					on:change={onAddGradeChange}
-				>
+				<Select labelText="등급" bind:selected={$gear.additionalGrade} on:change={onAddGradeChange}>
 					<SelectItem value={PotentialGrade.normal} text="---" />
 					<SelectItem value={PotentialGrade.rare} text="레어" />
 					<SelectItem value={PotentialGrade.epic} text="에픽" />
 					<SelectItem value={PotentialGrade.unique} text="유니크" />
 					<SelectItem value={PotentialGrade.legendary} text="레전드리" />
 				</Select>
-				{#each { length: 3 } as _, i}
-					<Select
-						bind:selected={addCodes[i]}
-						on:change={() => onAddOptionChange(i)}
-						disabled={$gear.additionalGrade === 0}
-					>
-						<SelectItem value={0} text="---" />
-						{#if i === 0}
-							{#each getGradePots(addPots, $gear.additionalGrade) as pot}
-								<SelectItem value={pot.code} text={pot.convertSummary} />
-							{/each}
-						{:else}
-							{#each getGradePots(addPots, $gear.additionalGrade - 1) as pot}
-								<SelectItem value={pot.code} text={pot.convertSummary} />
-							{/each}
-							<SelectItemGroup label="이탈">
+				<div>
+					{#each { length: 3 } as _, i}
+						<Select
+							labelText={i === 0 ? '옵션' : ''}
+							bind:selected={addCodes[i]}
+							on:change={() => onAddOptionChange(i)}
+							disabled={$gear.additionalGrade === 0}
+						>
+							<SelectItem value={0} text="---" />
+							{#if i === 0}
 								{#each getGradePots(addPots, $gear.additionalGrade) as pot}
 									<SelectItem value={pot.code} text={pot.convertSummary} />
 								{/each}
-							</SelectItemGroup>
-						{/if}
-					</Select>
-				{/each}
+							{:else}
+								{#each getGradePots(addPots, $gear.additionalGrade - 1) as pot}
+									<SelectItem value={pot.code} text={pot.convertSummary} />
+								{/each}
+								<SelectItemGroup label="- 이탈 -" />
+								{#each getGradePots(addPots, $gear.additionalGrade) as pot}
+									<SelectItem value={pot.code} text={pot.convertSummary} />
+								{/each}
+							{/if}
+						</Select>
+					{/each}
+				</div>
 			</div>
 		</Column>
 	</Row>
@@ -229,11 +231,16 @@
 
 <style>
 	.potentials {
-		margin-top: var(--cds-spacing-05);
+		margin-top: var(--cds-spacing-03);
 		display: flex;
 		flex-direction: column;
+		gap: var(--cds-spacing-03);
 	}
-	.additional {
+	h4 {
 		margin-top: var(--cds-spacing-07);
+	}
+
+	h4:first-of-type {
+		margin-top: var(--cds-spacing-05);
 	}
 </style>
