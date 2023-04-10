@@ -6,10 +6,8 @@
 		HeaderUtilities,
 		SkipToContent
 	} from 'carbon-components-svelte';
-	import 'carbon-components-svelte/css/all.css';
 	import { BrightnessContrast, LogoDiscord } from 'carbon-icons-svelte';
 	import { onMount } from 'svelte';
-	import '../global.css';
 
 	/* theme */
 	onMount(() => {
