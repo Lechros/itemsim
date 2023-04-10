@@ -108,9 +108,6 @@
 	let cursorTooltip: HTMLDivElement;
 
 	let cursorGear: Gear | undefined;
-	$: {
-		cursorGear = $gear;
-	}
 
 	function setCursorGear(gear: Gear | undefined) {
 		cursorGear = gear;
