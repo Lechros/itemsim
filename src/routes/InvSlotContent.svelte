@@ -5,6 +5,8 @@
 
 	export let _slot: GearSlot | undefined;
 
+	export let imgRef: HTMLImageElement | undefined = undefined;
+
 	$: gear = _slot?.gear;
 
 	function getIconName(grade: PotentialGrade) {
@@ -25,16 +27,19 @@
 	}
 </script>
 
-<AspectRatio ratio="1x1">
+<AspectRatio ratio="1x1" style="pointer-events: none;">
 	{#if _slot && gear}
 		<div class="icon-wrapper">
 			<img
+				draggable="false"
 				src="https://maplestory.io/api/KMS/367/item/{gear.icon.id}/icon"
 				alt={gear.name}
 				class="gear-icon"
 				style="
 					margin-left: {1 - gear.icon.origin[0]}px;
-					margin-top: {33 - gear.icon.origin[1]}px;"
+					margin-top: {33 - gear.icon.origin[1]}px;
+					pointer-events: none"
+				bind:this={imgRef}
 			/>
 			<div class="star-wrapper">
 				{#if gear.star > 0}

@@ -116,12 +116,14 @@ const createStore = () => {
 		});
 	};
 	const inventory_swap = (index1: number, index2: number) => {
-		inventory.update((inv) => {
-			const temp = inv[index1];
-			inv[index1] = inv[index2];
-			inv[index2] = temp;
-			return inv;
-		});
+		if (index1 !== index2 && 0 <= index1 && index1 < MAX_INV && 0 <= index2 && index2 < MAX_INV) {
+			inventory.update((inv) => {
+				const temp = inv[index1];
+				inv[index1] = inv[index2];
+				inv[index2] = temp;
+				return inv;
+			});
+		}
 	};
 	const inventory_select = (index: number) => {
 		if (_inventory[index]) {

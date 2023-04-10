@@ -4,7 +4,6 @@
 	import type { Gear } from '@malib/gear';
 	import {
 		Button,
-		ClickableTile,
 		Column,
 		ComposedModal,
 		Content,
@@ -37,6 +36,31 @@
 
 	/* inventory */
 	$: gearCount = $inventory.reduce((count, slot) => (slot ? count + 1 : count), 0);
+
+	let neverSelected = false;
+	$: if (neverSelected) neverSelected = false;
+
+	/* inventory: drag */
+	let dragIndex = -1;
+
+	$: if (dragIndex > -1) setCursorGear(undefined);
+
+	let imgRefs: (HTMLImageElement | undefined)[] = [];
+
+	const addHover = (target: EventTarget | null) => {
+		if (!target) return;
+		const _target = target as HTMLDivElement;
+		if (_target.classList.contains('dropzone')) {
+			_target.classList.add('inv-draghover');
+		}
+	};
+	const removeHover = (target: EventTarget | null) => {
+		if (!target) return;
+		const _target = target as HTMLDivElement;
+		if (_target.classList.contains('dropzone')) {
+			_target.classList.remove('inv-draghover');
+		}
+	};
 
 	/* inventory: upload */
 	let importGear: ImportGear;
@@ -209,21 +233,65 @@
 					<div class="inventory">
 						{#each $inventory as slot, i}
 							{#if !deleteMode}
-								<ClickableTile
-									href=""
+								<button
+									class="dropzone bx--tile bx--tile--selectable"
+									class:bx--tile--disabled={!slot}
 									disabled={!slot}
 									on:click={() => {
 										if (slot) inventory.select(i);
 									}}
 									on:mouseenter={() => setCursorGear(slot?.gear)}
 									on:mouseleave={() => setCursorGear(undefined)}
-									style="min-width: 0;"
+									draggable="true"
+									on:dragstart={(e) => {
+										dragIndex = i;
+										const ref = imgRefs[i];
+										if (e.dataTransfer) {
+											e.dataTransfer.effectAllowed = 'move';
+											if (ref) e.dataTransfer.setDragImage(ref, 16, 16);
+										}
+									}}
+									on:dragend={() => (dragIndex = -1)}
+									on:dragover={(e) => {
+										if (dragIndex !== i) e.preventDefault();
+									}}
+									on:dragenter={(e) => {
+										addHover(e.target);
+										if (dragIndex !== i) e.preventDefault();
+									}}
+									on:dragleave={(e) => {
+										removeHover(e.target);
+										e.preventDefault();
+									}}
+									on:drop={(e) => {
+										removeHover(e.target);
+										inventory.swap(dragIndex, i);
+										dragIndex = -1;
+									}}
+									style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
 								>
-									<InvSlot _slot={slot} />
-								</ClickableTile>
+									<InvSlot _slot={slot} bind:imgRef={imgRefs[i]} />
+								</button>
+								<!-- <SelectableTile
+									disabled={!slot}
+									bind:selected={neverSelected}
+									on:select={() => {
+										if (slot) inventory.select(i);
+									}}
+									on:mouseenter={() => setCursorGear(slot?.gear)}
+									on:mouseleave={() => setCursorGear(undefined)}
+									bind:ref={invInputRefs[i]}
+									style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
+								>
+									<InvSlot
+										_slot={slot}
+										on:dragstart={() => (dragIndex = i)}
+										on:dragend={() => (dragIndex = -1)}
+									/>
+								</SelectableTile> -->
 							{:else}
 								<SelectableTile
-									href=""
+									draggable="false"
 									disabled={!slot}
 									selected={toDelete.has(i)}
 									on:select={() => {
