@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { PotentialGrade } from '@malib/gear';
+	import { Gear, PotentialGrade } from '@malib/gear';
 	import { AspectRatio, Tag } from 'carbon-components-svelte';
 	import type { GearSlot } from './gear-store';
 
-	export let _slot: GearSlot;
+	export let _slot: GearSlot | undefined;
 
-	$: gear = _slot.gear;
+	$: gear = _slot?.gear;
 
 	function getIconName(grade: PotentialGrade) {
 		switch (grade) {
@@ -26,7 +26,7 @@
 </script>
 
 <AspectRatio ratio="1x1">
-	{#if gear}
+	{#if _slot && gear}
 		<div class="icon-wrapper">
 			<img
 				src="https://maplestory.io/api/KMS/367/item/{gear.icon.id}/icon"

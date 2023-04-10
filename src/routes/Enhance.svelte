@@ -9,22 +9,30 @@
 	import { Button, Column, Row } from 'carbon-components-svelte';
 	import { gear } from './gear-store';
 
-	$: canStar = $gear.maxStar > $gear.star;
-	$: canStarDown = !$gear.amazing && $gear.star > 0;
-	$: canStar17 = $gear.star < 17 && $gear.maxStar >= 17;
-	$: canStar22 = $gear.star < 22 && $gear.maxStar >= 22;
+	export let can = false;
+
+	$: can = $gear !== undefined && $gear.maxStar > 0;
+
+	$: canStar = $gear !== undefined && $gear.maxStar > $gear.star;
+	$: canStarDown = $gear !== undefined && !$gear.amazing && $gear.star > 0;
+	$: canStar17 = $gear !== undefined && $gear.star < 17 && $gear.maxStar >= 17;
+	$: canStar22 = $gear !== undefined && $gear.star < 22 && $gear.maxStar >= 22;
 	$: canAmazing =
-		$gear.req.level <= 150 && !$gear.getBooleanValue(GearPropType.superiorEqp) && 15 > $gear.star;
-	$: canReset = $gear.star > 0;
+		$gear !== undefined &&
+		$gear.req.level <= 150 &&
+		!$gear.getBooleanValue(GearPropType.superiorEqp) &&
+		15 > $gear.star;
+	$: canReset = $gear !== undefined && $gear.star > 0;
 
 	function starforce() {
-		addStarforce($gear);
+		if (!$gear) return;
 
+		addStarforce($gear);
 		gear.set($gear);
 	}
 
 	function starforceDown() {
-		if ($gear.amazing) return;
+		if (!$gear || $gear.amazing) return;
 
 		const count = $gear.star - 1;
 		resetEnhancement($gear);
@@ -35,6 +43,8 @@
 	}
 
 	function starforce17() {
+		if (!$gear) return;
+
 		const count = 17 - $gear.star;
 		for (let i = 0; i < count; i++) {
 			addStarforce($gear);
@@ -43,6 +53,8 @@
 	}
 
 	function starforce22() {
+		if (!$gear) return;
+
 		const count = 22 - $gear.star;
 		for (let i = 0; i < count; i++) {
 			addStarforce($gear);
@@ -51,21 +63,21 @@
 	}
 
 	function amazing() {
+		if (!$gear) return;
+
 		addAmazingEnhancement($gear);
 		gear.set($gear);
 	}
 
 	function reset() {
+		if (!$gear) return;
+
 		resetEnhancement($gear);
 		gear.set($gear);
 	}
-
-	function canEnhance(gear: Gear) {
-		return gear.maxStar > 0;
-	}
 </script>
 
-{#if $gear && canEnhance($gear)}
+{#if can && $gear}
 	<Row>
 		<Column>
 			<div class="enhance">

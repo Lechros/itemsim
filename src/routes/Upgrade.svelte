@@ -32,63 +32,84 @@
 	import { optionToStrings } from './strings';
 	import { getOnlyScrolls } from './upgrade';
 
+	export let can = false;
+
+	$: can = $gear !== undefined && $gear.totalUpgradeCount > 0;
+
 	/* general */
-	function canUpgrade() {
-		return $gear.totalUpgradeCount > 0;
-	}
 
-	$: onlyScrolls = getOnlyScrolls($gear);
+	$: onlyScrolls = $gear ? getOnlyScrolls($gear) : [];
 
-	$: exceptUpgrade = $gear.getBooleanValue(GearPropType.exceptUpgrade);
-	$: onlyUpgrade = $gear.getBooleanValue(GearPropType.onlyUpgrade);
+	$: exceptUpgrade = $gear !== undefined && $gear.getBooleanValue(GearPropType.exceptUpgrade);
+	$: onlyUpgrade = $gear !== undefined && $gear.getBooleanValue(GearPropType.onlyUpgrade);
 	$: canHammer =
+		$gear !== undefined &&
 		!exceptUpgrade &&
 		!$gear.getBooleanValue(GearPropType.blockGoldHammer) &&
 		$gear.hammerCount === 0;
-	$: canFail = !exceptUpgrade && !onlyUpgrade && $gear.upgradeCountLeft > 0;
-	$: canRestore = $gear.upgradeFailCount > 0;
+	$: canFail = $gear !== undefined && !exceptUpgrade && !onlyUpgrade && $gear.upgradeCountLeft > 0;
+	$: canRestore = $gear !== undefined && $gear.upgradeFailCount > 0;
 	$: canInnocent =
-		$gear.hammerCount > 0 || $gear.upgradeCount > 0 || $gear.upgradeFailCount > 0 || $gear.star > 0;
+		$gear !== undefined &&
+		($gear.hammerCount > 0 ||
+			$gear.upgradeCount > 0 ||
+			$gear.upgradeFailCount > 0 ||
+			$gear.star > 0);
 	$: canArkInnocent =
+		$gear !== undefined &&
 		!$gear.amazing &&
 		($gear.hammerCount > 0 || $gear.upgradeCount > 0 || $gear.upgradeFailCount > 0);
 
-	$: canScroll = $gear.upgradeCountLeft > 0;
+	$: canScroll = $gear !== undefined && $gear.upgradeCountLeft > 0;
 
 	function hammer() {
+		if (!$gear) return;
+
 		applyGoldHammer($gear);
 		gear.set($gear);
 	}
 
 	function fail() {
+		if (!$gear) return;
+
 		addUpgradeFailCount($gear);
 		gear.set($gear);
 	}
 
 	function restore() {
+		if (!$gear) return;
+
 		restoreUpgradeCount($gear);
 		gear.set($gear);
 	}
 
 	function innocent() {
+		if (!$gear) return;
+
 		resetUpgrade($gear);
 		resetEnhancement($gear);
 		gear.set($gear);
 	}
 
 	function arkInnocent() {
+		if (!$gear) return;
+
 		resetUpgrade($gear);
 		recalculateStarforce($gear);
 		gear.set($gear);
 	}
 
 	function scrollSingle(scroll: Scroll) {
+		if (!$gear) return;
+
 		applyScroll($gear, scroll);
 		recalculateStarforce($gear);
 		gear.set($gear);
 	}
 
 	function scrollFull(scroll: Scroll) {
+		if (!$gear) return;
+
 		const count = $gear.upgradeCountLeft;
 		for (let i = 0; i < count; i++) {
 			applyScroll($gear, scroll);
@@ -105,12 +126,14 @@
 	}
 
 	/* 0: spell trace */
-	$: spellTraces = getSpellTraceInfos($gear, getTypes($gear));
+	$: spellTraces = $gear ? getSpellTraceInfos($gear, getSpellTraceTypes($gear)) : [];
 	let spellTraceProbIdx = 0;
-	$: if (!is15Gear($gear) && spellTraceProbIdx === 4) spellTraceProbIdx = 0;
+	$: if ($gear && !is15Gear($gear) && spellTraceProbIdx === 4) spellTraceProbIdx = 0;
 	$: selectedProb = [-1, 100, 70, 30, 15][spellTraceProbIdx];
 
 	function spellTraceFull(type: SpellTraceStatType, prob: SpellTraceProbability) {
+		if (!$gear) return;
+
 		const count = $gear.upgradeCountLeft;
 		for (let i = 0; i < count; i++) {
 			applySpellTrace($gear, type, prob);
@@ -119,7 +142,7 @@
 		gear.set($gear);
 	}
 
-	function getTypes(gear: Gear) {
+	function getSpellTraceTypes(gear: Gear) {
 		const jobStat = [
 			[GearPropType.incSTR, GearPropType.incMHP],
 			[GearPropType.incINT],
@@ -268,7 +291,7 @@
 	/* 4: only scroll */
 </script>
 
-{#if $gear && canUpgrade()}
+{#if can && $gear}
 	<Row>
 		<Column>
 			<div class="general">
@@ -493,12 +516,6 @@
 {/if}
 
 <style>
-	.label {
-		display: flex;
-		align-items: center;
-		gap: var(--cds-spacing-03);
-	}
-
 	.general {
 		display: grid;
 		grid-template-columns: repeat(5, 1fr);

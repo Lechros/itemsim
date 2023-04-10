@@ -4,27 +4,32 @@
 	import { Column, Row, Select, SelectItem, SelectItemGroup } from 'carbon-components-svelte';
 	import { gear } from './gear-store';
 
-	$: potentialLevel = Potential.getPotentialLevel($gear.req.level);
+	export let can = false;
 
-	$: pots = buildGradeNames($gear, getPotCodes);
-	$: addPots = buildGradeNames($gear, getAddPotCodes);
+	$: can =
+		$gear !== undefined &&
+		$gear.canPotential &&
+		!$gear.getBooleanValue(GearPropType.fixedPotential);
+
+	$: potentialLevel = Potential.getPotentialLevel($gear?.req.level ?? 0);
+
+	$: pots = $gear ? createNameMap($gear, getPotCodes) : new Map();
+	$: addPots = $gear ? createNameMap($gear, getAddPotCodes) : new Map();
 
 	let codes = [
-		$gear.potentials[0]?.code ?? 0,
-		$gear.potentials[1]?.code ?? 0,
-		$gear.potentials[2]?.code ?? 0
+		$gear?.potentials[0]?.code ?? 0,
+		$gear?.potentials[1]?.code ?? 0,
+		$gear?.potentials[2]?.code ?? 0
 	];
 	let addCodes = [
-		$gear.additionalPotentials[0]?.code ?? 0,
-		$gear.additionalPotentials[1]?.code ?? 0,
-		$gear.additionalPotentials[2]?.code ?? 0
+		$gear?.additionalPotentials[0]?.code ?? 0,
+		$gear?.additionalPotentials[1]?.code ?? 0,
+		$gear?.additionalPotentials[2]?.code ?? 0
 	];
 
-	function canPotential() {
-		return $gear.canPotential && !$gear.getBooleanValue(GearPropType.fixedPotential);
-	}
-
 	function onGradeChange() {
+		if (!$gear) return;
+
 		if ($gear.grade > PotentialGrade.normal) {
 			$gear.potentials = [];
 		}
@@ -32,7 +37,15 @@
 		codes = [0, 0, 0];
 	}
 
+	function onOptionChange(index: number) {
+		if (!$gear) return;
+
+		$gear.potentials[index] = createPotentialFromCode(codes[index], potentialLevel)!;
+	}
+
 	function onAddGradeChange() {
+		if (!$gear) return;
+
 		if ($gear.additionalGrade > PotentialGrade.normal) {
 			$gear.additionalPotentials = [];
 		}
@@ -40,11 +53,9 @@
 		addCodes = [0, 0, 0];
 	}
 
-	function onOptionChange(index: number) {
-		$gear.potentials[index] = createPotentialFromCode(codes[index], potentialLevel)!;
-	}
-
 	function onAddOptionChange(index: number) {
+		if (!$gear) return;
+
 		$gear.additionalPotentials[index] = createPotentialFromCode(addCodes[index], potentialLevel)!;
 	}
 
@@ -56,7 +67,7 @@
 		return [...gradeMap.values()];
 	}
 
-	function buildGradeNames(gear: Gear, getPotCodeFunc: (grade: PotentialGrade) => number[]) {
+	function createNameMap(gear: Gear, getPotCodeFunc: (grade: PotentialGrade) => number[]) {
 		const names: Map<PotentialGrade, Map<number, Potential>> = new Map();
 		for (const grade of [
 			PotentialGrade.normal,
@@ -67,13 +78,13 @@
 		]) {
 			const gradeCodes = getPotCodeFunc(grade);
 			const gradePots = gradeCodes.map((code) => createPotentialFromCode(code, potentialLevel));
-			const filteredPots = gradePots.filter((pot): pot is Potential => canGearPotential(gear, pot));
+			const filteredPots = gradePots.filter((pot): pot is Potential => testGearPotential(gear, pot));
 			names.set(grade, new Map(filteredPots.map((pot) => [pot.code, pot])));
 		}
 		return names;
 	}
 
-	function canGearPotential(gear: Gear, potential?: Potential) {
+	function testGearPotential(gear: Gear, potential?: Potential) {
 		return (
 			potential !== undefined &&
 			Potential.checkOptionType(potential.optionType, gear.type) &&
@@ -149,7 +160,7 @@
 	}
 </script>
 
-{#if $gear && canPotential()}
+{#if can && $gear}
 	<Row>
 		<Column>
 			<h4>잠재옵션</h4>

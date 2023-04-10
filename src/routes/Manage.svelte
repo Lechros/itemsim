@@ -11,10 +11,10 @@
 
 	const dispatch = createEventDispatcher();
 
-	$: gearStr = stringifyGear($gear);
+	$: gearStr = $gear ? stringifyGear($gear) : '';
 	$: gear64 = compressToBase64(gearStr);
 	$: gearURI = compressToEncodedURIComponent(gearStr);
-	$: filename = $gear.name;
+	$: filename = $gear?.name ?? 'item';
 
 	// function createImage() {
 	// 	if (tooltipRef) {

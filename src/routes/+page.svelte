@@ -36,17 +36,7 @@
 	const TRANSLATION_DURATION = 240;
 
 	/* inventory */
-	$: gearCount = $inventory.reduce((count, slot) => (slot.gear ? count + 1 : count), 0);
-
-	function addToInv(gear: Gear) {
-		for (let i = 0; i < $inventory.length; i++) {
-			if ($inventory[i].gear === undefined) {
-				$inventory[i].gear = gear;
-				return true;
-			}
-		}
-		return false;
-	}
+	$: gearCount = $inventory.reduce((count, slot) => (slot ? count + 1 : count), 0);
 
 	/* inventory: upload */
 	let importGear: ImportGear;
@@ -81,7 +71,7 @@
 		for (const id of ids.keys()) {
 			const gear = createGearFromId(Number(id));
 			if (!gear) continue;
-			addToInv(gear);
+			inventory.add(gear);
 		}
 	}
 
@@ -103,7 +93,7 @@
 	function deleteItems() {
 		lastDeleted = toDelete.size;
 		for (const idx of toDelete) {
-			$inventory[idx].gear = undefined;
+			inventory.remove(idx);
 		}
 	}
 
@@ -118,8 +108,8 @@
 	let cursorTooltip: HTMLDivElement;
 
 	let cursorGear: Gear | undefined;
-	$: if ($selected > -1) {
-		cursorGear = undefined;
+	$: {
+		cursorGear = $gear;
 	}
 
 	function setCursorGear(gear: Gear | undefined) {
@@ -224,11 +214,11 @@
 							{#if !deleteMode}
 								<ClickableTile
 									href=""
-									disabled={!slot.gear}
+									disabled={!slot}
 									on:click={() => {
-										if (slot.gear) $selected = i;
+										if (slot) inventory.select(i);
 									}}
-									on:mouseenter={() => setCursorGear(slot.gear)}
+									on:mouseenter={() => setCursorGear(slot?.gear)}
 									on:mouseleave={() => setCursorGear(undefined)}
 									style="min-width: 0;"
 								>
@@ -237,7 +227,7 @@
 							{:else}
 								<SelectableTile
 									href=""
-									disabled={!slot.gear}
+									disabled={!slot}
 									selected={toDelete.has(i)}
 									on:select={() => {
 										toDelete.add(i);
@@ -247,7 +237,7 @@
 										toDelete.delete(i);
 										toDelete = toDelete;
 									}}
-									on:mouseenter={() => setCursorGear(slot.gear)}
+									on:mouseenter={() => setCursorGear(slot?.gear)}
 									on:mouseleave={() => setCursorGear(undefined)}
 									style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
 								>
@@ -271,10 +261,10 @@
 	primaryButtonDisabled={!canUpload(strGear, uploadGears)}
 	on:submit={() => {
 		if (strGear) {
-			addToInv(strGear);
+			inventory.add(strGear);
 		} else if (uploadGears.size > 0) {
 			for (const gear of uploadGears.values()) {
-				addToInv(gear);
+				inventory.add(gear);
 			}
 		}
 		importOpen = false;
@@ -321,9 +311,9 @@
 
 <!-- enchant modal -->
 <ComposedModal
-	open={$selected > -1}
+	open={$gear !== undefined}
 	selectorPrimaryFocus="ul"
-	on:close={() => ($selected = -1)}
+	on:close={() => setTimeout(inventory.deselect, TRANSLATION_DURATION)}
 >
 	<ModalHeader title="아이템 강화" />
 	<ModalBody hasForm hasScrollingContent tabindex={-1}>
@@ -357,8 +347,7 @@
 									bind:tooltipRef={enchantTooltip}
 									bind:display
 									on:delete={() => {
-										$inventory[$selected].gear = undefined;
-										$selected = -1;
+										inventory.remove($selected);
 									}}
 								/>
 							</TabContent>
