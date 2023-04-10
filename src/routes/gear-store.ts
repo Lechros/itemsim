@@ -86,7 +86,7 @@ const createStore = () => {
 	let _meta: GearSlot['meta'] | undefined = undefined;
 	const meta = writable<GearSlot['meta'] | undefined>(_meta);
 
-	const inventory_insert = (gear: Gear) => {
+	const inventory_add = (gear: Gear) => {
 		inventory.update((inv) => {
 			for (let i = 0; i < MAX_INV; i++) {
 				if (inv[i] === undefined) {
@@ -112,6 +112,14 @@ const createStore = () => {
 			if (_selected === index) {
 				selected.set(SELECTED_DEFAULT);
 			}
+			return inv;
+		});
+	};
+	const inventory_swap = (index1: number, index2: number) => {
+		inventory.update((inv) => {
+			const temp = inv[index1];
+			inv[index1] = inv[index2];
+			inv[index2] = temp;
 			return inv;
 		});
 	};
@@ -157,9 +165,10 @@ const createStore = () => {
 			subscribe: inventory.subscribe,
 			set: inventory.set,
 			update: inventory.update,
-			add: inventory_insert,
+			add: inventory_add,
 			change: inventory_change,
 			remove: inventory_remove,
+			swap: inventory_swap,
 			select: inventory_select,
 			deselect: inventory_deselect
 		},
