@@ -31,7 +31,7 @@
 	import Manage from './Manage.svelte';
 	import Potentials from './Potentials.svelte';
 	import Upgrade from './Upgrade.svelte';
-	import { gear, inventory, selected } from './gear-store';
+	import { gear, inventory, lastAdd, selected } from './gear-store';
 
 	const TRANSLATION_DURATION = 240;
 
@@ -285,6 +285,9 @@
 	on:submit={() => {
 		addItems(addIds);
 		addOpen = false;
+		if (addIds.size === 1) {
+			inventory.select($lastAdd);
+		}
 		setTimeout(() => {
 			addGear.resetSearchValue();
 			addGear.resetIds();
