@@ -13,14 +13,16 @@
 	import { gear, meta } from './gear-store';
 	import { getName } from './strings';
 
-	$: if ($meta.bonus.length === 0) {
-		reset();
-	}
+	export let can = false;
 
-	$: bossReward = $gear.getBooleanValue(GearPropType.bossReward);
-	$: types = getTypes($gear);
+	$: can = $gear !== undefined && canBonus($gear);
 
-	function onChange() {
+	$: bossReward = $gear !== undefined && $gear?.getBooleanValue(GearPropType.bossReward);
+	$: types = $gear ? getBonusTypes($gear) : [];
+
+	function onSelectChange() {
+		if (!$gear || !$meta) return;
+
 		resetBonusStat($gear);
 		for (const bonus of $meta.bonus) {
 			if (bonus.type !== -1 && bonus.grade > 0) {
@@ -31,40 +33,52 @@
 	}
 
 	function reset() {
-		$meta.bonus = [
-			{ type: -1, grade: 0 },
-			{ type: -1, grade: 0 },
-			{ type: -1, grade: 0 },
-			{ type: -1, grade: 0 }
-		];
+		if (!$gear) return;
+
+		meta.reset();
 		resetBonusStat($gear);
 		gear.set($gear);
 	}
 
-	function canBonus() {
-		if (Gear.isArmor($gear.type)) {
-			if (Gear.isShield($gear.type)) {
+	function getValueGradeString(type: BonusStatType, grade: BonusStatGrade) {
+		if (!$gear || !$meta) return '';
+
+		const plus = type === BonusStatType.reduceReq ? '-' : '+';
+		let percent = '';
+		switch (type) {
+			case BonusStatType.damR:
+			case BonusStatType.bdR:
+			case BonusStatType.allStatR:
+				percent = '%';
+				break;
+		}
+		return `${plus}${getBonusStatValue($gear, type, grade)}${percent} (${grade}등급)`;
+	}
+
+	function canBonus(gear: Gear) {
+		if (Gear.isArmor(gear.type)) {
+			if (Gear.isShield(gear.type)) {
 				return false;
 			}
 			return true;
 		}
-		if (Gear.isAccessory($gear.type)) {
-			if ($gear.type === GearType.ring) {
+		if (Gear.isAccessory(gear.type)) {
+			if (gear.type === GearType.ring) {
 				return false;
 			}
-			if ($gear.type === GearType.shoulder) {
-				if ($gear.itemID === 1152155) return true;
+			if (gear.type === GearType.shoulder) {
+				if (gear.itemID === 1152155) return true;
 				return false;
 			}
 			return true;
 		}
-		if (Gear.isWeapon($gear.type)) {
+		if (Gear.isWeapon(gear.type)) {
 			return true;
 		}
 		return false;
 	}
 
-	function getTypes(gear: Gear) {
+	function getBonusTypes(gear: Gear) {
 		let types = [
 			BonusStatType.STR,
 			BonusStatType.DEX,
@@ -81,10 +95,8 @@
 		];
 		if (Gear.isWeapon(gear.type)) {
 			types.push(BonusStatType.PAD, BonusStatType.MAD);
-		} else {
-			if (gear.req.level >= 60) {
-				types.push(BonusStatType.PAD, BonusStatType.MAD);
-			}
+		} else if (gear.req.level >= 60) {
+			types.push(BonusStatType.PAD, BonusStatType.MAD);
 		}
 		types.push(BonusStatType.PDD);
 		if (Gear.isWeapon(gear.type)) {
@@ -96,34 +108,20 @@
 		if (gear.req.level >= 70) {
 			types.push(BonusStatType.allStatR);
 		}
-
 		types.push(BonusStatType.reduceReq);
 		return types;
 	}
 
-	function getGrades(bossReward: boolean) {
+	function getBonusGrades(bossReward: boolean) {
 		if (bossReward) {
 			return [3, 4, 5, 6, 7] as const;
 		} else {
 			return [1, 2, 3, 4, 5, 6, 7] as const;
 		}
 	}
-
-	function getGradeRepr(type: BonusStatType, grade: BonusStatGrade) {
-		const plus = type === BonusStatType.reduceReq ? '-' : '+';
-		let percent = '';
-		switch (type) {
-			case BonusStatType.damR:
-			case BonusStatType.bdR:
-			case BonusStatType.allStatR:
-				percent = '%';
-				break;
-		}
-		return `${plus}${getBonusStatValue($gear, type, grade)}${percent} (${grade}등급)`;
-	}
 </script>
 
-{#if $gear && canBonus()}
+{#if can && $meta}
 	<Row style="margin-top: var(--cds-spacing-05);">
 		<Column>
 			<Button kind="danger" class="reset" on:click={reset}>초기화</Button>
@@ -145,7 +143,7 @@
 						bind:selected={bonus.type}
 						on:change={() => {
 							bonus.grade = 0;
-							onChange();
+							onSelectChange();
 						}}
 					>
 						<SelectItem value={-1} text="---" />
@@ -155,11 +153,11 @@
 					</Select>
 				</Column>
 				<Column>
-					<Select bind:selected={bonus.grade} on:change={onChange}>
+					<Select bind:selected={bonus.grade} on:change={onSelectChange}>
 						<SelectItem value={0} text="---" />
 						{#if bonus.type !== -1}
-							{#each getGrades(bossReward) as grade}
-								<SelectItem value={grade} text={getGradeRepr(bonus.type, grade)} />
+							{#each getBonusGrades(bossReward) as grade}
+								<SelectItem value={grade} text={getValueGradeString(bonus.type, grade)} />
 							{/each}
 						{/if}
 					</Select>

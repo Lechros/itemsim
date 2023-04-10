@@ -4,7 +4,6 @@
 	import type { Gear } from '@malib/gear';
 	import {
 		Button,
-		ClickableTile,
 		Column,
 		ComposedModal,
 		Content,
@@ -19,10 +18,12 @@
 		TabContent,
 		Tabs
 	} from 'carbon-components-svelte';
+	import 'carbon-components-svelte/css/all.css';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import Close from 'carbon-icons-svelte/lib/Close.svelte';
 	import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 	import Upload from 'carbon-icons-svelte/lib/Upload.svelte';
+	import '../global.css';
 	import AddGear from './AddGear.svelte';
 	import BonusStat from './BonusStat.svelte';
 	import Enhance from './Enhance.svelte';
@@ -31,22 +32,37 @@
 	import Manage from './Manage.svelte';
 	import Potentials from './Potentials.svelte';
 	import Upgrade from './Upgrade.svelte';
-	import { gear, inventory, selected } from './gear-store';
+	import { gear, inventory, lastAdd, selected } from './gear-store';
 
 	const TRANSLATION_DURATION = 240;
 
 	/* inventory */
-	$: gearCount = $inventory.reduce((count, slot) => (slot.gear ? count + 1 : count), 0);
+	$: gearCount = $inventory.reduce((count, slot) => (slot ? count + 1 : count), 0);
 
-	function addToInv(gear: Gear) {
-		for (let i = 0; i < $inventory.length; i++) {
-			if ($inventory[i].gear === undefined) {
-				$inventory[i].gear = gear;
-				return true;
-			}
+	let neverSelected = false;
+	$: if (neverSelected) neverSelected = false;
+
+	/* inventory: drag */
+	let dragIndex = -1;
+
+	$: if (dragIndex > -1) setCursorGear(undefined);
+
+	let imgRefs: (HTMLImageElement | undefined)[] = [];
+
+	const addHover = (target: EventTarget | null) => {
+		if (!target) return;
+		const _target = target as HTMLDivElement;
+		if (_target.classList.contains('dropzone')) {
+			_target.classList.add('inv-draghover');
 		}
-		return false;
-	}
+	};
+	const removeHover = (target: EventTarget | null) => {
+		if (!target) return;
+		const _target = target as HTMLDivElement;
+		if (_target.classList.contains('dropzone')) {
+			_target.classList.remove('inv-draghover');
+		}
+	};
 
 	/* inventory: upload */
 	let importGear: ImportGear;
@@ -81,7 +97,7 @@
 		for (const id of ids.keys()) {
 			const gear = createGearFromId(Number(id));
 			if (!gear) continue;
-			addToInv(gear);
+			inventory.add(gear);
 		}
 	}
 
@@ -103,7 +119,7 @@
 	function deleteItems() {
 		lastDeleted = toDelete.size;
 		for (const idx of toDelete) {
-			$inventory[idx].gear = undefined;
+			inventory.remove(idx);
 		}
 	}
 
@@ -118,9 +134,6 @@
 	let cursorTooltip: HTMLDivElement;
 
 	let cursorGear: Gear | undefined;
-	$: if ($selected > -1) {
-		cursorGear = undefined;
-	}
 
 	function setCursorGear(gear: Gear | undefined) {
 		cursorGear = gear;
@@ -222,22 +235,66 @@
 					<div class="inventory">
 						{#each $inventory as slot, i}
 							{#if !deleteMode}
-								<ClickableTile
-									href=""
-									disabled={!slot.gear}
+								<button
+									class="dropzone bx--tile bx--tile--selectable"
+									class:bx--tile--disabled={!slot}
+									disabled={!slot}
 									on:click={() => {
-										if (slot.gear) $selected = i;
+										if (slot) inventory.select(i);
 									}}
-									on:mouseenter={() => setCursorGear(slot.gear)}
+									on:mouseenter={() => setCursorGear(slot?.gear)}
 									on:mouseleave={() => setCursorGear(undefined)}
-									style="min-width: 0;"
+									draggable="true"
+									on:dragstart={(e) => {
+										dragIndex = i;
+										const ref = imgRefs[i];
+										if (e.dataTransfer) {
+											e.dataTransfer.effectAllowed = 'move';
+											if (ref) e.dataTransfer.setDragImage(ref, 16, 16);
+										}
+									}}
+									on:dragend={() => (dragIndex = -1)}
+									on:dragover={(e) => {
+										if (dragIndex !== i) e.preventDefault();
+									}}
+									on:dragenter={(e) => {
+										addHover(e.target);
+										if (dragIndex !== i) e.preventDefault();
+									}}
+									on:dragleave={(e) => {
+										removeHover(e.target);
+										e.preventDefault();
+									}}
+									on:drop={(e) => {
+										removeHover(e.target);
+										inventory.swap(dragIndex, i);
+										dragIndex = -1;
+									}}
+									style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
 								>
-									<InvSlot _slot={slot} />
-								</ClickableTile>
+									<InvSlot _slot={slot} bind:imgRef={imgRefs[i]} />
+								</button>
+								<!-- <SelectableTile
+									disabled={!slot}
+									bind:selected={neverSelected}
+									on:select={() => {
+										if (slot) inventory.select(i);
+									}}
+									on:mouseenter={() => setCursorGear(slot?.gear)}
+									on:mouseleave={() => setCursorGear(undefined)}
+									bind:ref={invInputRefs[i]}
+									style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
+								>
+									<InvSlot
+										_slot={slot}
+										on:dragstart={() => (dragIndex = i)}
+										on:dragend={() => (dragIndex = -1)}
+									/>
+								</SelectableTile> -->
 							{:else}
 								<SelectableTile
-									href=""
-									disabled={!slot.gear}
+									draggable="false"
+									disabled={!slot}
 									selected={toDelete.has(i)}
 									on:select={() => {
 										toDelete.add(i);
@@ -247,7 +304,7 @@
 										toDelete.delete(i);
 										toDelete = toDelete;
 									}}
-									on:mouseenter={() => setCursorGear(slot.gear)}
+									on:mouseenter={() => setCursorGear(slot?.gear)}
 									on:mouseleave={() => setCursorGear(undefined)}
 									style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
 								>
@@ -271,10 +328,10 @@
 	primaryButtonDisabled={!canUpload(strGear, uploadGears)}
 	on:submit={() => {
 		if (strGear) {
-			addToInv(strGear);
+			inventory.add(strGear);
 		} else if (uploadGears.size > 0) {
 			for (const gear of uploadGears.values()) {
-				addToInv(gear);
+				inventory.add(gear);
 			}
 		}
 		importOpen = false;
@@ -295,6 +352,9 @@
 	on:submit={() => {
 		addItems(addIds);
 		addOpen = false;
+		if (addIds.size === 1) {
+			inventory.select($lastAdd);
+		}
 		setTimeout(() => {
 			addGear.resetSearchValue();
 			addGear.resetIds();
@@ -321,9 +381,9 @@
 
 <!-- enchant modal -->
 <ComposedModal
-	open={$selected > -1}
+	open={$gear !== undefined}
 	selectorPrimaryFocus="ul"
-	on:close={() => ($selected = -1)}
+	on:close={() => setTimeout(inventory.deselect, TRANSLATION_DURATION)}
 >
 	<ModalHeader title="아이템 강화" />
 	<ModalBody hasForm hasScrollingContent tabindex={-1}>
@@ -357,8 +417,7 @@
 									bind:tooltipRef={enchantTooltip}
 									bind:display
 									on:delete={() => {
-										$inventory[$selected].gear = undefined;
-										$selected = -1;
+										inventory.remove($selected);
 									}}
 								/>
 							</TabContent>

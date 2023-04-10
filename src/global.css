@@ -71,3 +71,13 @@ html body {
 .bx--modal-content--overflow-indicator {
 	background-image: linear-gradient(to bottom, transparent, var(--cds-ui-01, #f4f4f4));
 }
+
+.bx--tile__checkmark {
+  z-index: 100;
+}
+
+.inv-draghover {
+  background: var(--cds-hover-ui, #e5e5e5);
+  outline: 2px solid var(--cds-focus, #0f62fe);
+  outline-offset: -2px;
+}
