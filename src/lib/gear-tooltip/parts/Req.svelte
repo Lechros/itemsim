@@ -20,7 +20,7 @@
 		luk: getCanState(req.luk, characterLUK)
 	};
 
-	function getCanState(req: number, value: number): string {
+	function getCanState(req: number, value: number) {
 		if (req <= 0) return 'disabled';
 		else if (value >= req) return 'can';
 		else return 'cannot';
@@ -28,7 +28,7 @@
 </script>
 
 <ul class="req">
-	<li class="req-item req-lev">
+	<li class="req__item req__req-lev">
 		<span class="lev {can.lev}" />
 		{#each reqLevel.toString().padStart(3, 'x') as num}
 			<span class="number-{num} {can.lev}" class:yellowNumber={can.lev === 'can'} />
@@ -45,25 +45,25 @@
 			<span class="close can" />
 		{/if}
 	</li>
-	<li class="req-item">
+	<li class="req__item">
 		<span class="str {can.str}" />
 		{#each req.str.toString().padStart(3, '0') as num}
 			<span class="number-{num} {can.str}" />
 		{/each}
 	</li>
-	<li class="req-item">
+	<li class="req__item">
 		<span class="luk {can.luk}" />
 		{#each req.luk.toString().padStart(3, '0') as num}
 			<span class="number-{num} {can.luk}" />
 		{/each}
 	</li>
-	<li class="req-item">
+	<li class="req__item">
 		<span class="dex {can.dex}" />
 		{#each req.dex.toString().padStart(3, '0') as num}
 			<span class="number-{num} {can.dex}" />
 		{/each}
 	</li>
-	<li class="req-item">
+	<li class="req__item">
 		<span class="int {can.int}" />
 		{#each req.int.toString().padStart(3, '0') as num}
 			<span class="number-{num} {can.int}" />
@@ -80,13 +80,13 @@
 		grid-template-columns: 80px 74px;
 	}
 
-	.req-item {
+	.req__item {
 		display: flex;
 		flex-direction: row;
 		column-gap: 1px;
 	}
 
-	.req-lev {
+	.req__req-lev {
 		grid-column: 1 / 3;
 	}
 

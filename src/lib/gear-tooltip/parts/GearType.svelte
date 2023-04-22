@@ -7,7 +7,7 @@
 </script>
 
 {#if Gear.isWeapon(type)}
-	<div class="text">
+	<div class="gt--text">
 		무기분류 : {getGearTypeString(type)}
 		{#if Gear.isLeftWeapon(type) || type === GearType.katara}
 			(한손무기)
@@ -15,21 +15,11 @@
 			(두손무기)
 		{/if}
 	</div>
-	<div class="text">
+	<div class="gt--text">
 		공격속도 : {getAttackSpeedString(attackSpeed)}
 	</div>
 {:else}
-	<div class="text">
+	<div class="gt--text">
 		장비분류 : {getGearTypeString(type)}
 	</div>
 {/if}
-
-<style>
-	.text {
-		line-height: 15px;
-		font-size: 11px;
-		letter-spacing: normal;
-		font-family: 돋움;
-		color: var(--gear-white);
-	}
-</style>

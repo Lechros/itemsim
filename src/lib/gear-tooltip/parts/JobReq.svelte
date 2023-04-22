@@ -39,41 +39,41 @@
 	}
 </script>
 
-<div class="job-frame" class:expand={extraReq !== ''}>
-	<div class="job-branch">
+<div class="job-req" class:expand={extraReq !== ''}>
+	<div class="job-req__job-branch">
 		{#each getEnableStates(reqJob, characterJob) as enable, index}
 			<span class="job-{index} {enable}" />
 		{/each}
 	</div>
 	{#if extraReq !== ''}
-		<div class="spec-job">
+		<div class="job-req__spec-job">
 			{extraReq}
 		</div>
 	{/if}
 </div>
 
 <style>
-	.job-frame {
+	.job-req {
 		display: flex;
 		flex-direction: column;
 		background-image: url(../images/job/normal.png);
 		width: 237px;
 		height: 24px;
 	}
-	.job-frame.expand {
+	.job-req.expand {
 		background-image: url(../images/job/expand.png);
 		width: 237px;
 		height: 40px;
 	}
 
-	.job-branch {
+	.job-req__job-branch {
 		display: grid;
 		padding-top: 7px;
 		padding-left: 15px;
 		grid-template-columns: 45px 33px 44px 34px 33px 33px;
 	}
 
-	.spec-job {
+	.job-req__spec-job {
 		align-self: center;
 		margin-top: 6px;
 		font-size: 11px;

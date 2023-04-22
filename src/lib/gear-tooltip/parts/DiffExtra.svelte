@@ -29,26 +29,26 @@
 </script>
 
 <div class="diff-extra">
-	<div class="diff">
+	<div class="diff-extra__item">
 		<span class="pdd" />
-		<span class="diff-value">
+		<span class="diff-extra__value">
 			{#each diffToString(pddDiff) as letter}
 				<span class={getLetterName(letter)} />
 			{/each}
 		</span>
 	</div>
-	<div class="diff">
+	<div class="diff-extra__item">
 		<span class="bdr" />
-		<span class="diff-value">
+		<span class="diff-extra__value">
 			{#each diffToString(bdrDiff) as letter}
 				<span class={getLetterName(letter)} />
 			{/each}
 			<span class="percent" />
 		</span>
 	</div>
-	<div class="diff">
+	<div class="diff-extra__item">
 		<span class="imdr" />
-		<span class="diff-value">
+		<span class="diff-extra__value">
 			{#each diffToString(imdrDiff) as letter}
 				<span class={getLetterName(letter)} />
 			{/each}
@@ -63,13 +63,13 @@
 		grid-template-columns: 62px 62px 58px;
 	}
 
-	.diff {
+	.diff-extra__item {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
 
-	.diff-value {
+	.diff-extra__value {
 		display: flex;
 		margin-right: 5px;
 		column-gap: 1px;
