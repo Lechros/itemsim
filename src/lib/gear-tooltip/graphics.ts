@@ -19,11 +19,11 @@ export function getGearNameColor(gear: Gear) {
 export function parseColorString(text: string): string {
 	return text
 		.replaceAll(/(\\r)?\\n/g, '\n')
-		.replaceAll(/#c(.+?)#(?![c$gr])/g, `<span class="orange">$1</span>`)
-		.replaceAll(/\$(.+?)#(?![c$gr])/g, `<span class="blue">$1</span>`)
-		.replaceAll(/#g(.+?)#(?![c$gr])/g, `<span class="green">$1</span>`)
-		.replaceAll(/#r(.+?)#(?![c$gr])/g, `<span class="red">$1</span>`)
-		.replaceAll(/#p(.+?)#(?![c$gr])/g, `<span class="purple2">$1</span>`)
-		.replaceAll(/#o(.+?)#(?![c$gr])/g, `<span class="orange2">$1</span>`)
+		.replaceAll(/#c(.+?)#(?![c$gr])/g, `<span class="gt--text--orange">$1</span>`)
+		.replaceAll(/\$(.+?)#(?![c$gr])/g, `<span class="gt--text--blue">$1</span>`)
+		.replaceAll(/#g(.+?)#(?![c$gr])/g, `<span class="gt--text--green">$1</span>`)
+		.replaceAll(/#r(.+?)#(?![c$gr])/g, `<span class="gt--text--red">$1</span>`)
+		.replaceAll(/#p(.+?)#(?![c$gr])/g, `<span class="gt--text--purple2">$1</span>`)
+		.replaceAll(/#o(.+?)#(?![c$gr])/g, `<span class="gt--text--orange2">$1</span>`)
 		.replaceAll(/#(c|\$|g|r|p|o)?/g, '');
 }

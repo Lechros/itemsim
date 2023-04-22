@@ -18,7 +18,7 @@
 </script>
 
 <div class="diff">
-	<div class="text">공격력 증가량</div>
+	<div class="diff__label gt--text gt--text--gray2">공격력 증가량</div>
 	<div class={type} class:small>
 		{#each inclineString as letter}
 			<div class="letter {getLetterName(letter)}" />
@@ -32,13 +32,9 @@
 		flex-direction: column;
 	}
 
-	.text {
+	.diff__label {
 		margin-right: 4px;
-		font-size: 11px;
-		font-family: 돋움;
 		text-align: right;
-		letter-spacing: normal;
-		color: var(--gear-gray2);
 	}
 
 	.incline,

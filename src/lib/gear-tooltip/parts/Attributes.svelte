@@ -73,14 +73,14 @@
 </script>
 
 {#if attrs.length > 0}
-	<div class="attributes" bind:this={attributes}>
+	<div class="gt--text gt--text--orange attributes" bind:this={attributes}>
 		{#each attrs as attr}
-			<span class="item">{attr}</span>
+			<span class="attributes__token">{attr}</span>
 		{/each}
 	</div>
 {/if}
 
-<style>
+<style lang="scss">
 	.attributes {
 		display: flex;
 		flex-direction: row;
@@ -88,15 +88,9 @@
 		justify-content: center;
 		padding-left: 7px;
 		padding-right: 7px;
-		line-height: 15px;
-		font-size: 11px;
-		font-family: 돋움;
-		letter-spacing: normal;
-		color: var(--gear-orange);
-		white-space: pre;
 	}
 
-	.item:not(.last):not(:last-child)::after {
+	.attributes__token:not(.last):not(:last-child)::after {
 		content: ', ';
 	}
 </style>

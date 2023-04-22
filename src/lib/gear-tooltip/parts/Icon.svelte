@@ -28,16 +28,16 @@
 
 <div class="item-icon">
 	{#if color !== ''}
-		<div class="border {color}" />
+		<div class="item-icon__border {color}" />
 	{/if}
-	<div class="base">
-		<img class="icon" {src} {alt} style="margin-left: {originX}px; margin-top: {originY}px" />
+	<div class="item-icon__base">
+		<img class="item-icon__icon" {src} {alt} style="margin-left: {originX}px; margin-top: {originY}px" />
 	</div>
-	<div class="old-dot" />
+	<div class="item-icon__old-dot" />
 	{#if newBonus}
-		<div class="new-dot" />
+		<div class="item-icon__new-dot" />
 	{/if}
-	<div class="cover" />
+	<div class="item-icon__cover" />
 </div>
 
 <style>
@@ -45,39 +45,39 @@
 		position: relative;
 	}
 
-	.base {
+	.item-icon__base {
 		background-image: url(../images/itemIcon/base.png);
 		width: 82px;
 		height: 82px;
 		position: relative;
 	}
 
-	.icon {
+	.item-icon__icon {
 		transform: scale(2);
 		transform-origin: top left;
 	}
 
-	.border {
+	.item-icon__border {
 		width: 90px;
 		height: 80px;
 		position: absolute;
 		top: 1px;
 		left: 1px;
 	}
-	.border.rare {
+	.item-icon__border.rare {
 		background-image: url(../images/itemIcon/rare.png);
 	}
-	.border.epic {
+	.item-icon__border.epic {
 		background-image: url(../images/itemIcon/epic.png);
 	}
-	.border.unique {
+	.item-icon__border.unique {
 		background-image: url(../images/itemIcon/unique.png);
 	}
-	.border.legendary {
+	.item-icon__border.legendary {
 		background-image: url(../images/itemIcon/legendary.png);
 	}
 
-	.old-dot {
+	.item-icon__old-dot {
 		background-image: url(../images/itemIcon/old.png);
 		width: 10px;
 		height: 10px;
@@ -85,7 +85,7 @@
 		top: 5px;
 		left: 5px;
 	}
-	.new-dot {
+	.item-icon__new-dot {
 		background-image: url(../images/itemIcon/new.png);
 		width: 6px;
 		height: 6px;
@@ -94,7 +94,7 @@
 		left: 7px;
 	}
 
-	.cover {
+	.item-icon__cover {
 		background-image: url(../images/itemIcon/cover.png);
 		width: 74px;
 		height: 74px;

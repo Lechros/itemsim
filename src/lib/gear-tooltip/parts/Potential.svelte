@@ -19,19 +19,36 @@
 				return '';
 		}
 	}
+
+	function getGradeColor(grade: PotentialGrade) {
+		switch (grade) {
+			case PotentialGrade.rare:
+				return 'blue';
+			case PotentialGrade.epic:
+				return 'purple';
+			case PotentialGrade.unique:
+				return 'orange2';
+			case PotentialGrade.legendary:
+				return 'green';
+			default:
+				return '';
+		}
+	}
 </script>
 
-<div class="text {getGradeName(grade)}">
-	<span class="icon" />
-	{#if additional}
-		에디셔널 잠재옵션
-	{:else}
-		잠재옵션
-	{/if}
+<div class="potential__label">
+	<span class="{getGradeName(grade)} icon" />
+	<span class="gt--text gt--text--{getGradeColor(grade)}">
+		{#if additional}
+			에디셔널 잠재옵션
+		{:else}
+			잠재옵션
+		{/if}
+	</span>
 </div>
 {#each potentials as potential}
 	{#if potential && potential.summary.length > 0}
-		<div class="text">
+		<div class="gt--text">
 			{#if additional}
 				+ {potential.convertSummary}
 			{:else}
@@ -41,27 +58,9 @@
 	{/if}
 {/each}
 
-<style>
-	.text {
+<style lang="scss">
+	.potential__label {
 		display: flex;
-		line-height: 15px;
-		font-size: 11px;
-		font-family: 돋움;
-		letter-spacing: normal;
-		color: var(--gear-white);
-	}
-
-	.rare {
-		color: var(--gear-blue);
-	}
-	.epic {
-		color: var(--gear-purple);
-	}
-	.unique {
-		color: var(--gear-orange2);
-	}
-	.legendary {
-		color: var(--gear-green);
 	}
 
 	.icon {
@@ -70,16 +69,16 @@
 		margin-left: -4px;
 		margin-right: 5px;
 	}
-	.rare .icon {
+	.rare.icon {
 		background-image: url(../images/potential/rare.png);
 	}
-	.epic .icon {
+	.epic.icon {
 		background-image: url(../images/potential/epic.png);
 	}
-	.unique .icon {
+	.unique.icon {
 		background-image: url(../images/potential/unique.png);
 	}
-	.legendary .icon {
+	.legendary.icon {
 		background-image: url(../images/potential/legendary.png);
 	}
 </style>

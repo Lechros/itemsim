@@ -16,6 +16,7 @@
 	import Star from './parts/Star.svelte';
 	import Tuc from './parts/Tuc.svelte';
 	import { getGearPropString } from './strings';
+	import './tooltip.scss';
 
 	/**
 	 * 툴팁에 표시할 장비.
@@ -130,29 +131,33 @@
 
 {#if gear}
 	<div class="gear-tooltip" bind:this={ref}>
-		<div class="frame-top" />
-		<div class="frame-line main">
+		<div class="gear-tooltip__frame-top" />
+		<div class="gear-tooltip__frame-line gear-tooltip__main">
 			<Star star={gear.star} maxStar={gear.maxStar} amazing={gear.amazing} />
 
-			<div class="title-area">
+			<div class="gear-tooltip__title">
 				{#if gear.soulWeapon.enchanted && gear.soulWeapon.soul}
-					<div class="title green">{gear.soulWeapon.soul.name.replace(/소울$/, '')}</div>
+					<div class="gt--text gt--text--title gt--text--green">
+						{gear.soulWeapon.soul.name.replace(/소울$/, '')}
+					</div>
 				{/if}
-				<div class="title {getGearNameColor(gear)}">{gearName}</div>
+				<div class="gt--text gt--text--title gt--text--{getGearNameColor(gear)}">{gearName}</div>
 			</div>
 
 			{#if gear.grade > PotentialGrade.normal}
-				<GearGrade
-					grade={gear.grade}
-					specialGrade={gear.getBooleanValue(GearPropType.specialGrade)}
-				/>
+				<div class="gear-tooltip__grade">
+					<GearGrade
+						grade={gear.grade}
+						specialGrade={gear.getBooleanValue(GearPropType.specialGrade)}
+					/>
+				</div>
 			{/if}
 			<Attributes {gear} />
 
-			<hr class="dotline" style="margin-top: 10px" />
+			<hr class="gear-tooltip__dotline" style="margin-top: 10px" />
 
-			<div class="icon-area">
-				<div class="icon-wrapper">
+			<div class="gear-tooltip__icon-area">
+				<div class="gear-tooltip__icon">
 					<Icon
 						src={iconSrc.replace('{}', icon.id.toString())}
 						origin={icon.origin}
@@ -172,10 +177,10 @@
 					{characterLUK}
 				/>
 			</div>
-			<div class="diff-wrapper">
+			<div class="gear-tooltip__diff">
 				<DiffExtra {pddDiff} {bdrDiff} {imdrDiff} />
 			</div>
-			<div class="job-wrapper">
+			<div class="gear-tooltip__job-req">
 				<JobReq
 					gearType={gear.type}
 					reqJob={gear.req.job}
@@ -184,11 +189,11 @@
 				/>
 			</div>
 
-			<hr class="dotline" style="margin-top: 9px" />
+			<hr class="gear-tooltip__dotline" style="margin-top: 9px" />
 
-			<div class="item-detail">
+			<div class="gear-tooltip__item-detail">
 				{#if superior}
-					<div class="text green">슈페리얼</div>
+					<div class="gt--text gt--text--green">슈페리얼</div>
 				{/if}
 				<GearType type={gear.type} attackSpeed={gear.getPropValue(GearPropType.attackSpeed)} />
 				{#each getSortedOptions(gear) as entry}
@@ -202,32 +207,34 @@
 					/>
 				{/if}
 				{#if gear.hammerCount > 0}
-					<div class="text white">황금망치 제련 적용</div>
+					<div class="gt--text">황금망치 제련 적용</div>
 				{/if}
 				{#if gear.karma !== undefined}
-					<div class="text orange2">가위 사용 가능 횟수 : {gear.karma}회</div>
+					<div class="gt--text gt--text--orange2">가위 사용 가능 횟수 : {gear.karma}회</div>
 				{/if}
 				{#if !gear.canPotential}
-					<div class="text white">잠재능력 설정 불가</div>
+					<div class="gt--text">잠재능력 설정 불가</div>
 				{/if}
 				{#if gear.getBooleanValue(GearPropType.fixedPotential)}
-					<div class="text white">에디셔널 잠재능력 설정 불가</div>
+					<div class="gt--text">에디셔널 잠재능력 설정 불가</div>
 				{/if}
 				{#if superior}
-					<div class="text green">{getGearPropString(GearPropType.superiorEqp, 1)}</div>
+					<div class="gt--text gt--text--green">
+						{getGearPropString(GearPropType.superiorEqp, 1)}
+					</div>
 				{/if}
 			</div>
 
 			{#if gear.canPotential && gear.grade > 0 && gear.potentials.some((pot) => pot)}
-				<hr class="dotline" style="margin-top: 2px" />
-				<div class="potential part">
+				<hr class="gear-tooltip__dotline" style="margin-top: 2px" />
+				<div class="potential gear-tooltip__part">
 					<Potential grade={gear.grade} potentials={gear.potentials} />
 				</div>
 			{/if}
 
 			{#if gear.canPotential && gear.additionalGrade > 0 && gear.additionalPotentials.some((pot) => pot)}
-				<hr class="dotline" style="margin-top: 2px" />
-				<div class="add-potential part">
+				<hr class="gear-tooltip__dotline" style="margin-top: 2px" />
+				<div class="gear-tooltip__part--add-potential gear-tooltip__part">
 					<Potential
 						additional
 						grade={gear.additionalGrade}
@@ -237,8 +244,8 @@
 			{/if}
 
 			{#if gear.soulWeapon.enchanted}
-				<hr class="dotline" style="margin-top: 2px" />
-				<div class="soul part">
+				<hr class="gear-tooltip__dotline" style="margin-top: 2px" />
+				<div class="gear-tooltip__part gear-tooltip__part--soul">
 					<Soul
 						soul={gear.soulWeapon.soul}
 						charge={gear.soulWeapon.charge}
@@ -249,8 +256,8 @@
 			{/if}
 
 			{#if desc.length > 0}
-				<hr class="dotline" style="margin-top: 2px" />
-				<div class="desc part">
+				<hr class="gear-tooltip__dotline" style="margin-top: 2px" />
+				<div class="gear-tooltip__part gear-tooltip__part--desc">
 					{#each desc as text}
 						<Desc {text} />
 					{/each}
@@ -258,146 +265,105 @@
 			{/if}
 
 			{#if gear.anvilIcon && gear.anvilName}
-				<div class="anvil part">
+				<div class="gear-tooltip__part gear-tooltip__part--anvil">
 					<div class="text">{' '}</div>
 					<div class="text green">신비의 모루에 의해 [{gear.anvilName}]의 외형이 합성됨</div>
 				</div>
 			{/if}
 		</div>
-		<div class="frame-bottom" />
-		<div class="frame-cover" />
+		<div class="gear-tooltip__frame-bottom" />
+		<div class="gear-tooltip__frame-cover" />
 	</div>
 {/if}
 
 <style>
-	@import 'colors.css';
-
 	.gear-tooltip {
 		width: 261px;
 		position: relative;
 		image-rendering: pixelated;
 	}
 
-	.main {
+	.gear-tooltip__main {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		padding-bottom: 4px;
+		padding-left: 13px;
+		padding-right: 13px;
 	}
 
-	.title-area {
+	.gear-tooltip__title {
 		display: flex;
 		flex-direction: column;
 		margin-top: -2px;
 		align-items: center;
 	}
-	.icon-area {
+
+	.gear-tooltip__grade {
+		margin-top: 4px;
+	}
+
+	.gear-tooltip__icon-area {
 		box-sizing: border-box;
 		display: grid;
 		margin-top: 7px;
 		width: 100%;
-		padding-left: 12px;
-		padding-right: 8px;
+		margin-right: 2px;
 		grid-template-columns: 82px 159px;
 		grid-template-rows: 44px 36px;
 		row-gap: 2px;
 	}
-	.icon-wrapper {
+	.gear-tooltip__icon {
 		grid-column: 1;
 		grid-row-start: 1;
 		grid-row-end: 3;
 		margin-top: 1px;
 	}
 
-	.diff-wrapper {
+	.gear-tooltip__diff {
 		align-self: flex-start;
 		margin-top: 3px;
-		margin-left: 12px;
+		margin-left: -1px;
 	}
-	.job-wrapper {
+	.gear-tooltip__job-req {
 		margin-top: 3px;
 	}
 
-	.item-detail {
+	.gear-tooltip__item-detail {
 		width: 100%;
 		box-sizing: border-box;
 		margin-top: 4px;
 		margin-bottom: 8px;
-		padding-left: 13px;
-		padding-right: 13px;
 	}
-	.part {
+	.gear-tooltip__part {
 		width: 100%;
 		box-sizing: border-box;
 		margin-top: 4px;
-		padding-left: 13px;
-		padding-right: 13px;
 	}
-	.part.desc {
-		padding-left: 10px;
-		padding-right: 17px;
+	.gear-tooltip__part.gear-tooltip__part--desc {
+		margin-left: -3px;
+		margin-right: 4px;
 	}
 
-	.part.anvil {
+	.gear-tooltip__part.gear-tooltip__part--anvil {
 		margin-top: 0px;
 	}
 
-	.title {
-		line-height: 19px;
-		font-size: 14px;
-		font-family: 돋움;
-		font-weight: bold;
-		white-space: pre;
-		letter-spacing: normal;
-	}
-	.text {
-		line-height: 15px;
-		font-size: 11px;
-		font-family: 돋움;
-		white-space: pre-wrap;
-		letter-spacing: normal;
-	}
-
-	.gray {
-		color: var(--gear-gray);
-	}
-	.orange2 {
-		color: var(--gear-orange2);
-	}
-	.white {
-		color: var(--gear-white);
-	}
-	.blue {
-		color: var(--gear-blue);
-	}
-	.purple {
-		color: var(--gear-purple);
-	}
-	.orange2 {
-		color: var(--gear-orange2);
-	}
-	.green {
-		color: var(--gear-green);
-	}
-	.red {
-		color: var(--gear-red);
-	}
-
-	.frame-top {
+	.gear-tooltip__frame-top {
 		background-image: url(images/frame/top.png);
 		width: 261px;
 		height: 13px;
 	}
-	.frame-line {
+	.gear-tooltip__frame-line {
 		background-image: url(images/frame/line.png);
 		width: 261px;
 	}
-	.frame-bottom {
+	.gear-tooltip__frame-bottom {
 		background-image: url(images/frame/bottom.png);
 		width: 261px;
 		height: 13px;
 	}
-	.frame-cover {
+	.gear-tooltip__frame-cover {
 		background-image: url(images/frame/cover.png);
 		width: 53px;
 		height: 43px;
@@ -405,7 +371,7 @@
 		top: 0;
 		left: 0;
 	}
-	.dotline {
+	.gear-tooltip__dotline {
 		background-image: url(images/frame/dotline.png);
 		width: 261px;
 		height: 2px;

@@ -4,27 +4,15 @@
 	export let text: string;
 </script>
 
-<div class="text">
+<div class="gt--text">
     {@html parseColorString(text)}
 </div>
 
 <style>
-	.text {
-		line-height: 15px;
-		font-size: 11px;
-		font-family: 돋움;
-		letter-spacing: normal;
-		color: var(--gear-white);
-		white-space: pre-wrap;
-	}
-
-	.text :global(.orange) {
-		color: var(--gear-orange);
-	}
-    .text :global(.orange)::before {
+    .gt--text :global(.gt--text--orange)::before {
 		content: " ";
 	}
-    .text :global(.orange)::after {
+    .gt--text :global(.gt--text--orange)::after {
 		content: " ";
 	}
 </style>

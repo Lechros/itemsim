@@ -11,41 +11,18 @@
 </script>
 
 {#if soul}
-	<div class="text yellow">
+	<div class="gt--text gt--text--soul gt--text--yellow">
 		{soul.name} 적용
 	</div>
 {/if}
-	<div class="text {chargeColor}">
+	<div class="gt--text gt--text--soul gt--text--{chargeColor}">
 		소울 충전량 {charge}/1000 (공:+{pad},마:+{mad})
 	</div>
 {#if soul}
-	<div class="text white">
+	<div class="gt--text gt--text--soul">
 		{getSoulOptionString(soul.option)}
 	</div>
-    <div class="text orange3">소울 충전 시 '{soul.skill}' 사용가능</div>
+    <div class="gt--text gt--text--soul gt--text--orange3">소울 충전 시 '{soul.skill}' 사용가능</div>
 {:else}
-	<div class="text gray">소울 충전 시 '---' 사용가능</div>
+	<div class="gt--text gt--text--soul gt--text--gray">소울 충전 시 '---' 사용가능</div>
 {/if}
-
-<style>
-	.text {
-		display: flex;
-		line-height: 16px;
-		font-size: 12px;
-		font-family: 돋움;
-		letter-spacing: normal;
-	}
-
-	.white {
-		color: var(--gear-white);
-	}
-	.yellow {
-		color: var(--gear-yellow);
-	}
-	.gray {
-		color: var(--gear-gray);
-	}
-	.orange3 {
-		color: var(--gear-orange3);
-	}
-</style>

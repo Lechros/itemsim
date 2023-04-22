@@ -5,24 +5,10 @@
 </script>
 
 {#if canUpgrade}
-	<div class="text">
+	<div class="gt--text">
 		업그레이드 가능 횟수 : {upgradeCountLeft}
-		<span class="orange2">(복구 가능 횟수 : {upgradeFailCount})</span>
+		<span class="gt--text--orange2">(복구 가능 횟수 : {upgradeFailCount})</span>
 	</div>
 {:else}
-	<div class="text">강화불가</div>
+	<div class="gt--text">강화불가</div>
 {/if}
-
-<style>
-	.text {
-		line-height: 15px;
-		font-size: 11px;
-		font-family: 돋움;
-		letter-spacing: normal;
-		color: var(--gear-white);
-	}
-
-	.text .orange2 {
-		color: var(--gear-orange2);
-	}
-</style>
