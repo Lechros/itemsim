@@ -6,27 +6,22 @@
 		HeaderUtilities,
 		SkipToContent
 	} from 'carbon-components-svelte';
+	import 'carbon-components-svelte/css/all.css';
 	import { BrightnessContrast, LogoDiscord } from 'carbon-icons-svelte';
-	import { onMount } from 'svelte';
-
-	/* theme */
-	onMount(() => {
-		if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-			if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-				document.documentElement.setAttribute('theme', 'g80');
-			} else {
-				document.documentElement.setAttribute('theme', 'g10');
-			}
-		}
-	});
+	import '../app.css';
 
 	function toggle() {
 		const theme = document.documentElement.getAttribute('theme');
 		if (theme === 'g10') {
-			document.documentElement.setAttribute('theme', 'g80');
+			setTheme('g80');
 		} else {
-			document.documentElement.setAttribute('theme', 'g10');
+			setTheme('g10');
 		}
+	}
+
+	function setTheme(theme: 'g10' | 'g80') {
+		document.documentElement.setAttribute('theme', theme);
+		localStorage.setItem('theme', theme);
 	}
 </script>
 
