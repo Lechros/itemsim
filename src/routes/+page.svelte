@@ -147,9 +147,9 @@
 	}
 </script>
 
-<svelte:window bind:innerWidth bind:innerHeight />
+<svelte:window bind:innerHeight/>
 
-<div on:mousemove={handleMousemove}>
+<div on:mousemove={handleMousemove} bind:clientWidth={innerWidth}>
 	<Content>
 		<Grid noGutter style="max-width: 32rem;">
 			<Row noGutter>
@@ -157,63 +157,23 @@
 					<h2>인벤토리</h2>
 				</Column>
 				<Column>
-					<div class="inv-buttons">
-						{#if !deleteMode}
-							<Button
-								kind="secondary"
-								icon={Upload}
-								iconDescription="가져오기"
-								on:click={() => (importOpen = true)}
-							/>
-							{#if innerWidth > 16 * 26}
-								<Button icon={Add} on:click={() => (addOpen = true)}>아이템 추가</Button>
-							{:else}
-								<Button
-									icon={Add}
-									iconDescription="아이템 추가"
-									on:click={() => (addOpen = true)}
-								/>
-							{/if}
+					{#if deleteMode}
+						<div class="inv-buttons md">
 							<Button
 								kind="danger"
 								icon={TrashCan}
-								iconDescription="삭제"
-								disabled={gearCount === 0}
-								on:click={() => (deleteMode = true)}
-							/>
-						{:else}
-							{#if innerWidth > 16 * 26}
-								<Button
-									kind="danger"
-									icon={TrashCan}
-									disabled={toDelete.size === 0}
-									on:click={() => {
-										deleteItems();
-										if (gearCount === toDelete.size) {
-											deleteMode = false;
-										}
-										toDelete.clear();
-										toDelete = toDelete;
-									}}
-								>
-									아이템 {toDelete.size}개 삭제
-								</Button>
-							{:else}
-								<Button
-									kind="danger"
-									icon={TrashCan}
-									iconDescription="아이템 삭제"
-									disabled={toDelete.size === 0}
-									on:click={() => {
-										deleteItems();
-										if (gearCount === toDelete.size) {
-											deleteMode = false;
-										}
-										toDelete.clear();
-										toDelete = toDelete;
-									}}
-								/>
-							{/if}
+								disabled={toDelete.size === 0}
+								on:click={() => {
+									deleteItems();
+									if (gearCount === toDelete.size) {
+										deleteMode = false;
+									}
+									toDelete.clear();
+									toDelete = toDelete;
+								}}
+							>
+								아이템 {toDelete.size}개 삭제
+							</Button>
 							<Button
 								kind="secondary"
 								icon={Close}
@@ -224,8 +184,67 @@
 									toDelete = toDelete;
 								}}
 							/>
-						{/if}
-					</div>
+						</div>
+						<div class="inv-buttons sm">
+							<Button
+								kind="danger"
+								icon={TrashCan}
+								iconDescription="아이템 삭제"
+								disabled={toDelete.size === 0}
+								on:click={() => {
+									deleteItems();
+									if (gearCount === toDelete.size) {
+										deleteMode = false;
+									}
+									toDelete.clear();
+									toDelete = toDelete;
+								}}
+							/>
+							<Button
+								kind="secondary"
+								icon={Close}
+								iconDescription="취소"
+								on:click={() => {
+									deleteMode = false;
+									toDelete.clear();
+									toDelete = toDelete;
+								}}
+							/>
+						</div>
+					{:else}
+						<div class="inv-buttons md">
+							<Button
+								kind="secondary"
+								icon={Upload}
+								iconDescription="가져오기"
+								on:click={() => (importOpen = true)}
+							/>
+							<Button icon={Add} on:click={() => (addOpen = true)}>아이템 추가</Button>
+							<Button
+								kind="danger"
+								icon={TrashCan}
+								iconDescription="삭제"
+								disabled={gearCount === 0}
+								on:click={() => (deleteMode = true)}
+							/>
+						</div>
+						<div class="inv-buttons sm">
+							<Button
+								kind="secondary"
+								icon={Upload}
+								iconDescription="가져오기"
+								on:click={() => (importOpen = true)}
+							/>
+							<Button icon={Add} iconDescription="아이템 추가" on:click={() => (addOpen = true)} />
+							<Button
+								kind="danger"
+								icon={TrashCan}
+								iconDescription="삭제"
+								disabled={gearCount === 0}
+								on:click={() => (deleteMode = true)}
+							/>
+						</div>
+					{/if}
 				</Column>
 			</Row>
 			<Row noGutter>
@@ -459,6 +478,17 @@
 		display: flex;
 		justify-content: right;
 		gap: var(--cds-spacing-03);
+	}
+	.inv-buttons.sm {
+		display: none;
+	}
+	@media (max-width: 28rem) {
+		.inv-buttons.sm {
+			display: flex;
+		}
+		.inv-buttons.md {
+			display: none;
+		}
 	}
 
 	.cursor-tooltip {
