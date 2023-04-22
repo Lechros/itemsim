@@ -147,7 +147,7 @@
 	}
 </script>
 
-<svelte:window bind:innerHeight/>
+<svelte:window bind:innerHeight />
 
 <div on:mousemove={handleMousemove} bind:clientWidth={innerWidth}>
 	<Content>
@@ -366,6 +366,12 @@
 	bind:open={addOpen}
 	size="sm"
 	selectorPrimaryFocus="input"
+	on:close={() => {
+		setTimeout(() => {
+			addGear.resetSearchValue();
+			addGear.resetIds();
+		}, TRANSLATION_DURATION);
+	}}
 	on:submit={() => {
 		addItems(addIds);
 		addOpen = false;
@@ -433,9 +439,7 @@
 								<Manage
 									bind:tooltipRef={enchantTooltip}
 									bind:display
-									on:delete={() => {
-										inventory.remove($selected);
-									}}
+									on:delete={() => inventory.remove($selected)}
 								/>
 							</TabContent>
 						</svelte:fragment>
