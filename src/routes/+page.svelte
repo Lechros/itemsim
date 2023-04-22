@@ -18,12 +18,10 @@
 		TabContent,
 		Tabs
 	} from 'carbon-components-svelte';
-	import 'carbon-components-svelte/css/all.css';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import Close from 'carbon-icons-svelte/lib/Close.svelte';
 	import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 	import Upload from 'carbon-icons-svelte/lib/Upload.svelte';
-	import '../global.css';
 	import AddGear from './AddGear.svelte';
 	import BonusStat from './BonusStat.svelte';
 	import Enhance from './Enhance.svelte';
