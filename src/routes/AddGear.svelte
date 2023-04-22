@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { gearJson, type GearData } from '@malib/create-gear';
 	import { ContentSwitcher, Search, SelectableTile, Switch } from 'carbon-components-svelte';
+	import { onMount } from 'svelte';
 
 	export let selectedIds: Map<string, string>;
 
@@ -22,9 +23,14 @@
 	let name = '';
 	let job = 0;
 
+	let trimmed = '';
+	$: {
+		trimmed = trimIncompleteLetter(name.trim());
+	}
+
 	const datas = Object.entries(gearJson);
 
-	$: result = search(datas, name.trim());
+	$: result = search(datas, trimmed);
 	$: filtered = job > 0 ? result.filter((data) => canJob(data[1], job)) : result;
 
 	function search(datas: [string, GearData][], word: string) {
@@ -65,9 +71,40 @@
 		}
 		return jobIndex === 0;
 	}
+
+	function trimIncompleteLetter(text: string) {
+		return text.replace(/[ㄱ-ㅎㅏ-ㅢ]+$/, '');
+	}
+
+	const placeholderItems = [
+		'앱솔랩스 나이트헬름',
+		'앱솔랩스 메이지크라운',
+		'앱솔랩스 아처후드',
+		'앱솔랩스 시프캡',
+		'앱솔랩스 파이렛페도라',
+		'하이네스 워리어헬름',
+		'하이네스 던위치햇',
+		'하이네스 레인져베레',
+		'하이네스 어새신보닛',
+		'하이네스 원더러햇',
+		'이글아이 워리어아머',
+		'이글아이 던위치로브',
+		'이글아이 레인져후드',
+		'이글아이 어새신셔츠',
+		'이글아이 원더러코트',
+		'트릭스터 워리어팬츠',
+		'트릭스터 던위치팬츠',
+		'트릭스터 레인져팬츠',
+		'트릭스터 어새신팬츠',
+		'트릭스터 원더러팬츠'
+	];
+
+	function getRandomItem() {
+		return placeholderItems[Math.floor(Math.random() * placeholderItems.length)];
+	}
 </script>
 
-<Search placeholder="아이템 검색" bind:value={name} />
+<Search placeholder="ex) {getRandomItem()}" bind:value={name} />
 
 <ContentSwitcher
 	bind:selectedIndex={job}
@@ -107,14 +144,10 @@
 		</SelectableTile>
 	</div>
 {:else}
-	{#if name.length > 0}
-	<div>
-		검색된 아이템이 없습니다.
-	</div>
+	{#if trimmed.length > 0}
+		<div>검색된 아이템이 없습니다.</div>
 	{:else}
-	<div>
-		검색어를 입력해 주세요.
-	</div>
+		<div>검색어를 입력해 주세요.</div>
 	{/if}
 {/each}
 
