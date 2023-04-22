@@ -33,7 +33,7 @@ const createGearSlot = (gear: Gear): GearSlot => {
 	};
 };
 
-const createGearMeta = (): GearMeta => {
+export const createGearMeta = (): GearMeta => {
 	return {
 		bonus: [
 			{ type: -1, grade: 0 },
@@ -83,14 +83,26 @@ const createStore = () => {
 	const selected = writable(_selected);
 	let _gear: Gear | undefined = undefined;
 	const gear = writable<Gear | undefined>(_gear);
-	let _meta: GearSlot['meta'] | undefined = undefined;
-	const meta = writable<GearSlot['meta'] | undefined>(_meta);
+	let _meta: GearMeta | undefined = undefined;
+	const meta = writable<GearMeta | undefined>(_meta);
 
 	const inventory_add = (gear: Gear) => {
 		inventory.update((inv) => {
 			for (let i = 0; i < MAX_INV; i++) {
 				if (inv[i] === undefined) {
 					inv[i] = createGearSlot(gear);
+					lastAdd.set(i);
+					break;
+				}
+			}
+			return inv;
+		});
+	};
+	const inventory_addSlot = (slot: GearSlot) => {
+		inventory.update((inv) => {
+			for (let i = 0; i < MAX_INV; i++) {
+				if (inv[i] === undefined) {
+					inv[i] = slot;
 					lastAdd.set(i);
 					break;
 				}
@@ -168,6 +180,7 @@ const createStore = () => {
 			set: inventory.set,
 			update: inventory.update,
 			add: inventory_add,
+			addSlot: inventory_addSlot,
 			change: inventory_change,
 			remove: inventory_remove,
 			swap: inventory_swap,

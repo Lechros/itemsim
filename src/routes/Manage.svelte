@@ -4,14 +4,15 @@
 	import { Copy, Download } from 'carbon-icons-svelte';
 	import { compressToBase64, compressToEncodedURIComponent } from 'lz-string';
 	import { createEventDispatcher } from 'svelte';
-	import { gear } from './gear-store';
+	import { gear, meta } from './gear-store';
+	import { stringifyGearMeta } from './export';
 
 	export let tooltipRef: HTMLDivElement;
 	export let display: HTMLDivElement;
 
 	const dispatch = createEventDispatcher();
 
-	$: gearStr = $gear ? stringifyGear($gear) : '';
+	$: gearStr = $gear && $meta ? stringifyGearMeta($gear, $meta) : '';
 	$: gear64 = compressToBase64(gearStr);
 	$: gearURI = compressToEncodedURIComponent(gearStr);
 	$: filename = $gear?.name ?? 'item';

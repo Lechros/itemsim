@@ -30,7 +30,7 @@
 	import Manage from './Manage.svelte';
 	import Potentials from './Potentials.svelte';
 	import Upgrade from './Upgrade.svelte';
-	import { gear, inventory, lastAdd, selected } from './gear-store';
+	import { gear, inventory, lastAdd, selected, type GearSlot } from './gear-store';
 
 	const TRANSLATION_DURATION = 240;
 
@@ -65,21 +65,21 @@
 	/* inventory: upload */
 	let importGear: ImportGear;
 	let importOpen = false;
-	let strGear: Gear | null;
-	let uploadGears: Map<string, Gear> = new Map();
+	let strGear: GearSlot | null;
+	let uploadGears: Map<string, GearSlot> = new Map();
 
-	function canUpload(gear: Gear | null, gears: Map<string, Gear>) {
-		return gear || gears.size > 0;
+	function canUpload(slot: GearSlot | null, slots: Map<string, GearSlot>) {
+		return slot || slots.size > 0;
 	}
 
-	function getUploadMessage(gear: Gear | null, gears: Map<string, Gear>) {
-		if (gear) {
-			return `'${gear.name}' 추가`;
-		} else if (gears.size > 0) {
-			if (gears.size > 1) {
-				return `아이템 ${gears.size}개 추가`;
+	function getUploadMessage(slot: GearSlot | null, slots: Map<string, GearSlot>) {
+		if (slot) {
+			return `'${slot.gear.name}' 추가`;
+		} else if (slots.size > 0) {
+			if (slots.size > 1) {
+				return `아이템 ${slots.size}개 추가`;
 			} else {
-				return `'${gears.values().next().value.name}' 추가`;
+				return `'${slots.values().next().value.gear.name}' 추가`;
 			}
 		} else {
 			return `아이템이 없습니다`;
@@ -345,10 +345,10 @@
 	primaryButtonDisabled={!canUpload(strGear, uploadGears)}
 	on:submit={() => {
 		if (strGear) {
-			inventory.add(strGear);
+			inventory.addSlot(strGear);
 		} else if (uploadGears.size > 0) {
 			for (const gear of uploadGears.values()) {
-				inventory.add(gear);
+				inventory.addSlot(gear);
 			}
 		}
 		importOpen = false;
@@ -358,7 +358,7 @@
 		setTimeout(importGear.reset, TRANSLATION_DURATION);
 	}}
 >
-	<ImportGear bind:strGear bind:fileGears={uploadGears} bind:this={importGear} />
+	<ImportGear bind:strGear bind:fileSlots={uploadGears} bind:this={importGear} />
 </Modal>
 
 <!-- add modal -->
