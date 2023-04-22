@@ -8,7 +8,7 @@
 	} from 'carbon-components-svelte';
 	import 'carbon-components-svelte/css/all.css';
 	import { BrightnessContrast, LogoDiscord } from 'carbon-icons-svelte';
-	import '../global.css';
+	import '../app.css';
 
 	function toggle() {
 		const theme = document.documentElement.getAttribute('theme');
