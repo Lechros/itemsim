@@ -369,7 +369,7 @@
 	on:close={() => {
 		setTimeout(() => {
 			addGear.resetSearchValue();
-			addGear.resetIds();
+			addGear.resetSelected();
 		}, TRANSLATION_DURATION);
 	}}
 	on:submit={() => {
@@ -380,7 +380,7 @@
 		}
 		setTimeout(() => {
 			addGear.resetSearchValue();
-			addGear.resetIds();
+			addGear.resetSelected();
 		}, TRANSLATION_DURATION);
 	}}
 >
@@ -396,7 +396,7 @@
 			addOpen = false;
 			setTimeout(() => {
 				addGear.resetSearchValue();
-				addGear.resetIds();
+				addGear.resetSelected();
 			}, TRANSLATION_DURATION);
 		}}
 	/>
