@@ -1,6 +1,15 @@
 <script lang="ts">
-	import { ContentSwitcher, Search, SelectableTile, Switch } from 'carbon-components-svelte';
+	import {
+		ContentSwitcher,
+		Link,
+		Search,
+		SelectableTile,
+		Switch,
+		Tile
+	} from 'carbon-components-svelte';
 	import type { GearLike } from '@malib/gear';
+	import StringMatch from './StringMatch.svelte';
+	import { throttle } from './util';
 
 	/**
 	 * [itemID]: gear name
@@ -35,9 +44,16 @@
 		}
 	}
 
+	const DEFAULT_SHOW = 20;
+	const SHOW_STEP = 20;
+	let currentShow = DEFAULT_SHOW;
+
 	let result: [number, GearLike][] = [];
+	const throttleGet = throttle(() => getGearData(trimmed), 200);
 	$: {
-		getGearData(trimmed);
+		if (trimmed.length > 0) {
+			throttleGet();
+		}
 	}
 	$: filtered = job > 0 ? result.filter((data) => canJob(data[1], job)) : result;
 
@@ -49,21 +65,21 @@
 		if (controller) controller.abort();
 		controller = new AbortController();
 		if (input.length > 0) {
-			if(emptyAssignTimer) {
+			if (emptyAssignTimer) {
 				clearTimeout(emptyAssignTimer);
 			}
 			fetch(url + encodeURIComponent(input), { signal: controller.signal })
 				.then((data) => data.json())
 				.then((json) => {
 					if (Array.isArray(json)) {
-						if(json.length == 0) {
+						if (json.length == 0) {
 							msg = '검색된 아이템이 없습니다.';
 							emptyAssignTimer = setTimeout(() => {
 								result = json;
-							}, 300); // delay ms
-						}
-						else {
+							}, 200); // delay ms
+						} else {
 							result = json;
+							currentShow = DEFAULT_SHOW;
 						}
 					}
 				})
@@ -134,7 +150,7 @@
 	<Switch text="해적" />
 </ContentSwitcher>
 
-{#each filtered as data, i}
+{#each filtered.slice(0, currentShow) as data, i}
 	<div class="row" class:first={i === 0}>
 		<SelectableTile
 			selected={selectedIds.has(data[0])}
@@ -155,18 +171,20 @@
 						margin-left: {1 - data[1].i.origin[0]}px;
 						margin-top: {33 - data[1].i.origin[1]}px;"
 				/>
-				{data[1].n}
+				<StringMatch str={data[1].n} search={trimmed} />
 			</div>
 		</SelectableTile>
 	</div>
-{:else}
-	<div>{msg}</div>
-	<!-- {#if trimmed.length > 0}
-		<div>검색된 아이템이 없습니다.</div>
-	{:else}
-		<div>검색어를 입력해 주세요.</div>
-	{/if} -->
 {/each}
+
+{#if filtered.length > currentShow}
+	<Tile>
+		{filtered.length - currentShow}개의 아이템을 생략했습니다.
+		<Link href="/" on:click={() => (currentShow += SHOW_STEP)}>검색 결과 더 보기</Link>
+	</Tile>
+{:else if filtered.length == 0}
+	<Tile>{msg}</Tile>
+{/if}
 
 <style>
 	.add-item {
