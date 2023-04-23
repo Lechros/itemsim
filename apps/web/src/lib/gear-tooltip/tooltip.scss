@@ -1,0 +1,72 @@
+$prefix: gt;
+
+$gear-white: rgb(255, 255, 255);
+$gear-red: rgb(255, 0, 102);
+$gear-orange: rgb(255, 170, 0);
+$gear-orange2: rgb(255, 204, 0);
+$gear-orange3: rgb(255, 136, 17);
+$gear-yellow: rgb(255, 255, 68);
+$gear-green: rgb(204, 255, 0);
+$gear-blue: rgb(102, 255, 255);
+$gear-purple: rgb(153, 102, 255);
+$gear-purple2: rgb(170, 170, 255);
+$gear-gray: rgb(187, 187, 187);
+$gear-gray2: rgb(153, 153, 153);
+
+.#{$prefix}--text {
+	line-height: 15px;
+	font-size: 11px;
+	font-family: 돋움;
+	white-space: pre-wrap;
+	letter-spacing: normal;
+	color: $gear-white;
+}
+
+.#{$prefix}--text.#{$prefix}--text--title {
+	line-height: 19px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.#{$prefix}--text.#{$prefix}--text--soul {
+	line-height: 16px;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.#{$prefix}--text--white {
+	color: $gear-white;
+}
+.#{$prefix}--text--red {
+	color: $gear-red;
+}
+.#{$prefix}--text--orange {
+	color: $gear-orange;
+}
+.#{$prefix}--text--orange2 {
+	color: $gear-orange2;
+}
+.#{$prefix}--text--orange3 {
+	color: $gear-orange3;
+}
+.#{$prefix}--text--yellow {
+	color: $gear-yellow;
+}
+.#{$prefix}--text--green {
+	color: $gear-green;
+}
+.#{$prefix}--text--blue {
+	color: $gear-blue;
+}
+.#{$prefix}--text--purple {
+	color: $gear-purple;
+}
+.#{$prefix}--text--purple2 {
+	color: $gear-purple2;
+}
+.#{$prefix}--text--gray {
+	color: $gear-gray;
+}
+.#{$prefix}--text--gray2 {
+	color: $gear-gray2;
+}
