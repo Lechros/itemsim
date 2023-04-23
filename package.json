@@ -39,7 +39,7 @@
 	},
 	"dependencies": {
 		"@malib/create-gear": "^0.5.5",
-		"@malib/gear": "^0.10.2",
+		"@malib/gear": "^0.11.0",
 		"svelte-local-storage-store": "^0.4.0"
 	}
 }
