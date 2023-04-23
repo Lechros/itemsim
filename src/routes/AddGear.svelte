@@ -5,7 +5,7 @@
 	/**
 	 * [itemID]: gear name
 	 */
-	export let selectedIds: Map<number, string>;
+	export let selectedIds: Map<number, GearLike>;
 
 	export function resetSearchValue() {
 		name = '';
@@ -139,7 +139,7 @@
 		<SelectableTile
 			selected={selectedIds.has(data[0])}
 			on:select={() => {
-				selectedIds.set(data[0], data[1].n);
+				selectedIds.set(data[0], data[1]);
 				selectedIds = selectedIds;
 			}}
 			on:deselect={() => {
