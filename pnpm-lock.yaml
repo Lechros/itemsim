@@ -2,8 +2,8 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@malib/create-gear':
-    specifier: ^0.5.4
-    version: 0.5.4
+    specifier: ^0.5.5
+    version: 0.5.5
   '@malib/gear':
     specifier: ^0.10.2
     version: 0.10.2
@@ -551,14 +551,18 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@malib/create-gear@0.5.4:
-    resolution: {integrity: sha512-MOTnx9+lTrGNh1qhsPPFLwTyYnsdLai7LYv69SXiXBOWtmbz3LcmUqSlXodA7vYkPVruqiyeD/zECTSPcE1jIg==}
+  /@malib/create-gear@0.5.5:
+    resolution: {integrity: sha512-5p9vJ9eqhixQFY5bAFxoNDpqPkS1hjS2NdHbbhe7Z9YP91qESXWEY1aJ/Bil/8GxB6bx0N6i4ZVbBovqsuMcig==}
     dependencies:
-      '@malib/gear': 0.10.2
+      '@malib/gear': 0.11.0
     dev: false
 
   /@malib/gear@0.10.2:
     resolution: {integrity: sha512-th10OYKqoxLQaN9Cvhg7xaxjmGiSdI1aW0oJt/OX6DkHD4uRo20RJFYwhCUieSZVVF2xaTGK4JVbwtkw6O5oQw==}
+    dev: false
+
+  /@malib/gear@0.11.0:
+    resolution: {integrity: sha512-w+F4baqCar37lbnhtC7LcHOtasZUPNdNQmmPR75Du1s6UkoyqNvHpPSZrDVeGvOSlwdyiQC8cRXYZzRa8nkgbQ==}
     dev: false
 
   /@nodelib/fs.scandir@2.1.5:

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import GearTooltip from '$lib/gear-tooltip/GearTooltip.svelte';
-	import { createGearFromId } from '@malib/create-gear';
-	import type { Gear } from '@malib/gear';
+	import { plainToGear, type Gear, type GearLike } from '@malib/gear';
 	import {
 		Button,
 		Column,
@@ -89,21 +88,22 @@
 	/* inventory: add */
 	let addGear: AddGear;
 	let addOpen = false;
-	let addIds: Map<string, string> = new Map();
+	let addIds: Map<number, GearLike> = new Map();
 
-	function addItems(ids: Map<string, string>) {
-		for (const id of ids.keys()) {
-			const gear = createGearFromId(Number(id));
+	function addItems(ids: Map<number, GearLike>) {
+		for (const gearLike of ids.values()) {
+			const gear = plainToGear(gearLike);
 			if (!gear) continue;
 			inventory.add(gear);
 		}
+		addGear.resetSelected();
 	}
 
-	function getAddMessage(ids: Map<string, string>, count: number) {
+	function getAddMessage(ids: Map<number, GearLike>, count: number) {
 		if (count > 1) {
 			return `선택한 아이템 ${count}개 추가`;
 		} else if (count === 1) {
-			return `'${ids.values().next().value}' 추가`;
+			return `'${ids.values().next().value.n}' 추가`;
 		} else {
 			return '선택한 아이템이 없습니다';
 		}

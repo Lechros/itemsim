@@ -1,73 +1,89 @@
 <script lang="ts">
-	import { gearJson, type GearData } from '@malib/create-gear';
 	import { ContentSwitcher, Search, SelectableTile, Switch } from 'carbon-components-svelte';
-	import { onMount } from 'svelte';
+	import type { GearLike } from '@malib/gear';
 
-	export let selectedIds: Map<string, string>;
+	/**
+	 * [itemID]: gear name
+	 */
+	export let selectedIds: Map<number, GearLike>;
 
 	export function resetSearchValue() {
 		name = '';
+		result = [];
 	}
 
 	export function resetJob() {
 		job = 0;
 	}
 
-	export function resetIds() {
+	export function resetSelected() {
 		selectedIds.clear();
 		selectedIds = selectedIds;
 	}
 
-	export function buildIds() {}
-
 	let name = '';
 	let job = 0;
+
+	let msg = '검색어를 입력해 주세요.';
 
 	let trimmed = '';
 	$: {
 		trimmed = trimIncompleteLetter(name.trim());
+		if (trimmed.length == 0) {
+			msg = '검색어를 입력해 주세요.';
+			result = [];
+		}
 	}
 
-	const datas = Object.entries(gearJson);
-
-	$: result = search(datas, trimmed);
+	let result: [number, GearLike][] = [];
+	$: {
+		getGearData(trimmed);
+	}
 	$: filtered = job > 0 ? result.filter((data) => canJob(data[1], job)) : result;
 
-	function search(datas: [string, GearData][], word: string) {
-		if (word.length < 1) {
-			return [];
-		}
-		return datas
-			.filter((data) => match(data[1].name, word))
-			.sort((a, b) => compare(a[1].name, b[1].name, word));
-	}
+	const url = 'https://gears.itemsim.workers.dev/?query=';
+	let controller: AbortController; // abort previous API calls when input change
+	let emptyAssignTimer: NodeJS.Timeout; // delay showing empty results caused by entering 한글 input
 
-	function match(haystack: string, word: string) {
-		let j = 0;
-		for (let i = 0; i < haystack.length && j < word.length; i++) {
-			if (haystack[i] === word[j]) {
-				j++;
+	function getGearData(input: string) {
+		if (controller) controller.abort();
+		controller = new AbortController();
+		if (input.length > 0) {
+			if(emptyAssignTimer) {
+				clearTimeout(emptyAssignTimer);
 			}
+			fetch(url + encodeURIComponent(input), { signal: controller.signal })
+				.then((data) => data.json())
+				.then((json) => {
+					if (Array.isArray(json)) {
+						if(json.length == 0) {
+							msg = '검색된 아이템이 없습니다.';
+							emptyAssignTimer = setTimeout(() => {
+								result = json;
+							}, 300); // delay ms
+						}
+						else {
+							result = json;
+						}
+					}
+				})
+				.catch((error) => {
+					if (error.name && error.name.includes('AbortError')) {
+						// skip aborted
+					} else {
+						msg = '아이템 서버에 접속할 수 없습니다.';
+					}
+				});
 		}
-		return j === word.length;
 	}
 
-	function compare(name1: string, name2: string, word: string) {
-		const includes1 = name1.includes(word);
-		const includes2 = name2.includes(word);
-		if (includes1 && includes2) return 0;
-		if (includes1) return -1;
-		if (includes2) return 1;
-		return 0;
-	}
-
-	function canJob(data: GearData, jobIndex: number) {
-		if (data.req?.job) {
+	function canJob(data: GearLike, jobIndex: number) {
+		if (data.r.job) {
 			if (jobIndex == 0) {
 				return true;
 			}
 			const job = 1 << (jobIndex - 1);
-			return (data.req.job & job) > 0;
+			return (data.r.job & job) > 0;
 		}
 		return jobIndex === 0;
 	}
@@ -123,7 +139,7 @@
 		<SelectableTile
 			selected={selectedIds.has(data[0])}
 			on:select={() => {
-				selectedIds.set(data[0], data[1].name);
+				selectedIds.set(data[0], data[1]);
 				selectedIds = selectedIds;
 			}}
 			on:deselect={() => {
@@ -134,21 +150,22 @@
 			<div class="add-item">
 				<img
 					src="https://maplestory.io/api/KMS/367/item/{data[0]}/icon"
-					alt={data[1].name}
+					alt={data[1].n}
 					style="
-						margin-left: {1 - data[1].origin[0]}px;
-						margin-top: {33 - data[1].origin[1]}px;"
+						margin-left: {1 - data[1].i.origin[0]}px;
+						margin-top: {33 - data[1].i.origin[1]}px;"
 				/>
-				{data[1].name}
+				{data[1].n}
 			</div>
 		</SelectableTile>
 	</div>
 {:else}
-	{#if trimmed.length > 0}
+	<div>{msg}</div>
+	<!-- {#if trimmed.length > 0}
 		<div>검색된 아이템이 없습니다.</div>
 	{:else}
 		<div>검색어를 입력해 주세요.</div>
-	{/if}
+	{/if} -->
 {/each}
 
 <style>
