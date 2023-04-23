@@ -112,7 +112,12 @@ const createStore = () => {
 	};
 	const inventory_change = (gear: Gear, index: number) => {
 		inventory.update((inv) => {
-			inv[index] = createGearSlot(gear);
+			if (inv[index]) {
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				inv[index]!.gear = gear;
+			} else {
+				inv[index] = createGearSlot(gear);
+			}
 			return inv;
 		});
 	};
