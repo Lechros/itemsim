@@ -81,3 +81,7 @@ html body {
   outline: 2px solid var(--cds-focus, #0f62fe);
   outline-offset: -2px;
 }
+
+.string-match--highlight {
+	background-color: var(--cds-highlight);
+}
