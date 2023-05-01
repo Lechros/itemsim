@@ -221,10 +221,10 @@
 		}
 	}
 
-	function getPadScroll(pad: number, mad: number) {
+	function getPadScroll(pad: number, mad: number): Scroll {
 		return {
 			name: '',
-			stat: new Map([
+			option: new Map([
 				[GearPropType.incPAD, pad],
 				[GearPropType.incMAD, mad]
 			])
@@ -282,8 +282,8 @@
 		}
 	}
 
-	function createChaosScroll(stats: typeof chaosStats) {
-		return { name: '', stat: new Map(stats.map((e) => [e.type, e.value])) };
+	function createChaosScroll(stats: typeof chaosStats): Scroll {
+		return { name: '', option: new Map(stats.map((e) => [e.type, e.value])) };
 	}
 
 	/* 3: special scroll */
@@ -394,7 +394,7 @@
 			<div class="st-line-wrapper {i === 0 ? 'first' : ''}">
 				<ClickableTile
 					light
-					title={optionToStrings(info.scroll.stat).join('\n')}
+					title={optionToStrings(info.scroll.option).join('\n')}
 					on:click={() => scrollSingle(info.scroll)}
 					disabled={!canScroll}
 					style="min-height: 0;"
@@ -492,7 +492,7 @@
 			<div class="st-line-wrapper {i === 0 ? 'first' : ''}">
 				<ClickableTile
 					light
-					title={optionToStrings(scroll.stat).join('\n')}
+					title={optionToStrings(scroll.option).join('\n')}
 					on:click={() => scrollSingle(scroll)}
 					disabled={!canScroll}
 					style="min-height: 0;"
