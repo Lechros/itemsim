@@ -9,6 +9,8 @@ import {
 import { writable } from 'svelte/store';
 import { persisted } from 'svelte-local-storage-store';
 
+export type GearInventory = (GearSlot | undefined)[];
+
 export type GearMeta = {
 	bonus: {
 		type: BonusStatType | -1;
@@ -44,12 +46,12 @@ export const createGearMeta = (): GearMeta => {
 	};
 };
 
-const createInventory = (): (GearSlot | undefined)[] => {
+const createInventory = (): GearInventory => {
 	return Array.from({ length: MAX_INV }, () => undefined);
 };
 
 const inventorySerializer = {
-	stringify: (inventory: (GearSlot | undefined)[]): string => {
+	stringify: (inventory: GearInventory): string => {
 		return JSON.stringify(
 			inventory.map((value) =>
 				value
@@ -61,7 +63,7 @@ const inventorySerializer = {
 			)
 		);
 	},
-	parse: (data: string): (GearSlot | undefined)[] => {
+	parse: (data: string): GearInventory => {
 		return JSON.parse(data).map((value: GearSlotLike) =>
 			value ? { gear: plainToGear(value.gear), meta: value.meta } : undefined
 		);
@@ -73,7 +75,7 @@ const LASTADD_DEFAULT = -1;
 const SELECTED_DEFAULT = -1;
 
 const createStore = () => {
-	let _inventory: (GearSlot | undefined)[] = [];
+	let _inventory: GearInventory = [];
 	const inventory = persisted('gear-inventory-v2', createInventory(), {
 		serializer: inventorySerializer
 	});
