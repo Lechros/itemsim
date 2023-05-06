@@ -28,7 +28,7 @@
 	// used to persist ui while modal disappears
 	let gearCache: Gear | undefined;
 	$: {
-		if(gear) {
+		if (gear) {
 			gearCache = gear;
 		}
 	}
@@ -67,13 +67,13 @@
 						<Tab tabindex="0">관리</Tab>
 						<svelte:fragment slot="content">
 							<TabContent>
-								<BonusStat bind:gear={gearCache} bind:meta bind:resetMeta/>
+								<BonusStat bind:gear={gearCache} bind:meta bind:resetMeta />
 							</TabContent>
 							<TabContent>
 								<Upgrade />
 							</TabContent>
 							<TabContent>
-								<Enhance />
+								<Enhance bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
 								<Potentials />

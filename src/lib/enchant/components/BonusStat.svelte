@@ -11,6 +11,7 @@
 	import { getName } from '../strings';
 	import type { GearMeta } from '../../../routes/gear-store';
 	import { canBonus, getBonusGrades, getBonusTypes } from '../domains/bonus-stat';
+	import { resultOrFalse } from '../domains/util';
 
 	export let can = false;
 
@@ -18,7 +19,7 @@
 	export let meta: GearMeta | undefined;
 	export let resetMeta: () => void;
 
-	$: can = gear !== undefined && canBonus(gear);
+	$: can = resultOrFalse(canBonus, gear);
 
 	$: statTypes = gear ? getBonusTypes(gear) : [];
 
@@ -108,9 +109,7 @@
 			{/each}
 		</div>
 	{:else}
-		<div class="bonus__cannot">
-			추가옵션 설정 불가
-		</div>
+		<div class="bonus__cannot">추가옵션 설정 불가</div>
 	{/if}
 </div>
 
