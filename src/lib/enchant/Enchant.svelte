@@ -76,7 +76,7 @@
 								<Enhance bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
-								<Potentials />
+								<Potentials bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
 								<Manage on:delete={onDelete} />
