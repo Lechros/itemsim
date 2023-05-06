@@ -2,7 +2,7 @@
 	import { createPotentialFromCode } from '@malib/create-gear';
 	import { Gear, GearPropType, Potential, PotentialGrade } from '@malib/gear';
 	import { Column, Row, Select, SelectItem, SelectItemGroup } from 'carbon-components-svelte';
-	import { gear } from './gear-store';
+	import { gear } from '../../../routes/gear-store';
 
 	export let can = false;
 

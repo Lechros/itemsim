@@ -9,16 +9,19 @@
 		TabContent,
 		Tabs
 	} from 'carbon-components-svelte';
-	import BonusStat from '../../routes/BonusStat.svelte';
 	import GearTooltip from '$lib/gear-tooltip/GearTooltip.svelte';
 	import { Upgrade } from 'carbon-icons-svelte';
-	import Enhance from '../../routes/Enhance.svelte';
-	import Potentials from '../../routes/Potentials.svelte';
 	import Manage from '../../routes/Manage.svelte';
+	import BonusStat from './components/BonusStat.svelte';
+	import Enhance from './components/Enhance.svelte';
+	import Potentials from './components/Potentials.svelte';
+	import type { GearMeta } from '../../routes/gear-store';
 
 	export let gear: Gear | undefined;
+	export let meta: GearMeta | undefined;
 	export let deselectGear: () => void;
 	export let removeGear: () => void;
+	export let resetMeta: () => void;
 
 	export const DELAY = 240;
 
@@ -64,7 +67,7 @@
 						<Tab tabindex="0">관리</Tab>
 						<svelte:fragment slot="content">
 							<TabContent>
-								<BonusStat />
+								<BonusStat bind:gear={gearCache} bind:meta bind:resetMeta/>
 							</TabContent>
 							<TabContent>
 								<Upgrade />

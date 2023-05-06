@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { stringifyGear } from '@malib/gear';
 	import { Button, Column, Row } from 'carbon-components-svelte';
 	import { Copy, Download } from 'carbon-icons-svelte';
 	import { compressToBase64, compressToEncodedURIComponent } from 'lz-string';
@@ -7,24 +6,12 @@
 	import { gear, meta } from './gear-store';
 	import { stringifyGearMeta } from './export';
 
-	export let tooltipRef: HTMLDivElement;
-	export let display: HTMLDivElement;
-
 	const dispatch = createEventDispatcher();
 
 	$: gearStr = $gear && $meta ? stringifyGearMeta($gear, $meta) : '';
 	$: gear64 = compressToBase64(gearStr);
 	$: gearURI = compressToEncodedURIComponent(gearStr);
 	$: filename = $gear?.name ?? 'item';
-
-	// function createImage() {
-	// 	if (tooltipRef) {
-	// 		toCanvas(tooltipRef).then((canvas) => {
-	// 			display.textContent = '';
-	// 			display.appendChild(canvas);
-	// 		});
-	// 	}
-	// }
 </script>
 
 {#if $gear}

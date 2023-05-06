@@ -9,7 +9,7 @@
 	} from 'carbon-components-svelte';
 	import type { GearLike } from '@malib/gear';
 	import StringMatch from './StringMatch.svelte';
-	import { throttle } from './util';
+	import { throttle } from '../../../routes/util';
 
 	/**
 	 * [itemID]: gear name

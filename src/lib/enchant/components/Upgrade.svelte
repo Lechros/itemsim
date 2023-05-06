@@ -28,9 +28,9 @@
 		SelectItem,
 		Switch
 	} from 'carbon-components-svelte';
-	import { gear } from './gear-store';
-	import { optionToStrings } from './strings';
-	import { getOnlyScrolls } from './upgrade';
+	import { gear } from '../../../routes/gear-store';
+	import { optionToStrings } from '../strings';
+	import { getOnlyScrolls } from '../../../routes/upgrade';
 
 	export let can = false;
 

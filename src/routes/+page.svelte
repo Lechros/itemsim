@@ -21,10 +21,10 @@
 	import Close from 'carbon-icons-svelte/lib/Close.svelte';
 	import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 	import Upload from 'carbon-icons-svelte/lib/Upload.svelte';
-	import AddGear from './AddGear.svelte';
+	import AddGear from '../lib/enchant/components/AddGear.svelte';
 	import ImportGear from './ImportGear.svelte';
 	import InvSlot from './InvSlotContent.svelte';
-	import { gear, inventory, lastAdd, selected, type GearSlot } from './gear-store';
+	import { gear, inventory, lastAdd, selected, type GearSlot, meta } from './gear-store';
 	import Enchant from '$lib/enchant/Enchant.svelte';
 
 	const TRANSLATION_DURATION = 240;
@@ -376,7 +376,13 @@
 	/>
 </ComposedModal>
 
-<Enchant gear={$gear} deselectGear={inventory.deselect} removeGear={() => inventory.remove($selected)}/>
+<Enchant
+	bind:gear={$gear}
+	bind:meta={$meta}
+	deselectGear={inventory.deselect}
+	removeGear={() => inventory.remove($selected)}
+	resetMeta={meta.reset}
+/>
 
 <!-- image modal -->
 <!-- <Modal bind:open={imageOpen} passiveModal size="xs" modalHeading="이미지">

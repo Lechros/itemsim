@@ -7,7 +7,7 @@
 		type Gear
 	} from '@malib/gear';
 	import { Button, Column, Row } from 'carbon-components-svelte';
-	import { gear } from './gear-store';
+	import { gear } from '../../../routes/gear-store';
 
 	export let can = false;
 
