@@ -68,21 +68,12 @@
 				</Column>
 			</Row>
 		</div>
-		<div class="bonus__label">
-			<Row>
-				<Column>
-					<p>종류</p>
-				</Column>
-				<Column>
-					<p>등급</p>
-				</Column>
-			</Row>
-		</div>
-		<div class="bonus__option">
-			{#each meta.bonus as bonus}
+		<div class="bonus__options">
+			{#each meta.bonus as bonus, i}
 				<Row>
 					<Column>
 						<Select
+							labelText={i === 0 ? '종류' : ''}
 							bind:selected={bonus.type}
 							on:change={() => {
 								bonus.grade = 0;
@@ -96,7 +87,11 @@
 						</Select>
 					</Column>
 					<Column>
-						<Select bind:selected={bonus.grade} on:change={onSelectChange}>
+						<Select
+							labelText={i === 0 ? '등급' : ''}
+							bind:selected={bonus.grade}
+							on:change={onSelectChange}
+						>
 							<SelectItem value={0} text="---" />
 							{#if bonus.type !== -1}
 								{#each getBonusGrades(gear) as grade}
@@ -118,7 +113,7 @@
 		margin-top: var(--cds-spacing-05);
 	}
 
-	.bonus__label {
-		margin-top: var(--cds-spacing-07);
+	.bonus__options {
+		margin-top: var(--cds-spacing-05);
 	}
 </style>
