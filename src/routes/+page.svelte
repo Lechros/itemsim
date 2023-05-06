@@ -22,14 +22,10 @@
 	import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 	import Upload from 'carbon-icons-svelte/lib/Upload.svelte';
 	import AddGear from './AddGear.svelte';
-	import BonusStat from './BonusStat.svelte';
-	import Enhance from './Enhance.svelte';
 	import ImportGear from './ImportGear.svelte';
 	import InvSlot from './InvSlotContent.svelte';
-	import Manage from './Manage.svelte';
-	import Potentials from './Potentials.svelte';
-	import Upgrade from './Upgrade.svelte';
 	import { gear, inventory, lastAdd, selected, type GearSlot } from './gear-store';
+	import Enchant from '$lib/enchant/Enchant.svelte';
 
 	const TRANSLATION_DURATION = 240;
 
@@ -120,11 +116,6 @@
 			inventory.remove(idx);
 		}
 	}
-
-	/* enchant tooltip */
-	let enchantTooltip: HTMLDivElement;
-	let display: HTMLDivElement;
-	let imageOpen = false;
 
 	/* mouse cursor tooltip */
 	let innerWidth = 0,
@@ -291,23 +282,6 @@
 								>
 									<InvSlot _slot={slot} bind:imgRef={imgRefs[i]} />
 								</button>
-								<!-- <SelectableTile
-									disabled={!slot}
-									bind:selected={neverSelected}
-									on:select={() => {
-										if (slot) inventory.select(i);
-									}}
-									on:mouseenter={() => setCursorGear(slot?.gear)}
-									on:mouseleave={() => setCursorGear(undefined)}
-									bind:ref={invInputRefs[i]}
-									style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
-								>
-									<InvSlot
-										_slot={slot}
-										on:dragstart={() => (dragIndex = i)}
-										on:dragend={() => (dragIndex = -1)}
-									/>
-								</SelectableTile> -->
 							{:else}
 								<SelectableTile
 									draggable="false"
@@ -402,54 +376,7 @@
 	/>
 </ComposedModal>
 
-<!-- enchant modal -->
-<ComposedModal
-	open={$gear !== undefined}
-	selectorPrimaryFocus="ul"
-	on:close={() => setTimeout(inventory.deselect, TRANSLATION_DURATION)}
->
-	<ModalHeader title="아이템 강화" />
-	<ModalBody hasForm hasScrollingContent tabindex={-1}>
-		{#if $gear && $gear.itemID > 0}
-			<div class="enchant">
-				<div class="tooltip-wrapper">
-					<GearTooltip gear={$gear} bind:ref={enchantTooltip} />
-				</div>
-				<div>
-					<Tabs autoWidth>
-						<Tab>추가옵션</Tab>
-						<Tab>주문서</Tab>
-						<Tab>강화</Tab>
-						<Tab>잠재옵션</Tab>
-						<Tab>관리</Tab>
-						<svelte:fragment slot="content">
-							<TabContent>
-								<BonusStat />
-							</TabContent>
-							<TabContent>
-								<Upgrade />
-							</TabContent>
-							<TabContent>
-								<Enhance />
-							</TabContent>
-							<TabContent>
-								<Potentials />
-							</TabContent>
-							<TabContent>
-								<Manage
-									bind:tooltipRef={enchantTooltip}
-									bind:display
-									on:delete={() => inventory.remove($selected)}
-								/>
-							</TabContent>
-						</svelte:fragment>
-					</Tabs>
-				</div>
-			</div>
-		{/if}
-	</ModalBody>
-	<ModalFooter />
-</ComposedModal>
+<Enchant gear={$gear} deselectGear={inventory.deselect} removeGear={() => inventory.remove($selected)}/>
 
 <!-- image modal -->
 <!-- <Modal bind:open={imageOpen} passiveModal size="xs" modalHeading="이미지">
@@ -503,23 +430,6 @@
 	@media (hover: none) {
 		.cursor-tooltip {
 			display: none;
-		}
-	}
-
-	.enchant {
-		display: grid;
-		grid-template-columns: 261px 1fr;
-		gap: var(--cds-spacing-05);
-	}
-
-	@media (max-width: 50rem) {
-		.enchant {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.enchant > .tooltip-wrapper {
-			align-self: center;
 		}
 	}
 </style>
