@@ -75,7 +75,7 @@ export class GearPotentialCache {
 	 * 에디셔널 잠재능력 등급에 따른 두 번째 이후 옵션 목록
 	 */
 	getSecondAddPotentials(grade: PotentialGrade) {
-		return this.additionalPotentials.get(grade) ?? [];
+		return this.additionalPotentials.get(grade - 1) ?? [];
 	}
 
 	static getUpdatedInstance(gear: Gear | undefined, prev: GearPotentialCache | undefined) {
