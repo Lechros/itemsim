@@ -109,7 +109,7 @@
 </div>
 
 <style>
-	.bonus__reset {
+	.bonus {
 		margin-top: var(--cds-spacing-05);
 	}
 
