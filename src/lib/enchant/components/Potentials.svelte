@@ -19,7 +19,10 @@
 	$: can = resultOrFalse(canPotential, gear);
 
 	$: potentialLevel = gear ? Potential.getPotentialLevel(gear.req.level) : 0;
-	$: cache = gear ? new GearPotentialCache(gear) : undefined;
+	let cache: GearPotentialCache | undefined;
+	$: {
+		cache = GearPotentialCache.getUpdatedInstance(gear, cache);
+	}
 
 	let gearCodes = gear ? getGearPotentialCodes(gear) : getDefaultPotentialCodes();
 	let gearAddCodes = gear ? getGearAddPotentialCodes(gear) : getDefaultAddPotentialCodes();

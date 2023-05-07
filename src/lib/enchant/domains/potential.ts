@@ -77,6 +77,12 @@ export class GearPotentialCache {
 	getSecondAddPotentials(grade: PotentialGrade) {
 		return this.additionalPotentials.get(grade) ?? [];
 	}
+
+	static getUpdatedInstance(gear: Gear | undefined, prev: GearPotentialCache | undefined) {
+		if (!gear) return undefined;
+		if (prev && prev.gearId == gear.itemID) return prev;
+		return new this(gear);
+	}
 }
 
 function createPotentials(gear: Gear, codes: number[]) {
