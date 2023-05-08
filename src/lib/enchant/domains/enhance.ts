@@ -1,9 +1,9 @@
 import {
+	GearPropType,
+	addAmazingEnhancement,
 	addStarforce,
 	resetEnhancement,
-	type Gear,
-	addAmazingEnhancement,
-	GearPropType
+	type Gear
 } from '@malib/gear';
 
 export function canEnhance(gear: Gear) {

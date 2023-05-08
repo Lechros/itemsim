@@ -66,39 +66,39 @@
 	{#if can && gear}
 		<Row>
 			<Column>
-				<div class="enhance__buttons">
+				<div class="enhance__button-contents">
 					<Button kind="secondary" on:click={starforce} disabled={!canStar}>
-						<div class="enhance__button">
+						<div class="enhance__button-content">
 							<div class="enhance__icon enhance__icon--starforce" />
 							스타포스
 						</div>
 					</Button>
 					<Button kind="secondary" on:click={starforceReduce} disabled={!canStarReduce}>
-						<div class="enhance__button">
+						<div class="enhance__button-content">
 							<div class="enhance__icon enhance__icon--starforce enhance__icon--starforce-down" />
 							스타포스 감소
 						</div>
 					</Button>
 					<Button kind="secondary" on:click={starforce17} disabled={!canStar17}>
-						<div class="enhance__button">
+						<div class="enhance__button-content">
 							<div class="enhance__icon enhance__icon--starforce-17" />
 							스타포스 17성
 						</div>
 					</Button>
 					<Button kind="secondary" on:click={starforce22} disabled={!canStar22}>
-						<div class="enhance__button">
+						<div class="enhance__button-content">
 							<div class="enhance__icon enhance__icon--starforce-22" />
 							스타포스 22성
 						</div>
 					</Button>
 					<Button kind="secondary" on:click={amazing} disabled={!canAmazing}>
-						<div class="enhance__button">
+						<div class="enhance__button-content">
 							<div class="enhance__icon enhance__icon--amazing" />
 							놀라운 장비 강화
 						</div>
 					</Button>
 					<Button kind="secondary" on:click={reset} disabled={!canReset}>
-						<div class="enhance__button">
+						<div class="enhance__button-content">
 							<div class="enhance__icon enhance__icon--reset" />
 							스타포스 초기화
 						</div>
@@ -116,12 +116,12 @@
 		margin-top: var(--cds-spacing-05);
 	}
 
-	.enhance__buttons {
+	.enhance__button-contents {
 		display: flex;
 		flex-direction: column;
 	}
 
-	.enhance__button {
+	.enhance__button-content {
 		display: flex;
 		align-items: center;
 		gap: var(--cds-spacing-05);

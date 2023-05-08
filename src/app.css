@@ -73,13 +73,18 @@ html body {
 }
 
 .bx--tile__checkmark {
-  z-index: 100;
+	z-index: 100;
+}
+
+.bx--tile {
+	min-width: 0;
+	min-height: 0;
 }
 
 .inv-draghover {
-  background: var(--cds-hover-ui, #e5e5e5);
-  outline: 2px solid var(--cds-focus, #0f62fe);
-  outline-offset: -2px;
+	background: var(--cds-hover-ui, #e5e5e5);
+	outline: 2px solid var(--cds-focus, #0f62fe);
+	outline-offset: -2px;
 }
 
 .string-match--highlight {

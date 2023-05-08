@@ -10,12 +10,12 @@
 		Tabs
 	} from 'carbon-components-svelte';
 	import GearTooltip from '$lib/gear-tooltip/GearTooltip.svelte';
-	import { Upgrade } from 'carbon-icons-svelte';
 	import Manage from '../../routes/Manage.svelte';
 	import BonusStat from './components/BonusStat.svelte';
 	import Enhance from './components/Enhance.svelte';
 	import Potentials from './components/Potentials.svelte';
 	import type { GearMeta } from '../../routes/gear-store';
+	import Upgrade from './components/Upgrade.svelte';
 
 	export let gear: Gear | undefined;
 	export let meta: GearMeta | undefined;
@@ -70,7 +70,7 @@
 								<BonusStat bind:gear={gearCache} bind:meta bind:resetMeta />
 							</TabContent>
 							<TabContent>
-								<Upgrade />
+								<Upgrade bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
 								<Enhance bind:gear={gearCache} />

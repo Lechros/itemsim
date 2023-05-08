@@ -13,9 +13,6 @@
 		ModalHeader,
 		Row,
 		SelectableTile,
-		Tab,
-		TabContent,
-		Tabs
 	} from 'carbon-components-svelte';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import Close from 'carbon-icons-svelte/lib/Close.svelte';
