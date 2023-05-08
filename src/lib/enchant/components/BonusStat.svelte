@@ -8,7 +8,7 @@
 		type BonusStatGrade
 	} from '@malib/gear';
 	import { Button, Column, Row, Select, SelectItem } from 'carbon-components-svelte';
-	import type { GearMeta } from '../../inventory/stores/inventory-store';
+	import type { GearMeta } from '../../inventory/stores/gear-store';
 	import { canBonus, getBonusGrades, getBonusTypes } from '../domains/bonus-stat';
 	import { resultOrFalse } from '../domains/util';
 	import { getName } from '../domains/strings';

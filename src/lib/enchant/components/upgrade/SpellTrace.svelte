@@ -3,7 +3,7 @@
 	import { canApplyScroll } from '../../domains/upgrade/common';
 	import { SpellTraceEnchanter, type SpellTraceInfo } from '../../domains/upgrade/spelltrace';
 	import { resultOrFalse } from '../../domains/util';
-	import { optionToStrings } from '../../strings';
+	import { optionToStrings } from '../../domains/strings';
 
 	import { ClickableTile, Column, ContentSwitcher, Row, Switch } from 'carbon-components-svelte';
 

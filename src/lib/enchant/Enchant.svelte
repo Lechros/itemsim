@@ -10,11 +10,11 @@
 		Tabs
 	} from 'carbon-components-svelte';
 	import GearTooltip from '$lib/gear-tooltip/GearTooltip.svelte';
-	import Manage from '../../routes/Manage.svelte';
+	import Manage from './components/Manage.svelte';
 	import BonusStat from './components/BonusStat.svelte';
 	import Enhance from './components/Enhance.svelte';
 	import Potentials from './components/Potentials.svelte';
-	import type { GearMeta } from '../inventory/stores/inventory-store';
+	import type { GearMeta } from '../inventory/stores/gear-store';
 	import Upgrade from './components/Upgrade.svelte';
 
 	export let gear: Gear | undefined;
@@ -79,7 +79,7 @@
 								<Potentials bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
-								<Manage on:delete={onDelete} />
+								<Manage bind:gear={gearCache} bind:meta on:delete={onDelete} />
 							</TabContent>
 						</svelte:fragment>
 					</Tabs>
