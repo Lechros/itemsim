@@ -96,83 +96,47 @@
 	<Grid style="max-width: 40rem;">
 		<Row>
 			<Column>
-				<div style="display: flex; align-items: center; height: 100%">
-					<h2>인벤토리</h2>
+				<div class="top-part">
+					<div class="top-part__heading">
+						<h2>인벤토리</h2>
+					</div>
+					<div class="top-part__buttons">
+						{#if inventoryMode === 'default'}
+							<Button
+								kind="secondary"
+								icon={Upload}
+								iconDescription="가져오기"
+								on:click={() => (importOpen = true)}
+							/>
+							<Button icon={Add} on:click={() => (addOpen = true)}>아이템 추가</Button>
+							<Button
+								kind="danger"
+								icon={TrashCan}
+								iconDescription="삭제"
+								disabled={gearCount === 0}
+								on:click={() => (inventoryMode = 'delete')}
+							/>
+						{:else if inventoryMode === 'delete'}
+							<Button
+								kind="danger"
+								icon={TrashCan}
+								disabled={deleteIndexes.size === 0}
+								on:click={deleteSelected}
+							>
+								아이템 {deleteIndexes.size}개 삭제
+							</Button>
+							<Button
+								kind="secondary"
+								icon={Close}
+								iconDescription="취소"
+								on:click={() => {
+									inventoryMode = 'default';
+									deselect();
+								}}
+							/>
+						{/if}
+					</div>
 				</div>
-			</Column>
-			<Column>
-				{#if inventoryMode === 'delete'}
-					<div class="inv-buttons md">
-						<Button
-							kind="danger"
-							icon={TrashCan}
-							disabled={deleteIndexes.size === 0}
-							on:click={deleteSelected}
-						>
-							아이템 {deleteIndexes.size}개 삭제
-						</Button>
-						<Button
-							kind="secondary"
-							icon={Close}
-							iconDescription="취소"
-							on:click={() => {
-								inventoryMode = 'default'
-								deselect();
-							}}
-						/>
-					</div>
-					<div class="inv-buttons sm">
-						<Button
-							kind="danger"
-							icon={TrashCan}
-							iconDescription="아이템 삭제"
-							disabled={deleteIndexes.size === 0}
-							on:click={deleteSelected}
-						/>
-						<Button
-							kind="secondary"
-							icon={Close}
-							iconDescription="취소"
-							on:click={() => {
-								inventoryMode = 'default'
-								deselect();
-							}}
-						/>
-					</div>
-				{:else}
-					<div class="inv-buttons md">
-						<Button
-							kind="secondary"
-							icon={Upload}
-							iconDescription="가져오기"
-							on:click={() => (importOpen = true)}
-						/>
-						<Button icon={Add} on:click={() => (addOpen = true)}>아이템 추가</Button>
-						<Button
-							kind="danger"
-							icon={TrashCan}
-							iconDescription="삭제"
-							disabled={gearCount === 0}
-							on:click={() => (inventoryMode = 'delete')}
-						/>
-					</div>
-					<div class="inv-buttons sm">
-						<Button
-							kind="secondary"
-							icon={Upload}
-							iconDescription="가져오기"
-							on:click={() => (importOpen = true)}
-						/>
-						<Button icon={Add} iconDescription="아이템 추가" on:click={() => (addOpen = true)} />
-						<Button
-							kind="danger"
-							icon={TrashCan}
-							iconDescription="삭제"
-							disabled={gearCount === 0}
-							on:click={() => (inventoryMode = 'delete')}
-						/>
-					</div>
-				{/if}
 			</Column>
 		</Row>
 		<Inventory
@@ -249,21 +213,24 @@
 </div>
 
 <style>
-	.inv-buttons {
+	.top-part {
 		display: flex;
-		justify-content: right;
-		gap: var(--cds-spacing-03);
+		align-items: center;
+		justify-content: space-between;
 	}
-	.inv-buttons.sm {
-		display: none;
-	}
+
 	@media (max-width: 28rem) {
-		.inv-buttons.sm {
-			display: flex;
+		.top-part {
+			align-items: normal;
+			flex-direction: column;
+			gap: var(--cds-spacing-03);
 		}
-		.inv-buttons.md {
-			display: none;
-		}
+	}
+
+	.top-part__buttons {
+		display: flex;
+		align-self: flex-end;
+		gap: var(--cds-spacing-03);
 	}
 
 	.cursor-tooltip {
