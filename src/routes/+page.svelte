@@ -19,10 +19,10 @@
 	import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 	import Upload from 'carbon-icons-svelte/lib/Upload.svelte';
 	import AddGear from '../lib/enchant/components/AddGear.svelte';
-	import ImportGear from './ImportGear.svelte';
-	import InvSlot from './InvSlotContent.svelte';
-	import { gear, inventory, lastAdd, selected, type GearSlot, meta } from './gear-store';
+	import InvSlot from '../lib/inventory/InvSlotContent.svelte';
+	import { gear, inventory, lastAdd, selected, type GearSlot, meta } from '../lib/inventory/stores/gear-store';
 	import Enchant from '$lib/enchant/Enchant.svelte';
+	import ImportGear from '$lib/import-gear/ImportGear.svelte';
 
 	const TRANSLATION_DURATION = 240;
 
@@ -54,29 +54,7 @@
 		}
 	};
 
-	/* inventory: upload */
-	let importGear: ImportGear;
 	let importOpen = false;
-	let strGear: GearSlot | null;
-	let uploadGears: Map<string, GearSlot> = new Map();
-
-	function canUpload(slot: GearSlot | null, slots: Map<string, GearSlot>) {
-		return slot || slots.size > 0;
-	}
-
-	function getUploadMessage(slot: GearSlot | null, slots: Map<string, GearSlot>) {
-		if (slot) {
-			return `'${slot.gear.name}' 추가`;
-		} else if (slots.size > 0) {
-			if (slots.size > 1) {
-				return `아이템 ${slots.size}개 추가`;
-			} else {
-				return `'${slots.values().next().value.gear.name}' 추가`;
-			}
-		} else {
-			return `아이템이 없습니다`;
-		}
-	}
 
 	/* inventory: add */
 	let addGear: AddGear;
@@ -137,200 +115,177 @@
 
 <svelte:window bind:innerHeight />
 
-<div on:mousemove={handleMousemove} bind:clientWidth={innerWidth}>
-	<Content>
-		<Grid noGutter style="max-width: 32rem;">
-			<Row noGutter>
-				<Column>
+<div style="margin-top: 4rem;" on:mousemove={handleMousemove} bind:clientWidth={innerWidth}>
+	<Grid style="max-width: 40rem;">
+		<Row>
+			<Column>
+				<div style="display: flex; align-items: center; height: 100%">
 					<h2>인벤토리</h2>
-				</Column>
-				<Column>
-					{#if deleteMode}
-						<div class="inv-buttons md">
-							<Button
-								kind="danger"
-								icon={TrashCan}
-								disabled={toDelete.size === 0}
-								on:click={() => {
-									deleteItems();
-									if (gearCount === toDelete.size) {
-										deleteMode = false;
-									}
-									toDelete.clear();
-									toDelete = toDelete;
-								}}
-							>
-								아이템 {toDelete.size}개 삭제
-							</Button>
-							<Button
-								kind="secondary"
-								icon={Close}
-								iconDescription="취소"
-								on:click={() => {
+				</div>
+			</Column>
+			<Column>
+				{#if deleteMode}
+					<div class="inv-buttons md">
+						<Button
+							kind="danger"
+							icon={TrashCan}
+							disabled={toDelete.size === 0}
+							on:click={() => {
+								deleteItems();
+								if (gearCount === toDelete.size) {
 									deleteMode = false;
-									toDelete.clear();
-									toDelete = toDelete;
-								}}
-							/>
-						</div>
-						<div class="inv-buttons sm">
-							<Button
-								kind="danger"
-								icon={TrashCan}
-								iconDescription="아이템 삭제"
-								disabled={toDelete.size === 0}
-								on:click={() => {
-									deleteItems();
-									if (gearCount === toDelete.size) {
-										deleteMode = false;
-									}
-									toDelete.clear();
-									toDelete = toDelete;
-								}}
-							/>
-							<Button
-								kind="secondary"
-								icon={Close}
-								iconDescription="취소"
-								on:click={() => {
-									deleteMode = false;
-									toDelete.clear();
-									toDelete = toDelete;
-								}}
-							/>
-						</div>
-					{:else}
-						<div class="inv-buttons md">
-							<Button
-								kind="secondary"
-								icon={Upload}
-								iconDescription="가져오기"
-								on:click={() => (importOpen = true)}
-							/>
-							<Button icon={Add} on:click={() => (addOpen = true)}>아이템 추가</Button>
-							<Button
-								kind="danger"
-								icon={TrashCan}
-								iconDescription="삭제"
-								disabled={gearCount === 0}
-								on:click={() => (deleteMode = true)}
-							/>
-						</div>
-						<div class="inv-buttons sm">
-							<Button
-								kind="secondary"
-								icon={Upload}
-								iconDescription="가져오기"
-								on:click={() => (importOpen = true)}
-							/>
-							<Button icon={Add} iconDescription="아이템 추가" on:click={() => (addOpen = true)} />
-							<Button
-								kind="danger"
-								icon={TrashCan}
-								iconDescription="삭제"
-								disabled={gearCount === 0}
-								on:click={() => (deleteMode = true)}
-							/>
-						</div>
-					{/if}
-				</Column>
-			</Row>
-			<Row noGutter>
-				<Column>
-					<div class="inventory">
-						{#each $inventory as slot, i}
-							{#if !deleteMode}
-								<button
-									class="dropzone bx--tile bx--tile--selectable"
-									class:bx--tile--disabled={!slot}
-									disabled={!slot}
-									on:click={() => {
-										if (slot) inventory.select(i);
-									}}
-									on:mouseenter={() => setCursorGear(slot?.gear)}
-									on:mouseleave={() => setCursorGear(undefined)}
-									draggable="true"
-									on:dragstart={(e) => {
-										dragIndex = i;
-										const ref = imgRefs[i];
-										if (e.dataTransfer) {
-											e.dataTransfer.effectAllowed = 'move';
-											if (ref) e.dataTransfer.setDragImage(ref, 16, 16);
-										}
-									}}
-									on:dragend={() => (dragIndex = -1)}
-									on:dragover={(e) => {
-										if (dragIndex !== i) e.preventDefault();
-									}}
-									on:dragenter={(e) => {
-										addHover(e.target);
-										if (dragIndex !== i) e.preventDefault();
-									}}
-									on:dragleave={(e) => {
-										removeHover(e.target);
-										e.preventDefault();
-									}}
-									on:drop={(e) => {
-										removeHover(e.target);
-										inventory.swap(dragIndex, i);
-										dragIndex = -1;
-									}}
-									style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
-								>
-									<InvSlot _slot={slot} bind:imgRef={imgRefs[i]} />
-								</button>
-							{:else}
-								<SelectableTile
-									draggable="false"
-									disabled={!slot}
-									selected={toDelete.has(i)}
-									on:select={() => {
-										toDelete.add(i);
-										toDelete = toDelete;
-									}}
-									on:deselect={() => {
-										toDelete.delete(i);
-										toDelete = toDelete;
-									}}
-									on:mouseenter={() => setCursorGear(slot?.gear)}
-									on:mouseleave={() => setCursorGear(undefined)}
-									style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
-								>
-									<InvSlot _slot={slot} />
-								</SelectableTile>
-							{/if}
-						{/each}
+								}
+								toDelete.clear();
+								toDelete = toDelete;
+							}}
+						>
+							아이템 {toDelete.size}개 삭제
+						</Button>
+						<Button
+							kind="secondary"
+							icon={Close}
+							iconDescription="취소"
+							on:click={() => {
+								deleteMode = false;
+								toDelete.clear();
+								toDelete = toDelete;
+							}}
+						/>
 					</div>
-				</Column>
-			</Row>
-		</Grid>
-	</Content>
+					<div class="inv-buttons sm">
+						<Button
+							kind="danger"
+							icon={TrashCan}
+							iconDescription="아이템 삭제"
+							disabled={toDelete.size === 0}
+							on:click={() => {
+								deleteItems();
+								if (gearCount === toDelete.size) {
+									deleteMode = false;
+								}
+								toDelete.clear();
+								toDelete = toDelete;
+							}}
+						/>
+						<Button
+							kind="secondary"
+							icon={Close}
+							iconDescription="취소"
+							on:click={() => {
+								deleteMode = false;
+								toDelete.clear();
+								toDelete = toDelete;
+							}}
+						/>
+					</div>
+				{:else}
+					<div class="inv-buttons md">
+						<Button
+							kind="secondary"
+							icon={Upload}
+							iconDescription="가져오기"
+							on:click={() => (importOpen = true)}
+						/>
+						<Button icon={Add} on:click={() => (addOpen = true)}>아이템 추가</Button>
+						<Button
+							kind="danger"
+							icon={TrashCan}
+							iconDescription="삭제"
+							disabled={gearCount === 0}
+							on:click={() => (deleteMode = true)}
+						/>
+					</div>
+					<div class="inv-buttons sm">
+						<Button
+							kind="secondary"
+							icon={Upload}
+							iconDescription="가져오기"
+							on:click={() => (importOpen = true)}
+						/>
+						<Button icon={Add} iconDescription="아이템 추가" on:click={() => (addOpen = true)} />
+						<Button
+							kind="danger"
+							icon={TrashCan}
+							iconDescription="삭제"
+							disabled={gearCount === 0}
+							on:click={() => (deleteMode = true)}
+						/>
+					</div>
+				{/if}
+			</Column>
+		</Row>
+		<Row>
+			<Column>
+				<div class="inventory">
+					{#each $inventory as slot, i}
+						{#if !deleteMode}
+							<button
+								class="dropzone bx--tile bx--tile--selectable"
+								class:bx--tile--disabled={!slot}
+								disabled={!slot}
+								on:click={() => {
+									if (slot) inventory.select(i);
+								}}
+								on:mouseenter={() => setCursorGear(slot?.gear)}
+								on:mouseleave={() => setCursorGear(undefined)}
+								draggable="true"
+								on:dragstart={(e) => {
+									dragIndex = i;
+									const ref = imgRefs[i];
+									if (e.dataTransfer) {
+										e.dataTransfer.effectAllowed = 'move';
+										if (ref) e.dataTransfer.setDragImage(ref, 16, 16);
+									}
+								}}
+								on:dragend={() => (dragIndex = -1)}
+								on:dragover={(e) => {
+									if (dragIndex !== i) e.preventDefault();
+								}}
+								on:dragenter={(e) => {
+									addHover(e.target);
+									if (dragIndex !== i) e.preventDefault();
+								}}
+								on:dragleave={(e) => {
+									removeHover(e.target);
+									e.preventDefault();
+								}}
+								on:drop={(e) => {
+									removeHover(e.target);
+									inventory.swap(dragIndex, i);
+									dragIndex = -1;
+								}}
+								style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
+							>
+								<InvSlot _slot={slot} bind:imgRef={imgRefs[i]} />
+							</button>
+						{:else}
+							<SelectableTile
+								draggable="false"
+								disabled={!slot}
+								selected={toDelete.has(i)}
+								on:select={() => {
+									toDelete.add(i);
+									toDelete = toDelete;
+								}}
+								on:deselect={() => {
+									toDelete.delete(i);
+									toDelete = toDelete;
+								}}
+								on:mouseenter={() => setCursorGear(slot?.gear)}
+								on:mouseleave={() => setCursorGear(undefined)}
+								style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
+							>
+								<InvSlot _slot={slot} />
+							</SelectableTile>
+						{/if}
+					{/each}
+				</div>
+			</Column>
+		</Row>
+	</Grid>
 </div>
 
-<!-- upload modal -->
-<Modal
-	bind:open={importOpen}
-	size="sm"
-	modalHeading="가져오기"
-	primaryButtonText={getUploadMessage(strGear, uploadGears)}
-	primaryButtonDisabled={!canUpload(strGear, uploadGears)}
-	on:submit={() => {
-		if (strGear) {
-			inventory.addSlot(strGear);
-		} else if (uploadGears.size > 0) {
-			for (const gear of uploadGears.values()) {
-				inventory.addSlot(gear);
-			}
-		}
-		importOpen = false;
-		setTimeout(importGear.reset, TRANSLATION_DURATION);
-	}}
-	on:close={() => {
-		setTimeout(importGear.reset, TRANSLATION_DURATION);
-	}}
->
-	<ImportGear bind:strGear bind:fileSlots={uploadGears} bind:this={importGear} />
-</Modal>
+<ImportGear bind:open={importOpen} addGear={inventory.addSlot}/>
 
 <!-- add modal -->
 <ComposedModal
@@ -380,11 +335,6 @@
 	removeGear={() => inventory.remove($selected)}
 	resetMeta={meta.reset}
 />
-
-<!-- image modal -->
-<!-- <Modal bind:open={imageOpen} passiveModal size="xs" modalHeading="이미지">
-	<div bind:this={display} />
-</Modal> -->
 
 <div class="cursor-tooltip" style="top: {m.y}px; left: {m.x}px;" bind:this={cursorTooltip}>
 	{#if cursorGear && cursorGear.itemID > 0}
