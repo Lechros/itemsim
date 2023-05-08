@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { createPotentialFromCode } from '@malib/create-gear';
-	import { Gear, GearPropType, Potential, PotentialGrade } from '@malib/gear';
+	import { Gear, Potential, PotentialGrade } from '@malib/gear';
 	import { Column, Row, Select, SelectItem, SelectItemGroup } from 'carbon-components-svelte';
 	import {
 		GearPotentialCache,
 		canPotential,
-		getGearAddPotentialCodes,
 		getDefaultAddPotentialCodes,
 		getDefaultPotentialCodes,
+		getGearAddPotentialCodes,
 		getGearPotentialCodes
 	} from '../domains/potential';
 	import { resultOrFalse } from '../domains/util';

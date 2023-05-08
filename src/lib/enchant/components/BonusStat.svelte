@@ -8,10 +8,10 @@
 		type BonusStatGrade
 	} from '@malib/gear';
 	import { Button, Column, Row, Select, SelectItem } from 'carbon-components-svelte';
-	import { getName } from '../strings';
 	import type { GearMeta } from '../../../routes/gear-store';
 	import { canBonus, getBonusGrades, getBonusTypes } from '../domains/bonus-stat';
 	import { resultOrFalse } from '../domains/util';
+	import { getName } from '../strings';
 
 	export let can = false;
 

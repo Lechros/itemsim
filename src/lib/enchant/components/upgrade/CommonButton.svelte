@@ -12,23 +12,23 @@
 
 <style>
 	.common-button__content {
-        display: flex;
-        flex-direction: column;
+		display: flex;
+		flex-direction: column;
 		width: 100%;
-        padding: var(--cds-spacing-03);
-        gaP: var(--cds-spacing-03);
+		padding: var(--cds-spacing-03);
+		gap: var(--cds-spacing-03);
 		align-items: center;
-        justify-content: center;
+		justify-content: center;
 		text-align: center;
 		word-break: keep-all;
-        aspect-ratio: 1 / 1;
+		aspect-ratio: 1 / 1;
 	}
-    @media(max-width: 32rem) {
-        .common-button__content {
-            flex-direction: row;
-            padding: var(--cds-spacing-04) var(--cds-spacing-05);
-            justify-content: start;
-            aspect-ratio: unset;
-        }
-    }
+	@media (max-width: 32rem) {
+		.common-button__content {
+			flex-direction: row;
+			padding: var(--cds-spacing-04) var(--cds-spacing-05);
+			justify-content: start;
+			aspect-ratio: unset;
+		}
+	}
 </style>

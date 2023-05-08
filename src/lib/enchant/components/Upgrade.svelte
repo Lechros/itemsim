@@ -4,11 +4,11 @@
 	import { canUpgrade, isOnlyUpgradeGear } from '../domains/upgrade/common';
 	import { resultOrFalse } from '../domains/util';
 	import ChaosScroll from './upgrade/ChaosScroll.svelte';
+	import CommonButtons from './upgrade/CommonButtons.svelte';
 	import OnlyScroll from './upgrade/OnlyScroll.svelte';
 	import PadMadScroll from './upgrade/PadMadScroll.svelte';
-	import SpellTrace from './upgrade/SpellTrace.svelte';
-	import CommonButtons from './upgrade/CommonButtons.svelte';
 	import SpecialScroll from './upgrade/SpecialScroll.svelte';
+	import SpellTrace from './upgrade/SpellTrace.svelte';
 
 	export let can = false;
 

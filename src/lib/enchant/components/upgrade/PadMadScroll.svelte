@@ -1,9 +1,9 @@
 <script lang="ts">
+	import type { Gear } from '@malib/gear';
+	import { Button, Column, Row, Select, SelectItem } from 'carbon-components-svelte';
 	import { canApplyScroll, doApplyScroll, doApplyScrollFull } from '../../domains/upgrade/common';
 	import { getPadMadScroll } from '../../domains/upgrade/pad-mad-scroll';
 	import { resultOrFalse } from '../../domains/util';
-	import type { Gear } from '@malib/gear';
-	import { Button, Column, Row, Select, SelectItem } from 'carbon-components-svelte';
 
 	const MAX_PAD = 5;
 

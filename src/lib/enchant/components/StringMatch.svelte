@@ -7,30 +7,30 @@
 	const closeTag = '</span>';
 
 	function build(str: string, search: string) {
-        let res = "";
+		let res = '';
 		let open = false;
 		for (let i = 0, j = 0; i < str.length; i++) {
 			if (str[i] === search[j]) {
 				if (!open) {
 					open = true;
-                    res += openTag;
+					res += openTag;
 				}
 				j++;
 			} else {
 				if (open) {
 					open = false;
-                    res += closeTag;
+					res += closeTag;
 				}
 			}
-            res += str[i];
+			res += str[i];
 		}
-        if(open) {
-            res += closeTag;
-        }
-        return res;
+		if (open) {
+			res += closeTag;
+		}
+		return res;
 	}
 </script>
 
 <div>
-    {@html build(str, search)}
+	{@html build(str, search)}
 </div>

@@ -1,19 +1,19 @@
 <script lang="ts">
+	import type { Gear } from '@malib/gear';
+	import { Column, Row } from 'carbon-components-svelte';
 	import {
-		canGoldHammer,
-		canFailScroll,
-		canCleanSlateScroll,
-		canInnocentScroll,
 		canArkInnocentScroll,
+		canCleanSlateScroll,
+		canFailScroll,
+		canGoldHammer,
+		canInnocentScroll,
 		doArkInnocentScroll,
 		doCleanSlateScroll,
 		doFailScroll,
 		doGoldHammer,
 		doInnocentScroll
-	} from '$lib/enchant/domains/upgrade/common';
-	import { resultOrFalse } from '$lib/enchant/domains/util';
-	import type { Gear } from '@malib/gear';
-	import { Row, Column } from 'carbon-components-svelte';
+	} from '../../domains/upgrade/common';
+	import { resultOrFalse } from '../../domains/util';
 	import CommonButton from './CommonButton.svelte';
 
 	export let gear: Gear | undefined;

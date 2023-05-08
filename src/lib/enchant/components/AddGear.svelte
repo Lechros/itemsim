@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { GearLike } from '@malib/gear';
 	import {
 		ContentSwitcher,
 		Link,
@@ -7,9 +8,8 @@
 		Switch,
 		Tile
 	} from 'carbon-components-svelte';
-	import type { GearLike } from '@malib/gear';
-	import StringMatch from './StringMatch.svelte';
 	import { throttle } from '../../../routes/util';
+	import StringMatch from './StringMatch.svelte';
 
 	/**
 	 * [itemID]: gear name

@@ -12,7 +12,7 @@
 		ModalFooter,
 		ModalHeader,
 		Row,
-		SelectableTile,
+		SelectableTile
 	} from 'carbon-components-svelte';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import Close from 'carbon-icons-svelte/lib/Close.svelte';

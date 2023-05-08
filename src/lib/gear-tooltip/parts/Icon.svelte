@@ -31,7 +31,12 @@
 		<div class="item-icon__border {color}" />
 	{/if}
 	<div class="item-icon__base">
-		<img class="item-icon__icon" {src} {alt} style="margin-left: {originX}px; margin-top: {originY}px" />
+		<img
+			class="item-icon__icon"
+			{src}
+			{alt}
+			style="margin-left: {originX}px; margin-top: {originY}px"
+		/>
 	</div>
 	<div class="item-icon__old-dot" />
 	{#if newBonus}

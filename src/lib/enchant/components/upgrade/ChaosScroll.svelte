@@ -1,14 +1,14 @@
 <script lang="ts">
 	import type { Gear } from '@malib/gear';
+	import { Button, Column, NumberInput, Row } from 'carbon-components-svelte';
 	import {
 		getChaosScroll,
 		getDefaultChaosScrollOption,
+		getPropTypeWeight,
 		type ChaosScrollOption
 	} from '../../domains/upgrade/chaos-scroll';
-	import { getPropTypeWeight } from '../../domains/upgrade/chaos-scroll';
-	import { Row, Column, NumberInput, Button } from 'carbon-components-svelte';
-	import { resultOrFalse } from '../../domains/util';
 	import { canApplyScroll, doApplyScroll, doApplyScrollFull } from '../../domains/upgrade/common';
+	import { resultOrFalse } from '../../domains/util';
 
 	export let gear: Gear | undefined;
 
@@ -88,10 +88,10 @@
 </div>
 
 <style>
-    .chaos-scroll__values {
-        margin-top: var(--cds-spacing-05);
-    }
-    .chaos-scroll__buttons {
-        margin-top: var(--cds-spacing-05);
-    }
+	.chaos-scroll__values {
+		margin-top: var(--cds-spacing-05);
+	}
+	.chaos-scroll__buttons {
+		margin-top: var(--cds-spacing-05);
+	}
 </style>

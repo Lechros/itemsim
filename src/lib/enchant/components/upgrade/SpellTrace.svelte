@@ -1,12 +1,9 @@
 <script lang="ts">
+	import type { Gear } from '@malib/gear';
 	import { canApplyScroll } from '../../domains/upgrade/common';
-	import {
-		SpellTraceEnchanter,
-		type SpellTraceInfo
-	} from '../../domains/upgrade/spelltrace';
+	import { SpellTraceEnchanter, type SpellTraceInfo } from '../../domains/upgrade/spelltrace';
 	import { resultOrFalse } from '../../domains/util';
 	import { optionToStrings } from '../../strings';
-	import type { Gear } from '@malib/gear';
 
 	import { ClickableTile, Column, ContentSwitcher, Row, Switch } from 'carbon-components-svelte';
 

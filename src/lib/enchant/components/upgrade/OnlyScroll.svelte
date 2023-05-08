@@ -1,14 +1,10 @@
 <script lang="ts">
-	import {
-		canApplyScroll,
-		doApplyScroll,
-		doApplyScrollFull
-	} from '$lib/enchant/domains/upgrade/common';
-	import { resultOrFalse } from '$lib/enchant/domains/util';
-	import { getOnlyScrolls } from '../../domains/upgrade/only-scroll';
-	import { optionToStrings } from '../../strings';
 	import type { Gear } from '@malib/gear';
 	import { ClickableTile, Column, Row } from 'carbon-components-svelte';
+	import { canApplyScroll, doApplyScroll, doApplyScrollFull } from '../../domains/upgrade/common';
+	import { getOnlyScrolls } from '../../domains/upgrade/only-scroll';
+	import { resultOrFalse } from '../../domains/util';
+	import { optionToStrings } from '../../strings';
 
 	export let gear: Gear | undefined;
 
@@ -50,8 +46,10 @@
 											<div
 												class="only-scroll__icon"
 												style="background-image: url(/images/itemIcon/{scroll.icon}.png);
-                                                --width: {scroll.size[0]}px; --height: {scroll.size[1]}px;
-                                                --left: {1 - scroll.origin[0]}px; --top: {33 - scroll.origin[1]}px;"
+                                                --width: {scroll.size[0]}px;
+												--height: {scroll.size[1]}px;
+                                                --left: {1 - scroll.origin[0]}px;
+												--top: {33 - scroll.origin[1]}px;"
 											/>
 										</div>
 										{scroll.name}
@@ -109,10 +107,10 @@
 		margin-right: var(--cds-spacing-03);
 	}
 
-    .only-scroll__icon {
-        width: var(--width);
-        height: var(--height);
-        margin-left: var(--left);
-        margin-top: var(--top);
-    }
+	.only-scroll__icon {
+		width: var(--width);
+		height: var(--height);
+		margin-left: var(--left);
+		margin-top: var(--top);
+	}
 </style>

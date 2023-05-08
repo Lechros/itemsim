@@ -9,7 +9,6 @@ import {
 	restoreUpgradeCount,
 	type Scroll
 } from '@malib/gear';
-import { onlyScrolls } from './scroll-data';
 
 export function canUpgrade(gear: Gear) {
 	return gear.totalUpgradeCount > 0;

@@ -1,4 +1,4 @@
-import type { Gear, Scroll } from '@malib/gear';
+import type { Gear } from '@malib/gear';
 import { onlyScrolls } from './scroll-data';
 
 export function getOnlyScrolls(gear: Gear) {
