@@ -8,6 +8,7 @@
 	import PadMadScroll from './upgrade/PadMadScroll.svelte';
 	import SpellTrace from './upgrade/SpellTrace.svelte';
 	import CommonButtons from './upgrade/CommonButtons.svelte';
+	import SpecialScroll from './upgrade/SpecialScroll.svelte';
 
 	export let can = false;
 
@@ -66,11 +67,12 @@
 		<div class="upgrade__panel" class:upgrade__panel--open={scrollType === 2}>
 			<ChaosScroll bind:gear />
 		</div>
-		<div class="upgrade__panel" class:upgrade__panel--open={scrollType === 3} />
+		<div class="upgrade__panel" class:upgrade__panel--open={scrollType === 3}>
+			<SpecialScroll bind:gear />
+		</div>
 		<div class="upgrade__panel" class:upgrade__panel--open={scrollType === 4}>
 			<OnlyScroll bind:gear bind:has={hasOnlyScroll} />
 		</div>
-		<div class="upgrade__panel" class:upgrade__panel--open={scrollType === 5} />
 	{:else}
 		<div class="upgrade__cannont">주문서 강화 불가</div>
 	{/if}
