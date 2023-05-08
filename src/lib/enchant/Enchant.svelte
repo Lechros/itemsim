@@ -14,7 +14,7 @@
 	import BonusStat from './components/BonusStat.svelte';
 	import Enhance from './components/Enhance.svelte';
 	import Potentials from './components/Potentials.svelte';
-	import type { GearMeta } from '../../routes/gear-store';
+	import type { GearMeta } from '../inventory/stores/inventory-store';
 	import Upgrade from './components/Upgrade.svelte';
 
 	export let gear: Gear | undefined;
