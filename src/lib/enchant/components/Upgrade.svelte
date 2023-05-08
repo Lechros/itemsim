@@ -1,26 +1,13 @@
 <script lang="ts">
 	import type { Gear } from '@malib/gear';
-	import { Button, Column, Dropdown, Row } from 'carbon-components-svelte';
-	import {
-		canArkInnocentScroll,
-		canCleanSlateScroll,
-		canFailScroll,
-		canGoldHammer,
-		canInnocentScroll,
-		canUpgrade,
-		doArkInnocentScroll,
-		doCleanSlateScroll,
-		doFailScroll,
-		doGoldHammer,
-		doInnocentScroll,
-		isOnlyUpgradeGear
-	} from '../domains/upgrade/common';
+	import { Column, Dropdown, Row } from 'carbon-components-svelte';
+	import { canUpgrade, isOnlyUpgradeGear } from '../domains/upgrade/common';
 	import { resultOrFalse } from '../domains/util';
-	import PadMadScroll from './upgrade/PadMadScroll.svelte';
-	import SpellTrace from './upgrade/SpellTrace.svelte';
 	import ChaosScroll from './upgrade/ChaosScroll.svelte';
 	import OnlyScroll from './upgrade/OnlyScroll.svelte';
-	import CommonButton from './upgrade/CommonButton.svelte';
+	import PadMadScroll from './upgrade/PadMadScroll.svelte';
+	import SpellTrace from './upgrade/SpellTrace.svelte';
+	import CommonButtons from './upgrade/CommonButtons.svelte';
 
 	export let can = false;
 
@@ -28,39 +15,8 @@
 
 	$: can = resultOrFalse(canUpgrade, gear);
 
-	$: canHammer = resultOrFalse(canGoldHammer, gear);
-	$: canFail = resultOrFalse(canFailScroll, gear);
-	$: canCleanSlate = resultOrFalse(canCleanSlateScroll, gear);
-	$: canInnocent = resultOrFalse(canInnocentScroll, gear);
-	$: canArkInnocent = resultOrFalse(canArkInnocentScroll, gear);
-
 	$: onlyUpgrade = resultOrFalse(isOnlyUpgradeGear, gear);
 	let hasOnlyScroll: boolean;
-
-	function hammer() {
-		if (!gear) return;
-		gear = doGoldHammer(gear);
-	}
-
-	function fail() {
-		if (!gear) return;
-		gear = doFailScroll(gear);
-	}
-
-	function cleanSlate() {
-		if (!gear) return;
-		gear = doCleanSlateScroll(gear);
-	}
-
-	function innocent() {
-		if (!gear) return;
-		gear = doInnocentScroll(gear);
-	}
-
-	function arkInnocent() {
-		if (!gear) return;
-		gear = doArkInnocentScroll(gear);
-	}
 
 	let scrollType = 0;
 	$: {
@@ -72,32 +28,7 @@
 <div class="upgrade">
 	{#if can && gear}
 		<div class="upgrade__common">
-			<Row>
-				<Column>
-					<div class="common-buttons">
-						<CommonButton on:click={hammer} disabled={!canHammer}>
-							<div class="common-button__icon common-button__icon--hammer" />
-							황금 망치
-						</CommonButton>
-						<CommonButton on:click={fail} disabled={!canFail}>
-							<div class="common-button__icon common-button__icon--fail" />
-							주문서 실패
-						</CommonButton>
-						<CommonButton on:click={cleanSlate} disabled={!canCleanSlate}>
-							<div class="common-button__icon common-button__icon--clean-slate" />
-							순백의 주문서
-						</CommonButton>
-						<CommonButton on:click={innocent} disabled={!canInnocent}>
-							<div class="common-button__icon common-button__icon--innocent" />
-							이노센트
-						</CommonButton>
-						<CommonButton on:click={arkInnocent} disabled={!canArkInnocent}>
-							<div class="common-button__icon common-button__icon--ark-innocent" />
-							아크 이노센트
-						</CommonButton>
-					</div>
-				</Column>
-			</Row>
+			<CommonButtons bind:gear />
 		</div>
 
 		<div class="upgrade__scroll-type">
@@ -148,56 +79,6 @@
 <style>
 	.upgrade {
 		margin-top: var(--cds-spacing-05);
-	}
-
-	.common-buttons {
-		display: grid;
-		grid-template-columns: repeat(5, 1fr);
-	}
-	@media (max-width: 32rem) {
-		.common-buttons {
-			grid-template-columns: 1fr;
-		}
-	}
-
-	* button[disabled] .common-button__icon {
-		filter: grayscale(1) contrast(0.5) brightness(1.3);
-	}
-
-	.common-button__icon--hammer {
-		background-image: url(../images/upgrade/goldenHammer.png);
-		width: 30px;
-		height: 29px;
-		margin-top: 3px;
-		margin-left: 3px;
-	}
-	.common-button__icon--clean-slate {
-		background-image: url(../images/upgrade/cleanSlate.png);
-		width: 30px;
-		height: 26px;
-		margin-top: 4px;
-		margin-left: 2px;
-	}
-	.common-button__icon--fail {
-		background-image: url(../images/upgrade/fail.png);
-		width: 30px;
-		height: 26px;
-		margin-top: 4px;
-		margin-left: 2px;
-	}
-	.common-button__icon--innocent {
-		background-image: url(../images/upgrade/innocent.png);
-		width: 30px;
-		height: 26px;
-		margin-top: 4px;
-		margin-left: 2px;
-	}
-	.common-button__icon--ark-innocent {
-		background-image: url(../images/upgrade/arkInnocent.png);
-		width: 30px;
-		height: 26px;
-		margin-top: 4px;
-		margin-left: 2px;
 	}
 
 	.upgrade__scroll-type {
