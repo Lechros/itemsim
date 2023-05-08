@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { Gear, PotentialGrade } from '@malib/gear';
 	import { AspectRatio, Tag } from 'carbon-components-svelte';
-	import type { GearSlot } from './gear-store';
+	import type { GearSlot } from './stores/gear-store';
 
 	export let _slot: GearSlot | undefined;
 
-	export let imgRef: HTMLImageElement | undefined = undefined;
+	export let img: HTMLImageElement | undefined = undefined;
 
 	$: gear = _slot?.gear;
 
@@ -39,7 +39,7 @@
 					margin-left: {1 - gear.icon.origin[0]}px;
 					margin-top: {33 - gear.icon.origin[1]}px;
 					pointer-events: none"
-				bind:this={imgRef}
+				bind:this={img}
 			/>
 			<div class="star-wrapper">
 				{#if gear.star > 0}

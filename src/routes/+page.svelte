@@ -1,60 +1,37 @@
 <script lang="ts">
+	import Enchant from '$lib/enchant/Enchant.svelte';
 	import GearTooltip from '$lib/gear-tooltip/GearTooltip.svelte';
+	import ImportGear from '$lib/import-gear/ImportGear.svelte';
+	import Inventory from '$lib/inventory/Inventory.svelte';
 	import { plainToGear, type Gear, type GearLike } from '@malib/gear';
 	import {
 		Button,
 		Column,
 		ComposedModal,
-		Content,
 		Grid,
-		Modal,
 		ModalBody,
 		ModalFooter,
 		ModalHeader,
-		Row,
-		SelectableTile
+		Row
 	} from 'carbon-components-svelte';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import Close from 'carbon-icons-svelte/lib/Close.svelte';
 	import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 	import Upload from 'carbon-icons-svelte/lib/Upload.svelte';
 	import AddGear from '../lib/enchant/components/AddGear.svelte';
-	import InvSlot from '../lib/inventory/InvSlotContent.svelte';
-	import { gear, inventory, lastAdd, selected, type GearSlot, meta } from '../lib/inventory/stores/gear-store';
-	import Enchant from '$lib/enchant/Enchant.svelte';
-	import ImportGear from '$lib/import-gear/ImportGear.svelte';
+	import { gear, inventory, lastAdd, meta, selected } from '../lib/inventory/stores/gear-store';
 
 	const TRANSLATION_DURATION = 240;
 
-	/* inventory */
-	$: gearCount = $inventory.reduce((count, slot) => (slot ? count + 1 : count), 0);
-
-	let neverSelected = false;
-	$: if (neverSelected) neverSelected = false;
-
-	/* inventory: drag */
-	let dragIndex = -1;
-
-	$: if (dragIndex > -1) setCursorGear(undefined);
-
-	let imgRefs: (HTMLImageElement | undefined)[] = [];
-
-	const addHover = (target: EventTarget | null) => {
-		if (!target) return;
-		const _target = target as HTMLDivElement;
-		if (_target.classList.contains('dropzone')) {
-			_target.classList.add('inv-draghover');
-		}
-	};
-	const removeHover = (target: EventTarget | null) => {
-		if (!target) return;
-		const _target = target as HTMLDivElement;
-		if (_target.classList.contains('dropzone')) {
-			_target.classList.remove('inv-draghover');
-		}
-	};
-
 	let importOpen = false;
+
+	/* inventory */
+	let inventoryMode: 'default' | 'delete' = 'default';
+	let deleteIndexes: Set<number> = new Set();
+	let deleteSelected: () => void;
+	let deselect: () => void;
+
+	$: gearCount = $inventory.reduce((count, slot) => (slot ? count + 1 : count), 0);
 
 	/* inventory: add */
 	let addGear: AddGear;
@@ -80,42 +57,42 @@
 		}
 	}
 
-	/* inventory: delete */
-	let deleteMode = false;
-	let toDelete = new Set<number>();
-	let lastDeleted = 0;
+	let inventoryDragging = false;
 
-	function deleteItems() {
-		lastDeleted = toDelete.size;
-		for (const idx of toDelete) {
-			inventory.remove(idx);
-		}
-	}
+	/* mouse hover tooltip */
+	let hoverGear: Gear | undefined;
+	let hoverTooltip: HTMLDivElement | undefined;
+	let pageWidth = 0,
+		windowHeight = 0;
+	let mousePosition = { x: 0, y: 0 };
 
-	/* mouse cursor tooltip */
-	let innerWidth = 0,
-		innerHeight = 0;
-	let cursorTooltip: HTMLDivElement;
+	$: hoverTooltipPos = getHoverTooltipPos(
+		mousePosition.x,
+		mousePosition.y,
+		hoverTooltip?.clientWidth ?? 0,
+		hoverTooltip?.clientHeight ?? 0,
+		pageWidth,
+		windowHeight
+	);
 
-	let cursorGear: Gear | undefined;
-
-	function setCursorGear(gear: Gear | undefined) {
-		cursorGear = gear;
-	}
-
-	let m = { x: 0, y: 0 };
-
-	function handleMousemove(event: MouseEvent) {
-		if (cursorTooltip) {
-			m.x = Math.max(0, Math.min(event.clientX, innerWidth - cursorTooltip.clientWidth));
-			m.y = Math.max(0, Math.min(event.clientY, innerHeight - cursorTooltip.clientHeight));
-		}
+	function getHoverTooltipPos(
+		mouseX: number,
+		mouseY: number,
+		tooltipWidth: number,
+		tooltipHeight: number,
+		outerWidth: number,
+		outerHeight: number
+	) {
+		return {
+			x: Math.max(0, Math.min(mouseX, outerWidth - tooltipWidth)),
+			y: Math.max(0, Math.min(mouseY, outerHeight - tooltipHeight))
+		};
 	}
 </script>
 
-<svelte:window bind:innerHeight />
+<svelte:window bind:innerHeight={windowHeight} />
 
-<div style="margin-top: 4rem;" on:mousemove={handleMousemove} bind:clientWidth={innerWidth}>
+<div style="margin-top: 4rem;" bind:clientWidth={pageWidth}>
 	<Grid style="max-width: 40rem;">
 		<Row>
 			<Column>
@@ -124,31 +101,23 @@
 				</div>
 			</Column>
 			<Column>
-				{#if deleteMode}
+				{#if inventoryMode === 'delete'}
 					<div class="inv-buttons md">
 						<Button
 							kind="danger"
 							icon={TrashCan}
-							disabled={toDelete.size === 0}
-							on:click={() => {
-								deleteItems();
-								if (gearCount === toDelete.size) {
-									deleteMode = false;
-								}
-								toDelete.clear();
-								toDelete = toDelete;
-							}}
+							disabled={deleteIndexes.size === 0}
+							on:click={deleteSelected}
 						>
-							아이템 {toDelete.size}개 삭제
+							아이템 {deleteIndexes.size}개 삭제
 						</Button>
 						<Button
 							kind="secondary"
 							icon={Close}
 							iconDescription="취소"
 							on:click={() => {
-								deleteMode = false;
-								toDelete.clear();
-								toDelete = toDelete;
+								inventoryMode = 'default'
+								deselect();
 							}}
 						/>
 					</div>
@@ -157,24 +126,16 @@
 							kind="danger"
 							icon={TrashCan}
 							iconDescription="아이템 삭제"
-							disabled={toDelete.size === 0}
-							on:click={() => {
-								deleteItems();
-								if (gearCount === toDelete.size) {
-									deleteMode = false;
-								}
-								toDelete.clear();
-								toDelete = toDelete;
-							}}
+							disabled={deleteIndexes.size === 0}
+							on:click={deleteSelected}
 						/>
 						<Button
 							kind="secondary"
 							icon={Close}
 							iconDescription="취소"
 							on:click={() => {
-								deleteMode = false;
-								toDelete.clear();
-								toDelete = toDelete;
+								inventoryMode = 'default'
+								deselect();
 							}}
 						/>
 					</div>
@@ -192,7 +153,7 @@
 							icon={TrashCan}
 							iconDescription="삭제"
 							disabled={gearCount === 0}
-							on:click={() => (deleteMode = true)}
+							on:click={() => (inventoryMode = 'delete')}
 						/>
 					</div>
 					<div class="inv-buttons sm">
@@ -208,84 +169,25 @@
 							icon={TrashCan}
 							iconDescription="삭제"
 							disabled={gearCount === 0}
-							on:click={() => (deleteMode = true)}
+							on:click={() => (inventoryMode = 'delete')}
 						/>
 					</div>
 				{/if}
 			</Column>
 		</Row>
-		<Row>
-			<Column>
-				<div class="inventory">
-					{#each $inventory as slot, i}
-						{#if !deleteMode}
-							<button
-								class="dropzone bx--tile bx--tile--selectable"
-								class:bx--tile--disabled={!slot}
-								disabled={!slot}
-								on:click={() => {
-									if (slot) inventory.select(i);
-								}}
-								on:mouseenter={() => setCursorGear(slot?.gear)}
-								on:mouseleave={() => setCursorGear(undefined)}
-								draggable="true"
-								on:dragstart={(e) => {
-									dragIndex = i;
-									const ref = imgRefs[i];
-									if (e.dataTransfer) {
-										e.dataTransfer.effectAllowed = 'move';
-										if (ref) e.dataTransfer.setDragImage(ref, 16, 16);
-									}
-								}}
-								on:dragend={() => (dragIndex = -1)}
-								on:dragover={(e) => {
-									if (dragIndex !== i) e.preventDefault();
-								}}
-								on:dragenter={(e) => {
-									addHover(e.target);
-									if (dragIndex !== i) e.preventDefault();
-								}}
-								on:dragleave={(e) => {
-									removeHover(e.target);
-									e.preventDefault();
-								}}
-								on:drop={(e) => {
-									removeHover(e.target);
-									inventory.swap(dragIndex, i);
-									dragIndex = -1;
-								}}
-								style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
-							>
-								<InvSlot _slot={slot} bind:imgRef={imgRefs[i]} />
-							</button>
-						{:else}
-							<SelectableTile
-								draggable="false"
-								disabled={!slot}
-								selected={toDelete.has(i)}
-								on:select={() => {
-									toDelete.add(i);
-									toDelete = toDelete;
-								}}
-								on:deselect={() => {
-									toDelete.delete(i);
-									toDelete = toDelete;
-								}}
-								on:mouseenter={() => setCursorGear(slot?.gear)}
-								on:mouseleave={() => setCursorGear(undefined)}
-								style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
-							>
-								<InvSlot _slot={slot} />
-							</SelectableTile>
-						{/if}
-					{/each}
-				</div>
-			</Column>
-		</Row>
+		<Inventory
+			bind:mode={inventoryMode}
+			bind:mousePosition
+			bind:hoveringGear={hoverGear}
+			bind:dragging={inventoryDragging}
+			bind:deleteIndexes
+			bind:deleteGears={deleteSelected}
+			bind:deselectAll={deselect}
+		/>
 	</Grid>
 </div>
 
-<ImportGear bind:open={importOpen} addGear={inventory.addSlot}/>
+<ImportGear bind:open={importOpen} addGear={inventory.addSlot} />
 
 <!-- add modal -->
 <ComposedModal
@@ -336,28 +238,17 @@
 	resetMeta={meta.reset}
 />
 
-<div class="cursor-tooltip" style="top: {m.y}px; left: {m.x}px;" bind:this={cursorTooltip}>
-	{#if cursorGear && cursorGear.itemID > 0}
-		<GearTooltip gear={cursorGear} />
+<div
+	class="cursor-tooltip"
+	style="top: {hoverTooltipPos.y}px; left: {hoverTooltipPos.x}px;"
+	bind:this={hoverTooltip}
+>
+	{#if hoverGear && !inventoryDragging}
+		<GearTooltip gear={hoverGear} />
 	{/if}
 </div>
 
 <style>
-	.inventory {
-		margin-top: var(--cds-spacing-05);
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		gap: var(--cds-spacing-05);
-	}
-
-	@media (max-width: 32rem) {
-		.inventory {
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			gap: var(--cds-spacing-05);
-		}
-	}
-
 	.inv-buttons {
 		display: flex;
 		justify-content: right;
