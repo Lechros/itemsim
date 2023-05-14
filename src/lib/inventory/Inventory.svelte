@@ -4,7 +4,7 @@
 	import InventorySlot from './InventorySlot.svelte';
 	import { inventory } from './stores/gear-store';
 
-	export let mode: 'default' | 'delete' = 'default';
+	export let mode: 'default' | 'remove' = 'default';
 	export let isDragging = false;
 	export let hoveringGear: Gear | undefined = undefined;
 	export let selectedIndexes: Set<number> = new Set();

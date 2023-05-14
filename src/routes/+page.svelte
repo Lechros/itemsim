@@ -21,7 +21,7 @@
 
 	let selectedIndexes: Set<number> = new Set();
 
-	let inventoryMode: 'default' | 'delete' = 'default';
+	let inventoryMode: 'default' | 'remove' = 'default';
 
 	let createOpen = false;
 
@@ -55,14 +55,14 @@
 								icon={TrashCan}
 								iconDescription="삭제"
 								disabled={gearCount === 0}
-								on:click={() => (inventoryMode = 'delete')}
+								on:click={() => (inventoryMode = 'remove')}
 							/>
-						{:else if inventoryMode === 'delete'}
+						{:else if inventoryMode === 'remove'}
 							<Button
 								kind="danger"
 								icon={TrashCan}
 								disabled={selectedIndexes.size === 0}
-								on:click={inventoryComponent.deleteGears}
+								on:click={inventoryComponent.removeSelected}
 							>
 								아이템 {selectedIndexes.size}개 삭제
 							</Button>
