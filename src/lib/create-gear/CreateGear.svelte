@@ -190,7 +190,11 @@
 >
 	<div class="create-gear">
 		<div class="create-gear__search">
-			<Search placeholder="ex) {getRandomItem()}" bind:value={name} />
+			<Search placeholder="ex) {getRandomItem()}" bind:value={name} on:keydown={(e) => {
+                if(e.code === "Escape" && name.length > 0) {
+                    e.stopPropagation();
+                }
+            }} />
 		</div>
 
 		<div class="create-gear__jobs">
