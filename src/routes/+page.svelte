@@ -1,10 +1,10 @@
 <script lang="ts">
-	import CreateGear from '$lib/create-gear/CreateGear.svelte';
-	import Enchant from '$lib/enchant/Enchant.svelte';
+	import CreateGearModal from '$lib/create-gear/CreateGearModal.svelte';
+	import EnchantModal from '$lib/enchant/EnchantModal.svelte';
 	import FollowBoundary from '$lib/follow-cursor/FollowBoundary.svelte';
 	import FollowCursor from '$lib/follow-cursor/FollowCursor.svelte';
 	import GearTooltip from '$lib/gear-tooltip/GearTooltip.svelte';
-	import ImportGear from '$lib/import-gear/ImportGear.svelte';
+	import ImportGearModal from '$lib/import-gear/ImportGearModal.svelte';
 	import Inventory from '$lib/inventory/Inventory.svelte';
 	import type { Gear } from '@malib/gear';
 	import { Button, Column, Grid, Row } from 'carbon-components-svelte';
@@ -96,11 +96,11 @@
 	{/if}
 </FollowCursor>
 
-<ImportGear bind:open={importOpen} addGear={inventory.addSlot} />
+<ImportGearModal bind:open={importOpen} addGear={inventory.addSlot} />
 
-<CreateGear bind:open={createOpen} addGear={inventory.add} />
+<CreateGearModal bind:open={createOpen} addGear={inventory.add} />
 
-<Enchant
+<EnchantModal
 	bind:gear={$gear}
 	bind:meta={$meta}
 	deselectGear={inventory.deselect}
