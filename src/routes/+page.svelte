@@ -1,66 +1,31 @@
 <script lang="ts">
+	import CreateGear from '$lib/create-gear/CreateGear.svelte';
 	import Enchant from '$lib/enchant/Enchant.svelte';
 	import FollowBoundary from '$lib/follow-cursor/FollowBoundary.svelte';
 	import FollowCursor from '$lib/follow-cursor/FollowCursor.svelte';
 	import GearTooltip from '$lib/gear-tooltip/GearTooltip.svelte';
 	import ImportGear from '$lib/import-gear/ImportGear.svelte';
 	import Inventory from '$lib/inventory/Inventory.svelte';
-	import { plainToGear, type Gear, type GearLike } from '@malib/gear';
-	import {
-		Button,
-		Column,
-		ComposedModal,
-		Grid,
-		ModalBody,
-		ModalFooter,
-		ModalHeader,
-		Row
-	} from 'carbon-components-svelte';
+	import type { Gear } from '@malib/gear';
+	import { Button, Column, Grid, Row } from 'carbon-components-svelte';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import Close from 'carbon-icons-svelte/lib/Close.svelte';
 	import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 	import Upload from 'carbon-icons-svelte/lib/Upload.svelte';
-	import AddGear from '../lib/enchant/components/AddGear.svelte';
-	import { gear, inventory, lastAdd, meta, selected } from '../lib/inventory/stores/gear-store';
-
-	const TRANSLATION_DURATION = 240;
+	import { gear, inventory, meta, selected } from '../lib/inventory/stores/gear-store';
 
 	let importOpen = false;
 
 	/* inventory */
 	let inventoryComponent: Inventory;
 
-	let inventoryMode: 'default' | 'delete' = 'default';
 	let deleteIndexes: Set<number> = new Set();
 
+	let inventoryMode: 'default' | 'delete' = 'default';
+
+	let createOpen = false;
+
 	$: gearCount = $inventory.reduce((count, slot) => (slot ? count + 1 : count), 0);
-
-	/* inventory: add */
-	let addGear: AddGear;
-	let addOpen = false;
-	let addIds: Map<number, GearLike> = new Map();
-
-	function addItems(ids: Map<number, GearLike>) {
-		for (const gearLike of ids.values()) {
-			const gear = plainToGear(gearLike);
-			if (!gear) continue;
-			inventory.add(gear);
-		}
-		addGear.resetSelected();
-	}
-
-	function getAddMessage(ids: Map<number, GearLike>, count: number) {
-		if (count > 1) {
-			return `선택한 아이템 ${count}개 추가`;
-		} else if (count === 1) {
-			return `'${ids.values().next().value.n}' 추가`;
-		} else {
-			return '선택한 아이템이 없습니다';
-		}
-	}
-
-	// TODO: seperate file for add gear component
-	// TODO: follow mouse utility component (with slot)
 
 	let inventoryDragging = false;
 
@@ -83,7 +48,7 @@
 							iconDescription="가져오기"
 							on:click={() => (importOpen = true)}
 						/>
-						<Button icon={Add} on:click={() => (addOpen = true)}>아이템 추가</Button>
+						<Button icon={Add} on:click={() => (createOpen = true)}>아이템 추가</Button>
 						<Button
 							kind="danger"
 							icon={TrashCan}
@@ -117,9 +82,9 @@
 	<FollowBoundary>
 		<Inventory
 			bind:mode={inventoryMode}
+			bind:deleteIndexes
 			bind:hoveringGear={hoverGear}
 			bind:dragging={inventoryDragging}
-			bind:deleteIndexes
 			bind:this={inventoryComponent}
 		/>
 	</FollowBoundary>
@@ -133,46 +98,7 @@
 
 <ImportGear bind:open={importOpen} addGear={inventory.addSlot} />
 
-<!-- add modal -->
-<ComposedModal
-	bind:open={addOpen}
-	size="sm"
-	selectorPrimaryFocus="input"
-	on:close={() => {
-		setTimeout(() => {
-			addGear.resetSearchValue();
-			addGear.resetSelected();
-		}, TRANSLATION_DURATION);
-	}}
-	on:submit={() => {
-		addItems(addIds);
-		addOpen = false;
-		if (addIds.size === 1) {
-			inventory.select($lastAdd);
-		}
-		setTimeout(() => {
-			addGear.resetSearchValue();
-			addGear.resetSelected();
-		}, TRANSLATION_DURATION);
-	}}
->
-	<ModalHeader title="아이템 추가" />
-	<ModalBody hasForm hasScrollingContent tabindex={-1}>
-		<AddGear bind:selectedIds={addIds} bind:this={addGear} />
-	</ModalBody>
-	<ModalFooter
-		primaryButtonText={getAddMessage(addIds, addIds.size)}
-		primaryButtonDisabled={addIds.size === 0}
-		secondaryButtonText="취소"
-		on:click:button--secondary={() => {
-			addOpen = false;
-			setTimeout(() => {
-				addGear.resetSearchValue();
-				addGear.resetSelected();
-			}, TRANSLATION_DURATION);
-		}}
-	/>
-</ComposedModal>
+<CreateGear bind:open={createOpen} addGear={inventory.add} />
 
 <Enchant
 	bind:gear={$gear}
