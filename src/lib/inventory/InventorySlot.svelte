@@ -43,7 +43,7 @@
 			<div class="slot__enchant">
 				{#if gear.star > 0}
 					<Tag size="sm" type="high-contrast">
-						<div class="slot__star">
+						<div class="slot__star-content">
 							<div
 								class="slot__star-icon"
 								class:slot__star-icon--amazing={gear.amazing}
@@ -54,7 +54,9 @@
 				{/if}
 				{#if gear.upgradeCount > 0}
 					<Tag size="sm">
-						+{gear.upgradeCount}
+						<div class="slot__upgrade-content">
+							+{gear.upgradeCount}
+						</div>
 					</Tag>
 				{/if}
 			</div>
@@ -86,10 +88,10 @@
 		left: calc(var(--cds-spacing-03) * -1);
 	}
 
-	.slot__star {
+	.slot__star-content {
 		display: flex;
-		font-size: 12px;
 		align-items: center;
+		line-height: normal;
 	}
 
 	.slot__star-icon {
@@ -99,6 +101,10 @@
 	}
 	.slot__star-icon--amazing {
 		background-image: url(./images/star-amazing.png);
+	}
+
+	.slot__upgrade-content {
+		line-height: normal;
 	}
 
 	.slot__grades {
