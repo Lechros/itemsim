@@ -60,7 +60,7 @@
 		<div class="manage__buttons">
 			<Row>
 				<Column>
-					<Button disabled on:click={() => {}}>열기</Button>
+					<Button disabled>열기</Button>
 					<p>준비 중입니다</p>
 				</Column>
 			</Row>

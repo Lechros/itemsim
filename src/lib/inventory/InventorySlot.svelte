@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Gear, PotentialGrade } from '@malib/gear';
+	import { PotentialGrade } from '@malib/gear';
 	import { AspectRatio, Tag } from 'carbon-components-svelte';
 	import type { GearSlot } from './stores/gear-store';
 
@@ -44,10 +44,7 @@
 				{#if gear.star > 0}
 					<Tag size="sm" type="high-contrast">
 						<div class="slot__star-content">
-							<div
-								class="slot__star-icon"
-								class:slot__star-icon--amazing={gear.amazing}
-							/>
+							<div class="slot__star-icon" class:slot__star-icon--amazing={gear.amazing} />
 							{gear.star}
 						</div>
 					</Tag>

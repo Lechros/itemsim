@@ -3,7 +3,7 @@
 	import { getAttackSpeedString, getGearTypeString } from '../strings';
 
 	export let type: GearType;
-	export let attackSpeed: number = 0;
+	export let attackSpeed = 0;
 </script>
 
 {#if Gear.isWeapon(type)}

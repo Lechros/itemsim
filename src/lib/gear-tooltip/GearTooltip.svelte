@@ -25,44 +25,44 @@
 	/**
 	 * 캐릭터 레벨. 기본값은 `300`입니다. REQ LEV을 표시하는데 사용됩니다.
 	 */
-	export let characterLevel: number = 300;
+	export let characterLevel = 300;
 	/**
 	 * 캐릭터 STR. 기본값은 `900`입니다. REQ LEV을 표시하는데 사용됩니다.
 	 */
-	export let characterSTR: number = 900;
+	export let characterSTR = 900;
 	/**
 	 * 캐릭터 DEX. 기본값은 `900`입니다. REQ DEX을 표시하는데 사용됩니다.
 	 */
-	export let characterDEX: number = 900;
+	export let characterDEX = 900;
 	/**
 	 * 캐릭터 INT. 기본값은 `900`입니다. REQ INT을 표시하는데 사용됩니다.
 	 */
-	export let characterINT: number = 900;
+	export let characterINT = 900;
 	/**
 	 * 캐릭터 LUK. 기본값은 `900`입니다. REQ LUK을 표시하는데 사용됩니다.
 	 */
-	export let characterLUK: number = 900;
+	export let characterLUK = 900;
 	/**
 	 * 캐릭터 직업. 기본값은 `31`입니다. 착용 가능 직업을 표시하는데 사용됩니다.
 	 * 초보자는 `0`, 전사는 `1`, 마법사는 `2`, 궁수는 `4`, 도적은 `8`, 해적은 `16`이고 해당하는 직업 분류의 합으료 나타냅니다.
 	 */
-	export let characterJob: number = 0x1f;
+	export let characterJob = 0x1f;
 	/**
 	 * 장비의 공격력 증가량입니다. 기본값은 `0`입니다.
 	 */
-	export let incline: number = 0;
+	export let incline = 0;
 	/**
 	 * 장비의 방어력 차이입니다. 기본값은 `0`입니다.
 	 */
-	export let pddDiff: number = 0;
+	export let pddDiff = 0;
 	/**
 	 * 장비의 보스 공격 시 데미지 차이입니다. 기본값은 `0`입니다.
 	 */
-	export let bdrDiff: number = 0;
+	export let bdrDiff = 0;
 	/**
 	 * 장비의 몬스터 방어율 무시 차이입니다. 기본값은 `0`입니다.
 	 */
-	export let imdrDiff: number = 0;
+	export let imdrDiff = 0;
 
 	export let ref: HTMLDivElement | undefined = undefined;
 

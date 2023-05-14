@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GearPropType, PotentialGrade } from '@malib/gear';
+	import { PotentialGrade } from '@malib/gear';
 	import { getGradeString } from '../strings';
 
 	export let grade: PotentialGrade;

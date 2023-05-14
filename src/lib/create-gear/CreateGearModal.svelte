@@ -1,13 +1,9 @@
 <script lang="ts">
 	import { plainToGear, type Gear, type GearLike } from '@malib/gear';
 	import {
-		ComposedModal,
 		ContentSwitcher,
 		Link,
 		Modal,
-		ModalBody,
-		ModalFooter,
-		ModalHeader,
 		Search,
 		SelectableTile,
 		Switch,
@@ -15,7 +11,6 @@
 	} from 'carbon-components-svelte';
 	import { throttle } from '../../routes/util';
 	import StringMatch from './StringMatch.svelte';
-	import { selected } from '$lib/inventory/stores/gear-store';
 
 	export let open = false;
 
@@ -26,9 +21,9 @@
 
 	export const DELAY = 240;
 
-    const SEARCH_EMPTY_MSG = '검색어를 입력해 주세요.';
-    const SEARCH_NO_ITEM_MSG = '검색된 아이템이 없습니다.'
-    const SEARCH_SERVER_ERROR_MSG = '아이템 서버에 접속할 수 없습니다.'
+	const SEARCH_EMPTY_MSG = '검색어를 입력해 주세요.';
+	const SEARCH_NO_ITEM_MSG = '검색된 아이템이 없습니다.';
+	const SEARCH_SERVER_ERROR_MSG = '아이템 서버에 접속할 수 없습니다.';
 
 	let name = '';
 	let job = 0;
@@ -71,7 +66,7 @@
 	let emptyAssignTimer: NodeJS.Timeout; // delay showing empty results caused by entering 한글 input
 
 	function getGearData(input: string) {
-        // abort previous request
+		// abort previous request
 		if (controller) controller.abort();
 		controller = new AbortController();
 
@@ -86,7 +81,7 @@
 								response = json;
 							}, 200);
 						} else {
-                            clearTimeout(emptyAssignTimer);
+							clearTimeout(emptyAssignTimer);
 							response = json;
 							currentShow = DEFAULT_SHOW;
 						}
@@ -190,11 +185,15 @@
 >
 	<div class="create-gear">
 		<div class="create-gear__search">
-			<Search placeholder="ex) {getRandomItem()}" bind:value={name} on:keydown={(e) => {
-                if(e.code === "Escape" && name.length > 0) {
-                    e.stopPropagation();
-                }
-            }} />
+			<Search
+				placeholder="ex) {getRandomItem()}"
+				bind:value={name}
+				on:keydown={(e) => {
+					if (e.code === 'Escape' && name.length > 0) {
+						e.stopPropagation();
+					}
+				}}
+			/>
 		</div>
 
 		<div class="create-gear__jobs">
@@ -253,9 +252,9 @@
 		margin-top: var(--cds-spacing-05);
 	}
 
-    .create-gear__gears {
-        margin-top: var(--cds-spacing-05);
-    }
+	.create-gear__gears {
+		margin-top: var(--cds-spacing-05);
+	}
 
 	.create-gear__gear:not(:first-child) {
 		border-top: 1px solid var(--cds-border-subtle);

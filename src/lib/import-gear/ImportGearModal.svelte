@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { FileUploaderButton, FileUploaderItem, Modal, TextArea } from 'carbon-components-svelte';
-	import { gearMetaFromEncodedURIComponent, gearMetaFromBase64 } from '$lib/import';
+	import { gearMetaFromBase64, gearMetaFromEncodedURIComponent } from '$lib/import';
 	import type { GearSlot } from '$lib/inventory/stores/gear-store';
+	import { FileUploaderButton, FileUploaderItem, Modal, TextArea } from 'carbon-components-svelte';
 
 	export let open = false;
 
@@ -17,7 +17,7 @@
 	let fileStates: Map<string, 'complete' | 'error'> = new Map();
 	let fileGears: Map<string, GearSlot> = new Map();
 
-    $: canImport = inputGear || fileGears.size > 0;
+	$: canImport = inputGear || fileGears.size > 0;
 
 	function addGears() {
 		if (inputGear) {
@@ -40,13 +40,13 @@
 				.then((value) => {
 					const gear = gearMetaFromEncodedURIComponent(value);
 					if (gear) {
-                        fileGears.set(file.name, gear);
+						fileGears.set(file.name, gear);
 						fileGears = fileGears;
 						fileStates.set(file.name, 'complete');
 					} else {
 						fileStates.set(file.name, 'error');
 					}
-                    fileStates = fileStates;
+					fileStates = fileStates;
 				})
 				.catch();
 		}
@@ -60,8 +60,8 @@
 	function resetAll() {
 		inputString = '';
 		files = [];
-        fileGears.clear();
-        fileGears = fileGears;
+		fileGears.clear();
+		fileGears = fileGears;
 	}
 
 	function getSubmitText(inputGear: GearSlot | null, fileGears: Map<string, GearSlot>) {
@@ -104,22 +104,22 @@
 	on:close={closeAndReset}
 >
 	<div class="import">
-        <div class="import__string">
-            {#if files.length === 0}
-                <TextArea
-                    labelText="아이템 정보"
-                    placeholder="아이템 정보를 붙여넣기해 주세요."
-                    invalid={inputInvalid}
-                    invalidText="잘못된 값입니다."
-                    bind:value={inputString}
-                />
-                <div class="import__string-preview">
-                    {#if inputGear}
-                        <h6>{inputGear.gear.name}</h6>
-                    {/if}
-                </div>
-            {/if}
-        </div>
+		<div class="import__string">
+			{#if files.length === 0}
+				<TextArea
+					labelText="아이템 정보"
+					placeholder="아이템 정보를 붙여넣기해 주세요."
+					invalid={inputInvalid}
+					invalidText="잘못된 값입니다."
+					bind:value={inputString}
+				/>
+				<div class="import__string-preview">
+					{#if inputGear}
+						<h6>{inputGear.gear.name}</h6>
+					{/if}
+				</div>
+			{/if}
+		</div>
 		<div class="import__upload">
 			<p class:bx--label-description={true}>
 				{files.length === 0 ? '또는 파일 업로드' : '파일 업로드'}
@@ -146,11 +146,11 @@
 </Modal>
 
 <style>
-    .import__string-preview {
-        margin-top: var(--cds-spacing-03);
-    }
+	.import__string-preview {
+		margin-top: var(--cds-spacing-03);
+	}
 
-    .import__upload {
-        margin-top: var(--cds-spacing-05);
-    }
+	.import__upload {
+		margin-top: var(--cds-spacing-05);
+	}
 </style>

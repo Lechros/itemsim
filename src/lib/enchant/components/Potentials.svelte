@@ -39,7 +39,10 @@
 	function onOptionChange(index: number) {
 		if (!gear) return;
 
-		gear.potentials[index] = createPotentialFromCode(gearCodes[index], potentialLevel)!;
+		const potential = createPotentialFromCode(gearCodes[index], potentialLevel);
+		if (potential) {
+			gear.potentials[index] = potential;
+		}
 	}
 
 	function onAddGradeChange() {
@@ -54,10 +57,10 @@
 	function onAddOptionChange(index: number) {
 		if (!gear) return;
 
-		gear.additionalPotentials[index] = createPotentialFromCode(
-			gearAddCodes[index],
-			potentialLevel
-		)!;
+		const potential = createPotentialFromCode(gearAddCodes[index], potentialLevel);
+		if (potential) {
+			gear.additionalPotentials[index] = potential;
+		}
 	}
 </script>
 

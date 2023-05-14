@@ -1,7 +1,7 @@
 <script lang="ts">
-	export let pddDiff: number = 0;
-	export let bdrDiff: number = 0;
-	export let imdrDiff: number = 0;
+	export let pddDiff = 0;
+	export let bdrDiff = 0;
+	export let imdrDiff = 0;
 
 	function diffToString(diff: number): string {
 		const abs = Math.abs(diff);

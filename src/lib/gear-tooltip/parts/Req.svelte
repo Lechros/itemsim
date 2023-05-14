@@ -2,7 +2,7 @@
 	import type { GearReq } from '@malib/gear';
 
 	export let req: GearReq;
-	export let reduceReq: number = 0;
+	export let reduceReq = 0;
 	export let characterLevel: number;
 	export let characterSTR: number;
 	export let characterDEX: number;
