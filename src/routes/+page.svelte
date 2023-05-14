@@ -19,18 +19,18 @@
 	/* inventory */
 	let inventoryComponent: Inventory;
 
-	let deleteIndexes: Set<number> = new Set();
+	let selectedIndexes: Set<number> = new Set();
 
 	let inventoryMode: 'default' | 'delete' = 'default';
 
 	let createOpen = false;
 
-	$: gearCount = $inventory.reduce((count, slot) => (slot ? count + 1 : count), 0);
+	$: gearCount = $inventory.reduce((count, info) => (info ? count + 1 : count), 0);
 
 	let inventoryDragging = false;
 
 	/* mouse hover tooltip */
-	let hoverGear: Gear | undefined;
+	let hoveringGear: Gear | undefined;
 </script>
 
 <Grid style="max-width: 40rem; margin-top: 2rem">
@@ -60,10 +60,10 @@
 						<Button
 							kind="danger"
 							icon={TrashCan}
-							disabled={deleteIndexes.size === 0}
+							disabled={selectedIndexes.size === 0}
 							on:click={inventoryComponent.deleteGears}
 						>
-							아이템 {deleteIndexes.size}개 삭제
+							아이템 {selectedIndexes.size}개 삭제
 						</Button>
 						<Button
 							kind="secondary"
@@ -82,23 +82,23 @@
 	<FollowBoundary>
 		<Inventory
 			bind:mode={inventoryMode}
-			bind:deleteIndexes
-			bind:hoveringGear={hoverGear}
-			bind:dragging={inventoryDragging}
+			bind:selectedIndexes
+			bind:hoveringGear
+			bind:isDragging={inventoryDragging}
 			bind:this={inventoryComponent}
 		/>
 	</FollowBoundary>
 </Grid>
 
 <FollowCursor bound="viewport">
-	{#if hoverGear && !inventoryDragging}
-		<GearTooltip gear={hoverGear} />
+	{#if hoveringGear && !inventoryDragging}
+		<GearTooltip gear={hoveringGear} />
 	{/if}
 </FollowCursor>
 
-<ImportGearModal bind:open={importOpen} addGear={inventory.addSlot} />
+<ImportGearModal bind:open={importOpen} addGear={inventory.add} />
 
-<CreateGearModal bind:open={createOpen} addGear={inventory.add} />
+<CreateGearModal bind:open={createOpen} addGear={inventory.addGear} />
 
 <EnchantModal
 	bind:gear={$gear}

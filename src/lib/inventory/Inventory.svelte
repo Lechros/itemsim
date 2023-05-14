@@ -5,28 +5,28 @@
 	import { inventory } from './stores/gear-store';
 
 	export let mode: 'default' | 'delete' = 'default';
+	export let isDragging = false;
 	export let hoveringGear: Gear | undefined = undefined;
-	export let dragging = false;
-	export let deleteIndexes: Set<number> = new Set();
+	export let selectedIndexes: Set<number> = new Set();
 
 	export function deselectAll() {
-		deleteIndexes.clear();
-		deleteIndexes = deleteIndexes;
+		selectedIndexes.clear();
+		selectedIndexes = selectedIndexes;
 	}
 
-	export function deleteGears() {
-		for (const index of deleteIndexes) {
+	export function removeSelected() {
+		for (const index of selectedIndexes) {
 			inventory.remove(index);
 		}
-		deleteIndexes.clear();
-		deleteIndexes = deleteIndexes;
+		selectedIndexes.clear();
+		selectedIndexes = selectedIndexes;
 	}
 
 	let imgs: (HTMLImageElement | undefined)[] = [];
 	let draggingIndex = -1;
 
 	$: {
-		dragging = draggingIndex >= 0;
+		isDragging = draggingIndex >= 0;
 	}
 
 	function addHoverEffect(target: EventTarget | null) {
@@ -46,21 +46,22 @@
 	}
 </script>
 
-<div class="inventory" class:inventory__slot--drag-hover={false}>
+<div class="inventory">
 	<Row>
 		<Column>
 			<div class="inventory__slots">
 				{#if mode === 'default'}
-					{#each $inventory as slot, i}
+					{#each $inventory as info, i}
 						<button
 							class="inventory__slot inventory__slot--drop-zone bx--tile bx--tile--selectable"
-							class:bx--tile--disabled={!slot}
-							disabled={!slot}
+							class:bx--tile--disabled={!info}
+							class:inventory__slot--drag-hover={false}
+							disabled={!info}
 							draggable="true"
 							on:click={() => {
-								if (slot) inventory.select(i);
+								if (info) inventory.select(i);
 							}}
-							on:mouseenter={() => (hoveringGear = slot?.gear)}
+							on:mouseenter={() => (hoveringGear = info?.gear)}
 							on:mouseleave={() => (hoveringGear = undefined)}
 							on:dragstart={(e) => {
 								draggingIndex = i;
@@ -92,27 +93,27 @@
 								}
 							}}
 						>
-							<InventorySlot _slot={slot} bind:img={imgs[i]} />
+							<InventorySlot {info} bind:img={imgs[i]} />
 						</button>
 					{/each}
 				{:else}
 					{#each $inventory as slot, i}
 						<SelectableTile
-							selected={deleteIndexes.has(i)}
+							selected={selectedIndexes.has(i)}
 							disabled={!slot}
 							on:select={() => {
-								deleteIndexes.add(i);
-								deleteIndexes = deleteIndexes;
+								selectedIndexes.add(i);
+								selectedIndexes = selectedIndexes;
 							}}
 							on:deselect={() => {
-								deleteIndexes.delete(i);
-								deleteIndexes = deleteIndexes;
+								selectedIndexes.delete(i);
+								selectedIndexes = selectedIndexes;
 							}}
 							on:mouseenter={() => (hoveringGear = slot?.gear)}
 							on:mouseleave={() => (hoveringGear = undefined)}
 							style="min-width: 0; padding: calc(var(--cds-spacing-05) - 1px);"
 						>
-							<InventorySlot _slot={slot} />
+							<InventorySlot info={slot} />
 						</SelectableTile>
 					{/each}
 				{/if}

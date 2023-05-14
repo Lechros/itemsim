@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { gearMetaFromBase64, gearMetaFromEncodedURIComponent } from '$lib/import';
-	import type { GearSlot } from '$lib/inventory/stores/gear-store';
+	import type { GearInfo } from '$lib/inventory/stores/gear-store';
 	import { FileUploaderButton, FileUploaderItem, Modal, TextArea } from 'carbon-components-svelte';
 
 	export let open = false;
 
-	export let addGear: (gear: GearSlot) => void;
+	export let addGear: (gear: GearInfo) => void;
 
 	export let DELAY = 240;
 
@@ -15,7 +15,7 @@
 
 	let files: File[] = [];
 	let fileStates: Map<string, 'complete' | 'error'> = new Map();
-	let fileGears: Map<string, GearSlot> = new Map();
+	let fileGears: Map<string, GearInfo> = new Map();
 
 	$: canImport = inputGear || fileGears.size > 0;
 
@@ -64,7 +64,7 @@
 		fileGears = fileGears;
 	}
 
-	function getSubmitText(inputGear: GearSlot | null, fileGears: Map<string, GearSlot>) {
+	function getSubmitText(inputGear: GearInfo | null, fileGears: Map<string, GearInfo>) {
 		if (inputGear) {
 			return `'${inputGear.gear.name}' 추가`;
 		} else if (fileGears.size > 0) {

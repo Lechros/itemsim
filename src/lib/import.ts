@@ -1,8 +1,8 @@
-import { createGearMeta, type GearSlot } from '$lib/inventory/stores/gear-store';
+import { createGearMeta, type GearInfo } from '$lib/inventory/stores/gear-store';
 import { validateParseGear } from '@malib/gear';
 import { decompressFromBase64, decompressFromEncodedURIComponent } from 'lz-string';
 
-export function parseGearMeta(str: string): GearSlot | null {
+export function parseGearMeta(str: string): GearInfo | null {
 	try {
 		const [gearPart, metaPart] = str.split('|');
 		const gear = validateParseGear(gearPart);

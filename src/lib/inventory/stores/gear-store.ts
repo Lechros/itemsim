@@ -9,7 +9,7 @@ import {
 import { writable } from 'svelte/store';
 import { persisted } from 'svelte-local-storage-store';
 
-export type GearInventory = (GearSlot | undefined)[];
+export type GearInventory = (GearInfo | undefined)[];
 
 export type GearMeta = {
 	bonus: {
@@ -18,17 +18,17 @@ export type GearMeta = {
 	}[];
 };
 
-export type GearSlot = {
+export type GearInfo = {
 	gear: Gear;
 	meta: GearMeta;
 };
 
-export type GearSlotLike = {
+export type GearInfoLike = {
 	gear: GearLike;
 	meta: GearMeta;
 };
 
-const createGearSlot = (gear: Gear): GearSlot => {
+const createGearInfo = (gear: Gear): GearInfo => {
 	return {
 		gear,
 		meta: createGearMeta()
@@ -64,14 +64,13 @@ const inventorySerializer = {
 		);
 	},
 	parse: (data: string): GearInventory => {
-		return JSON.parse(data).map((value: GearSlotLike) =>
+		return JSON.parse(data).map((value: GearInfoLike) =>
 			value ? { gear: plainToGear(value.gear), meta: value.meta } : undefined
 		);
 	}
 };
 
 const MAX_INV = 32;
-const LASTADD_DEFAULT = -1;
 const SELECTED_DEFAULT = -1;
 
 const createStore = () => {
@@ -79,8 +78,6 @@ const createStore = () => {
 	const inventory = persisted('gear-inventory-v2', createInventory(), {
 		serializer: inventorySerializer
 	});
-	let _lastAdd = LASTADD_DEFAULT;
-	const lastAdd = writable(_lastAdd);
 	let _selected = SELECTED_DEFAULT;
 	const selected = writable(_selected);
 	let _gear: Gear | undefined = undefined;
@@ -88,52 +85,56 @@ const createStore = () => {
 	let _meta: GearMeta | undefined = undefined;
 	const meta = writable<GearMeta | undefined>(_meta);
 
-	const inventory_add = (gear: Gear) => {
+	const inventory_addGear = (gear: Gear) => {
+		let addIndex = -1;
 		inventory.update((inv) => {
 			for (let i = 0; i < MAX_INV; i++) {
 				if (inv[i] === undefined) {
-					inv[i] = createGearSlot(gear);
-					lastAdd.set(i);
+					inv[i] = createGearInfo(gear);
+					addIndex = i;
 					break;
 				}
 			}
 			return inv;
 		});
+		return addIndex;
 	};
-	const inventory_addSlot = (slot: GearSlot) => {
+	const inventory_add = (info: GearInfo) => {
+		let addIndex = -1;
 		inventory.update((inv) => {
 			for (let i = 0; i < MAX_INV; i++) {
 				if (inv[i] === undefined) {
-					inv[i] = slot;
-					lastAdd.set(i);
+					inv[i] = info;
+					addIndex = i;
 					break;
 				}
 			}
 			return inv;
 		});
+		return addIndex;
 	};
-	const inventory_change = (gear: Gear, index: number) => {
+	const inventory_putGear = (gear: Gear, index: number) => {
+		let before: Gear | undefined;
 		inventory.update((inv) => {
-			if (inv[index]) {
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				inv[index]!.gear = gear;
-			} else {
-				inv[index] = createGearSlot(gear);
-			}
+			before = inv[index]?.gear;
+			inv[index] = createGearInfo(gear);
 			return inv;
 		});
+		return before;
 	};
-	const inventory_put = (slot: GearSlot, index: number) => {
+	const inventory_put = (info: GearInfo, index: number) => {
+		let before: GearInfo | undefined;
 		inventory.update((inv) => {
-			if (inv[index]) {
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				inv[index] = slot;
-			}
+			before = inv[index];
+			inv[index] = info;
 			return inv;
 		});
+		return before;
 	};
 	const inventory_remove = (index: number) => {
+		let removed: GearInfo | undefined;
 		inventory.update((inv) => {
+			removed = inv[index];
 			if (inv[index]) {
 				inv[index] = undefined;
 			}
@@ -142,6 +143,7 @@ const createStore = () => {
 			}
 			return inv;
 		});
+		return removed;
 	};
 	const inventory_swap = (index1: number, index2: number) => {
 		if (index1 !== index2 && 0 <= index1 && index1 < MAX_INV && 0 <= index2 && index2 < MAX_INV) {
@@ -151,15 +153,19 @@ const createStore = () => {
 				inv[index2] = temp;
 				return inv;
 			});
+			return true;
 		}
+		return false;
 	};
 	const inventory_select = (index: number) => {
 		if (_inventory[index]) {
 			selected.set(index);
 		}
+		return _selected;
 	};
 	const inventory_deselect = () => {
 		selected.set(SELECTED_DEFAULT);
+		return _selected;
 	};
 	const meta_reset = () => {
 		if (_gear && _meta) {
@@ -168,7 +174,6 @@ const createStore = () => {
 	};
 
 	inventory.subscribe((newInv) => (_inventory = newInv));
-	lastAdd.subscribe((newAdd) => (_lastAdd = newAdd));
 	selected.subscribe((newSel) => {
 		if (newSel === -1 || _inventory[newSel] !== undefined) {
 			_selected = newSel;
@@ -179,7 +184,7 @@ const createStore = () => {
 	gear.subscribe((newGear) => {
 		_gear = newGear;
 		if (newGear) {
-			inventory_change(newGear, _selected);
+			inventory_putGear(newGear, _selected);
 		}
 	});
 	meta.subscribe((newMeta) => {
@@ -195,17 +200,14 @@ const createStore = () => {
 			subscribe: inventory.subscribe,
 			set: inventory.set,
 			update: inventory.update,
+			addGear: inventory_addGear,
 			add: inventory_add,
-			addSlot: inventory_addSlot,
-			change: inventory_change,
+			putGear: inventory_putGear,
 			put: inventory_put,
 			remove: inventory_remove,
 			swap: inventory_swap,
 			select: inventory_select,
 			deselect: inventory_deselect
-		},
-		lastAdd: {
-			subscribe: lastAdd.subscribe
 		},
 		selected: {
 			subscribe: selected.subscribe
@@ -220,4 +222,4 @@ const createStore = () => {
 	};
 };
 
-export const { inventory, lastAdd, selected, gear, meta } = createStore();
+export const { inventory, selected, gear, meta } = createStore();

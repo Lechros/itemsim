@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { PotentialGrade } from '@malib/gear';
 	import { AspectRatio, Tag } from 'carbon-components-svelte';
-	import type { GearSlot } from './stores/gear-store';
+	import type { GearInfo } from './stores/gear-store';
 
-	export let _slot: GearSlot | undefined;
+	export let info: GearInfo | undefined;
 
 	export let img: HTMLImageElement | undefined = undefined;
 
-	$: gear = _slot?.gear;
+	$: gear = info?.gear;
 
 	function getIconName(grade: PotentialGrade) {
 		switch (grade) {
@@ -28,7 +28,7 @@
 </script>
 
 <AspectRatio ratio="1x1" style="pointer-events: none;">
-	{#if _slot && gear}
+	{#if gear}
 		<div class="slot">
 			<img
 				draggable="false"
