@@ -1,11 +1,10 @@
 <script lang="ts">
 	import type { Gear } from '@malib/gear';
-	import { Row, Column, SelectableTile } from 'carbon-components-svelte';
-	import { inventory } from './stores/gear-store';
+	import { Column, Row, SelectableTile } from 'carbon-components-svelte';
 	import InventorySlot from './InventorySlot.svelte';
+	import { inventory } from './stores/gear-store';
 
 	export let mode: 'default' | 'delete' = 'default';
-	export let mousePosition: { x: number; y: number } = { x: 0, y: 0 };
 	export let hoveringGear: Gear | undefined = undefined;
 	export let dragging = false;
 	export let deleteIndexes: Set<number> = new Set();
@@ -16,7 +15,7 @@
 	}
 
 	export function deleteGears() {
-		for(const index of deleteIndexes) {
+		for (const index of deleteIndexes) {
 			inventory.remove(index);
 		}
 		deleteIndexes.clear();
@@ -30,15 +29,10 @@
 		dragging = draggingIndex >= 0;
 	}
 
-
-	function handleMousemove(event: MouseEvent) {
-		mousePosition = { x: event.clientX, y: event.clientY };
-	}
-
 	function addHoverEffect(target: EventTarget | null) {
 		if (!target) return;
 		const _target = target as HTMLDivElement;
-		if (_target.classList.contains('inventory__dropzone')) {
+		if (_target.classList.contains('inventory__slot--drop-zone')) {
 			_target.classList.add('inventory__slot--drag-hover');
 		}
 	}
@@ -46,25 +40,20 @@
 	function removeHoverEffect(target: EventTarget | null) {
 		if (!target) return;
 		const _target = target as HTMLDivElement;
-		if (_target.classList.contains('inventory__dropzone')) {
+		if (_target.classList.contains('inventory__slot--drop-zone')) {
 			_target.classList.remove('inventory__slot--drag-hover');
 		}
 	}
 </script>
 
-<div
-	class="inventory"
-	class:inventory__slot--drag-hover={false}
-	class:inventory__slot--drag-reject={false}
-	on:mousemove={handleMousemove}
->
+<div class="inventory" class:inventory__slot--drag-hover={false}>
 	<Row>
 		<Column>
 			<div class="inventory__slots">
 				{#if mode === 'default'}
 					{#each $inventory as slot, i}
 						<button
-							class="inventory__slot inventory__dropzone bx--tile bx--tile--selectable"
+							class="inventory__slot inventory__slot--drop-zone bx--tile bx--tile--selectable"
 							class:bx--tile--disabled={!slot}
 							disabled={!slot}
 							draggable="true"
