@@ -25,6 +25,21 @@
 	}
 </script>
 
+<svelte:head>
+	<script lang="js">
+		if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+			const theme = window.localStorage.getItem('theme');
+			if (theme !== null) {
+				document.documentElement.setAttribute('theme', theme);
+			} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.setAttribute('theme', 'g80');
+			} else {
+				document.documentElement.setAttribute('theme', 'g10');
+			}
+		}
+	</script>
+</svelte:head>
+
 <Header company="메이플스토리" platformName="아이템 시뮬레이터">
 	<svelte:fragment slot="skip-to-content">
 		<SkipToContent />

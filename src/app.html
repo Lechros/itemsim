@@ -5,20 +5,6 @@
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
 		<title>아이템 시뮬레이터</title>
-		<!-- Load theme on startup -->
-		<script lang="js">
-			if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-				const theme = window.localStorage.getItem('theme');
-				if (theme !== null) {
-					document.documentElement.setAttribute('theme', theme);
-				}
-				else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-					document.documentElement.setAttribute('theme', 'g80');
-				} else {
-					document.documentElement.setAttribute('theme', 'g10');
-				}
-			}
-		</script>
 		%sveltekit.head%
 	</head>
 
