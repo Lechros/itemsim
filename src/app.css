@@ -23,10 +23,6 @@ html body {
 	font-family: 'NEXON Lv1 Gothic OTF', sans-serif;
 }
 
-#main-content {
-	margin-top: var(--cds-spacing-10);
-}
-
 .bx--modal {
 	align-items: start;
 }
@@ -47,12 +43,14 @@ html body {
 	}
 }
 
+/* fix complex input display bug inside modal */
 .bx--modal .bx--search button::before,
 .bx--modal .bx--number button::before,
 .bx--modal .bx--number button::after {
 	background-color: transparent;
 }
 
+/* selected file default bg is same as modal bg */
 .bx--modal .bx--file__selected-file {
 	background-color: var(--cds-field-02);
 }
@@ -60,7 +58,7 @@ html body {
 .bx--modal-content p,
 .bx--modal-content__regular-content {
 	padding-right: var(--cds-spacing-05);
-	line-height: var(--cds-body-short-01-line-height, 1.28572);
+	line-height: normal;
 }
 
 /* remove modal content outline */
@@ -68,18 +66,19 @@ html body {
 	outline: none;
 }
 
+/* fix modal bottom gradient */
 .bx--modal-content--overflow-indicator {
 	background-image: linear-gradient(to bottom, transparent, var(--cds-ui-01, #f4f4f4));
 }
 
+/* show checkmark in front of gear icons */
 .bx--tile__checkmark {
-  z-index: 100;
+	z-index: 100;
 }
 
-.inv-draghover {
-  background: var(--cds-hover-ui, #e5e5e5);
-  outline: 2px solid var(--cds-focus, #0f62fe);
-  outline-offset: -2px;
+.bx--tile {
+	min-width: 0;
+	min-height: 0;
 }
 
 .string-match--highlight {

@@ -1,33 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+		<title>아이템 시뮬레이터</title>
+		%sveltekit.head%
+	</head>
 
-<head>
-	<meta charset="utf-8" />
-	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-	<meta name="viewport" content="width=device-width" />
-	<title>아이템 시뮬레이터</title>
-	<!-- Load theme on startup -->
-	<script lang="js">
-		if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-			const theme = window.localStorage.getItem('theme');
-			if (theme !== null) {
-				document.documentElement.setAttribute('theme', theme);
-			}
-			else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-				document.documentElement.setAttribute('theme', 'g80');
-			} else {
-				document.documentElement.setAttribute('theme', 'g10');
-			}
-		}
-	</script>
-	%sveltekit.head%
-</head>
-
-<body data-sveltekit-preload-data="hover">
-	<div style="display: contents">%sveltekit.body%</div>
-	<!-- Cloudflare Web Analytics -->
-	<script defer src="https://static.cloudflareinsights.com/beacon.min.js"
-		data-cf-beacon='{"token": "6408f63695c74679b350a42453ab01de"}'></script>
-	<!-- End Cloudflare Web Analytics -->
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+		<!-- Cloudflare Web Analytics -->
+		<script
+			defer
+			src="https://static.cloudflareinsights.com/beacon.min.js"
+			data-cf-beacon='{"token": "6408f63695c74679b350a42453ab01de"}'
+		></script>
+		<!-- End Cloudflare Web Analytics -->
 	</body>
 </html>

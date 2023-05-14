@@ -46,7 +46,7 @@
 		{/each}
 	</div>
 	{#if extraReq !== ''}
-		<div class="job-req__spec-job">
+		<div class="job-req__spec-job gt--text gt--text--orange">
 			{extraReq}
 		</div>
 	{/if}
@@ -76,10 +76,6 @@
 	.job-req__spec-job {
 		align-self: center;
 		margin-top: 6px;
-		font-size: 11px;
-		letter-spacing: normal;
-		font-family: 돋움;
-		color: var(--gear-orange2);
 	}
 
 	.job-0 {

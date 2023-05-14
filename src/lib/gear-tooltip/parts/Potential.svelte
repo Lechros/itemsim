@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Potential, PotentialGrade } from '@malib/gear';
 
-	export let additional: boolean = false;
+	export let additional = false;
 	export let grade: PotentialGrade;
 	export let potentials: (Potential | null)[];
 

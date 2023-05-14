@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let star: number;
 	export let maxStar: number;
-	export let amazing: boolean = false;
+	export let amazing = false;
 
 	$: maxStar = Math.max(maxStar, star);
 	$: lineCount = Math.ceil(maxStar / 15);

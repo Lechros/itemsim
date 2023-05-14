@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PotentialGrade, type Gear } from '@malib/gear';
+	import { PotentialGrade } from '@malib/gear';
 
 	export let src: string;
 	export let origin: [number, number];
@@ -31,7 +31,12 @@
 		<div class="item-icon__border {color}" />
 	{/if}
 	<div class="item-icon__base">
-		<img class="item-icon__icon" {src} {alt} style="margin-left: {originX}px; margin-top: {originY}px" />
+		<img
+			class="item-icon__icon"
+			{src}
+			{alt}
+			style="margin-left: {originX}px; margin-top: {originY}px"
+		/>
 	</div>
 	<div class="item-icon__old-dot" />
 	{#if newBonus}
