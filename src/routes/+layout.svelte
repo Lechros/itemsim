@@ -35,4 +35,12 @@
 	</HeaderUtilities>
 </Header>
 
-<slot />
+<div>
+	<slot />
+</div>
+
+<style>
+	div {
+		padding-top: var(--cds-spacing-09);
+	}
+</style>

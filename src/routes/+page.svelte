@@ -33,62 +33,64 @@
 	let hoveringGear: Gear | undefined;
 </script>
 
-<Grid style="max-width: 40rem; margin-top: 2rem">
-	<Row>
-		<Column>
-			<div class="top-part">
-				<div class="top-part__heading">
-					<h2>인벤토리</h2>
+<div class="container">
+	<Grid>
+		<Row>
+			<Column>
+				<div class="top-part">
+					<div class="top-part__heading">
+						<h2>인벤토리</h2>
+					</div>
+					<div class="top-part__buttons">
+						{#if inventoryMode === 'default'}
+							<Button
+								kind="secondary"
+								icon={Upload}
+								iconDescription="가져오기"
+								on:click={() => (importOpen = true)}
+							/>
+							<Button icon={Add} on:click={() => (createOpen = true)}>아이템 추가</Button>
+							<Button
+								kind="danger"
+								icon={TrashCan}
+								iconDescription="삭제"
+								disabled={gearCount === 0}
+								on:click={() => (inventoryMode = 'delete')}
+							/>
+						{:else if inventoryMode === 'delete'}
+							<Button
+								kind="danger"
+								icon={TrashCan}
+								disabled={selectedIndexes.size === 0}
+								on:click={inventoryComponent.deleteGears}
+							>
+								아이템 {selectedIndexes.size}개 삭제
+							</Button>
+							<Button
+								kind="secondary"
+								icon={Close}
+								iconDescription="취소"
+								on:click={() => {
+									inventoryMode = 'default';
+									inventoryComponent.deselectAll;
+								}}
+							/>
+						{/if}
+					</div>
 				</div>
-				<div class="top-part__buttons">
-					{#if inventoryMode === 'default'}
-						<Button
-							kind="secondary"
-							icon={Upload}
-							iconDescription="가져오기"
-							on:click={() => (importOpen = true)}
-						/>
-						<Button icon={Add} on:click={() => (createOpen = true)}>아이템 추가</Button>
-						<Button
-							kind="danger"
-							icon={TrashCan}
-							iconDescription="삭제"
-							disabled={gearCount === 0}
-							on:click={() => (inventoryMode = 'delete')}
-						/>
-					{:else if inventoryMode === 'delete'}
-						<Button
-							kind="danger"
-							icon={TrashCan}
-							disabled={selectedIndexes.size === 0}
-							on:click={inventoryComponent.deleteGears}
-						>
-							아이템 {selectedIndexes.size}개 삭제
-						</Button>
-						<Button
-							kind="secondary"
-							icon={Close}
-							iconDescription="취소"
-							on:click={() => {
-								inventoryMode = 'default';
-								inventoryComponent.deselectAll;
-							}}
-						/>
-					{/if}
-				</div>
-			</div>
-		</Column>
-	</Row>
-	<FollowBoundary>
-		<Inventory
-			bind:mode={inventoryMode}
-			bind:selectedIndexes
-			bind:hoveringGear
-			bind:isDragging={inventoryDragging}
-			bind:this={inventoryComponent}
-		/>
-	</FollowBoundary>
-</Grid>
+			</Column>
+		</Row>
+		<FollowBoundary>
+			<Inventory
+				bind:mode={inventoryMode}
+				bind:selectedIndexes
+				bind:hoveringGear
+				bind:isDragging={inventoryDragging}
+				bind:this={inventoryComponent}
+			/>
+		</FollowBoundary>
+	</Grid>
+</div>
 
 <FollowCursor bound="viewport">
 	{#if hoveringGear && !inventoryDragging}
@@ -109,6 +111,12 @@
 />
 
 <style>
+	.container {
+		margin: 0 auto;
+		padding-top: var(--cds-spacing-05);
+		max-width: 40rem;
+	}
+
 	.top-part {
 		display: flex;
 		align-items: center;
