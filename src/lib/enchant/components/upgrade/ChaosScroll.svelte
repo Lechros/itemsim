@@ -64,7 +64,7 @@
 							max={6 * getPropTypeWeight(option.type)}
 							step={1 * getPropTypeWeight(option.type)}
 							invalid={!Number.isInteger(option.value / getPropTypeWeight(option.type))}
-							style="min-width: 100px; padding-right: var(--cds-spacing-11);"
+							style="min-width: 120px; padding-right: var(--cds-spacing-11);"
 						/>
 					</Column>
 				{/each}
