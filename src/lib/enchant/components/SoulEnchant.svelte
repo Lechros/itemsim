@@ -24,7 +24,6 @@
 		doSoulDisenchant,
 		doSoulEnchant,
 		getMagnificentTypes,
-		getSoulIndex,
 		getSoulInfo
 	} from '../domains/soul';
 	import { resultOrFalse } from '../domains/util';
@@ -174,7 +173,7 @@
 		<div class="soul__heading">
 			<Row>
 				<Column>
-					<h4>소울 인챈트</h4>
+					<h4>관리</h4>
 				</Column>
 			</Row>
 		</div>

@@ -183,7 +183,7 @@
 	}
 
 	.potentials__grade {
-		margin-top: var(--cds-spacing-05);
+		margin-top: var(--cds-spacing-03);
 	}
 
 	.potentials__options {
