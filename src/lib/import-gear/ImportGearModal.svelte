@@ -2,6 +2,7 @@
 	import { gearMetaFromBase64, gearMetaFromEncodedURIComponent } from '$lib/import';
 	import type { GearInfo } from '$lib/inventory/stores/gear-store';
 	import { FileUploaderButton, FileUploaderItem, Modal, TextArea } from 'carbon-components-svelte';
+	import { decompressFromEncodedURIComponent } from 'lz-string';
 
 	export let open = false;
 
@@ -45,6 +46,7 @@
 						fileStates.set(file.name, 'complete');
 					} else {
 						fileStates.set(file.name, 'error');
+						console.log(decompressFromEncodedURIComponent(value));
 					}
 					fileStates = fileStates;
 				})
