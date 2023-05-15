@@ -46,7 +46,6 @@
 						fileStates.set(file.name, 'complete');
 					} else {
 						fileStates.set(file.name, 'error');
-						console.log(decompressFromEncodedURIComponent(value));
 					}
 					fileStates = fileStates;
 				})
