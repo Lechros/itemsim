@@ -10,7 +10,7 @@
 		Tile
 	} from 'carbon-components-svelte';
 	import { throttle } from '../../routes/util';
-	import StringMatch from './StringMatch.svelte';
+	import StringMatch from '../string-match/StringMatch.svelte';
 
 	export let open = false;
 

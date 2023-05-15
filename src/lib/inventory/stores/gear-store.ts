@@ -184,8 +184,14 @@ const createStore = () => {
 	gear.subscribe((newGear) => {
 		_gear = newGear;
 		if (newGear) {
-			inventory_putGear(newGear, _selected);
+			if (_inventory[_selected] === undefined) {
+				_inventory[_selected] = createGearInfo(newGear);
+			} else {
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				_inventory[_selected]!.gear = newGear;
+			}
 		}
+		inventory.update((_) => _);
 	});
 	meta.subscribe((newMeta) => {
 		_meta = newMeta;
@@ -193,6 +199,7 @@ const createStore = () => {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			_inventory[_selected]!.meta = newMeta;
 		}
+		inventory.update((_) => _);
 	});
 
 	return {

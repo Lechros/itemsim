@@ -1,4 +1,5 @@
 <script lang="ts">
+	import GearTooltip from '$lib/gear-tooltip/GearTooltip.svelte';
 	import type { Gear } from '@malib/gear';
 	import {
 		ComposedModal,
@@ -9,12 +10,12 @@
 		TabContent,
 		Tabs
 	} from 'carbon-components-svelte';
-	import GearTooltip from '$lib/gear-tooltip/GearTooltip.svelte';
-	import Manage from './components/Manage.svelte';
+	import type { GearMeta } from '../inventory/stores/gear-store';
 	import BonusStat from './components/BonusStat.svelte';
 	import Enhance from './components/Enhance.svelte';
+	import Manage from './components/Manage.svelte';
 	import Potentials from './components/Potentials.svelte';
-	import type { GearMeta } from '../inventory/stores/gear-store';
+	import SoulEnchant from './components/SoulEnchant.svelte';
 	import Upgrade from './components/Upgrade.svelte';
 
 	export let gear: Gear | undefined;
@@ -30,6 +31,12 @@
 	$: {
 		if (gear) {
 			gearCache = gear;
+		}
+	}
+	let metaCache: GearMeta | undefined;
+	$: {
+		if(meta) {
+			metaCache = meta;
 		}
 	}
 
@@ -64,10 +71,11 @@
 						<Tab tabindex="0">주문서</Tab>
 						<Tab tabindex="0">강화</Tab>
 						<Tab tabindex="0">잠재옵션</Tab>
+						<Tab tabindex="0">소울</Tab>
 						<Tab tabindex="0">관리</Tab>
 						<svelte:fragment slot="content">
 							<TabContent>
-								<BonusStat bind:gear={gearCache} bind:meta bind:resetMeta />
+								<BonusStat bind:gear={gearCache} bind:meta={metaCache} bind:resetMeta />
 							</TabContent>
 							<TabContent>
 								<Upgrade bind:gear={gearCache} />
@@ -79,7 +87,10 @@
 								<Potentials bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
-								<Manage bind:gear={gearCache} bind:meta on:delete={onDelete} />
+								<SoulEnchant bind:gear={gearCache} />
+							</TabContent>
+							<TabContent>
+								<Manage bind:gear={gearCache} bind:meta={metaCache} on:delete={onDelete} />
 							</TabContent>
 						</svelte:fragment>
 					</Tabs>

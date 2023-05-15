@@ -1,18 +1,13 @@
 import { Gear, GearType } from '@malib/gear';
 import { expect, test } from 'vitest';
 import {
-	canAmazingEnhancement,
+	canAmazingEnhancementChange,
 	canEnhance,
 	canResetEnhancement,
-	canStarforce,
-	canStarforce17,
-	canStarforce22,
-	canStarforceReduce,
+	canStarforceChange,
+	doAmazingEnhancementChange,
 	doResetEnhancement,
-	doStarforce,
-	doStarforce17,
-	doStarforce22,
-	doStarforceReduce
+	doStarforceChange
 } from './enhance';
 
 function getTestGear() {
@@ -33,117 +28,93 @@ test('canEnhance', () => {
 	expect(canEnhance(gear)).toBe(true);
 });
 
-test('canStarforce', () => {
-	const gear = getTestGear();
-	gear.star = 3;
-	gear.maxStar = 5;
-	expect(canStarforce(gear)).toBe(true);
-	gear.star = 5;
-	expect(canStarforce(gear)).toBe(false);
-	gear.star = 2;
-	gear.amazing = true;
-	expect(canStarforce(gear)).toBe(true);
-});
+test.each([
+	[3, 5, 1, false, true],
+	[5, 5, 1, false, false],
+	[5, 10, 5, false, true],
+	[5, 10, 6, false, false],
+	[5, 10, 1, true, true],
+	[5, 10, 6, true, false],
+	[15, 15, 1, true, false],
+	[15, 20, -1, false, true],
+	[15, 20, -15, false, true],
+	[15, 20, -16, false, false],
+	[15, 15, -1, true, false],
+	[3, 10, -2, true, false]
+])(
+	'canStarforceChange(star: %d, maxStar: %d, diff: %d, amazing: %s) -> %s',
+	(star, maxStar, diff, amazing, expected) => {
+		const gear = getTestGear();
+		gear.star = star;
+		gear.maxStar = maxStar;
+		gear.amazing = amazing;
+		expect(canStarforceChange(gear, diff)).toBe(expected);
+	}
+);
 
-test('doStarforce', () => {
-	const gear = getTestGear();
-	gear.star = 15;
-	gear.maxStar = 25;
-	expect(doStarforce(gear)).toBe(gear);
-	expect(gear.star).toBe(16);
-});
+test.each([
+	[3, 5, 1, false, 4, false],
+	[5, 10, 5, false, 10, false],
+	[5, 10, 1, true, 6, true],
+	[5, 15, 6, true, 11, true],
+	[15, 15, 1, true, 15, true],
+	[15, 20, -1, false, 14, false],
+	[15, 20, -15, false, 0, false]
+])(
+	'doStarforceChange(star: %d, maxStar: %d, diff: %d, amazing: %s) -> %d, %s',
+	(star, maxStar, diff, amazing, expectedStar, expectedAmazing) => {
+		const gear = getTestGear();
+		gear.star = star;
+		gear.maxStar = maxStar;
+		gear.amazing = amazing;
+		doStarforceChange(gear, diff);
+		expect(gear.star).toBe(expectedStar);
+		expect(gear.amazing).toBe(expectedAmazing);
+	}
+);
 
-test('canStarforceReduce', () => {
-	const gear = getTestGear();
-	gear.star = 20;
-	gear.maxStar = 20;
-	expect(canStarforceReduce(gear)).toBe(true);
-	gear.star = 0;
-	expect(canStarforceReduce(gear)).toBe(false);
-	gear.star = 5;
-	gear.amazing = true;
-	expect(canStarforceReduce(gear)).toBe(false);
-});
+test.each([
+	[3, 5, 1, false, true],
+	[5, 5, 1, false, false],
+	[5, 10, 5, false, true],
+	[5, 10, 6, false, false],
+	[5, 10, 1, true, true],
+	[5, 10, 6, true, false],
+	[15, 15, 1, true, false],
+	[15, 20, 1, false, false],
+	[15, 20, -1, false, false],
+	[15, 20, -15, false, false],
+	[15, 20, -16, false, false],
+	[15, 15, -1, true, false],
+	[3, 10, -2, true, false]
+])(
+	'canAmazingEnhancementChange(star: %d, maxStar: %d, diff: %d, amazing: %s) -> %s',
+	(star, maxStar, diff, amazing, expected) => {
+		const gear = getTestGear();
+		gear.star = star;
+		gear.maxStar = maxStar;
+		gear.amazing = amazing;
+		expect(canAmazingEnhancementChange(gear, diff)).toBe(expected);
+	}
+);
 
-test('doStarforceReduce', () => {
-	const gear = getTestGear();
-	gear.star = 15;
-	gear.maxStar = 25;
-	expect(doStarforceReduce(gear)).toBe(gear);
-	expect(gear.star).toBe(14);
-});
-
-test('canStarforce17', () => {
-	const gear = getTestGear();
-	gear.maxStar = 10;
-	expect(canStarforce17(gear)).toBe(false);
-	gear.maxStar = 20;
-	expect(canStarforce17(gear)).toBe(true);
-	gear.star = 2;
-	expect(canStarforce17(gear)).toBe(true);
-	gear.star = 17;
-	expect(canStarforce17(gear)).toBe(false);
-	gear.star = 0;
-	gear.maxStar = 15;
-	gear.amazing = true;
-	expect(canStarforce17(gear)).toBe(false);
-});
-
-test('doStarforce17', () => {
-	const gear = getTestGear();
-	gear.star = 3;
-	gear.maxStar = 20;
-	expect(doStarforce17(gear)).toBe(gear);
-	expect(gear.star).toBe(17);
-});
-
-test('canStarforce22', () => {
-	const gear = getTestGear();
-	gear.maxStar = 10;
-	expect(canStarforce22(gear)).toBe(false);
-	gear.maxStar = 20;
-	expect(canStarforce22(gear)).toBe(false);
-	gear.maxStar = 25;
-	expect(canStarforce22(gear)).toBe(true);
-	gear.star = 2;
-	expect(canStarforce22(gear)).toBe(true);
-	gear.star = 17;
-	expect(canStarforce22(gear)).toBe(true);
-	gear.star = 22;
-	expect(canStarforce22(gear)).toBe(false);
-	gear.star = 0;
-	gear.maxStar = 15;
-	gear.amazing = true;
-	expect(canStarforce22(gear)).toBe(false);
-});
-
-test('doStarforce22', () => {
-	const gear = getTestGear();
-	gear.star = 3;
-	gear.maxStar = 25;
-	expect(doStarforce22(gear)).toBe(gear);
-	expect(gear.star).toBe(22);
-});
-
-test('canAmazingEnhancement', () => {
-	const gear = getTestGear();
-	gear.star = 3;
-	gear.maxStar = 5;
-	expect(canAmazingEnhancement(gear)).toBe(true);
-	gear.star = 5;
-	expect(canAmazingEnhancement(gear)).toBe(false);
-	gear.star = 2;
-	gear.amazing = true;
-	expect(canAmazingEnhancement(gear)).toBe(true);
-});
-
-test('doAmazingEnhancement', () => {
-	const gear = getTestGear();
-	gear.star = 15;
-	gear.maxStar = 25;
-	expect(doStarforce(gear)).toBe(gear);
-	expect(gear.star).toBe(16);
-});
+test.each([
+	[3, 5, 1, false, 4, true],
+	[5, 10, 5, false, 10, true],
+	[5, 10, 1, true, 6, true],
+	[5, 15, 6, true, 11, true]
+])(
+	'doAmazingEnhancementChange(star: %d, maxStar: %d, diff: %d, amazing: %s) -> %d, %s',
+	(star, maxStar, diff, amazing, expectedStar, expectedAmazing) => {
+		const gear = getTestGear();
+		gear.star = star;
+		gear.maxStar = maxStar;
+		gear.amazing = amazing;
+		doAmazingEnhancementChange(gear, diff, false);
+		expect(gear.star).toBe(expectedStar);
+		expect(gear.amazing).toBe(expectedAmazing);
+	}
+);
 
 test('canResetEnhancement', () => {
 	const gear = getTestGear();

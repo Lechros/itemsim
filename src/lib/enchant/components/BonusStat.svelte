@@ -61,10 +61,10 @@
 
 <div class="bonus">
 	{#if can && gear && meta}
-		<div class="bonus__reset">
+		<div class="bonus__heading">
 			<Row>
 				<Column>
-					<Button kind="danger" on:click={reset}>초기화</Button>
+					<h4>추가옵션</h4>
 				</Column>
 			</Row>
 		</div>
@@ -103,6 +103,20 @@
 				</Row>
 			{/each}
 		</div>
+		<div class="bonus__heading">
+			<Row>
+				<Column>
+					<h4>관리</h4>
+				</Column>
+			</Row>
+		</div>
+		<div class="bonus__reset">
+			<Row>
+				<Column>
+					<Button kind="danger" on:click={reset}>초기화</Button>
+				</Column>
+			</Row>
+		</div>
 	{:else}
 		<div class="bonus__cannot">추가옵션 설정 불가</div>
 	{/if}
@@ -113,7 +127,15 @@
 		margin-top: var(--cds-spacing-05);
 	}
 
+	.bonus__heading:not(:first-child) {
+		margin-top: var(--cds-spacing-07);
+	}
+
 	.bonus__options {
-		margin-top: var(--cds-spacing-05);
+		margin-top: var(--cds-spacing-03);
+	}
+
+	.bonus__reset {
+		margin-top: var(--cds-spacing-03);
 	}
 </style>

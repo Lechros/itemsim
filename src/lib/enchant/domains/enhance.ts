@@ -10,63 +10,50 @@ export function canEnhance(gear: Gear) {
 	return gear.maxStar > 0;
 }
 
-export function canStarforce(gear: Gear) {
-	return gear.maxStar > gear.star;
+export function canStarforceChange(gear: Gear, diff: number) {
+	if (diff === 0) {
+		return true;
+	} else if (diff > 0) {
+		return gear.star + diff <= gear.maxStar;
+	} else {
+		return !gear.amazing && gear.star + diff >= 0;
+	}
 }
 
-export function doStarforce(gear: Gear) {
-	addStarforce(gear);
-	return gear;
-}
-
-export function canStarforceReduce(gear: Gear) {
-	return !gear.amazing && gear.star > 0;
-}
-
-export function doStarforceReduce(gear: Gear) {
-	const count = gear.star - 1;
-	resetEnhancement(gear);
-	for (let i = 0; i < count; i++) {
-		addStarforce(gear);
+export function doStarforceChange(gear: Gear, diff: number) {
+	if (diff > 0) {
+		for (let i = 0; i < diff; i++) {
+			addStarforce(gear);
+		}
+	} else if (diff < 0) {
+		const count = gear.star + diff;
+		resetEnhancement(gear);
+		for (let i = 0; i < count; i++) {
+			addStarforce(gear);
+		}
 	}
 	return gear;
 }
 
-export function canStarforce17(gear: Gear) {
-	return gear.maxStar >= 17 && gear.star < 17;
-}
-
-export function doStarforce17(gear: Gear) {
-	const count = 17 - gear.star;
-	for (let i = 0; i < count; i++) {
-		addStarforce(gear);
+export function canAmazingEnhancementChange(gear: Gear, diff: number) {
+	if (gear.req.level > 150 || gear.getBooleanValue(GearPropType.superiorEqp)) {
+		return false;
 	}
-	return gear;
-}
-
-export function canStarforce22(gear: Gear) {
-	return gear.maxStar >= 22 && gear.star < 22;
-}
-
-export function doStarforce22(gear: Gear) {
-	const count = 22 - gear.star;
-	for (let i = 0; i < count; i++) {
-		addStarforce(gear);
+	if (diff === 0) {
+		return true;
+	} else if (diff > 0) {
+		return gear.star + diff <= gear.maxStar && gear.star + diff <= 15;
+	} else {
+		return false;
 	}
-	return gear;
 }
 
-export function canAmazingEnhancement(gear: Gear) {
-	return (
-		gear.req.level <= 150 &&
-		!gear.getBooleanValue(GearPropType.superiorEqp) &&
-		gear.maxStar > gear.star &&
-		gear.star < 15
-	);
-}
-
-export function doAmazingEnhancement(gear: Gear) {
-	addAmazingEnhancement(gear);
+export function doAmazingEnhancementChange(gear: Gear, diff: number, bonus: boolean) {
+	if (diff > 0) {
+		for (let i = 0; i < diff; i++) {
+			addAmazingEnhancement(gear, bonus);
+		}
+	}
 	return gear;
 }
 
