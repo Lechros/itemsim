@@ -33,6 +33,12 @@
 			gearCache = gear;
 		}
 	}
+	let metaCache: GearMeta | undefined;
+	$: {
+		if(meta) {
+			metaCache = meta;
+		}
+	}
 
 	function onClose() {
 		deselectGear();
@@ -69,7 +75,7 @@
 						<Tab tabindex="0">관리</Tab>
 						<svelte:fragment slot="content">
 							<TabContent>
-								<BonusStat bind:gear={gearCache} bind:meta bind:resetMeta />
+								<BonusStat bind:gear={gearCache} bind:meta={metaCache} bind:resetMeta />
 							</TabContent>
 							<TabContent>
 								<Upgrade bind:gear={gearCache} />
@@ -84,7 +90,7 @@
 								<SoulEnchant bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
-								<Manage bind:gear={gearCache} bind:meta on:delete={onDelete} />
+								<Manage bind:gear={gearCache} bind:meta={metaCache} on:delete={onDelete} />
 							</TabContent>
 						</svelte:fragment>
 					</Tabs>
