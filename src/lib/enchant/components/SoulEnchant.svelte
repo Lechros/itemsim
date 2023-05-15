@@ -3,7 +3,7 @@
 	import StringMatch from '$lib/string-match/StringMatch.svelte';
 	import { match } from '$lib/string-match/match';
 	import { MagnificentSoulOptionType, createSoulFromId, soulJson } from '@malib/create-gear';
-	import { gearToPlain, type Gear } from '@malib/gear';
+	import type { Gear } from '@malib/gear';
 	import {
 		Button,
 		Column,
@@ -79,7 +79,6 @@
 	function onSelectChange() {
 		if (!gear) return;
 		gear = doSetSoul(gear, selectedId, selectedType);
-		console.log(gearToPlain(gear));
 	}
 
 	function getSoulOptionText(soulId: number, type: MagnificentSoulOptionType) {
