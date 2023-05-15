@@ -2,11 +2,11 @@ lockfileVersion: '6.0'
 
 dependencies:
   '@malib/create-gear':
-    specifier: ^0.5.5
-    version: 0.5.5
+    specifier: ^0.5.6
+    version: 0.5.6
   '@malib/gear':
-    specifier: ^0.11.0
-    version: 0.11.0
+    specifier: ^0.12.1
+    version: 0.12.1
   svelte-local-storage-store:
     specifier: ^0.4.0
     version: 0.4.0(svelte@3.58.0)
@@ -551,14 +551,14 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@malib/create-gear@0.5.5:
-    resolution: {integrity: sha512-5p9vJ9eqhixQFY5bAFxoNDpqPkS1hjS2NdHbbhe7Z9YP91qESXWEY1aJ/Bil/8GxB6bx0N6i4ZVbBovqsuMcig==}
+  /@malib/create-gear@0.5.6:
+    resolution: {integrity: sha512-hkrXvzcqGdgd0DAMu8gxY2vVnHGh6QaycwI6kFCOxOQilm1fuRYkOAM9pxcLrQjUBa1o24BTTSrvmIm4GMDyBg==}
     dependencies:
-      '@malib/gear': 0.11.0
+      '@malib/gear': 0.12.1
     dev: false
 
-  /@malib/gear@0.11.0:
-    resolution: {integrity: sha512-w+F4baqCar37lbnhtC7LcHOtasZUPNdNQmmPR75Du1s6UkoyqNvHpPSZrDVeGvOSlwdyiQC8cRXYZzRa8nkgbQ==}
+  /@malib/gear@0.12.1:
+    resolution: {integrity: sha512-6ZC8XRN6DvCmEFrhpOIpDY3AJol6JZY5dtwb5kPSQNteo7Kz+M16l7HoKaPWgqVtrZ7FeWwh0t/x5tl5ifvT+g==}
     dev: false
 
   /@nodelib/fs.scandir@2.1.5:
