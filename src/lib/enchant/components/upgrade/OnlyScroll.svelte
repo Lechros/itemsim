@@ -1,10 +1,10 @@
 <script lang="ts">
+	import { optionToStrings } from '$lib/gear-tooltip/strings';
 	import type { Gear } from '@malib/gear';
 	import { ClickableTile, Column, Row } from 'carbon-components-svelte';
 	import { canApplyScroll, doApplyScroll, doApplyScrollFull } from '../../domains/upgrade/common';
 	import { getOnlyScrolls } from '../../domains/upgrade/only-scroll';
 	import { resultOrFalse } from '../../domains/util';
-	import { optionToStrings } from '../../domains/strings';
 
 	export let gear: Gear | undefined;
 

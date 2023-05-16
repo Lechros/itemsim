@@ -1,11 +1,10 @@
 <script lang="ts">
+	import { optionToStrings } from '$lib/gear-tooltip/strings';
 	import type { Gear } from '@malib/gear';
+	import { ClickableTile, Column, ContentSwitcher, Row, Switch } from 'carbon-components-svelte';
 	import { canApplyScroll } from '../../domains/upgrade/common';
 	import { SpellTraceEnchanter, type SpellTraceInfo } from '../../domains/upgrade/spelltrace';
 	import { resultOrFalse } from '../../domains/util';
-	import { optionToStrings } from '../../domains/strings';
-
-	import { ClickableTile, Column, ContentSwitcher, Row, Switch } from 'carbon-components-svelte';
 
 	export let gear: Gear | undefined;
 
