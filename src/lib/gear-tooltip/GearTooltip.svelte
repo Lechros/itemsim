@@ -69,7 +69,7 @@
 
 	export let iconSrc = 'https://maplestory.io/api/KMS/367/item/{}/icon';
 
-	$: gearName = `${gear.name} ${gear.upgradeCount > 0 ? `(+${gear.upgradeCount})` : ''}`;
+	$: gearName = `${gear.name}${gear.upgradeCount > 0 ? ` (+${gear.upgradeCount})` : ''}`;
 	$: icon = gear.anvilIcon ?? gear.icon;
 	$: superior = gear.getBooleanValue(GearPropType.superiorEqp);
 	$: desc = getDescs(gear);
