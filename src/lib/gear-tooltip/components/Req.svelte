@@ -74,10 +74,8 @@
 <style>
 	.req {
 		display: grid;
-		padding-left: 3px;
-		margin-top: 4px;
 		grid-template-rows: 15px 9px 9px;
-		grid-template-columns: 80px 74px;
+		grid-template-columns: 80px 1fr;
 	}
 
 	.req__item {

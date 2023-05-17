@@ -28,12 +28,11 @@
 
 <style>
 	.diff {
-		display: flex;
-		flex-direction: column;
+		display: grid;
+		grid-template-rows: 19px 1fr;
 	}
 
 	.diff__label {
-		margin-right: 4px;
 		text-align: right;
 	}
 
@@ -41,9 +40,9 @@
 	.decline {
 		display: flex;
 		flex-direction: row;
-		align-self: flex-end;
+		justify-content: end;
 		align-items: center;
-		margin-top: 5px;
+		margin-right: -4px;
 	}
 
 	.letter {

@@ -69,7 +69,7 @@
 
 	export let iconSrc = 'https://maplestory.io/api/KMS/367/item/{}/icon';
 
-	$: gearName = `${gear.name} ${gear.upgradeCount > 0 ? `(+${gear.upgradeCount})` : ''}`;
+	$: gearName = `${gear.name}${gear.upgradeCount > 0 ? ` (+${gear.upgradeCount})` : ''}`;
 	$: icon = gear.anvilIcon ?? gear.icon;
 	$: superior = gear.getBooleanValue(GearPropType.superiorEqp);
 	$: desc = getDescs(gear);
@@ -146,12 +146,10 @@
 			</div>
 
 			{#if gear.grade > PotentialGrade.normal}
-				<div class="gear-tooltip__grade">
-					<GearGrade
-						grade={gear.grade}
-						specialGrade={gear.getBooleanValue(GearPropType.specialGrade)}
-					/>
-				</div>
+				<GearGrade
+					grade={gear.grade}
+					specialGrade={gear.getBooleanValue(GearPropType.specialGrade)}
+				/>
 			{/if}
 			<Attributes {gear} />
 
@@ -167,16 +165,20 @@
 						newBonus={gear.isNewBonusType}
 					/>
 				</div>
-				<Incline {incline} />
-				<Req
-					req={gear.req}
-					reduceReq={gear.option(GearPropType.reduceReq).sum}
-					{characterLevel}
-					{characterSTR}
-					{characterDEX}
-					{characterINT}
-					{characterLUK}
-				/>
+				<div class="gear-tooltip__incline">
+					<Incline {incline} />
+				</div>
+				<div class="gear-tooltip__req">
+					<Req
+						req={gear.req}
+						reduceReq={gear.option(GearPropType.reduceReq).sum}
+						{characterLevel}
+						{characterSTR}
+						{characterDEX}
+						{characterINT}
+						{characterLUK}
+					/>
+				</div>
 			</div>
 			<div class="gear-tooltip__diff">
 				<DiffExtra {pddDiff} {bdrDiff} {imdrDiff} />
@@ -309,49 +311,51 @@
 	.gear-tooltip__title {
 		display: flex;
 		flex-direction: column;
-		margin-top: -2px;
 		align-items: center;
-	}
-
-	.gear-tooltip__grade {
-		margin-top: 4px;
+		margin-top: -2px;
+		margin-bottom: 4px;
 	}
 
 	.gear-tooltip__icon-area {
-		box-sizing: border-box;
 		display: grid;
-		margin-top: 7px;
-		width: 100%;
-		margin-right: 2px;
-		grid-template-columns: 82px 159px;
-		grid-template-rows: 44px 36px;
-		row-gap: 2px;
+		padding-top: 6px;
+		grid-template-columns: 82px 155px;
+		grid-template-rows: 44px 1fr;
 	}
+
 	.gear-tooltip__icon {
 		grid-column: 1;
 		grid-row-start: 1;
 		grid-row-end: 3;
-		margin-top: 1px;
+		margin-top: 2px;
+	}
+
+	.gear-tooltip__req {
+		display: flex;
+		justify-content: end;
+		align-items: end;
+		padding-right: 1px;
 	}
 
 	.gear-tooltip__diff {
 		align-self: flex-start;
-		margin-top: 3px;
+		margin-top: 2px;
 		margin-left: -1px;
 	}
+
 	.gear-tooltip__job-req {
 		margin-top: 3px;
 	}
 
 	.gear-tooltip__item-detail {
-		width: 100%;
-		box-sizing: border-box;
-		margin-top: 4px;
-		margin-bottom: 8px;
+		align-self: flex-start;
+		padding-top: 4px;
+		padding-bottom: 8px;
+		margin-right: -4px;
 	}
+
 	.gear-tooltip__part {
-		width: 100%;
-		box-sizing: border-box;
+		align-self: flex-start;
 		margin-top: 4px;
 	}
 
@@ -359,12 +363,12 @@
 		padding-bottom: 8px;
 	}
 
-	.gear-tooltip__part.gear-tooltip__part--desc {
+	.gear-tooltip__part--desc {
 		margin-left: -3px;
 		margin-right: 4px;
 	}
 
-	.gear-tooltip__part.gear-tooltip__part--anvil {
+	.gear-tooltip__part--anvil {
 		margin-top: 0px;
 	}
 
@@ -373,15 +377,18 @@
 		width: 261px;
 		height: 13px;
 	}
+
 	.gear-tooltip__frame-line {
 		background-image: url(images/frame/line.png);
 		width: 261px;
 	}
+
 	.gear-tooltip__frame-bottom {
 		background-image: url(images/frame/bottom.png);
 		width: 261px;
 		height: 13px;
 	}
+
 	.gear-tooltip__frame-cover {
 		background-image: url(images/frame/cover.png);
 		width: 53px;
@@ -390,6 +397,7 @@
 		top: 0;
 		left: 0;
 	}
+
 	.gear-tooltip__dotline {
 		background-image: url(images/frame/dotline.png);
 		width: 261px;

@@ -33,13 +33,11 @@
 		if ((value = gear.getPropValue(GearPropType.tradeBlock))) {
 			tags.push(getGearPropString(GearPropType.tradeBlock, value));
 		}
+		else if ((value = gear.getPropValue(GearPropType.equipTradeBlock))) {
+			tags.push(getGearPropString(GearPropType.equipTradeBlock, value));
+		}
 		if ((value = gear.getPropValue(GearPropType.onlyEquip))) {
 			tags.push(getGearPropString(GearPropType.onlyEquip, value));
-		}
-		if ((value = gear.getPropValue(GearPropType.equipTradeBlock))) {
-			if (!gear.getBooleanValue(GearPropType.tradeBlock)) {
-				tags.push(getGearPropString(GearPropType.equipTradeBlock, value));
-			}
 		}
 		if ((value = gear.getPropValue(GearPropType.accountSharable))) {
 			let value2: number;
