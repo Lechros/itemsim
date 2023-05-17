@@ -17,6 +17,7 @@
 	import Potentials from './components/Potentials.svelte';
 	import SoulEnchant from './components/SoulEnchant.svelte';
 	import Upgrade from './components/Upgrade.svelte';
+	import Exceptional from './components/Exceptional.svelte';
 
 	export let gear: Gear | undefined;
 	export let meta: GearMeta | undefined;
@@ -25,6 +26,9 @@
 	export let resetMeta: () => void;
 
 	export const DELAY = 240;
+
+	let tabs = ['관리', '추가옵션', '주문서', '강화', '잠재옵션', '익셉셔널', '소울'];
+	let cans = tabs.map(() => true);
 
 	// used to persist ui while modal disappears
 	let gearCache: Gear | undefined;
@@ -35,7 +39,7 @@
 	}
 	let metaCache: GearMeta | undefined;
 	$: {
-		if(meta) {
+		if (meta) {
 			metaCache = meta;
 		}
 	}
@@ -67,30 +71,37 @@
 				</div>
 				<div>
 					<Tabs autoWidth>
-						<Tab tabindex="0">추가옵션</Tab>
-						<Tab tabindex="0">주문서</Tab>
-						<Tab tabindex="0">강화</Tab>
-						<Tab tabindex="0">잠재옵션</Tab>
-						<Tab tabindex="0">소울</Tab>
-						<Tab tabindex="0">관리</Tab>
+						{#each tabs as name, i}
+							<div class:tab__item--hidden={!cans[i]}>
+								<Tab tabindex="0">{name}</Tab>
+							</div>
+						{/each}
 						<svelte:fragment slot="content">
+						<TabContent>
+							<Manage bind:gear={gearCache} bind:meta={metaCache} on:delete={onDelete} />
+						</TabContent>
 							<TabContent>
-								<BonusStat bind:gear={gearCache} bind:meta={metaCache} bind:resetMeta />
+								<BonusStat
+									bind:can={cans[1]}
+									bind:gear={gearCache}
+									bind:meta={metaCache}
+									bind:resetMeta
+								/>
 							</TabContent>
 							<TabContent>
-								<Upgrade bind:gear={gearCache} />
+								<Upgrade bind:can={cans[2]} bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
-								<Enhance bind:gear={gearCache} />
+								<Enhance bind:can={cans[3]} bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
-								<Potentials bind:gear={gearCache} />
+								<Potentials bind:can={cans[4]} bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
-								<SoulEnchant bind:gear={gearCache} />
+								<Exceptional bind:can={cans[5]} bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
-								<Manage bind:gear={gearCache} bind:meta={metaCache} on:delete={onDelete} />
+								<SoulEnchant bind:can={cans[6]} bind:gear={gearCache} />
 							</TabContent>
 						</svelte:fragment>
 					</Tabs>
@@ -117,5 +128,9 @@
 		.enchant > .enchant__tooltip {
 			align-self: center;
 		}
+	}
+
+	.tab__item--hidden {
+		display: none;
 	}
 </style>

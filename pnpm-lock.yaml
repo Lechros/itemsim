@@ -5,8 +5,8 @@ dependencies:
     specifier: ^0.5.6
     version: 0.5.6
   '@malib/gear':
-    specifier: ^0.12.2
-    version: 0.12.2
+    specifier: ^0.12.3
+    version: 0.12.3
   svelte-local-storage-store:
     specifier: ^0.4.0
     version: 0.4.0(svelte@3.58.0)
@@ -554,11 +554,11 @@ packages:
   /@malib/create-gear@0.5.6:
     resolution: {integrity: sha512-hkrXvzcqGdgd0DAMu8gxY2vVnHGh6QaycwI6kFCOxOQilm1fuRYkOAM9pxcLrQjUBa1o24BTTSrvmIm4GMDyBg==}
     dependencies:
-      '@malib/gear': 0.12.2
+      '@malib/gear': 0.12.3
     dev: false
 
-  /@malib/gear@0.12.2:
-    resolution: {integrity: sha512-SHLJljJCMLIMBggS9A+WLfo+JX14G1dLLIwNChQK8/gcTo0IrCe/KgFLg8QyPS2gJEnuU4ZYLmtWeWSogw9KeQ==}
+  /@malib/gear@0.12.3:
+    resolution: {integrity: sha512-hhRr7KI1mtCNib/Jw/db8o7mdEt6+neHi5z91FPv/54iBMkPDDmFxxcKugO5pGgyemcjqAVi2K0t7QJEjjxQCw==}
     dev: false
 
   /@nodelib/fs.scandir@2.1.5:
