@@ -48,21 +48,28 @@
 				</Column>
 			</Row>
 		</div>
-		<div class="spelltrace__list">
-			{#each filterInfos(spellTrace.getInfos(), selectedProb) as info}
-				<Row>
-					<Column>
+		<Row>
+			<Column>
+				<div class="spelltrace__list">
+					{#each filterInfos(spellTrace.getInfos(), selectedProb) as info}
 						<div class="spelltrace__line">
 							<div class="spelltrace__line-first">
 								<ClickableTile
 									light
 									title={optionToStrings(info.scroll.option).join('\n')}
-									on:click={() => (gear = spellTrace.apply(gear, info))}
+									on:click={() => {
+										if (gear && spellTrace) {
+											gear = spellTrace.apply(gear, info);
+										}
+									}}
 									disabled={!can}
 								>
 									<div class="spelltrace__line-content">
 										<div class="spelltrace__icon-wrapper">
-											<div class="spelltrace__icon spelltrace__icon--{info.prob}" />
+											<div
+												class="spelltrace__icon spelltrace__icon--{info.prob}"
+												class:icon--disabled={!can}
+											/>
 										</div>
 										{info.scroll.name}
 									</div>
@@ -71,17 +78,21 @@
 							<div class="spelltrace__line-second">
 								<ClickableTile
 									light
-									on:click={() => (gear = spellTrace.applyFull(gear, info))}
+									on:click={() => {
+										if (gear && spellTrace) {
+											gear = spellTrace.applyFull(gear, info);
+										}
+									}}
 									disabled={!can}
 								>
 									+{gear.upgradeCountLeft}
 								</ClickableTile>
 							</div>
 						</div>
-					</Column>
-				</Row>
-			{/each}
-		</div>
+					{/each}
+				</div>
+			</Column>
+		</Row>
 	{/if}
 </div>
 

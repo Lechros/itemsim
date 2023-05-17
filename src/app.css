@@ -84,3 +84,7 @@ html body {
 .string-match--highlight {
 	background-color: var(--cds-highlight);
 }
+
+.icon--disabled {
+	filter: grayscale(1) contrast(0.5) brightness(1.3);
+}

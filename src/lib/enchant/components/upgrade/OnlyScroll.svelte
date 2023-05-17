@@ -38,13 +38,18 @@
 								<ClickableTile
 									light
 									title={optionToStrings(scroll.option).join('\n')}
-									on:click={() => (gear = doApplyScroll(gear, scroll))}
+									on:click={() => {
+										if (gear) {
+											gear = doApplyScroll(gear, scroll);
+										}
+									}}
 									disabled={!can}
 								>
 									<div class="only-scroll__line-content">
 										<div class="only-scroll__icon-wrapper">
 											<div
 												class="only-scroll__icon"
+												class:icon--disabled={!can}
 												style="background-image: url(/images/itemIcon/{scroll.icon}.png);
                                                 --width: {scroll.size[0]}px;
 												--height: {scroll.size[1]}px;
@@ -59,7 +64,11 @@
 							<div class="only-scroll__line-second">
 								<ClickableTile
 									light
-									on:click={() => (gear = doApplyScrollFull(gear, scroll))}
+									on:click={() => {
+										if (gear) {
+											gear = doApplyScrollFull(gear, scroll);
+										}
+									}}
 									disabled={!can}
 								>
 									+{gear.upgradeCountLeft}
