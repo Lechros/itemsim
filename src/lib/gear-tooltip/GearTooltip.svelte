@@ -146,12 +146,10 @@
 			</div>
 
 			{#if gear.grade > PotentialGrade.normal}
-				<div class="gear-tooltip__grade">
-					<GearGrade
-						grade={gear.grade}
-						specialGrade={gear.getBooleanValue(GearPropType.specialGrade)}
-					/>
-				</div>
+				<GearGrade
+					grade={gear.grade}
+					specialGrade={gear.getBooleanValue(GearPropType.specialGrade)}
+				/>
 			{/if}
 			<Attributes {gear} />
 
@@ -313,12 +311,9 @@
 	.gear-tooltip__title {
 		display: flex;
 		flex-direction: column;
-		margin-top: -2px;
 		align-items: center;
-	}
-
-	.gear-tooltip__grade {
-		margin-top: 4px;
+		margin-top: -2px;
+		margin-bottom: 4px;
 	}
 
 	.gear-tooltip__icon-area {
