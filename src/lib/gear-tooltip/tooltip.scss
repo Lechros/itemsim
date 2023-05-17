@@ -2,6 +2,7 @@ $prefix: gt;
 
 $gear-white: rgb(255, 255, 255);
 $gear-red: rgb(255, 0, 102);
+$gear-red2: rgb(255, 51, 51);
 $gear-orange: rgb(255, 170, 0);
 $gear-orange2: rgb(255, 204, 0);
 $gear-orange3: rgb(255, 136, 17);
@@ -38,6 +39,9 @@ $gear-gray2: rgb(153, 153, 153);
 }
 .#{$prefix}--text--red {
 	color: $gear-red;
+}
+.#{$prefix}--text--red2 {
+	color: $gear-red2;
 }
 .#{$prefix}--text--orange {
 	color: $gear-orange;

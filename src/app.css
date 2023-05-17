@@ -58,7 +58,7 @@ html body {
 .bx--modal-content p,
 .bx--modal-content__regular-content {
 	padding-right: var(--cds-spacing-05);
-	line-height: normal;
+    line-height: var(--cds-body-short-01-line-height, 1.28572);
 }
 
 /* remove modal content outline */
@@ -83,4 +83,8 @@ html body {
 
 .string-match--highlight {
 	background-color: var(--cds-highlight);
+}
+
+.icon--disabled {
+	filter: grayscale(1) contrast(0.5) brightness(1.3);
 }

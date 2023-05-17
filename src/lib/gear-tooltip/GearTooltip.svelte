@@ -1,20 +1,21 @@
 <script lang="ts">
 	import { GearPropType, PotentialGrade, type Gear } from '@malib/gear';
+	import Attributes from './components/Attributes.svelte';
+	import Desc from './components/Desc.svelte';
+	import DiffExtra from './components/DiffExtra.svelte';
+	import Exceptional from './components/Exceptional.svelte';
+	import GearGrade from './components/GearGrade.svelte';
+	import GearType from './components/GearType.svelte';
+	import Icon from './components/Icon.svelte';
+	import Incline from './components/Incline.svelte';
+	import JobReq from './components/JobReq.svelte';
+	import Option from './components/Option.svelte';
+	import Potential from './components/Potential.svelte';
+	import Req from './components/Req.svelte';
+	import Soul from './components/Soul.svelte';
+	import Star from './components/Star.svelte';
+	import Tuc from './components/Tuc.svelte';
 	import { getGearNameColor } from './graphics';
-	import Attributes from './parts/Attributes.svelte';
-	import Desc from './parts/Desc.svelte';
-	import DiffExtra from './parts/DiffExtra.svelte';
-	import GearGrade from './parts/GearGrade.svelte';
-	import GearType from './parts/GearType.svelte';
-	import Icon from './parts/Icon.svelte';
-	import Incline from './parts/Incline.svelte';
-	import JobReq from './parts/JobReq.svelte';
-	import Option from './parts/Option.svelte';
-	import Potential from './parts/Potential.svelte';
-	import Req from './parts/Req.svelte';
-	import Soul from './parts/Soul.svelte';
-	import Star from './parts/Star.svelte';
-	import Tuc from './parts/Tuc.svelte';
 	import { getGearPropString } from './strings';
 	import './tooltip.scss';
 
@@ -243,6 +244,17 @@
 				</div>
 			{/if}
 
+			{#if gear.exceptionalTotalUpgradeCount > 0}
+				<hr class="gear-tooltip__dotline" style="margin-top: 12px" />
+				<div class="gear-tooltip__part--exceptional gear-tooltip__part">
+					<Exceptional
+						option={gear.exceptionalOptions}
+						exceptionalTotalUpgradeCount={gear.exceptionalTotalUpgradeCount}
+						exceptionalUpgradeCount={gear.exceptionalUpgradeCount}
+					/>
+				</div>
+			{/if}
+
 			{#if gear.soulWeapon.enchanted}
 				<hr class="gear-tooltip__dotline" style="margin-top: 2px" />
 				<div class="gear-tooltip__part gear-tooltip__part--soul">
@@ -266,8 +278,10 @@
 
 			{#if gear.anvilIcon && gear.anvilName}
 				<div class="gear-tooltip__part gear-tooltip__part--anvil">
-					<div class="text">{' '}</div>
-					<div class="text green">신비의 모루에 의해 [{gear.anvilName}]의 외형이 합성됨</div>
+					<div class="gt--text">{' '}</div>
+					<div class="gt--text gt--text--green">
+						신비의 모루에 의해 [{gear.anvilName}]의 외형이 합성됨
+					</div>
 				</div>
 			{/if}
 		</div>
@@ -340,6 +354,11 @@
 		box-sizing: border-box;
 		margin-top: 4px;
 	}
+
+	.gear-tooltip__part--exceptional {
+		padding-bottom: 8px;
+	}
+
 	.gear-tooltip__part.gear-tooltip__part--desc {
 		margin-left: -3px;
 		margin-right: 4px;
