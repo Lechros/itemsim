@@ -167,16 +167,20 @@
 						newBonus={gear.isNewBonusType}
 					/>
 				</div>
-				<Incline {incline} />
-				<Req
-					req={gear.req}
-					reduceReq={gear.option(GearPropType.reduceReq).sum}
-					{characterLevel}
-					{characterSTR}
-					{characterDEX}
-					{characterINT}
-					{characterLUK}
-				/>
+				<div class="gear-tooltip__incline">
+					<Incline {incline} />
+				</div>
+				<div class="gear-tooltip__req">
+					<Req
+						req={gear.req}
+						reduceReq={gear.option(GearPropType.reduceReq).sum}
+						{characterLevel}
+						{characterSTR}
+						{characterDEX}
+						{characterINT}
+						{characterLUK}
+					/>
+				</div>
 			</div>
 			<div class="gear-tooltip__diff">
 				<DiffExtra {pddDiff} {bdrDiff} {imdrDiff} />
@@ -320,23 +324,27 @@
 	.gear-tooltip__icon-area {
 		box-sizing: border-box;
 		display: grid;
-		margin-top: 7px;
-		width: 100%;
-		margin-right: 2px;
-		grid-template-columns: 82px 159px;
-		grid-template-rows: 44px 36px;
-		row-gap: 2px;
+		padding-top: 6px;
+		grid-template-columns: 82px 155px;
+		grid-template-rows: 44px 1fr;
 	}
 	.gear-tooltip__icon {
 		grid-column: 1;
 		grid-row-start: 1;
 		grid-row-end: 3;
-		margin-top: 1px;
+		margin-top: 2px;
+	}
+
+	.gear-tooltip__req {
+		display: flex;
+		justify-content: end;
+		align-items: end;
+		padding-right: 1px;
 	}
 
 	.gear-tooltip__diff {
 		align-self: flex-start;
-		margin-top: 3px;
+		margin-top: 2px;
 		margin-left: -1px;
 	}
 	.gear-tooltip__job-req {
