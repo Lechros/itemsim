@@ -317,12 +317,12 @@
 	}
 
 	.gear-tooltip__icon-area {
-		box-sizing: border-box;
 		display: grid;
 		padding-top: 6px;
 		grid-template-columns: 82px 155px;
 		grid-template-rows: 44px 1fr;
 	}
+
 	.gear-tooltip__icon {
 		grid-column: 1;
 		grid-row-start: 1;
@@ -342,19 +342,20 @@
 		margin-top: 2px;
 		margin-left: -1px;
 	}
+
 	.gear-tooltip__job-req {
 		margin-top: 3px;
 	}
 
 	.gear-tooltip__item-detail {
-		width: 100%;
-		box-sizing: border-box;
-		margin-top: 4px;
-		margin-bottom: 8px;
+		align-self: flex-start;
+		padding-top: 4px;
+		padding-bottom: 8px;
+		margin-right: -4px;
 	}
+
 	.gear-tooltip__part {
-		width: 100%;
-		box-sizing: border-box;
+		align-self: flex-start;
 		margin-top: 4px;
 	}
 
@@ -362,12 +363,12 @@
 		padding-bottom: 8px;
 	}
 
-	.gear-tooltip__part.gear-tooltip__part--desc {
+	.gear-tooltip__part--desc {
 		margin-left: -3px;
 		margin-right: 4px;
 	}
 
-	.gear-tooltip__part.gear-tooltip__part--anvil {
+	.gear-tooltip__part--anvil {
 		margin-top: 0px;
 	}
 
@@ -376,15 +377,18 @@
 		width: 261px;
 		height: 13px;
 	}
+
 	.gear-tooltip__frame-line {
 		background-image: url(images/frame/line.png);
 		width: 261px;
 	}
+
 	.gear-tooltip__frame-bottom {
 		background-image: url(images/frame/bottom.png);
 		width: 261px;
 		height: 13px;
 	}
+
 	.gear-tooltip__frame-cover {
 		background-image: url(images/frame/cover.png);
 		width: 53px;
@@ -393,6 +397,7 @@
 		top: 0;
 		left: 0;
 	}
+
 	.gear-tooltip__dotline {
 		background-image: url(images/frame/dotline.png);
 		width: 261px;
