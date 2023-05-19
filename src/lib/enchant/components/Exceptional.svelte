@@ -11,7 +11,7 @@
 	import type { Gear } from '@malib/gear';
 	import { Row, Column, ClickableTile, Button } from 'carbon-components-svelte';
 
-	export let can: boolean;
+	export let can = false;
 
 	export let gear: Gear | undefined;
 
