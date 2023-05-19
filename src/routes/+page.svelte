@@ -14,23 +14,17 @@
 	import Upload from 'carbon-icons-svelte/lib/Upload.svelte';
 	import { gear, inventory, meta, selected } from '../lib/inventory/stores/gear-store';
 
-	let importOpen = false;
-
 	/* inventory */
-	let inventoryComponent: Inventory;
-
-	let selectedIndexes: Set<number> = new Set();
-
 	let inventoryMode: 'default' | 'remove' = 'default';
-
-	let createOpen = false;
+	let selectedIndexes: Set<number> = new Set();
+	let inventoryComponent: Inventory;
+	let inventoryDragging = false;
+	let hoveringGear: Gear | undefined;
 
 	$: gearCount = $inventory.reduce((count, info) => (info ? count + 1 : count), 0);
 
-	let inventoryDragging = false;
-
-	/* mouse hover tooltip */
-	let hoveringGear: Gear | undefined;
+	let importOpen = false;
+	let createOpen = false;
 </script>
 
 <div class="container">

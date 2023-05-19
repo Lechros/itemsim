@@ -2,7 +2,6 @@
 	import { GearPropType, type Gear } from '@malib/gear';
 	import { afterUpdate } from 'svelte';
 	import { getGearPropString } from '../strings';
-	import GearGrade from './GearGrade.svelte';
 
 	export let gear: Gear;
 
@@ -32,8 +31,7 @@
 		}
 		if ((value = gear.getPropValue(GearPropType.tradeBlock))) {
 			tags.push(getGearPropString(GearPropType.tradeBlock, value));
-		}
-		else if ((value = gear.getPropValue(GearPropType.equipTradeBlock))) {
+		} else if ((value = gear.getPropValue(GearPropType.equipTradeBlock))) {
 			tags.push(getGearPropString(GearPropType.equipTradeBlock, value));
 		}
 		if ((value = gear.getPropValue(GearPropType.onlyEquip))) {

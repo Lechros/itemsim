@@ -13,11 +13,11 @@
 	import type { GearMeta } from '../inventory/stores/gear-store';
 	import BonusStat from './components/BonusStat.svelte';
 	import Enhance from './components/Enhance.svelte';
+	import Exceptional from './components/Exceptional.svelte';
 	import Manage from './components/Manage.svelte';
 	import Potentials from './components/Potentials.svelte';
 	import SoulEnchant from './components/SoulEnchant.svelte';
 	import Upgrade from './components/Upgrade.svelte';
-	import Exceptional from './components/Exceptional.svelte';
 
 	export let gear: Gear | undefined;
 	export let meta: GearMeta | undefined;
@@ -77,9 +77,9 @@
 							</div>
 						{/each}
 						<svelte:fragment slot="content">
-						<TabContent>
-							<Manage bind:gear={gearCache} bind:meta={metaCache} on:delete={onDelete} />
-						</TabContent>
+							<TabContent>
+								<Manage bind:gear={gearCache} bind:meta={metaCache} on:delete={onDelete} />
+							</TabContent>
 							<TabContent>
 								<BonusStat
 									bind:can={cans[1]}
