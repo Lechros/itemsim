@@ -7,12 +7,16 @@
 	import ImportGearModal from '$lib/import-gear/ImportGearModal.svelte';
 	import Inventory from '$lib/inventory/Inventory.svelte';
 	import type { Gear } from '@malib/gear';
-	import { Button, Column, Grid, Row } from 'carbon-components-svelte';
+	import { Button, Column, Grid, Loading, Row } from 'carbon-components-svelte';
 	import Add from 'carbon-icons-svelte/lib/Add.svelte';
 	import Close from 'carbon-icons-svelte/lib/Close.svelte';
 	import TrashCan from 'carbon-icons-svelte/lib/TrashCan.svelte';
 	import Upload from 'carbon-icons-svelte/lib/Upload.svelte';
+	import { onMount } from 'svelte';
 	import { gear, inventory, meta, selected } from '../lib/inventory/stores/gear-store';
+
+	let loading = true;
+	onMount(() => (loading = false));
 
 	/* inventory */
 	let inventoryMode: 'default' | 'remove' = 'default';
@@ -28,6 +32,9 @@
 </script>
 
 <div class="container">
+	{#if loading}
+		<Loading />
+	{/if}
 	<Grid>
 		<Row>
 			<Column>
