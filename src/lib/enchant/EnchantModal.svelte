@@ -14,6 +14,7 @@
 	import BonusStat from './components/BonusStat.svelte';
 	import Enhance from './components/Enhance.svelte';
 	import Exceptional from './components/Exceptional.svelte';
+	import GearProp from './components/GearProp.svelte';
 	import Manage from './components/Manage.svelte';
 	import Potentials from './components/Potentials.svelte';
 	import SoulEnchant from './components/SoulEnchant.svelte';
@@ -27,7 +28,7 @@
 
 	export const DELAY = 240;
 
-	let tabs = ['관리', '추가옵션', '주문서', '강화', '잠재옵션', '익셉셔널', '소울'];
+	let tabs = ['관리', '속성', '추가옵션', '주문서', '강화', '잠재옵션', '익셉셔널', '소울'];
 	let cans = tabs.map(() => true);
 
 	// used to persist ui while modal disappears
@@ -81,27 +82,30 @@
 								<Manage bind:gear={gearCache} bind:meta={metaCache} on:delete={onDelete} />
 							</TabContent>
 							<TabContent>
+								<GearProp bind:can={cans[1]} bind:gear={gearCache} />
+							</TabContent>
+							<TabContent>
 								<BonusStat
-									bind:can={cans[1]}
+									bind:can={cans[2]}
 									bind:gear={gearCache}
 									bind:meta={metaCache}
 									bind:resetMeta
 								/>
 							</TabContent>
 							<TabContent>
-								<Upgrade bind:can={cans[2]} bind:gear={gearCache} />
+								<Upgrade bind:can={cans[3]} bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
-								<Enhance bind:can={cans[3]} bind:gear={gearCache} />
+								<Enhance bind:can={cans[4]} bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
-								<Potentials bind:can={cans[4]} bind:gear={gearCache} />
+								<Potentials bind:can={cans[5]} bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
-								<Exceptional bind:can={cans[5]} bind:gear={gearCache} />
+								<Exceptional bind:can={cans[6]} bind:gear={gearCache} />
 							</TabContent>
 							<TabContent>
-								<SoulEnchant bind:can={cans[6]} bind:gear={gearCache} />
+								<SoulEnchant bind:can={cans[7]} bind:gear={gearCache} />
 							</TabContent>
 						</svelte:fragment>
 					</Tabs>
