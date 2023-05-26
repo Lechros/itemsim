@@ -25,8 +25,8 @@
 
 	.icon {
 		image-rendering: pixelated;
-		width: 64px;
-		height: 64px;
+		width: 44px;
+		height: 44px;
 		background-repeat: no-repeat;
 	}
 
