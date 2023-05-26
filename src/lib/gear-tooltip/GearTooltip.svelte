@@ -67,10 +67,8 @@
 
 	export let ref: HTMLDivElement | undefined = undefined;
 
-	export let iconSrc = 'https://maplestory.io/api/KMS/367/item/{}/icon';
-
 	$: gearName = `${gear.name}${gear.upgradeCount > 0 ? ` (+${gear.upgradeCount})` : ''}`;
-	$: icon = gear.anvilIcon ?? gear.icon;
+	$: icon = gear.anvil?.icon ?? gear.icon;
 	$: superior = gear.getBooleanValue(GearPropType.superiorEqp);
 	$: desc = getDescs(gear);
 
@@ -158,8 +156,7 @@
 			<div class="gear-tooltip__icon-area">
 				<div class="gear-tooltip__icon">
 					<Icon
-						src={iconSrc.replace('{}', icon.id.toString())}
-						origin={icon.origin}
+						iconId={icon.id}
 						alt={gearName}
 						grade={Math.max(gear.grade, gear.additionalGrade)}
 						newBonus={gear.isNewBonusType}
@@ -278,11 +275,11 @@
 				</div>
 			{/if}
 
-			{#if gear.anvilIcon && gear.anvilName}
+			{#if gear.anvil}
 				<div class="gear-tooltip__part gear-tooltip__part--anvil">
 					<div class="gt--text">{' '}</div>
 					<div class="gt--text gt--text--green">
-						신비의 모루에 의해 [{gear.anvilName}]의 외형이 합성됨
+						신비의 모루에 의해 [{gear.anvil.name}]의 외형이 합성됨
 					</div>
 				</div>
 			{/if}

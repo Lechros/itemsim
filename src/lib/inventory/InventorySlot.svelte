@@ -2,10 +2,9 @@
 	import { PotentialGrade } from '@malib/gear';
 	import { AspectRatio, Tag } from 'carbon-components-svelte';
 	import type { GearInfo } from './stores/gear-store';
+	import GearIcon from '$lib/icon/GearIcon.svelte';
 
 	export let info: GearInfo | undefined;
-
-	export let img: HTMLImageElement | undefined = undefined;
 
 	$: gear = info?.gear;
 
@@ -30,16 +29,7 @@
 <AspectRatio ratio="1x1" style="pointer-events: none;">
 	{#if gear}
 		<div class="slot">
-			<img
-				draggable="false"
-				src="https://maplestory.io/api/KMS/367/item/{gear.icon.id}/icon"
-				alt={gear.name}
-				class="slot__icon"
-				style="
-					margin-left: {1 - gear.icon.origin[0]}px;
-					margin-top: {33 - gear.icon.origin[1]}px;"
-				bind:this={img}
-			/>
+			<GearIcon iconId={gear.icon.id} alt={gear.name} style="scale: 2;"/>
 			<div class="slot__enchant">
 				{#if gear.star > 0}
 					<Tag size="sm" type="high-contrast">

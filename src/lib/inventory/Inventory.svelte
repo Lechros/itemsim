@@ -22,9 +22,7 @@
 		selectedIndexes = selectedIndexes;
 	}
 
-	let imgs: (HTMLImageElement | undefined)[] = [];
 	let draggingIndex = -1;
-
 	$: {
 		isDragging = draggingIndex >= 0;
 	}
@@ -65,10 +63,8 @@
 							on:mouseleave={() => (hoveringGear = undefined)}
 							on:dragstart={(e) => {
 								draggingIndex = i;
-								const ref = imgs[i];
 								if (e.dataTransfer) {
 									e.dataTransfer.effectAllowed = 'move';
-									if (ref) e.dataTransfer.setDragImage(ref, 16, 16);
 								}
 							}}
 							on:dragend={() => (draggingIndex = -1)}
@@ -93,7 +89,7 @@
 								}
 							}}
 						>
-							<InventorySlot {info} bind:img={imgs[i]} />
+							<InventorySlot {info} />
 						</button>
 					{/each}
 				{:else}

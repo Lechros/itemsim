@@ -11,6 +11,7 @@
 	} from 'carbon-components-svelte';
 	import { throttle } from '../../routes/util';
 	import StringMatch from '../string-match/StringMatch.svelte';
+	import GearIcon from '$lib/icon/GearIcon.svelte';
 
 	export let open = false;
 
@@ -222,13 +223,7 @@
 						}}
 					>
 						<div class="create-gear__gear-content">
-							<img
-								src="https://maplestory.io/api/KMS/367/item/{data[0]}/icon"
-								alt={data[1].n}
-								style="
-                                margin-left: {1 - data[1].i.origin[0]}px;
-                                margin-top: {33 - data[1].i.origin[1]}px;"
-							/>
+							<GearIcon iconId={data[1].i.id} alt={data[1].n}/>
 							<StringMatch str={data[1].n} search={trimmed} />
 						</div>
 					</SelectableTile>
