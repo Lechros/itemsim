@@ -30,7 +30,7 @@
 	{/if}
 	<div class="item-icon__base">
 		<div class="item-icon__icon">
-			<GearIcon {iconId} {alt} style="scale: 2;" />
+			<GearIcon {iconId} style="scale: 2;" />
 		</div>
 	</div>
 	<div class="item-icon__old-dot" />

@@ -38,8 +38,6 @@ const exceptionalParts = {
 	'악몽의 조각': {
 		name: '악몽의 조각',
 		icon: 2644200,
-		size: [32, 29],
-		origin: [-1, 30],
 		option: new Map([
 			[GearPropType.incSTR, 20],
 			[GearPropType.incDEX, 20],
@@ -54,8 +52,6 @@ const exceptionalParts = {
 	'그라비티 모듈': {
 		name: '그라비티 모듈',
 		icon: 2644201,
-		size: [33, 34],
-		origin: [0, 33],
 		option: new Map([
 			[GearPropType.incSTR, 15],
 			[GearPropType.incDEX, 15],

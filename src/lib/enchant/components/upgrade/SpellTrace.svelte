@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { optionToStrings } from '$lib/gear-tooltip/strings';
-	import type { Gear } from '@malib/gear';
+	import type { Gear, SpellTraceProbability } from '@malib/gear';
 	import { ClickableTile, Column, ContentSwitcher, Row, Switch } from 'carbon-components-svelte';
 	import { canApplyScroll } from '../../domains/upgrade/common';
 	import { SpellTraceEnchanter, type SpellTraceInfo } from '../../domains/upgrade/spelltrace';
 	import { resultOrFalse } from '../../domains/util';
+	import ItemIcon from '$lib/icon/ItemIcon.svelte';
 
 	export let gear: Gear | undefined;
 
@@ -32,6 +33,19 @@
 	function filterInfos(infos: SpellTraceInfo[], prob: number) {
 		if (prob < 0) return infos;
 		else return infos.filter((info) => info.prob === prob);
+	}
+
+	function getIconId(probability: SpellTraceProbability) {
+		switch (probability) {
+			case 100:
+				return 2040000;
+			case 70:
+				return 2040008;
+			case 30:
+				return 2040001;
+			case 15:
+				return 2040022;
+		}
 	}
 </script>
 
@@ -65,11 +79,8 @@
 									disabled={!can}
 								>
 									<div class="spelltrace__line-content">
-										<div class="spelltrace__icon-wrapper">
-											<div
-												class="spelltrace__icon spelltrace__icon--{info.prob}"
-												class:icon--disabled={!can}
-											/>
+										<div class="spelltrace__icon-wrapper" class:icon--disabled={!can}>
+											<ItemIcon itemId={getIconId(info.prob)} />
 										</div>
 										{info.scroll.name}
 									</div>
@@ -132,34 +143,5 @@
 		height: 1rem;
 		align-items: center;
 		margin-right: var(--cds-spacing-03);
-	}
-
-	.spelltrace__icon--100 {
-		background-image: url(../../images/upgrade/spelltrace/spelltrace100.png);
-		width: 30px;
-		height: 26px;
-		margin-top: 4px;
-		margin-left: 2px;
-	}
-	.spelltrace__icon--70 {
-		background-image: url(../../images/upgrade/spelltrace/spelltrace70.png);
-		width: 30px;
-		height: 26px;
-		margin-top: 4px;
-		margin-left: 2px;
-	}
-	.spelltrace__icon--30 {
-		background-image: url(../../images/upgrade/spelltrace/spelltrace30.png);
-		width: 30px;
-		height: 26px;
-		margin-top: 4px;
-		margin-left: 2px;
-	}
-	.spelltrace__icon--15 {
-		background-image: url(../../images/upgrade/spelltrace/spelltrace15.png);
-		width: 31px;
-		height: 31px;
-		margin-top: 3px;
-		margin-left: 2px;
 	}
 </style>

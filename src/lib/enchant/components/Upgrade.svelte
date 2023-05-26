@@ -9,6 +9,7 @@
 	import PadMadScroll from './upgrade/PadMadScroll.svelte';
 	import SpecialScroll from './upgrade/SpecialScroll.svelte';
 	import SpellTrace from './upgrade/SpellTrace.svelte';
+	import ItemIcon from '$lib/icon/ItemIcon.svelte';
 
 	export let can = false;
 
@@ -23,6 +24,23 @@
 	$: {
 		if (onlyUpgrade && scrollType !== 4) scrollType = 4;
 		else if (!hasOnlyScroll && scrollType === 4) scrollType = 0;
+	}
+
+	function getIconId(text: string) {
+		switch(text) {
+			case '주문의 흔적':
+				return 4001832;
+			case '공격력/마력 주문서':
+				return 2046856;
+			case '혼돈의 주문서':
+				return 2049100;
+			case '특수 주문서':
+				return 2046876;
+			case '전용 주문서':
+				return 2643132;
+			default:
+				return 0;
+		}
 	}
 </script>
 
@@ -49,7 +67,7 @@
 					>
 						<div class="scroll-type__content">
 							<div class="scroll-type__icon-wrapper">
-								<div class="scroll-type__icon scroll-type__icon--{item.id}" />
+								<ItemIcon itemId={getIconId(item.text)} />
 							</div>
 							{item.text}
 						</div>
@@ -98,38 +116,6 @@
 		width: var(--cds-layout-03);
 		height: 1rem;
 		margin-right: var(--cds-spacing-03);
-	}
-
-	.scroll-type__icon--0 {
-		background-image: url(../images/upgrade/spellTrace.png);
-		width: 33px;
-		height: 33px;
-		margin-left: 1px;
-	}
-	.scroll-type__icon--1 {
-		background-image: url(../images/upgrade/padScroll.png);
-		width: 38px;
-		height: 36px;
-		margin-top: -1px;
-		margin-left: -2px;
-	}
-	.scroll-type__icon--2 {
-		background-image: url(../images/upgrade/chaosScroll.png);
-		width: 30px;
-		height: 26px;
-		margin-top: 4px;
-		margin-left: 2px;
-	}
-	.scroll-type__icon--3 {
-		background-image: url(../images/upgrade/specialScroll.png);
-		width: 33px;
-		height: 33px;
-	}
-	.scroll-type__icon--4 {
-		background-image: url(../images/upgrade/onlyScroll.png);
-		width: 32px;
-		height: 29px;
-		margin-top: 1px;
 	}
 
 	.upgrade__panel {

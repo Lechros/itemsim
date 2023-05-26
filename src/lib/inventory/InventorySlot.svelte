@@ -29,7 +29,7 @@
 <AspectRatio ratio="1x1" style="pointer-events: none;">
 	{#if gear}
 		<div class="slot">
-			<GearIcon iconId={gear.icon.id} alt={gear.name} style="scale: 2;"/>
+			<GearIcon iconId={gear.icon.id} style="scale: 2;"/>
 			<div class="slot__enchant">
 				{#if gear.star > 0}
 					<Tag size="sm" type="high-contrast">

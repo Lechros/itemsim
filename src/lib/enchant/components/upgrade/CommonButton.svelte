@@ -1,11 +1,17 @@
 <script lang="ts">
+	import ItemIcon from '$lib/icon/ItemIcon.svelte';
 	import { Button } from 'carbon-components-svelte';
+
+	export let iconId: number;
 
 	export let disabled: boolean;
 </script>
 
-<Button kind="secondary" on:click bind:disabled style="padding: 0;">
+<Button kind="secondary" on:click {disabled} style="padding: 0;">
 	<div class="common-button__content">
+		<div class:icon--disabled={disabled}>
+			<ItemIcon itemId={iconId} />
+		</div>
 		<slot />
 	</div>
 </Button>

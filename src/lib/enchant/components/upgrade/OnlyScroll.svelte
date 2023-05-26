@@ -5,6 +5,7 @@
 	import { canApplyScroll, doApplyScroll, doApplyScrollFull } from '../../domains/upgrade/common';
 	import { getOnlyScrolls } from '../../domains/upgrade/only-scroll';
 	import { resultOrFalse } from '../../domains/util';
+	import ItemIcon from '$lib/icon/ItemIcon.svelte';
 
 	export let gear: Gear | undefined;
 
@@ -46,16 +47,8 @@
 									disabled={!can}
 								>
 									<div class="only-scroll__line-content">
-										<div class="only-scroll__icon-wrapper">
-											<div
-												class="only-scroll__icon"
-												class:icon--disabled={!can}
-												style="background-image: url(/images/itemIcon/{scroll.icon}.png);
-                                                --width: {scroll.size[0]}px;
-												--height: {scroll.size[1]}px;
-                                                --left: {1 - scroll.origin[0]}px;
-												--top: {33 - scroll.origin[1]}px;"
-											/>
+										<div class="only-scroll__icon-wrapper" class:icon--disabled={!can}>
+											<ItemIcon itemId={scroll.icon} />
 										</div>
 										{scroll.name}
 									</div>
@@ -114,12 +107,5 @@
 		height: 1rem;
 		align-items: center;
 		margin-right: var(--cds-spacing-03);
-	}
-
-	.only-scroll__icon {
-		width: var(--width);
-		height: var(--height);
-		margin-left: var(--left);
-		margin-top: var(--top);
 	}
 </style>

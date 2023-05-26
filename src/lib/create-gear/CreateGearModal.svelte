@@ -223,7 +223,7 @@
 						}}
 					>
 						<div class="create-gear__gear-content">
-							<GearIcon iconId={data[1].i.id} alt={data[1].n}/>
+							<GearIcon iconId={data[1].i.id} />
 							<StringMatch str={data[1].n} search={trimmed} />
 						</div>
 					</SelectableTile>

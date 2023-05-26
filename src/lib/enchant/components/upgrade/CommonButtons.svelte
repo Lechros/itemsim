@@ -15,6 +15,7 @@
 	} from '../../domains/upgrade/common';
 	import { resultOrFalse } from '../../domains/util';
 	import CommonButton from './CommonButton.svelte';
+	import ItemIcon from '$lib/icon/ItemIcon.svelte';
 
 	export let gear: Gear | undefined;
 
@@ -53,24 +54,19 @@
 <Row>
 	<Column>
 		<div class="common-buttons">
-			<CommonButton on:click={hammer} disabled={!canHammer}>
-				<div class="common-button__icon common-button__icon--hammer" />
+			<CommonButton on:click={hammer} disabled={!canHammer} iconId={2470000}>
 				황금 망치
 			</CommonButton>
-			<CommonButton on:click={fail} disabled={!canFail}>
-				<div class="common-button__icon common-button__icon--fail" />
+			<CommonButton on:click={fail} disabled={!canFail} iconId={2041226}>
 				주문서 실패
 			</CommonButton>
-			<CommonButton on:click={cleanSlate} disabled={!canCleanSlate}>
-				<div class="common-button__icon common-button__icon--clean-slate" />
+			<CommonButton on:click={cleanSlate} disabled={!canCleanSlate} iconId={2049000}>
 				순백의 주문서
 			</CommonButton>
-			<CommonButton on:click={innocent} disabled={!canInnocent}>
-				<div class="common-button__icon common-button__icon--innocent" />
+			<CommonButton on:click={innocent} disabled={!canInnocent} iconId={2049600}>
 				이노센트
 			</CommonButton>
-			<CommonButton on:click={arkInnocent} disabled={!canArkInnocent}>
-				<div class="common-button__icon common-button__icon--ark-innocent" />
+			<CommonButton on:click={arkInnocent} disabled={!canArkInnocent} iconId={2049628}>
 				아크 이노센트
 			</CommonButton>
 		</div>
@@ -86,45 +82,5 @@
 		.common-buttons {
 			grid-template-columns: 1fr;
 		}
-	}
-
-	* button[disabled] .common-button__icon {
-		filter: grayscale(1) contrast(0.5) brightness(1.3);
-	}
-
-	.common-button__icon--hammer {
-		background-image: url(../../images/upgrade/goldenHammer.png);
-		width: 30px;
-		height: 29px;
-		margin-top: 3px;
-		margin-left: 3px;
-	}
-	.common-button__icon--clean-slate {
-		background-image: url(../../images/upgrade/cleanSlate.png);
-		width: 30px;
-		height: 26px;
-		margin-top: 4px;
-		margin-left: 2px;
-	}
-	.common-button__icon--fail {
-		background-image: url(../../images/upgrade/fail.png);
-		width: 30px;
-		height: 26px;
-		margin-top: 4px;
-		margin-left: 2px;
-	}
-	.common-button__icon--innocent {
-		background-image: url(../../images/upgrade/innocent.png);
-		width: 30px;
-		height: 26px;
-		margin-top: 4px;
-		margin-left: 2px;
-	}
-	.common-button__icon--ark-innocent {
-		background-image: url(../../images/upgrade/arkInnocent.png);
-		width: 30px;
-		height: 26px;
-		margin-top: 4px;
-		margin-left: 2px;
 	}
 </style>
