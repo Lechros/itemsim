@@ -51,11 +51,19 @@
 				<div class="slot__grade-icon {getIconName(gear.grade)}" />
 				<div class="slot__grade-icon {getIconName(gear.additionalGrade)}" />
 			</div>
+			<div class="slot__exceptional">
+				{#if gear.exceptionalUpgradeCount > 0}
+					<div class="slot__exceptional-icon" />
+				{/if}
+			</div>
 		</div>
 	{/if}
 </AspectRatio>
 
-<style>
+<style lang="scss">
+	$chip-spacing: calc(var(--cds-spacing-04) * -1);
+	$icon-spacing: calc(var(--cds-spacing-03) * -1);
+
 	.slot {
 		display: flex;
 		justify-content: center;
@@ -71,14 +79,16 @@
 
 	.slot__enchant {
 		position: absolute;
-		top: calc(var(--cds-spacing-03) * -1);
-		left: calc(var(--cds-spacing-03) * -1);
+		top: $chip-spacing;
+		left: $chip-spacing;
+		display: flex;
 	}
 
 	.slot__star-content {
 		display: flex;
 		align-items: center;
 		line-height: normal;
+		word-break: keep-all;
 	}
 
 	.slot__star-icon {
@@ -96,24 +106,11 @@
 
 	.slot__grades {
 		position: absolute;
-		right: calc(var(--cds-spacing-02) * -1);
-		bottom: calc(var(--cds-spacing-02) * -1);
+		right: $icon-spacing;
+		bottom: $icon-spacing;
 		display: flex;
 		flex-direction: column;
 		gap: var(--cds-spacing-01);
-	}
-
-	@media (max-width: 24rem) {
-		.slot__enchant {
-			top: calc(var(--cds-spacing-04) * -1);
-			left: calc(var(--cds-spacing-04) * -1);
-		}
-
-		.slot__grades {
-			right: calc(var(--cds-spacing-03) * -1);
-			bottom: calc(var(--cds-spacing-03) * -1);
-			gap: 0;
-		}
 	}
 
 	.slot__grade-icon {
@@ -134,5 +131,17 @@
 	}
 	.slot__grade-icon--legendary {
 		background-image: url(./images/grade-legendary.png);
+	}
+
+	.slot__exceptional {
+		position: absolute;
+		left: $icon-spacing;
+		bottom: $icon-spacing;
+	}
+
+	.slot__exceptional-icon {
+		background-image: url(./images/exceptional.png);
+		width: 19px;
+		height: 13px;
 	}
 </style>
