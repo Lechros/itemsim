@@ -38,8 +38,8 @@
 		"vitest": "^0.29.8"
 	},
 	"dependencies": {
-		"@malib/create-gear": "^0.5.6",
-		"@malib/gear": "^0.12.3",
+		"@malib/create-gear": "^0.6.0",
+		"@malib/gear": "^0.13.0",
 		"svelte-local-storage-store": "^0.4.0"
 	}
 }

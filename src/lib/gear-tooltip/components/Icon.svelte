@@ -1,15 +1,13 @@
 <script lang="ts">
+	import GearIcon from '$lib/icon/GearIcon.svelte';
 	import { PotentialGrade } from '@malib/gear';
 
-	export let src: string;
-	export let origin: [number, number];
+	export let iconId: number;
 	export let alt: string;
 	export let grade: PotentialGrade;
 	export let newBonus: boolean;
 
 	$: color = getBorderColor(grade);
-	$: originX = 6 + (1 - origin[0]) * 2;
-	$: originY = 6 + (33 - origin[1]) * 2;
 
 	function getBorderColor(grade: PotentialGrade) {
 		switch (grade) {
@@ -31,12 +29,9 @@
 		<div class="item-icon__border {color}" />
 	{/if}
 	<div class="item-icon__base">
-		<img
-			class="item-icon__icon"
-			{src}
-			{alt}
-			style="margin-left: {originX}px; margin-top: {originY}px"
-		/>
+		<div class="item-icon__icon">
+			<GearIcon {iconId} style="scale: 2;" />
+		</div>
 	</div>
 	<div class="item-icon__old-dot" />
 	{#if newBonus}
@@ -54,12 +49,14 @@
 		background-image: url(../images/itemIcon/base.png);
 		width: 82px;
 		height: 82px;
-		position: relative;
 	}
 
 	.item-icon__icon {
-		transform: scale(2);
-		transform-origin: top left;
+		width: 80px;
+		height: 80px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.item-icon__border {

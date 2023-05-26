@@ -8,6 +8,7 @@
 	} from '$lib/enchant/domains/exceptional';
 	import { resultOrFalse } from '$lib/enchant/domains/util';
 	import { optionToStrings } from '$lib/gear-tooltip/strings';
+	import ItemIcon from '$lib/icon/ItemIcon.svelte';
 	import type { Gear } from '@malib/gear';
 	import { Row, Column, ClickableTile, Button } from 'carbon-components-svelte';
 
@@ -60,16 +61,8 @@
 								disabled={!canApply}
 							>
 								<div class="exceptional__line-content">
-									<div class="exceptional__icon-wrapper">
-										<div
-											class="exceptional__icon"
-											class:icon--disabled={!canApply}
-											style="background-image: url(/images/itemIcon/{part.icon}.png);
-													--width: {part.size[0]}px;
-													--height: {part.size[1]}px;
-													--left: {1 - part.origin[0]}px;
-													--top: {33 - part.origin[1]}px;"
-										/>
+									<div class="exceptional__icon-wrapper" class:icon--disabled={!canApply}>
+										<ItemIcon itemId={part.icon} />
 									</div>
 									{part.name}
 								</div>
@@ -127,13 +120,6 @@
 		height: 1rem;
 		align-items: center;
 		margin-right: var(--cds-spacing-03);
-	}
-
-	.exceptional__icon {
-		width: var(--width);
-		height: var(--height);
-		margin-left: var(--left);
-		margin-top: var(--top);
 	}
 
 	.exceptional__reset {
