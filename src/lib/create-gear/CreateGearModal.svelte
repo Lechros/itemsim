@@ -53,14 +53,14 @@
 
 	let currentShow = DEFAULT_SHOW;
 
-	let response: [number, GearLike][] = [];
+	let response: GearLike[] = [];
 	const throttleGet = throttle(() => getGearData(trimmed), 200);
 	$: {
 		if (trimmed.length > 0) {
 			throttleGet();
 		}
 	}
-	$: filtered = job > 0 ? response.filter((data) => canJob(data[1], job)) : response;
+	$: filtered = job > 0 ? response.filter((data) => canJob(data, job)) : response;
 
 	const url = 'https://api.itemsim.com/gears/search?query=';
 	let controller: AbortController; // abort previous API calls when input change
@@ -212,19 +212,19 @@
 			{#each filtered.slice(0, currentShow) as data}
 				<div class="create-gear__gear">
 					<SelectableTile
-						selected={selectedIds.has(data[0])}
+						selected={selectedIds.has(data.id)}
 						on:select={() => {
-							selectedIds.set(data[0], data[1]);
+							selectedIds.set(data.id, data);
 							selectedIds = selectedIds;
 						}}
 						on:deselect={() => {
-							selectedIds.delete(data[0]);
+							selectedIds.delete(data.id);
 							selectedIds = selectedIds;
 						}}
 					>
 						<div class="create-gear__gear-content">
-							<GearIcon iconId={data[1].i.id} />
-							<StringMatch str={data[1].n} search={trimmed} />
+							<GearIcon iconId={data.i.id} />
+							<StringMatch str={data.n} search={trimmed} />
 						</div>
 					</SelectableTile>
 				</div>
