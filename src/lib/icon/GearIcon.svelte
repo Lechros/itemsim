@@ -3,8 +3,6 @@
 
 	export let iconId: number;
 
-    export let alt: string;
-
     export const API_BASEURL = "https://api.itemsim.com/";
 
 	let origin: [number, number];
@@ -14,4 +12,4 @@
         .catch((e) => console.log(e));
 </script>
 
-<OriginIcon src="{API_BASEURL}gears/{iconId}/icon" {alt} origin={origin} {...$$restProps} />
+<OriginIcon src="{API_BASEURL}gears/{iconId}/icon" origin={origin} {...$$restProps} />

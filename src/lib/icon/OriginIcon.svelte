@@ -1,34 +1,36 @@
 <script lang="ts">
 	export let src: string;
-	export let alt: string;
 	export let origin: [number, number];
 	export let draggable = false;
 
 	$: _origin = origin ?? [0, 32];
 </script>
 
-<div {...$$restProps}>
-	<img
+<div class="icon-wrapper" {...$$restProps}>
+	<div
+		class="icon"
 		class:loading={origin === undefined}
-		{src}
-		{alt}
 		draggable={draggable ? 'true' : 'false'}
-		style="margin-left: {-_origin[0]}px; margin-top: {32 - _origin[1]}px;"
+		style="margin-left: {-_origin[0]}px; margin-top: {32 - _origin[1]}px;
+		background-image: url({src})"
 	/>
 </div>
 
 <style>
-	div {
+	.icon-wrapper {
 		width: 32px;
 		height: 32px;
 		display: grid;
 	}
 
-	img {
+	.icon {
 		image-rendering: pixelated;
+		width: 64px;
+		height: 64px;
+		background-repeat: no-repeat;
 	}
 
-	img.loading {
+	.icon.loading {
 		display: none;
 	}
 </style>
