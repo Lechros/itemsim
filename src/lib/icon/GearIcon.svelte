@@ -1,15 +1,13 @@
 <script lang="ts">
-	import OriginIcon from "./OriginIcon.svelte";
+	import FetchedOriginIcon from './FetchedOriginIcon.svelte';
 
 	export let iconId: number;
 
-    export const API_BASEURL = "https://api.itemsim.com/";
-
-	let origin: [number, number];
-	fetch(API_BASEURL + `gears/${iconId}/icon/origin`)
-		.then((value) => value.json())
-		.then(o => origin = o)
-        .catch((e) => console.log(e));
+	export const API_BASEURL = 'https://api.itemsim.com';
 </script>
 
-<OriginIcon src="{API_BASEURL}gears/{iconId}/icon" origin={origin} {...$$restProps} />
+<FetchedOriginIcon
+	src="{API_BASEURL}/gears/{iconId}/icon"
+	originSrc="{API_BASEURL}/gears/{iconId}/icon/origin"
+	{...$$restProps}
+/>
