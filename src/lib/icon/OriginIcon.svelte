@@ -2,16 +2,15 @@
 	export let src: string;
 	export let origin: [number, number];
 	export let draggable = false;
-
-	$: _origin = origin ?? [0, 32];
+	export let visible = true;
 </script>
 
 <div class="icon-wrapper" {...$$restProps}>
 	<div
 		class="icon"
-		class:loading={origin === undefined}
+		class:visible
 		draggable={draggable ? 'true' : 'false'}
-		style="margin-left: {-_origin[0]}px; margin-top: {32 - _origin[1]}px;
+		style="margin-left: {-origin[0]}px; margin-top: {32 - origin[1]}px;
 		background-image: url({src})"
 	/>
 </div>
@@ -30,7 +29,7 @@
 		background-repeat: no-repeat;
 	}
 
-	.icon.loading {
-		display: none;
+	.icon:not(.visible) {
+		visibility: hidden;
 	}
 </style>
