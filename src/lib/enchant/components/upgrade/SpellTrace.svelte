@@ -80,7 +80,7 @@
 								>
 									<div class="spelltrace__line-content">
 										<div class="spelltrace__icon-wrapper" class:icon--disabled={!can}>
-											<ItemIcon itemId={getIconId(info.prob)} />
+											<ItemIcon iconId={getIconId(info.prob)} />
 										</div>
 										{info.scroll.name}
 									</div>

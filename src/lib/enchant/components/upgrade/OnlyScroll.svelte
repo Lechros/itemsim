@@ -48,7 +48,7 @@
 								>
 									<div class="only-scroll__line-content">
 										<div class="only-scroll__icon-wrapper" class:icon--disabled={!can}>
-											<ItemIcon itemId={scroll.icon} />
+											<ItemIcon iconId={scroll.icon} />
 										</div>
 										{scroll.name}
 									</div>
