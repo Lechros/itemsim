@@ -67,7 +67,7 @@
 					>
 						<div class="scroll-type__content">
 							<div class="scroll-type__icon-wrapper">
-								<ItemIcon itemId={getIconId(item.text)} />
+								<ItemIcon iconId={getIconId(item.text)} />
 							</div>
 							{item.text}
 						</div>

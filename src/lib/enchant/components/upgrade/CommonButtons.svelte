@@ -15,7 +15,6 @@
 	} from '../../domains/upgrade/common';
 	import { resultOrFalse } from '../../domains/util';
 	import CommonButton from './CommonButton.svelte';
-	import ItemIcon from '$lib/icon/ItemIcon.svelte';
 
 	export let gear: Gear | undefined;
 

@@ -10,7 +10,7 @@
 <Button kind="secondary" on:click {disabled} style="padding: 0;">
 	<div class="common-button__content">
 		<div class:icon--disabled={disabled}>
-			<ItemIcon itemId={iconId} />
+			<ItemIcon iconId={iconId} />
 		</div>
 		<slot />
 	</div>
