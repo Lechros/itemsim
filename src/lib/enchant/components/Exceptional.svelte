@@ -62,7 +62,7 @@
 							>
 								<div class="exceptional__line-content">
 									<div class="exceptional__icon-wrapper" class:icon--disabled={!canApply}>
-										<ItemIcon itemId={part.icon} />
+										<ItemIcon iconId={part.icon} />
 									</div>
 									{part.name}
 								</div>
