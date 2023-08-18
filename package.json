@@ -40,6 +40,7 @@
 	"dependencies": {
 		"@malib/create-gear": "^0.6.0",
 		"@malib/gear": "^0.13.0",
+		"html-to-image": "^1.11.11",
 		"svelte-local-storage-store": "^0.4.0"
 	}
 }

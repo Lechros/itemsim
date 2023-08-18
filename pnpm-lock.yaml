@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 dependencies:
   '@malib/create-gear':
@@ -7,6 +11,9 @@ dependencies:
   '@malib/gear':
     specifier: ^0.13.0
     version: 0.13.0
+  html-to-image:
+    specifier: ^1.11.11
+    version: 1.11.11
   svelte-local-storage-store:
     specifier: ^0.4.0
     version: 0.4.0(svelte@3.58.0)
@@ -1484,6 +1491,10 @@ packages:
     dependencies:
       function-bind: 1.1.1
     dev: true
+
+  /html-to-image@1.11.11:
+    resolution: {integrity: sha512-9gux8QhvjRO/erSnDPv28noDZcPZmYE7e1vFsBLKLlRlKDSqNJYebj6Qz1TGd5lsRV+X+xYyjCKjuZdABinWjA==}
+    dev: false
 
   /ignore@5.2.4:
     resolution: {integrity: sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==}
