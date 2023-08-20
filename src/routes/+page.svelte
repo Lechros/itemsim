@@ -1,6 +1,7 @@
 <script lang="ts">
 	import CreateGearModal from '$lib/create-gear/CreateGearModal.svelte';
 	import EnchantModal from '$lib/enchant/EnchantModal.svelte';
+	import TooltipModal from '$lib/enchant/components/TooltipModal.svelte';
 	import FollowBoundary from '$lib/follow-cursor/FollowBoundary.svelte';
 	import FollowCursor from '$lib/follow-cursor/FollowCursor.svelte';
 	import GearTooltip from '$lib/gear-tooltip/GearTooltip.svelte';
@@ -14,6 +15,7 @@
 	import Upload from 'carbon-icons-svelte/lib/Upload.svelte';
 	import { onMount } from 'svelte';
 	import { gear, inventory, meta, selected } from '../lib/inventory/stores/gear-store';
+	import { tooltipImageOpen } from './open-state';
 
 	let loading = true;
 	onMount(() => (loading = false));
@@ -29,6 +31,8 @@
 
 	let importOpen = false;
 	let createOpen = false;
+
+	let enchantTooltip: HTMLDivElement;
 </script>
 
 <div class="container">
@@ -106,10 +110,13 @@
 <EnchantModal
 	bind:gear={$gear}
 	bind:meta={$meta}
+	bind:tooltipDiv={enchantTooltip}
 	deselectGear={inventory.deselect}
 	removeGear={() => inventory.remove($selected)}
 	resetMeta={meta.reset}
 />
+
+<TooltipModal tooltipDiv={enchantTooltip} bind:open={$tooltipImageOpen} />
 
 <style>
 	.container {

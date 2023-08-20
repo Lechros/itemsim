@@ -25,6 +25,7 @@
 	export let deselectGear: () => void;
 	export let removeGear: () => void;
 	export let resetMeta: () => void;
+	export let tooltipDiv: HTMLDivElement;
 
 	export const DELAY = 240;
 
@@ -58,8 +59,6 @@
 			gearCache = undefined;
 		}, DELAY);
 	}
-
-	let enchantTooltip: HTMLDivElement;
 </script>
 
 <ComposedModal open={gear !== undefined} selectorPrimaryFocus="ul" on:close={onClose}>
@@ -68,7 +67,7 @@
 		{#if gearCache && gearCache.itemID > 0}
 			<div class="enchant">
 				<div class="enchant__tooltip">
-					<GearTooltip gear={gearCache} bind:ref={enchantTooltip} />
+					<GearTooltip gear={gearCache} bind:ref={tooltipDiv} />
 				</div>
 				<div>
 					<Tabs autoWidth>

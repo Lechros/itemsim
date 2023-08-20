@@ -2,8 +2,9 @@
 	import type { GearMeta } from '$lib/inventory/stores/gear-store';
 	import type { Gear } from '@malib/gear';
 	import { Button, Column, Row } from 'carbon-components-svelte';
-	import { Copy, Download } from 'carbon-icons-svelte';
+	import { Copy, Download, Popup } from 'carbon-icons-svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { tooltipImageOpen } from '../../../routes/open-state';
 	import {
 		getFilename,
 		getGearBase64String,
@@ -26,6 +27,10 @@
 
 	function getGearURIHref() {
 		return `data:text/plain;charset=utf-8,${gearURIComponent}`;
+	}
+
+	function openTooltipImageModal() {
+		$tooltipImageOpen = true;
 	}
 
 	function dispatchDeleteEvent() {
@@ -60,8 +65,7 @@
 		<div class="manage__buttons">
 			<Row>
 				<Column>
-					<Button disabled>열기</Button>
-					<p>준비 중입니다</p>
+					<Button icon={Popup} on:click={openTooltipImageModal}>열기</Button>
 				</Column>
 			</Row>
 		</div>
