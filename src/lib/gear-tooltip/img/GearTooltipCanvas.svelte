@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toCanvas } from 'html-to-image';
+	import { toCanvas, getFontEmbedCSS } from 'html-to-image';
 	import html2canvas from 'html2canvas';
 
 	export let tooltip: HTMLDivElement;
@@ -18,7 +18,7 @@
 		rendering = true;
 		try {
 			tooltip.classList.add('gt--hidden-text');
-			const cv1 = await toCanvas(tooltip);
+			const cv1 = await toCanvas(tooltip, { cacheBust: true, skipFonts: true });
 			tooltip.classList.remove('gt--hidden-text');
 
 			tooltip.classList.add('gt--hidden-except-text');
