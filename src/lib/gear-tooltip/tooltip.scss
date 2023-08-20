@@ -34,6 +34,15 @@ $gear-gray2: rgb(153, 153, 153);
 	font-size: 12px;
 }
 
+.#{$prefix}--hidden-text .#{$prefix}--text *,
+.#{$prefix}--hidden-text .#{$prefix}--text {
+	color: transparent !important;
+}
+
+.#{$prefix}--hidden-except-text * {
+	background-image: none !important;
+}
+
 .#{$prefix}--text--white {
 	color: $gear-white;
 }
