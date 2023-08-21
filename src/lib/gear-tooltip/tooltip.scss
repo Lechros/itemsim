@@ -27,6 +27,8 @@ $gear-gray2: rgb(153, 153, 153);
 	line-height: 19px;
 	font-size: 14px;
 	font-weight: bold;
+	text-align: center;
+	text-wrap: balance;
 }
 
 .#{$prefix}--text.#{$prefix}--text--soul {
