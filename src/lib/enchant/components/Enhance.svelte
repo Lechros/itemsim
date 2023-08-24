@@ -1,9 +1,11 @@
 <script lang="ts">
 	import type { Gear } from '@malib/gear';
-	import { Button, Checkbox, Column, Row } from 'carbon-components-svelte';
+	import { Button, Checkbox, Column, Row, Toggle } from 'carbon-components-svelte';
 	import {
+		canAmazing,
 		canAmazingEnhancementChange,
 		canEnhance,
+		canLimitBreak,
 		canResetEnhancement,
 		canStarforceChange,
 		doAmazingEnhancementChange,
@@ -19,10 +21,13 @@
 	const diffs = [-10, -1, 1, 10];
 
 	$: can = resultOrFalse(canEnhance, gear);
+	$: showAmazing = resultOrFalse(canAmazing, gear);
+	$: showLimitBreak = resultOrFalse(canLimitBreak, gear);
 
 	$: canReset = resultOrFalse(canResetEnhancement, gear);
 
 	let bonus = true;
+	let ignoreMaxStar = false;
 
 	function reset() {
 		if (!gear) return;
@@ -56,10 +61,10 @@
 						{#each diffs as diff}
 							<Button
 								kind={getButtonKind(diff)}
-								disabled={!canStarforceChange(gear, diff)}
+								disabled={!canStarforceChange(gear, diff, ignoreMaxStar)}
 								on:click={() => {
 									if (gear) {
-										gear = doStarforceChange(gear, diff);
+										gear = doStarforceChange(gear, diff, ignoreMaxStar);
 									}
 								}}
 								style="padding-right: 15px;"
@@ -71,42 +76,44 @@
 				</Column>
 			</Row>
 		</div>
-		<div class="enhance__heading">
-			<Row>
-				<Column>
-					<h4>놀라운 장비 강화</h4>
-				</Column>
-			</Row>
-		</div>
-		<div class="enhance__check">
-			<Row>
-				<Column>
-					<Checkbox labelText="보너스 스탯 적용" bind:checked={bonus} />
-				</Column>
-			</Row>
-		</div>
-		<div class="enhance__buttons enhance__buttons--amazing">
-			<Row>
-				<Column>
-					<div class="enhance__button-wrapper">
-						{#each diffs as diff}
-							<Button
-								kind={getButtonKind(diff)}
-								disabled={!canAmazingEnhancementChange(gear, diff)}
-								on:click={() => {
-									if (gear) {
-										gear = doAmazingEnhancementChange(gear, diff, bonus);
-									}
-								}}
-								style="padding-right: 15px;"
-							>
-								{getDiffText(diff)}
-							</Button>
-						{/each}
-					</div>
-				</Column>
-			</Row>
-		</div>
+		{#if showAmazing}
+			<div class="enhance__heading">
+				<Row>
+					<Column>
+						<h4>놀라운 장비 강화</h4>
+					</Column>
+				</Row>
+			</div>
+			<div class="enhance__check">
+				<Row>
+					<Column>
+						<Checkbox labelText="보너스 스탯 적용" bind:checked={bonus} />
+					</Column>
+				</Row>
+			</div>
+			<div class="enhance__buttons enhance__buttons--amazing">
+				<Row>
+					<Column>
+						<div class="enhance__button-wrapper">
+							{#each diffs as diff}
+								<Button
+									kind={getButtonKind(diff)}
+									disabled={!canAmazingEnhancementChange(gear, diff, ignoreMaxStar)}
+									on:click={() => {
+										if (gear) {
+											gear = doAmazingEnhancementChange(gear, diff, bonus, ignoreMaxStar);
+										}
+									}}
+									style="padding-right: 15px;"
+								>
+									{getDiffText(diff)}
+								</Button>
+							{/each}
+						</div>
+					</Column>
+				</Row>
+			</div>
+		{/if}
 		<div class="enhance__heading">
 			<Row>
 				<Column>
@@ -120,10 +127,11 @@
 					<div class="enhance__button-wrapper enhance__button-wrapper--vertical">
 						<Button
 							kind="secondary"
-							disabled={gear.star !== 17 && !canStarforceChange(gear, 17 - gear.star)}
+							disabled={gear.star === 17 ||
+								!canStarforceChange(gear, 17 - gear.star, ignoreMaxStar)}
 							on:click={() => {
 								if (gear) {
-									gear = doStarforceChange(gear, 17 - gear.star);
+									gear = doStarforceChange(gear, 17 - gear.star, ignoreMaxStar);
 								}
 							}}
 							style="padding-right: 31px;"
@@ -132,28 +140,32 @@
 						</Button>
 						<Button
 							kind="secondary"
-							disabled={gear.star !== 22 && !canStarforceChange(gear, 22 - gear.star)}
+							disabled={gear.star === 22 ||
+								!canStarforceChange(gear, 22 - gear.star, ignoreMaxStar)}
 							on:click={() => {
 								if (gear) {
-									gear = doStarforceChange(gear, 22 - gear.star);
+									gear = doStarforceChange(gear, 22 - gear.star, ignoreMaxStar);
 								}
 							}}
 							style="padding-right: 31px;"
 						>
 							스타포스 22성
 						</Button>
-						<Button
-							kind="secondary"
-							disabled={gear.star !== 12 && !canAmazingEnhancementChange(gear, 12 - gear.star)}
-							on:click={() => {
-								if (gear) {
-									gear = doAmazingEnhancementChange(gear, 12 - gear.star, bonus);
-								}
-							}}
-							style="padding-right: 31px;"
-						>
-							놀장 12성
-						</Button>
+						{#if showAmazing}
+							<Button
+								kind="secondary"
+								disabled={gear.star === 12 ||
+									!canAmazingEnhancementChange(gear, 12 - gear.star, ignoreMaxStar)}
+								on:click={() => {
+									if (gear) {
+										gear = doAmazingEnhancementChange(gear, 12 - gear.star, bonus, ignoreMaxStar);
+									}
+								}}
+								style="padding-right: 31px;"
+							>
+								놀장 12성
+							</Button>
+						{/if}
 					</div>
 				</Column>
 			</Row>
@@ -172,6 +184,23 @@
 				</Column>
 			</Row>
 		</div>
+		{#if showLimitBreak}
+			<div class="enhance__heading">
+				<Row>
+					<Column>
+						<h4>설정</h4>
+					</Column>
+				</Row>
+			</div>
+			<div class="enhance__buttons">
+				<Toggle
+					labelText="최대 강화 수치 초과"
+					labelA="초과하지 않음"
+					labelB="초과"
+					bind:toggled={ignoreMaxStar}
+				/>
+			</div>
+		{/if}
 	{:else}
 		<div class="enhance__cannot">강화 불가</div>
 	{/if}

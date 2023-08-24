@@ -48,7 +48,7 @@ test.each([
 		gear.star = star;
 		gear.maxStar = maxStar;
 		gear.amazing = amazing;
-		expect(canStarforceChange(gear, diff)).toBe(expected);
+		expect(canStarforceChange(gear, diff, false)).toBe(expected);
 	}
 );
 
@@ -67,7 +67,7 @@ test.each([
 		gear.star = star;
 		gear.maxStar = maxStar;
 		gear.amazing = amazing;
-		doStarforceChange(gear, diff);
+		doStarforceChange(gear, diff, false);
 		expect(gear.star).toBe(expectedStar);
 		expect(gear.amazing).toBe(expectedAmazing);
 	}
@@ -94,7 +94,7 @@ test.each([
 		gear.star = star;
 		gear.maxStar = maxStar;
 		gear.amazing = amazing;
-		expect(canAmazingEnhancementChange(gear, diff)).toBe(expected);
+		expect(canAmazingEnhancementChange(gear, diff, false)).toBe(expected);
 	}
 );
 
@@ -110,7 +110,7 @@ test.each([
 		gear.star = star;
 		gear.maxStar = maxStar;
 		gear.amazing = amazing;
-		doAmazingEnhancementChange(gear, diff, false);
+		doAmazingEnhancementChange(gear, diff, false, false);
 		expect(gear.star).toBe(expectedStar);
 		expect(gear.amazing).toBe(expectedAmazing);
 	}
