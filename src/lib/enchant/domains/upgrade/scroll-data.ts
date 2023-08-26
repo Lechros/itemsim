@@ -1,5 +1,146 @@
 import { GearPropType } from '@malib/gear';
 
+export const specialScrolls = {
+	'귀 장식 지력 주문서 10%': {
+		name: '귀 장식 지력 주문서 10%',
+		icon: 2040302,
+		option: new Map([
+			[GearPropType.incINT, 3],
+			[GearPropType.incMAD, 5]
+		])
+	},
+	'얼티밋 방어구 강화 주문서 20%': {
+		name: '얼티밋 방어구 강화 주문서 20%',
+		icon: 2047917,
+		option: new Map([
+			[GearPropType.incSTR, 9],
+			[GearPropType.incDEX, 9],
+			[GearPropType.incINT, 9],
+			[GearPropType.incLUK, 9]
+		])
+	},
+	'10주년 프라임 악세서리 주문서': {
+		name: '10주년 프라임 악세서리 주문서',
+		icon: 2046876,
+		option: new Map([
+			[GearPropType.incSTR, 10],
+			[GearPropType.incDEX, 10],
+			[GearPropType.incINT, 10],
+			[GearPropType.incLUK, 10]
+		])
+	},
+	'10주년 프라임 방어구 주문서': {
+		name: '10주년 프라임 방어구 주문서',
+		icon: 2047950,
+		option: new Map([
+			[GearPropType.incSTR, 10],
+			[GearPropType.incDEX, 10],
+			[GearPropType.incINT, 10],
+			[GearPropType.incLUK, 10],
+			[GearPropType.incPDD, 10]
+		])
+	},
+	'매지컬 한손무기 공격력 주문서 (+9)': {
+		name: '매지컬 한손무기 공격력 주문서 (+9)',
+		icon: 2046991,
+		option: new Map([
+			[GearPropType.incSTR, 3],
+			[GearPropType.incDEX, 3],
+			[GearPropType.incINT, 3],
+			[GearPropType.incLUK, 3],
+			[GearPropType.incPAD, 9]
+		])
+	},
+	'매지컬 한손무기 공격력 주문서 (+10)': {
+		name: '매지컬 한손무기 공격력 주문서 (+10)',
+		icon: 2046991,
+		option: new Map([
+			[GearPropType.incSTR, 3],
+			[GearPropType.incDEX, 3],
+			[GearPropType.incINT, 3],
+			[GearPropType.incLUK, 3],
+			[GearPropType.incPAD, 10]
+		])
+	},
+	'매지컬 한손무기 공격력 주문서 (+11)': {
+		name: '매지컬 한손무기 공격력 주문서 (+11)',
+		icon: 2046991,
+		option: new Map([
+			[GearPropType.incSTR, 3],
+			[GearPropType.incDEX, 3],
+			[GearPropType.incINT, 3],
+			[GearPropType.incLUK, 3],
+			[GearPropType.incPAD, 11]
+		])
+	},
+	'매지컬 한손무기 마력 주문서 (+9)': {
+		name: '매지컬 한손무기 마력 주문서 (+9)',
+		icon: 2046992,
+		option: new Map([
+			[GearPropType.incSTR, 3],
+			[GearPropType.incDEX, 3],
+			[GearPropType.incINT, 3],
+			[GearPropType.incLUK, 3],
+			[GearPropType.incMAD, 9]
+		])
+	},
+	'매지컬 한손무기 마력 주문서 (+10)': {
+		name: '매지컬 한손무기 마력 주문서 (+10)',
+		icon: 2046992,
+		option: new Map([
+			[GearPropType.incSTR, 3],
+			[GearPropType.incDEX, 3],
+			[GearPropType.incINT, 3],
+			[GearPropType.incLUK, 3],
+			[GearPropType.incMAD, 10]
+		])
+	},
+	'매지컬 한손무기 마력 주문서 (+11)': {
+		name: '매지컬 한손무기 마력 주문서 (+11)',
+		icon: 2046992,
+		option: new Map([
+			[GearPropType.incSTR, 3],
+			[GearPropType.incDEX, 3],
+			[GearPropType.incINT, 3],
+			[GearPropType.incLUK, 3],
+			[GearPropType.incMAD, 11]
+		])
+	},
+	'매지컬 두손무기 공격력 주문서 (+9)': {
+		name: '매지컬 두손무기 공격력 주문서 (+9)',
+		icon: 2047814,
+		option: new Map([
+			[GearPropType.incSTR, 3],
+			[GearPropType.incDEX, 3],
+			[GearPropType.incINT, 3],
+			[GearPropType.incLUK, 3],
+			[GearPropType.incPAD, 9]
+		])
+	},
+	'매지컬 두손무기 공격력 주문서 (+10)': {
+		name: '매지컬 두손무기 공격력 주문서 (+10)',
+		icon: 2047814,
+		option: new Map([
+			[GearPropType.incSTR, 3],
+			[GearPropType.incDEX, 3],
+			[GearPropType.incINT, 3],
+			[GearPropType.incLUK, 3],
+			[GearPropType.incPAD, 10]
+		])
+	},
+	'매지컬 두손무기 공격력 주문서 (+11)': {
+		name: '매지컬 두손무기 공격력 주문서 (+11)',
+		icon: 2047814,
+		option: new Map([
+			[GearPropType.incSTR, 3],
+			[GearPropType.incDEX, 3],
+			[GearPropType.incINT, 3],
+			[GearPropType.incLUK, 3],
+			[GearPropType.incPAD, 11]
+		])
+	}
+};
+
 export const onlyScrolls = {
 	'드래곤의 돌': {
 		name: '드래곤의 돌',
