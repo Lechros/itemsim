@@ -22,3 +22,13 @@ export const throttle = (fn: Function, wait = 300) => {
 		}
 	};
 };
+
+export function pickRandomIndex(weights: number[]) {
+	const sum = weights.reduce((acc, val) => acc + val, 0);
+	let randomValue = Math.random() * sum;
+	for (let i = 0; i < weights.length; i++) {
+		if (randomValue < weights[i]) return i;
+		else randomValue -= weights[i];
+	}
+	return weights.length - 1;
+}

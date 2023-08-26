@@ -1,4 +1,5 @@
-import { GearPropType, type Scroll } from '@malib/gear';
+import { Gear, GearPropType, applyScroll, type Scroll } from '@malib/gear';
+import { pickRandomIndex } from '../../../../routes/util';
 
 export const chaosScrollStatTypes = [
 	['STR', GearPropType.incSTR],
@@ -30,6 +31,28 @@ export function getPropTypeWeight(type: GearPropType) {
 	}
 }
 
+export function doApplyScrollFullSupplier(gear: Gear, scrollSupplier: () => Scroll) {
+	const count = gear.upgradeCountLeft;
+	for (let i = 0; i < count; i++) {
+		applyScroll(gear, scrollSupplier());
+	}
+	return gear;
+}
+
 export function getChaosScroll(stats: ChaosScrollOption): Scroll {
 	return { name: '', option: new Map(stats.map((e) => [e.type, e.value])) };
+}
+
+export function getRandomChaosScroll(
+	stats: ChaosScrollOption,
+	valueSupplier: () => number
+): Scroll {
+	return {
+		name: '',
+		option: new Map(stats.map((e) => [e.type, e.value === 0 ? valueSupplier() : e.value]))
+	};
+}
+
+export function incredibleChaosScrollOfGoodnessSupplier() {
+	return [0, 1, 2, 3, 4, 6][pickRandomIndex([5.93, 4.94, 13.87, 23.87, 33.01, 18.38])];
 }
