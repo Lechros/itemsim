@@ -38,14 +38,14 @@
 	}
 
 	function getChaosStatsName(options: ChaosScrollOption, randomChaos: boolean) {
-		const total = options.reduce((cnt, stat) => (stat.value !== 0 ? cnt + 1 : cnt), 0);
+		const total = options.reduce((cnt, stat) => (stat.value ? cnt + 1 : cnt), 0);
 		if (total === 0) {
 			return randomChaos ? '랜덤 적용' : '적용';
 		} else {
 			let count = 0;
 			let str = '';
 			for (const option of options) {
-				if (option.value === 0) continue;
+				if (!option.value) continue;
 				if (count >= 2) {
 					str += ', ...';
 					break;
@@ -74,7 +74,8 @@
 							min={-6 * getPropTypeWeight(option.type)}
 							max={6 * getPropTypeWeight(option.type)}
 							step={1 * getPropTypeWeight(option.type)}
-							invalid={!Number.isInteger(option.value / getPropTypeWeight(option.type))}
+							allowEmpty
+							invalid={!Number.isInteger((option.value ?? 0) / getPropTypeWeight(option.type))}
 							style="min-width: 120px; padding-right: var(--cds-spacing-11);"
 						/>
 					</Column>
@@ -87,7 +88,7 @@
 			<Row>
 				<Column>
 					<Checkbox
-						labelText="값이 0인 스탯을 임의의 놀긍혼 수치로 적용"
+						labelText="빈 스탯을 임의의 놀긍혼 수치로 적용"
 						bind:checked={randomChaos}
 					/>
 				</Column>

@@ -18,7 +18,7 @@ export const chaosScrollStatTypes = [
 export type ChaosScrollOption = ReturnType<typeof getDefaultChaosScrollOption>;
 
 export function getDefaultChaosScrollOption() {
-	return chaosScrollStatTypes.map((e) => ({ type: e[1], name: e[0], value: 0 }));
+	return chaosScrollStatTypes.map((e) => ({ type: e[1], name: e[0], value: null }));
 }
 
 export function getPropTypeWeight(type: GearPropType) {
@@ -40,7 +40,7 @@ export function doApplyScrollFullSupplier(gear: Gear, scrollSupplier: () => Scro
 }
 
 export function getChaosScroll(stats: ChaosScrollOption): Scroll {
-	return { name: '', option: new Map(stats.map((e) => [e.type, e.value])) };
+	return { name: '', option: new Map(stats.map((e) => [e.type, e.value ?? 0])) };
 }
 
 export function getRandomChaosScroll(
@@ -49,7 +49,7 @@ export function getRandomChaosScroll(
 ): Scroll {
 	return {
 		name: '',
-		option: new Map(stats.map((e) => [e.type, e.value === 0 ? valueSupplier() : e.value]))
+		option: new Map(stats.map((e) => [e.type, e.value === null ? valueSupplier() : e.value]))
 	};
 }
 
