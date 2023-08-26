@@ -6,6 +6,8 @@
 	import { SpellTraceEnchanter, type SpellTraceInfo } from '../../domains/upgrade/spelltrace';
 	import { resultOrFalse } from '../../domains/util';
 	import ItemIcon from '$lib/icon/ItemIcon.svelte';
+	import ItemIconButton from '../button/ItemIconButton.svelte';
+	import ItemIconButtonList from '../button/ItemIconButtonList.svelte';
 
 	export let gear: Gear | undefined;
 
@@ -62,48 +64,35 @@
 				</Column>
 			</Row>
 		</div>
-		<Row>
-			<Column>
-				<div class="spelltrace__list">
-					{#each filterInfos(spellTrace.getInfos(), selectedProb) as info}
-						<div class="spelltrace__line">
-							<div class="spelltrace__line-first">
-								<ClickableTile
-									light
-									title={optionToStrings(info.scroll.option).join('\n')}
-									on:click={() => {
-										if (gear && spellTrace) {
-											gear = spellTrace.apply(gear, info);
-										}
-									}}
-									disabled={!can}
-								>
-									<div class="spelltrace__line-content">
-										<div class="spelltrace__icon-wrapper" class:icon--disabled={!can}>
-											<ItemIcon iconId={getIconId(info.prob)} />
-										</div>
-										{info.scroll.name}
-									</div>
-								</ClickableTile>
-							</div>
-							<div class="spelltrace__line-second">
-								<ClickableTile
-									light
-									on:click={() => {
-										if (gear && spellTrace) {
-											gear = spellTrace.applyFull(gear, info);
-										}
-									}}
-									disabled={!can}
-								>
-									+{gear.upgradeCountLeft}
-								</ClickableTile>
-							</div>
-						</div>
-					{/each}
-				</div>
-			</Column>
-		</Row>
+		<div class="spelltrace__list">
+			<Row>
+				<Column>
+					<ItemIconButtonList>
+						{#each filterInfos(spellTrace.getInfos(), selectedProb) as info}
+							<ItemIconButton
+								type="double"
+								primaryIconId={getIconId(info.prob)}
+								primaryText={info.scroll.name}
+								primaryDisabled={!can}
+								primaryTitle={optionToStrings(info.scroll.option).join('\n')}
+								secondaryText="+{gear.upgradeCountLeft}"
+								secondaryDisabled={!can}
+								on:click={() => {
+									if (gear && spellTrace) {
+										gear = spellTrace.apply(gear, info);
+									}
+								}}
+								on:click:button--secondary={() => {
+									if (gear && spellTrace) {
+										gear = spellTrace.applyFull(gear, info);
+									}
+								}}
+							/>
+						{/each}
+					</ItemIconButtonList>
+				</Column>
+			</Row>
+		</div>
 	{/if}
 </div>
 
@@ -114,34 +103,5 @@
 
 	.spelltrace__list {
 		margin-top: var(--cds-spacing-05);
-	}
-
-	.spelltrace__line {
-		display: flex;
-	}
-
-	.spelltrace__line:not(:first-child) {
-		border-top: 1px solid var(--cds-border-subtle);
-	}
-
-	.spelltrace__line-first {
-		flex: 3;
-	}
-
-	.spelltrace__line-second {
-		border-left: 1px solid var(--cds-border-subtle);
-		flex: 1;
-	}
-
-	.spelltrace__line-content {
-		display: flex;
-		align-items: center;
-	}
-
-	.spelltrace__icon-wrapper {
-		display: flex;
-		height: 1rem;
-		align-items: center;
-		margin-right: var(--cds-spacing-03);
 	}
 </style>

@@ -10,7 +10,9 @@
 	import { optionToStrings } from '$lib/gear-tooltip/strings';
 	import ItemIcon from '$lib/icon/ItemIcon.svelte';
 	import type { Gear } from '@malib/gear';
-	import { Row, Column, ClickableTile, Button } from 'carbon-components-svelte';
+	import { Button, ClickableTile, Column, Row } from 'carbon-components-svelte';
+	import ItemIconButton from './button/ItemIconButton.svelte';
+	import ItemIconButtonList from './button/ItemIconButtonList.svelte';
 
 	export let can = false;
 
@@ -46,31 +48,25 @@
 			</Row>
 		</div>
 		<div class="exceptional__list">
-			{#each exceptionalParts as part}
-				<Row>
-					<Column>
-						<div class="exceptional__line">
-							<ClickableTile
-								light
-								title={optionToStrings(part.option).join('\n')}
+			<Row>
+				<Column>
+					<ItemIconButtonList>
+						{#each exceptionalParts as part}
+							<ItemIconButton
+								primaryIconId={part.icon}
+								primaryText={part.name}
+								primaryDisabled={!canApply}
+								primaryTitle={optionToStrings(part.option).join('\n')}
 								on:click={() => {
 									if (gear) {
 										gear = doExceptionalEnchant(gear, part);
 									}
 								}}
-								disabled={!canApply}
-							>
-								<div class="exceptional__line-content">
-									<div class="exceptional__icon-wrapper" class:icon--disabled={!canApply}>
-										<ItemIcon iconId={part.icon} />
-									</div>
-									{part.name}
-								</div>
-							</ClickableTile>
-						</div>
-					</Column>
-				</Row>
-			{/each}
+							/>
+						{/each}
+					</ItemIconButtonList>
+				</Column>
+			</Row>
 		</div>
 		<div class="exceptional__heading">
 			<Row>
@@ -100,26 +96,6 @@
 
 	.exceptional__list {
 		margin-top: var(--cds-spacing-03);
-	}
-
-	.exceptional__line {
-		display: flex;
-	}
-
-	.exceptional__line:not(:first-child) {
-		border-top: 1px solid var(--cds-border-subtle);
-	}
-
-	.exceptional__line-content {
-		display: flex;
-		align-items: center;
-	}
-
-	.exceptional__icon-wrapper {
-		display: flex;
-		height: 1rem;
-		align-items: center;
-		margin-right: var(--cds-spacing-03);
 	}
 
 	.exceptional__reset {
