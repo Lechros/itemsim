@@ -144,6 +144,7 @@
 							step={50}
 							value={gear.getPropValue(type)}
 							on:change={onExpChange(type)}
+							style="padding-right: var(--cds-spacing-11);"
 						/>
 					</Column>
 				{/each}
