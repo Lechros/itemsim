@@ -95,6 +95,7 @@
 		background-image: url(./images/star-starforce.png);
 		width: 11px;
 		height: 10px;
+		image-rendering: pixelated;
 	}
 	.slot__star-icon--amazing {
 		background-image: url(./images/star-amazing.png);
@@ -116,6 +117,7 @@
 	.slot__grade-icon {
 		width: 13px;
 		height: 13px;
+		image-rendering: pixelated;
 	}
 	.slot__grade-icon--normal {
 		background-image: url(./images/grade-normal.png);
