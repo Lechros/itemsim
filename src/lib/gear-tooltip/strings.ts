@@ -12,7 +12,7 @@ export function getGearPropString(type: GearPropType, value: number) {
 		case GearPropType.incLUK:
 			return `LUK : +${value}`;
 		case GearPropType.incAllStat:
-			return `올스탯: +${value}`;
+			return `올스탯 : +${value}`;
 		case GearPropType.incMHP:
 			return `최대 HP : +${value}`;
 		case GearPropType.incMMP:
@@ -42,7 +42,7 @@ export function getGearPropString(type: GearPropType, value: number) {
 		case GearPropType.damR:
 			return `데미지 : +${value}%`;
 		case GearPropType.statR:
-			return `올스탯: +${value}%`;
+			return `올스탯 : +${value}%`;
 		case GearPropType.reduceReq:
 			return `착용 레벨 감소 : - ${value}`;
 
