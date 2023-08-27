@@ -1,16 +1,21 @@
 <script lang="ts">
 	import type { Gear } from '@malib/gear';
-	import { Button, Column, NumberInput, Row } from 'carbon-components-svelte';
+	import { Button, Checkbox, Column, NumberInput, Row } from 'carbon-components-svelte';
 	import {
+		doApplyScrollFullSupplier,
 		getChaosScroll,
 		getDefaultChaosScrollOption,
 		getPropTypeWeight,
+		getRandomChaosScroll,
+		incredibleChaosScrollOfGoodnessSupplier,
 		type ChaosScrollOption
 	} from '../../domains/upgrade/chaos-scroll';
-	import { canApplyScroll, doApplyScroll, doApplyScrollFull } from '../../domains/upgrade/common';
+	import { canApplyScroll, doApplyScroll } from '../../domains/upgrade/common';
 	import { resultOrFalse } from '../../domains/util';
 
 	export let gear: Gear | undefined;
+
+	let randomChaos = false;
 
 	$: can = resultOrFalse(canApplyScroll, gear);
 
@@ -18,24 +23,30 @@
 
 	function apply() {
 		if (!gear) return;
-		gear = doApplyScroll(gear, getChaosScroll(options));
+		gear = doApplyScroll(gear, getChaosScrollWithRandom());
 	}
 
 	function applyFull() {
 		if (!gear) return;
-		gear = doApplyScrollFull(gear, getChaosScroll(options));
+		gear = doApplyScrollFullSupplier(gear, getChaosScrollWithRandom);
 	}
 
-	function getChaosStatsName(options: ChaosScrollOption) {
-		const total = options.reduce((cnt, stat) => (stat.value !== 0 ? cnt + 1 : cnt), 0);
+	function getChaosScrollWithRandom() {
+		return randomChaos
+			? getRandomChaosScroll(options, incredibleChaosScrollOfGoodnessSupplier)
+			: getChaosScroll(options);
+	}
+
+	function getChaosStatsName(options: ChaosScrollOption, randomChaos: boolean) {
+		const total = options.reduce((cnt, stat) => (stat.value ? cnt + 1 : cnt), 0);
 		if (total === 0) {
-			return '적용';
+			return randomChaos ? '랜덤 적용' : '적용';
 		} else {
 			let count = 0;
 			let str = '';
 			for (const option of options) {
-				if (option.value === 0) continue;
-				if (count >= 3) {
+				if (!option.value) continue;
+				if (count >= 2) {
 					str += ', ...';
 					break;
 				}
@@ -46,7 +57,7 @@
 				str += `${option.name} ${valueStr}`;
 				count++;
 			}
-			return str + ' 적용';
+			return str + (randomChaos ? ', 나머지 랜덤 적용' : ' 적용');
 		}
 	}
 </script>
@@ -63,7 +74,8 @@
 							min={-6 * getPropTypeWeight(option.type)}
 							max={6 * getPropTypeWeight(option.type)}
 							step={1 * getPropTypeWeight(option.type)}
-							invalid={!Number.isInteger(option.value / getPropTypeWeight(option.type))}
+							allowEmpty
+							invalid={!Number.isInteger((option.value ?? 0) / getPropTypeWeight(option.type))}
 							style="min-width: 120px; padding-right: var(--cds-spacing-11);"
 						/>
 					</Column>
@@ -72,11 +84,21 @@
 				<Column />
 			</Row>
 		</div>
+		<div class="chaos-scroll__options">
+			<Row>
+				<Column>
+					<Checkbox
+						labelText="빈 스탯을 임의의 놀긍혼 수치로 적용"
+						bind:checked={randomChaos}
+					/>
+				</Column>
+			</Row>
+		</div>
 		<div class="chaos-scroll__buttons">
 			<Row>
 				<Column>
 					<Button disabled={!can} on:click={apply}>
-						{getChaosStatsName(options)}
+						{getChaosStatsName(options, randomChaos)}
 					</Button>
 					<Button kind="tertiary" disabled={!can} on:click={applyFull}>
 						{gear.upgradeCountLeft}회 적용
@@ -91,7 +113,12 @@
 	.chaos-scroll__values {
 		margin-top: var(--cds-spacing-05);
 	}
-	.chaos-scroll__buttons {
+
+	.chaos-scroll__options {
 		margin-top: var(--cds-spacing-05);
+	}
+
+	.chaos-scroll__buttons {
+		margin-top: var(--cds-spacing-03);
 	}
 </style>

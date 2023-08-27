@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Gear } from '@malib/gear';
-	import { Column, Row } from 'carbon-components-svelte';
+	import { Checkbox, Column, Row } from 'carbon-components-svelte';
 	import {
 		canArkInnocentScroll,
 		canCleanSlateScroll,
@@ -24,6 +24,9 @@
 	$: canInnocent = resultOrFalse(canInnocentScroll, gear);
 	$: canArkInnocent = resultOrFalse(canArkInnocentScroll, gear);
 
+	let preserveHammer = false;
+	$: showPreserveHammer = gear && gear.hammerCount > 0;
+
 	function hammer() {
 		if (!gear) return;
 		gear = doGoldHammer(gear);
@@ -42,11 +45,17 @@
 	function innocent() {
 		if (!gear) return;
 		gear = doInnocentScroll(gear);
+		if (preserveHammer) {
+			gear = doGoldHammer(gear);
+		}
 	}
 
 	function arkInnocent() {
 		if (!gear) return;
 		gear = doArkInnocentScroll(gear);
+		if (preserveHammer) {
+			gear = doGoldHammer(gear);
+		}
 	}
 </script>
 
@@ -71,6 +80,15 @@
 		</div>
 	</Column>
 </Row>
+{#if showPreserveHammer}
+	<div class="preserve-hammer">
+		<Row>
+			<Column>
+				<Checkbox labelText="황금 망치 적용 상태 유지" bind:checked={preserveHammer} />
+			</Column>
+		</Row>
+	</div>
+{/if}
 
 <style>
 	.common-buttons {
@@ -81,5 +99,9 @@
 		.common-buttons {
 			grid-template-columns: 1fr;
 		}
+	}
+
+	.preserve-hammer {
+		margin-top: var(--cds-spacing-03);
 	}
 </style>

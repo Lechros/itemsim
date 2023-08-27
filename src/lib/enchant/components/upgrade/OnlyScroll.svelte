@@ -17,11 +17,9 @@
 	let onlyScrollGearId = 0;
 	let onlyScrolls: ReturnType<typeof getOnlyScrolls> = [];
 
-	$: {
-		if (gear && onlyScrollGearId !== gear.itemID) {
-			onlyScrollGearId = gear.itemID;
-			onlyScrolls = getOnlyScrolls(gear);
-		}
+	$: if (gear && onlyScrollGearId !== gear.itemID) {
+		onlyScrollGearId = gear.itemID;
+		onlyScrolls = getOnlyScrolls(gear);
 	}
 
 	$: {
