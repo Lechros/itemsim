@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { toCanvas, getFontEmbedCSS } from 'html-to-image';
+	import { toCanvas } from 'html-to-image';
 	import html2canvas from 'html2canvas';
 
 	export let tooltip: HTMLDivElement;
 	export let rendered = false;
+	export let canvas: HTMLCanvasElement | undefined;
 
 	let rendering = false;
 
 	let wrapper: HTMLDivElement;
-	let canvas: HTMLCanvasElement;
 
 	export async function build() {
 		if (!tooltip) return;
@@ -25,7 +25,9 @@
 			const cv2 = await html2canvas(tooltip, { canvas: cv1, backgroundColor: 'transparent' });
 			tooltip.classList.remove('gt-hidden-except-text');
 
-			canvas.remove();
+			if (canvas) {
+				canvas.remove();
+			}
 			canvas = cv2;
 			wrapper.appendChild(canvas);
 			rendered = true;
