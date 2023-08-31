@@ -105,7 +105,11 @@
 
 <ImportGearModal bind:open={importOpen} addGear={inventory.add} />
 
-<CreateGearModal bind:open={createOpen} addGear={inventory.addGear} />
+<CreateGearModal
+	bind:open={createOpen}
+	addGear={inventory.addGear}
+	on:create-single={(e) => inventory.select(e.detail)}
+/>
 
 <EnchantModal
 	bind:gear={$gear}

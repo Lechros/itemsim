@@ -1,4 +1,5 @@
 <script lang="ts">
+	import GearIcon from '$lib/icon/GearIcon.svelte';
 	import { plainToGear, type Gear, type GearLike } from '@malib/gear';
 	import {
 		ContentSwitcher,
@@ -9,18 +10,20 @@
 		Switch,
 		Tile
 	} from 'carbon-components-svelte';
+	import { createEventDispatcher } from 'svelte';
 	import { throttle } from '../../routes/util';
 	import StringMatch from '../string-match/StringMatch.svelte';
-	import GearIcon from '$lib/icon/GearIcon.svelte';
 
 	export let open = false;
 
-	export let addGear: (gear: Gear) => void;
+	export let addGear: (gear: Gear) => number;
 
 	export let DEFAULT_SHOW = 20;
 	export let SHOW_STEP = 20;
 
 	export const DELAY = 240;
+
+	const dispatch = createEventDispatcher();
 
 	const SEARCH_EMPTY_MSG = '검색어를 입력해 주세요.';
 	const SEARCH_NO_ITEM_MSG = '검색된 아이템이 없습니다.';
@@ -162,10 +165,13 @@
 	primaryButtonDisabled={selectedIds.size === 0}
 	secondaryButtonText="취소"
 	on:submit={() => {
+		let index = -1;
 		for (const [, gearLike] of selectedIds) {
-			addGear(plainToGear(gearLike));
+			index = addGear(plainToGear(gearLike));
 		}
-		// TODO: open enchant if single gear was added
+		if (selectedIds.size === 1) {
+			dispatch('create-single', index);
+		}
 		open = false;
 		setTimeout(() => {
 			reset();
