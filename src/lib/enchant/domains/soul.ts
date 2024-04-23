@@ -1,11 +1,12 @@
 import { getSoulOptionString } from '$lib/gear-tooltip/strings';
+import { soulRepository, souls } from '$lib/malib-repository/soul';
 import {
-	ItemIndex,
+	Gear,
 	MagnificentSoulOptionType,
-	createSoulFromId,
-	soulJson
-} from '@malib/create-gear';
-import { Gear, type Soul } from '@malib/gear';
+	type Soul,
+	type SoulData,
+	type SoulDataMap
+} from '@malib/gear';
 
 export function canSoul(gear: Gear) {
 	return Gear.isWeapon(gear.type) && gear.req.level >= 30;
@@ -34,7 +35,7 @@ export function canSetSoul(gear: Gear) {
 }
 
 export function doSetSoul(gear: Gear, soulId: number, type: MagnificentSoulOptionType) {
-	const soul = createSoulFromId(soulId, type);
+	const soul = soulRepository.createSoulFromId(soulId, type);
 	if (soul) {
 		gear.soulWeapon.setSoul(soul);
 	}
@@ -50,15 +51,13 @@ export function doRemoveSoul(gear: Gear) {
 	return gear;
 }
 
-const soulIndex = getSoulIndex();
-
 export function getSoulInfo(soul: Soul) {
-	const soulId = soulIndex.getId(soul.name);
+	const soulId = getSoulId(soul.name);
 	if (!soulId) {
 		return undefined;
 	}
-	for (const type of Object.values(MagnificentSoulOptionType)) {
-		const trySoul = createSoulFromId(soulId, type);
+	for (const type of getMagnificentTypes()) {
+		const trySoul = soulRepository.createSoulFromId(soulId, type);
 		if (!trySoul) continue;
 		if (getSoulOptionString(trySoul.option) === getSoulOptionString(soul.option)) {
 			return {
@@ -68,6 +67,14 @@ export function getSoulInfo(soul: Soul) {
 		}
 	}
 	return undefined;
+}
+
+export function isMagnificentSoul(soulId: number): boolean {
+	return (souls as SoulDataMap)[soulId]?.magnificent === true;
+}
+
+export function getSoulEntries(): [number, SoulData][] {
+	return Object.entries(souls as SoulDataMap).map(([id, data]) => [Number(id), data]);
 }
 
 export function getMagnificentTypes() {
@@ -82,6 +89,16 @@ export function getMagnificentTypes() {
 	];
 }
 
-export function getSoulIndex() {
-	return new ItemIndex(soulJson);
+const soulIndex = getSoulIndex();
+
+function getSoulId(name: string): number {
+	return soulIndex[name];
+}
+
+function getSoulIndex() {
+	const map: { [name: string]: number } = {};
+	for (const [id, data] of Object.entries(souls)) {
+		map[data.name] = Number(id);
+	}
+	return map;
 }

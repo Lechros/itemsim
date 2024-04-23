@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { getSoulOptionString } from '$lib/gear-tooltip/strings';
+	import { soulRepository } from '$lib/malib-repository/soul';
 	import StringMatch from '$lib/string-match/StringMatch.svelte';
 	import { match } from '$lib/string-match/match';
-	import { MagnificentSoulOptionType, createSoulFromId, soulJson } from '@malib/create-gear';
-	import type { Gear } from '@malib/gear';
+	import { MagnificentSoulOptionType, type Gear } from '@malib/gear';
 	import {
 		Button,
 		Column,
@@ -24,7 +24,9 @@
 		doSoulDisenchant,
 		doSoulEnchant,
 		getMagnificentTypes,
-		getSoulInfo
+		getSoulEntries,
+		getSoulInfo,
+		isMagnificentSoul
 	} from '../domains/soul';
 	import { resultOrFalse } from '../domains/util';
 
@@ -53,7 +55,7 @@
 		}
 	}
 
-	$: isMagnificent = soulJson[selectedId]?.magnificent;
+	$: isMagnificent = isMagnificentSoul(selectedId);
 
 	$: canEnchant = resultOrFalse(canSoulEnchant, gear);
 	$: canRemove = resultOrFalse(canRemoveSoul, gear);
@@ -82,7 +84,7 @@
 	}
 
 	function getSoulOptionText(soulId: number, type: MagnificentSoulOptionType) {
-		const soul = createSoulFromId(soulId, type);
+		const soul = soulRepository.createSoulFromId(soulId, type);
 		if (soul) {
 			return getSoulOptionString(soul.option);
 		}
@@ -116,7 +118,7 @@
 						on:select={onSelectChange}
 						on:focus={() => (comboBoxFocus = true)}
 						on:blur={() => (comboBoxFocus = false)}
-						items={Object.entries(soulJson).map((e) => ({
+						items={getSoulEntries().map((e) => ({
 							id: Number(e[0]),
 							text: e[1].name
 						}))}
