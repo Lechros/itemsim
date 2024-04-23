@@ -1,4 +1,4 @@
-import { createPotentialFromCode } from '@malib/create-gear';
+import { potentialRepository } from '$lib/malib-repository/potential';
 import { Gear, GearPropType, Potential, PotentialGrade } from '@malib/gear';
 
 export function canPotential(gear: Gear) {
@@ -88,7 +88,7 @@ export class GearPotentialCache {
 function createPotentials(gear: Gear, codes: number[]) {
 	const potentialLevel = Potential.getPotentialLevel(gear.req.level);
 	return codes
-		.map((code) => createPotentialFromCode(code, potentialLevel))
+		.map((code) => potentialRepository.createPotentialFromCode(code, potentialLevel))
 		.filter((pot): pot is Potential => isPossiblePotential(gear, pot));
 }
 
