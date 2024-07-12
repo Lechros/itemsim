@@ -16,6 +16,7 @@ export const chaosScrollStatTypes = [
 ] as const;
 
 export type ChaosScrollOption = ReturnType<typeof getDefaultChaosScrollOption>;
+export type ChaosScrollTypes = ChaosScrollOption[0]['type'];
 
 export function getDefaultChaosScrollOption() {
 	return chaosScrollStatTypes.map((e) => ({ type: e[1], name: e[0], value: null }));
@@ -45,14 +46,18 @@ export function getChaosScroll(stats: ChaosScrollOption): Scroll {
 
 export function getRandomChaosScroll(
 	stats: ChaosScrollOption,
-	valueSupplier: () => number
+	valueSupplier: (type: ChaosScrollTypes) => number
 ): Scroll {
 	return {
 		name: '',
-		option: new Map(stats.map((e) => [e.type, e.value === null ? valueSupplier() : e.value]))
+		option: new Map(stats.map((e) => [e.type, e.value === null ? valueSupplier(e.type) : e.value]))
 	};
 }
 
-export function incredibleChaosScrollOfGoodnessSupplier() {
-	return [0, 1, 2, 3, 4, 6][pickRandomIndex([5.93, 4.94, 13.87, 23.87, 33.01, 18.38])];
+export function incredibleChaosScrollOfGoodnessSupplier(type: ChaosScrollTypes) {
+	const probs = [5.93, 4.94, 13.87, 23.87, 33.01, 18.38];
+	if (type === GearPropType.incMHP || type === GearPropType.incMMP) {
+		return [0, 1, 2, 3, 4, 6][pickRandomIndex(probs)] * 10;
+	}
+	return [0, 1, 2, 3, 4, 6][pickRandomIndex(probs)];
 }
