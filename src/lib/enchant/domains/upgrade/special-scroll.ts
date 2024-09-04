@@ -22,6 +22,12 @@ export function getSpecialScrolls(gear: Gear) {
 			specialScrolls['매지컬 한손무기 마력 주문서 (+10)'],
 			specialScrolls['매지컬 한손무기 마력 주문서 (+11)']
 		);
+	} else if (gear.type === GearType.katara) {
+		scrolls.push(
+			specialScrolls['매지컬 한손무기 공격력 주문서 (+9)'],
+			specialScrolls['매지컬 한손무기 공격력 주문서 (+10)'],
+			specialScrolls['매지컬 한손무기 공격력 주문서 (+11)']
+		);
 	}
 	if (Gear.isDoubleHandWeapon(gear.type)) {
 		scrolls.push(
