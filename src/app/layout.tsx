@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Providers } from "./providers";
 
 const nexonGothic = localFont({
   src: [
@@ -34,7 +35,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${nexonGothic.className} antialiased`}>{children}</body>
+      <body className={`${nexonGothic.className} antialiased`}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
