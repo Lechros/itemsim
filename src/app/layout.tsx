@@ -34,8 +34,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className={`${nexonGothic.className} antialiased`}>
+    <html lang="ko" suppressHydrationWarning>
+      <body className={`text-foreground bg-background ${nexonGothic.className} antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>
