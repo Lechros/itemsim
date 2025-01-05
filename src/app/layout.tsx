@@ -3,21 +3,26 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "./providers";
 
-const nexonGothic = localFont({
+const nexonLv2Gothic = localFont({
   src: [
     {
-      path: "./NEXON-Lv1-Gothic-Light.woff",
+      path: "./fonts/NEXON Lv2 Gothic OTF Light.woff2",
       weight: "300",
       style: "normal",
     },
     {
-      path: "./NEXON-Lv1-Gothic.woff",
+      path: "./fonts/NEXON Lv2 Gothic OTF.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "./NEXON-Lv1-Gothic-Bold.woff",
-      weight: "700",
+      path: "./fonts/NEXON Lv2 Gothic OTF Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/NEXON Lv2 Gothic OTF Bold.woff2",
+      weight: "400",
       style: "normal",
     },
   ],
@@ -35,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={`text-foreground bg-background ${nexonGothic.className} antialiased`}>
+      <body className={`text-foreground bg-background ${nexonLv2Gothic.className} antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>
