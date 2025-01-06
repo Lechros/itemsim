@@ -31,6 +31,7 @@ const nexonLv2Gothic = localFont({
 export const metadata: Metadata = {
   title: "아이템 시뮬레이터",
   description: "메이플스토리 아이템 시뮬레이터",
+  keywords: ["Maplestory", "메이플스토리", "아이템 시뮬레이터"],
 };
 
 export default function RootLayout({
