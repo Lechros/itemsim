@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "./providers";
+import { clsx } from "@nextui-org/shared-utils";
 
 const nexonLv2Gothic = localFont({
   src: [
@@ -41,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={`text-foreground bg-background ${nexonLv2Gothic.className} antialiased`}>
+      <body className={clsx("text-foreground bg-background antialiased", nexonLv2Gothic.className)}>
         <Providers>{children}</Providers>
       </body>
     </html>
