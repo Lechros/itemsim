@@ -65,7 +65,7 @@
 	}
 	$: filtered = job > 0 ? response.filter((data) => canJob(data, job)) : response;
 
-	const url = 'https://api.itemsim.com/gears/search?query=';
+	const url = 'https://api-legacy.itemsim.com/gears/search?query=';
 	let controller: AbortController; // abort previous API calls when input change
 	let emptyAssignTimer: NodeJS.Timeout; // delay showing empty results caused by entering 한글 input
 
