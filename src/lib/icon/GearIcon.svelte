@@ -3,7 +3,7 @@
 
 	export let iconId: number;
 
-	export const API_BASEURL = 'https://api.itemsim.com';
+	export const API_BASEURL = 'https://api-legacy.itemsim.com';
 	export const IMAGE_BASEURL = 'https://image.itemsim.com';
 </script>
 
