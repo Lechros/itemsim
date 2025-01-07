@@ -7,23 +7,23 @@ import { clsx } from "@nextui-org/shared-utils";
 const nexonLv2Gothic = localFont({
   src: [
     {
-      path: "./fonts/NEXON Lv2 Gothic OTF Light.woff2",
+      path: "./_fonts/NEXON Lv2 Gothic OTF Light.woff2",
       weight: "300",
       style: "normal",
     },
     {
-      path: "./fonts/NEXON Lv2 Gothic OTF.woff2",
+      path: "./_fonts/NEXON Lv2 Gothic OTF.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "./fonts/NEXON Lv2 Gothic OTF Medium.woff2",
+      path: "./_fonts/NEXON Lv2 Gothic OTF Medium.woff2",
       weight: "500",
       style: "normal",
     },
     {
-      path: "./fonts/NEXON Lv2 Gothic OTF Bold.woff2",
-      weight: "400",
+      path: "./_fonts/NEXON Lv2 Gothic OTF Bold.woff2",
+      weight: "700",
       style: "normal",
     },
   ],
