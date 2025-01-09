@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@malib/gear": "1.0.0-next.0",
+    "@malib/gear": "1.0.0-next.2",
     "@nextui-org/react": "^2.6.11",
     "framer-motion": "^11.15.0",
     "immer": "^10.1.1",
