@@ -8,7 +8,7 @@ export default function Icon({
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         style={{
-          marginLeft: `${origin[0]}px`,
+          marginLeft: `${-origin[0]}px`,
           marginTop: `${32 - origin[1]}px`,
           imageRendering: "pixelated",
         }}
