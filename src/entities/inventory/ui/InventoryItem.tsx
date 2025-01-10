@@ -2,7 +2,7 @@ import { getGearIconUrl, useGearIconOrigin } from "@/shared/api";
 import { Icon } from "@/shared/ui";
 import { Gear, PotentialGrade } from "@malib/gear";
 import { Card, CardBody, Chip } from "@nextui-org/react";
-import { clsx } from "@nextui-org/shared-utils";
+import { clsx } from "@/shared/util";
 import YellowStarIcon from "./YellowStarIcon";
 import ExceptionalIcon from "./ExceptionalIcon";
 import PotentialGradeIcon from "./PotentialGradeIcon";

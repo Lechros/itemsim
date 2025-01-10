@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "./providers";
-import { clsx } from "@nextui-org/shared-utils";
+import { clsx } from "@/shared/util";
 
 const nexonLv2Gothic = localFont({
   src: [
