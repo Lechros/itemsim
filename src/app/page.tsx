@@ -1,6 +1,7 @@
 "use client";
 
 import { InventoryItem, InventoryList } from "@/entities/inventory";
+import { GearTooltip } from "@/entities/tooltip";
 import { getObjectHash } from "@/shared/util";
 import { Gear, PotentialGrade } from "@malib/gear";
 
@@ -17,8 +18,8 @@ export default function InventoryPage() {
       icon: "1402196",
       req: {},
       attributes: {},
-      star: 5,
-      maxStar: 10,
+      star: 22,
+      maxStar: 25,
       scrollUpgradeCount: 5,
       potentialGrade: PotentialGrade.Legendary,
       potentials: [{ title: "hello", option: {} }],
@@ -58,14 +59,17 @@ export default function InventoryPage() {
     }),
   ];
   return (
-    <InventoryList
-      className="mx-auto"
-      isEmpty={gears.length === 0}
-      emptyMessage="인벤토리가 비어 있습니다."
-    >
-      {gears.map((gear) => (
-        <InventoryItem gear={gear} key={getObjectHash(gear)} />
-      ))}
-    </InventoryList>
+    <>
+      <InventoryList
+        className="mx-auto"
+        isEmpty={gears.length === 0}
+        emptyMessage="인벤토리가 비어 있습니다."
+      >
+        {gears.map((gear) => (
+          <InventoryItem gear={gear} key={getObjectHash(gear)} />
+        ))}
+      </InventoryList>
+      <GearTooltip className="ml-auto" gear={gears[0]} />
+    </>
   );
 }
