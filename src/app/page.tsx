@@ -1,9 +1,10 @@
 "use client";
 
+import { InventoryItem, InventoryList } from "@/entities/inventory";
+import { getObjectHash } from "@/shared/util";
 import { Gear, PotentialGrade } from "@malib/gear";
-import { InventoryItem } from "@/entities/inventory";
 
-export default function Inventory() {
+export default function InventoryPage() {
   const gears = [
     new Gear({
       meta: {
@@ -57,10 +58,14 @@ export default function Inventory() {
     }),
   ];
   return (
-    <div className="grid grid-cols-3 max-w-md gap-3 p-3 sm:grid-cols-4 sm:max-w-2xl sm:gap-4 sm:p-4 mx-auto">
+    <InventoryList
+      className="mx-auto"
+      isEmpty={gears.length === 0}
+      emptyMessage="인벤토리가 비어 있습니다."
+    >
       {gears.map((gear) => (
-        <InventoryItem gear={gear} key={Math.random()} />
+        <InventoryItem gear={gear} key={getObjectHash(gear)} />
       ))}
-    </div>
+    </InventoryList>
   );
 }
