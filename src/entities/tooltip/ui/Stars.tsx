@@ -8,9 +8,9 @@ export default function Stars({
   const lines = toStarArray(star, maxStar);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center gap-[8px]">
       {lines.map((line, l) => (
-        <div className="h-[18px] last:h-[16px] flex gap-[6px] pr-[1px]" key={l}>
+        <div className="h-[10px] flex gap-[6px] pr-[1px]" key={l}>
           {line.map((group, g) => (
             <div className="flex items-start" key={g}>
               {group.map((lit, s) => (

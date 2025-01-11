@@ -1,0 +1,69 @@
+.detailText {
+  font-family: "Dotum";
+  font-size: 11px;
+  line-height: 15px;
+  white-space: "pre-wrap";
+}
+
+.titleText {
+  font-family: "Dotum";
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 19px;
+  text-align: center;
+  text-wrap: balance;
+  white-space: "pre-wrap";
+}
+
+.soulText {
+  font-family: "돋움", "Dotum";
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.commaAfter::after {
+  content: ", ";
+}
+.commaAfter:last-child::after {
+  content: none;
+}
+
+.white {
+  color: rgb(255, 255, 255);
+}
+.red {
+  color: rgb(255, 0, 102);
+}
+.red2 {
+  color: rgb(255, 51, 51);
+}
+.orange {
+  color: rgb(255, 170, 0);
+}
+.orange2 {
+  color: rgb(255, 204, 0);
+}
+.orange3 {
+  color: rgb(255, 136, 17);
+}
+.yellow {
+  color: rgb(255, 255, 68);
+}
+.green {
+  color: rgb(204, 255, 0);
+}
+.blue {
+  color: rgb(102, 255, 255);
+}
+.purple {
+  color: rgb(153, 102, 255);
+}
+.purple2 {
+  color: rgb(170, 170, 255);
+}
+.gray {
+  color: rgb(187, 187, 187);
+}
+.gray2 {
+  color: rgb(153, 153, 153);
+}
