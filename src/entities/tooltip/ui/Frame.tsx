@@ -9,7 +9,7 @@ export default function Frame({
     <div className={clsx("w-[261px] relative", className)}>
       <div className="h-[13px] bg-no-repeat" style={{ backgroundImage: `url(${frameTop.src})` }} />
       <div
-        className="flex flex-col items-center px-[13px] bg-repeat-y"
+        className="flex flex-col items-center bg-repeat-y"
         style={{ backgroundImage: `url(${frameLine.src})` }}
       >
         {children}

@@ -36,7 +36,7 @@ export default function Attributes(attributes: Readonly<Props>) {
   }
 
   return (
-    <div className="flex flex-wrap justify-center pl-[6px] pr-[7px]" ref={ref}>
+    <div className="flex flex-wrap justify-center pl-[19px] pr-[20px]" ref={ref}>
       {tags.map((tag) => (
         <span
           className={clsx("whitespace-pre", styles.detailText, styles.orange, styles.commaAfter)}
