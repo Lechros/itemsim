@@ -4,7 +4,7 @@ import React from "react";
 import styles from "./tooltip.module.css";
 
 export function TitleGroup({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <div>{children}</div>;
+  return <div className="-mt-[2px]">{children}</div>;
 }
 
 export function SoulTitle({ soul }: Readonly<{ soul?: SoulData }>) {

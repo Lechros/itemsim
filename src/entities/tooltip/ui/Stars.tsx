@@ -7,8 +7,12 @@ export default function Stars({
 }: Readonly<{ star: number; maxStar: number; color?: "yellow" | "blue" }>) {
   const lines = toStarArray(star, maxStar);
 
+  if (lines.length === 0) {
+    return null;
+  }
+
   return (
-    <div className="flex flex-col items-center gap-[8px]">
+    <div className="flex flex-col items-center gap-[8px] mb-[8px]">
       {lines.map((line, l) => (
         <div className="h-[10px] flex gap-[6px] pr-[1px]" key={l}>
           {line.map((group, g) => (

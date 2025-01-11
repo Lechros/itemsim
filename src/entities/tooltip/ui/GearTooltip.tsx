@@ -25,7 +25,6 @@ export default function GearTooltip({
   return (
     <Frame className={className}>
       <Stars star={gear.star} maxStar={gear.maxStar} color={gear.starScroll ? "blue" : "yellow"} />
-      <Spacer height={6} />
       <TitleGroup>
         <SoulTitle soul={gear.soul} />
         <NameTitle name={gear.name} scrollUpgradeCount={gear.scrollUpgradeCount} color="white" />
