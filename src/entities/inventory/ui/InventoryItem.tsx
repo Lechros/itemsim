@@ -1,5 +1,5 @@
 import { getGearIconUrl, useGearIconOrigin } from "@/shared/api";
-import { Icon } from "@/shared/ui";
+import { OriginIcon } from "@/shared/ui";
 import { Gear, PotentialGrade } from "@malib/gear";
 import { Card, CardBody, Chip } from "@nextui-org/react";
 import { clsx } from "@/shared/util";
@@ -23,7 +23,7 @@ export default function InventoryItem({
       <CardBody>
         <div className="h-full flex justify-center items-center relative">
           {origin ? (
-            <Icon
+            <OriginIcon
               src={getGearIconUrl(gear.icon).toString()}
               alt={`${gear.name} 아이콘`}
               origin={origin}
