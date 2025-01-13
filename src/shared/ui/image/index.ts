@@ -143,7 +143,31 @@ export { default as incline6 } from "./summary/incline/6.png";
 export { default as incline7 } from "./summary/incline/7.png";
 export { default as incline8 } from "./summary/incline/8.png";
 export { default as incline9 } from "./summary/incline/9.png";
-export { default as inclineMinus } from "./summary/incline/plus.png";
+export { default as inclinePlus } from "./summary/incline/plus.png";
+
+export { default as incline_10digit0 } from "./summary/incline_10digit/0.png";
+export { default as incline_10digit1 } from "./summary/incline_10digit/1.png";
+export { default as incline_10digit2 } from "./summary/incline_10digit/2.png";
+export { default as incline_10digit3 } from "./summary/incline_10digit/3.png";
+export { default as incline_10digit4 } from "./summary/incline_10digit/4.png";
+export { default as incline_10digit5 } from "./summary/incline_10digit/5.png";
+export { default as incline_10digit6 } from "./summary/incline_10digit/6.png";
+export { default as incline_10digit7 } from "./summary/incline_10digit/7.png";
+export { default as incline_10digit8 } from "./summary/incline_10digit/8.png";
+export { default as incline_10digit9 } from "./summary/incline_10digit/9.png";
+export { default as incline_10digitPlus } from "./summary/incline_10digit/plus.png";
+
+export { default as incline_8digit0 } from "./summary/incline_8digit/0.png";
+export { default as incline_8digit1 } from "./summary/incline_8digit/1.png";
+export { default as incline_8digit2 } from "./summary/incline_8digit/2.png";
+export { default as incline_8digit3 } from "./summary/incline_8digit/3.png";
+export { default as incline_8digit4 } from "./summary/incline_8digit/4.png";
+export { default as incline_8digit5 } from "./summary/incline_8digit/5.png";
+export { default as incline_8digit6 } from "./summary/incline_8digit/6.png";
+export { default as incline_8digit7 } from "./summary/incline_8digit/7.png";
+export { default as incline_8digit8 } from "./summary/incline_8digit/8.png";
+export { default as incline_8digit9 } from "./summary/incline_8digit/9.png";
+export { default as incline_8digitPlus } from "./summary/incline_8digit/plus.png";
 
 export { default as decline0 } from "./summary/decline/0.png";
 export { default as decline1 } from "./summary/decline/1.png";
@@ -156,6 +180,30 @@ export { default as decline7 } from "./summary/decline/7.png";
 export { default as decline8 } from "./summary/decline/8.png";
 export { default as decline9 } from "./summary/decline/9.png";
 export { default as declineMinus } from "./summary/decline/minus.png";
+
+export { default as decline_10digit0 } from "./summary/decline_10digit/0.png";
+export { default as decline_10digit1 } from "./summary/decline_10digit/1.png";
+export { default as decline_10digit2 } from "./summary/decline_10digit/2.png";
+export { default as decline_10digit3 } from "./summary/decline_10digit/3.png";
+export { default as decline_10digit4 } from "./summary/decline_10digit/4.png";
+export { default as decline_10digit5 } from "./summary/decline_10digit/5.png";
+export { default as decline_10digit6 } from "./summary/decline_10digit/6.png";
+export { default as decline_10digit7 } from "./summary/decline_10digit/7.png";
+export { default as decline_10digit8 } from "./summary/decline_10digit/8.png";
+export { default as decline_10digit9 } from "./summary/decline_10digit/9.png";
+export { default as decline_10digitMinus } from "./summary/decline_10digit/minus.png";
+
+export { default as decline_8digit0 } from "./summary/decline_8digit/0.png";
+export { default as decline_8digit1 } from "./summary/decline_8digit/1.png";
+export { default as decline_8digit2 } from "./summary/decline_8digit/2.png";
+export { default as decline_8digit3 } from "./summary/decline_8digit/3.png";
+export { default as decline_8digit4 } from "./summary/decline_8digit/4.png";
+export { default as decline_8digit5 } from "./summary/decline_8digit/5.png";
+export { default as decline_8digit6 } from "./summary/decline_8digit/6.png";
+export { default as decline_8digit7 } from "./summary/decline_8digit/7.png";
+export { default as decline_8digit8 } from "./summary/decline_8digit/8.png";
+export { default as decline_8digit9 } from "./summary/decline_8digit/9.png";
+export { default as decline_8digitMinus } from "./summary/decline_8digit/minus.png";
 
 export { default as summaryIconBdr } from "./summary/icon/bdr.png";
 export { default as summaryIconIgpddrn } from "./summary/icon/igpddr.png";
