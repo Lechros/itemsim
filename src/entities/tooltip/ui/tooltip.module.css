@@ -28,6 +28,10 @@
   content: none;
 }
 
+.pixelated {
+  image-rendering: pixelated;
+}
+
 .white {
   color: rgb(255, 255, 255);
 }
