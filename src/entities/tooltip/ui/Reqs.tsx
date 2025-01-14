@@ -69,7 +69,7 @@ import {
   numberYellowMinus,
 } from "@/shared/ui";
 import Spacer from "./Spacer";
-import { StaticImageData } from "next/image";
+import { UIImage } from "./UIImage";
 
 type Type = "str" | "dex" | "int" | "luk";
 
@@ -94,7 +94,7 @@ export function ReqLev({
 
   return (
     <div className="flex items-start gap-px">
-      {imageTag(reqImage, "req lev: ", { marginRight: variant === "can" ? "4px" : "3px" })}
+      <UIImage image={reqImage} style={{ marginRight: variant === "can" ? "4px" : "3px" }} />
       {digits
         .split("")
         .map((digit, i) =>
@@ -107,15 +107,15 @@ export function ReqLev({
       {decrease > 0 ? (
         <>
           <Spacer width={1} />
-          {openTag()}
+          <UIImage image={numberCanOpen} />
           {baseDigits.split("").map((digit, i) => (
             <Digit digit={digit} variant="can" gap key={i} />
           ))}
-          {minusTag()}
+          <UIImage image={numberYellowMinus} style={{ marginTop: "2px" }} />
           {decreaseDigits.split("").map((digit, i) => (
             <Digit digit={digit} variant="yellow" gap key={i} />
           ))}
-          {closeTag()}
+          <UIImage image={numberCanClose} />
         </>
       ) : null}
     </div>
@@ -144,10 +144,12 @@ export function ReqStat({
   );
 }
 
+type Variant = "can" | "cannot" | "disabled" | "lookahead" | "yellow";
+
 function Req({ type, variant }: Readonly<{ type: Type; variant: Variant }>) {
   const image = reqImages[variant as keyof typeof reqImages][type];
 
-  return imageTag(image, `req ${type}: `, { marginRight: "3px" });
+  return <UIImage image={image} style={{ marginRight: "3px" }} />;
 }
 
 function Digit({
@@ -157,26 +159,7 @@ function Digit({
 }: Readonly<{ digit: string; variant: Variant; gap?: boolean }>) {
   const image = digitImages[variant][digit as "0"];
 
-  return imageTag(image, digit, { marginLeft: digit === "1" && gap ? "1px" : undefined });
-}
-
-function openTag() {
-  return imageTag(numberCanOpen, "(");
-}
-
-function minusTag() {
-  return imageTag(numberYellowMinus, "-", { marginTop: "2px" });
-}
-
-function closeTag() {
-  return imageTag(numberCanClose, ")");
-}
-
-function imageTag(image: StaticImageData, alt: string, style: React.CSSProperties = {}) {
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img width={image.width} height={image.height} src={image.src} alt={alt} style={style} />
-  );
+  return <UIImage image={image} style={{ marginLeft: digit === "1" && gap ? "1px" : undefined }} />;
 }
 
 function getVariant(value: number, can: boolean) {
@@ -185,8 +168,6 @@ function getVariant(value: number, can: boolean) {
   }
   return can ? "can" : "cannot";
 }
-
-type Variant = "can" | "cannot" | "disabled" | "lookahead" | "yellow";
 
 const reqImages = {
   can: {

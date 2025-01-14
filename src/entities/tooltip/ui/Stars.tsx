@@ -1,4 +1,5 @@
 import { blueStar, emptyStar, yellowStar } from "@/shared/ui";
+import { UIImage } from "./UIImage";
 
 export default function Stars({
   star,
@@ -29,17 +30,13 @@ export default function Stars({
 }
 
 function Star({ color, isEmpty }: Readonly<{ color: string; isEmpty: boolean }>) {
-  let src, alt;
+  let image;
   if (isEmpty) {
-    src = emptyStar;
-    alt = "☆";
+    image = emptyStar;
   } else {
-    src = color === "yellow" ? yellowStar : blueStar;
-    alt = "★";
+    image = color === "yellow" ? yellowStar : blueStar;
   }
-  // Using <img /> since next/image modifies the image
-  // eslint-disable-next-line @next/next/no-img-element
-  return <img className="w-[11px] h-[10px] -mr-[1px] select-none" src={src.src} alt={alt} />;
+  return <UIImage image={image} style={{ marginRight: "-1px" }} />;
 }
 
 const STAR_PER_LINE = 15;

@@ -67,6 +67,7 @@ import {
   inclinePlus,
 } from "@/shared/ui";
 import { clsx } from "@/shared/util";
+import { UIImage } from "./UIImage";
 import styles from "./tooltip.module.css";
 
 type Size = "normal" | "10digit" | "8digit";
@@ -96,11 +97,28 @@ export default function Incline({
       <div className={clsx("flex items-center justify-end", { "-mr-[2px]": size === "10digit" })}>
         {sign ? <Sign sign={sign} size={size} /> : null}
         {digits.split("").map((digit, i) => (
-          <Digit digit={digit} size={size} isDecline={diff < 0} key={i} />
+          <Digit digit={digit} size={size} isDecline={sign === "-"} key={i} />
         ))}
       </div>
     </div>
   );
+}
+
+function Sign({ sign, size }: Readonly<{ sign: "+" | "-"; size: Size }>) {
+  const image = signImages[size][sign];
+  const margin = signMargins[size];
+  return <UIImage image={image} style={{ marginLeft: `${margin}px` }} />;
+}
+
+function Digit({
+  digit,
+  size,
+  isDecline,
+}: Readonly<{ digit: string; size: Size; isDecline: boolean }>) {
+  const images = isDecline ? declineImages : inclineImages;
+  const image = images[size][digit as keyof (typeof images)["normal"]];
+  const margin = digitMargins[size][digit as keyof (typeof digitMargins)["normal"]];
+  return <UIImage image={image} style={{ marginLeft: `${margin}px` }} />;
 }
 
 function getSize(small: boolean, digits: string) {
@@ -114,45 +132,6 @@ function getSize(small: boolean, digits: string) {
   } else {
     return "normal";
   }
-}
-
-function Sign({ sign, size }: Readonly<{ sign: "+" | "-"; size: Size }>) {
-  const image = signImages[size][sign];
-  const margin = signMargins[size];
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      width={image.width}
-      height={image.height}
-      src={image.src}
-      alt={sign}
-      style={{
-        marginRight: `${margin}px`,
-      }}
-    />
-  );
-}
-
-function Digit({
-  digit,
-  size,
-  isDecline,
-}: Readonly<{ digit: string; size: Size; isDecline: boolean }>) {
-  const images = isDecline ? declineImages : inclineImages;
-  const image = images[size][digit as keyof (typeof images)["normal"]];
-  const margin = digitMargins[size][digit as keyof (typeof digitMargins)["normal"]];
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      width={image.width}
-      height={image.height}
-      src={image.src}
-      alt={digit}
-      style={{
-        marginLeft: `${margin}px`,
-      }}
-    />
-  );
 }
 
 const signImages = {
