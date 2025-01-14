@@ -107,7 +107,7 @@ export default function Incline({
 function Sign({ sign, size }: Readonly<{ sign: "+" | "-"; size: Size }>) {
   const image = signImages[size][sign];
   const margin = signMargins[size];
-  return <UIImage image={image} style={{ marginLeft: `${margin}px` }} />;
+  return <UIImage image={image} style={{ marginRight: `${margin}px` }} />;
 }
 
 function Digit({
