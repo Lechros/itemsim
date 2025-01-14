@@ -1,5 +1,5 @@
 export function SummaryArea({ children }: Readonly<{ children?: React.ReactNode }>) {
-  return <div className="pl-[13px] pr-[9px] flex">{children}</div>;
+  return <div className="pl-[12px] pr-[8px] flex w-full">{children}</div>;
 }
 
 export function IconArea({ children }: Readonly<{ children: React.ReactNode }>) {
