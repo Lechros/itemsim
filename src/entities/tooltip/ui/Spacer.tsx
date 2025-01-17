@@ -1,4 +1,4 @@
-export default function Spacer({ width, height }: Readonly<{ width?: number; height?: number }>) {
+export function Spacer({ width, height }: Readonly<{ width?: number; height?: number }>) {
   return (
     <span
       aria-hidden

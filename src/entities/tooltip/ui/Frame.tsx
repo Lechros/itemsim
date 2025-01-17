@@ -1,7 +1,7 @@
 import { frameBottom, frameCover, frameLine, frameTop } from "@/shared/ui";
 import { clsx } from "@/shared/util";
 
-export default function Frame({
+export function Frame({
   children,
   className,
 }: Readonly<{ children: React.ReactNode; className?: string }>) {

@@ -12,7 +12,7 @@ type Props = {
   canPotential: PotentialCan;
 };
 
-export default function Attributes(attributes: Readonly<Props>) {
+export function Attributes(attributes: Readonly<Props>) {
   const tags = getTags(attributes);
   const ref = useRef<HTMLDivElement>(null);
 

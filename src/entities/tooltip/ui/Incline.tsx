@@ -72,7 +72,7 @@ import styles from "./tooltip.module.css";
 
 type Size = "normal" | "10digit" | "8digit";
 
-export default function Incline({
+export function Incline({
   label,
   diff,
   small = false,

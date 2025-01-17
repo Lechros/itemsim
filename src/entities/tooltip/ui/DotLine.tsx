@@ -1,7 +1,7 @@
 import { frameDotline } from "@/shared/ui";
 import { clsx } from "@/shared/util";
 
-export default function DotLine({ className }: Readonly<{ className?: string }>) {
+export function DotLine({ className }: Readonly<{ className?: string }>) {
   return (
     <hr
       className={clsx("w-[261px] h-[2px] border-none", className)}

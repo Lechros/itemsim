@@ -12,7 +12,7 @@ import {
 } from "@/shared/ui";
 import { PotentialGrade } from "@malib/gear";
 
-export default function Icon({
+export function Icon({
   icon,
   grade,
   newBonus = false,

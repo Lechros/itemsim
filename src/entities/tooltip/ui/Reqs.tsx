@@ -58,7 +58,7 @@ import {
   numberYellow9,
   numberYellowMinus,
 } from "@/shared/ui";
-import Spacer from "./Spacer";
+import { Spacer } from "./Spacer";
 import { UIImage } from "./UIImage";
 
 type Type = "str" | "dex" | "int" | "luk";

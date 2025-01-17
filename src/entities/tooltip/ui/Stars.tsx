@@ -1,7 +1,7 @@
 import { blueStar, emptyStar, yellowStar } from "@/shared/ui";
 import { UIImage } from "./UIImage";
 
-export default function Stars({
+export function Stars({
   star,
   maxStar,
   color = "yellow",

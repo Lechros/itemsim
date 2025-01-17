@@ -2,7 +2,7 @@ import { PotentialGrade } from "@malib/gear";
 import styles from "./tooltip.module.css";
 import { clsx } from "@/shared/util";
 
-export default function Grade({
+export function Grade({
   grade,
   specialGrade,
 }: Readonly<{ grade: PotentialGrade; specialGrade: boolean }>) {

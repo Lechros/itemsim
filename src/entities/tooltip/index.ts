@@ -1,1 +1,1 @@
-export { default as GearTooltip } from "./ui/GearTooltip";
+export { GearTooltip } from "./ui/GearTooltip";
