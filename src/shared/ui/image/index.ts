@@ -206,5 +206,5 @@ export { default as decline_8digit9 } from "./summary/decline_8digit/9.png";
 export { default as decline_8digitMinus } from "./summary/decline_8digit/minus.png";
 
 export { default as summaryIconBdr } from "./summary/icon/bdr.png";
-export { default as summaryIconIgpddrn } from "./summary/icon/igpddr.png";
+export { default as summaryIconIgpddr } from "./summary/icon/igpddr.png";
 export { default as summaryIconPdd } from "./summary/icon/pdd.png";

@@ -1,6 +1,7 @@
 import { clsx } from "@/shared/util";
 import { Gear } from "@malib/gear";
 import Attributes from "./Attributes";
+import { DiffExtra, DiffExtraArea } from "./DiffExtra";
 import DotLine from "./DotLine";
 import Frame from "./Frame";
 import Grade from "./Grade";
@@ -12,20 +13,44 @@ import Stars from "./Stars";
 import { IconArea, InclineReqArea, SummaryArea } from "./SummaryArea";
 import { NameTitle, SoulTitle, TitleGroup } from "./Titles";
 import styles from "./tooltip.module.css";
+import { JobReq } from "./JobReq";
+
+type Incline =
+  | {
+      mode: "attack";
+      attack: number;
+    }
+  | {
+      mode: "combat";
+      combat: number;
+    }
+  | {
+      mode: "attack_combat";
+      attack: number;
+      combat: number;
+    };
 
 export default function GearTooltip({
   gear,
+  incline = { mode: "attack", attack: 0 },
+  cannot = {},
+  diff = { pdd: 0, bdr: 0, igpddr: 0 },
   className,
 }: Readonly<{
   gear: Gear;
-  inclineDisplayMode?: "attack" | "combat" | "attack_combat";
-  character?: {
-    level: number;
-    str: number;
-    dex: number;
-    int: number;
-    luk: number;
-    job: number;
+  incline?: Incline;
+  cannot?: {
+    level?: boolean;
+    str?: boolean;
+    dex?: boolean;
+    int?: boolean;
+    luk?: boolean;
+    job?: boolean;
+  };
+  diff?: {
+    pdd: number;
+    bdr: number;
+    igpddr: number;
   };
   className?: string;
 }>) {
@@ -58,8 +83,18 @@ export default function GearTooltip({
           />
         </IconArea>
         <InclineReqArea>
-          <Incline label="공격력 증가량" diff={11508176} small />
-          <Incline label="전투력 증가량" diff={0} small />
+          {incline.mode === "attack" ? (
+            <Incline label="공격력 증가량" diff={incline.attack} />
+          ) : null}
+          {incline.mode === "combat" ? (
+            <Incline label="전투력 증가량" diff={incline.combat} />
+          ) : null}
+          {incline.mode === "attack_combat" ? (
+            <>
+              <Incline label="공격력 증가량" diff={incline.attack} small />
+              <Incline label="전투력 증가량" diff={incline.combat} small />
+            </>
+          ) : null}
           <Spacer height={1} />
           <ReqArea>
             <ReqLine>
@@ -71,17 +106,25 @@ export default function GearTooltip({
             </ReqLine>
             <Spacer height={9} />
             <ReqLine>
-              <ReqStat type="str" value={gear.req.str} can />
-              <ReqStat type="luk" value={gear.req.luk} can />
+              <ReqStat type="str" value={gear.req.str} can={!cannot?.str} />
+              <ReqStat type="luk" value={gear.req.luk} can={!cannot?.luk} />
             </ReqLine>
             <Spacer height={3} />
             <ReqLine>
-              <ReqStat type="dex" value={gear.req.dex} can />
-              <ReqStat type="int" value={gear.req.int} can />
+              <ReqStat type="dex" value={gear.req.dex} can={!cannot?.dex} />
+              <ReqStat type="int" value={gear.req.int} can={!cannot?.int} />
             </ReqLine>
           </ReqArea>
         </InclineReqArea>
       </SummaryArea>
+      <Spacer height={5} />
+      <DiffExtraArea>
+        <DiffExtra type="pdd" value={diff.pdd} />
+        <DiffExtra type="bdr" value={diff.bdr} percent />
+        <DiffExtra type="igpddr" value={diff.igpddr} percent />
+      </DiffExtraArea>
+      <Spacer height={3} />
+      <JobReq reqJob={gear.req.job} gearType={gear.type} can />
     </Frame>
   );
 }

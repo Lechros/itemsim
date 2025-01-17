@@ -1,18 +1,30 @@
+import { clsx } from "@/shared/util";
 import { StaticImageData } from "next/image";
 
 export function UIImage({
   image,
+  children,
+  className,
   style = {},
-}: Readonly<{ image: StaticImageData; style?: React.CSSProperties }>) {
+  as: Component = "span",
+}: Readonly<{
+  image: StaticImageData;
+  children?: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+  as?: "div" | "span";
+}>) {
   return (
-    <span
-      className="block"
+    <Component
+      className={clsx("block", className)}
       style={{
         width: image.width,
         height: image.height,
         backgroundImage: `url(${image.src})`,
         ...style,
       }}
-    />
+    >
+      {children}
+    </Component>
   );
 }

@@ -46,16 +46,6 @@ import {
   numberDisabledReqLev,
   numberDisabledReqLuk,
   numberDisabledReqStr,
-  numberLookahead0,
-  numberLookahead1,
-  numberLookahead2,
-  numberLookahead3,
-  numberLookahead4,
-  numberLookahead5,
-  numberLookahead6,
-  numberLookahead7,
-  numberLookahead8,
-  numberLookahead9,
   numberYellow0,
   numberYellow1,
   numberYellow2,
@@ -144,7 +134,7 @@ export function ReqStat({
   );
 }
 
-type Variant = "can" | "cannot" | "disabled" | "lookahead" | "yellow";
+type Variant = "can" | "cannot" | "disabled" | "yellow";
 
 function Req({ type, variant }: Readonly<{ type: Type; variant: Variant }>) {
   const image = reqImages[variant as keyof typeof reqImages][type];
@@ -229,18 +219,6 @@ const digitImages = {
     "7": numberDisabled7,
     "8": numberDisabled8,
     "9": numberDisabled9,
-  },
-  lookahead: {
-    "0": numberLookahead0,
-    "1": numberLookahead1,
-    "2": numberLookahead2,
-    "3": numberLookahead3,
-    "4": numberLookahead4,
-    "5": numberLookahead5,
-    "6": numberLookahead6,
-    "7": numberLookahead7,
-    "8": numberLookahead8,
-    "9": numberLookahead9,
   },
   yellow: {
     "0": numberYellow0,
