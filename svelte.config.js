@@ -8,7 +8,13 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
+		files: {
+			routes: 'src/app/routes',
+			lib: 'src',
+			appTemplate: 'src/app/index.html',
+			assets: 'public'
+		}
 	}
 };
 
