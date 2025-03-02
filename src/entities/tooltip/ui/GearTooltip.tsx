@@ -1,19 +1,20 @@
 import { clsx } from "@/shared/util";
 import { Gear } from "@malib/gear";
 import { Attributes } from "./Attributes";
+import { DetailArea, GearOptions, GearTypeDetail, Superior } from "./Detail";
 import { DiffExtra, DiffExtraArea } from "./DiffExtra";
 import { DotLine } from "./DotLine";
 import { Frame } from "./Frame";
 import { Grade } from "./Grade";
 import { Icon } from "./Icon";
 import { Incline } from "./Incline";
+import { JobReq } from "./JobReq";
 import { ReqArea, ReqLev, ReqLine, ReqStat } from "./Reqs";
 import { Spacer } from "./Spacer";
 import { Stars } from "./Stars";
 import { IconArea, InclineReqArea, SummaryArea } from "./SummaryArea";
 import { NameTitle, SoulTitle, TitleGroup } from "./Titles";
 import styles from "./tooltip.module.css";
-import { JobReq } from "./JobReq";
 
 type Incline =
   | {
@@ -127,6 +128,17 @@ export function GearTooltip({
       <JobReq reqJob={gear.req.job} gearType={gear.type} can />
       <Spacer height={9} />
       <DotLine />
+      <Spacer height={4} />
+      <DetailArea>
+        <Superior superior={gear.attributes.superior} />
+        <GearTypeDetail gearType={gear.type} />
+        <GearOptions
+          baseOption={gear.baseOption}
+          addOption={gear.addOption}
+          upgradeOption={gear.upgradeOption}
+          starforceOption={gear.starforceOption}
+        />
+      </DetailArea>
     </Frame>
   );
 }
