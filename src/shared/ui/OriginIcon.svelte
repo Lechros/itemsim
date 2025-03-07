@@ -21,5 +21,6 @@
 <style>
 	img {
 		image-rendering: pixelated;
+		max-width: none;
 	}
 </style>
