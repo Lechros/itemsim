@@ -3,5 +3,5 @@
 </script>
 
 {#if soulName}
-	<div class="gt--green">{soulName.replace(/소울$/, '')}</div>
+	<div class="gt--title gt--green">{soulName.replace(/소울$/, '')}</div>
 {/if}

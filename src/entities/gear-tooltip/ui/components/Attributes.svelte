@@ -7,9 +7,7 @@
 		'only' | 'trade' | 'onlyEquip' | 'share' | 'blockGoldenHammer' | 'canPotential'
 	>;
 
-	let props: Props = $props();
-
-	let tags = $derived(getTags(props));
+	let { tags }: { tags: string[] } = $props();
 
 	// svelte-ignore non_reactive_update
 	let div: HTMLDivElement;
@@ -20,12 +18,7 @@
 			(el) => el.classList.add('gt--comma'),
 			(el) => el.classList.remove('gt--comma')
 		);
-		props.only;
-		props.trade;
-		props.onlyEquip;
-		props.share;
-		props.blockGoldenHammer;
-		props.canPotential;
+		tags;
 	});
 
 	function forEachChildren(

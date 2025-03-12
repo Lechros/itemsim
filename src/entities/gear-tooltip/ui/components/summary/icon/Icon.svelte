@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getGearIconOriginUrl, getGearIconUrl } from '$lib/shared/api';
+	import { getGearIconOrigin, getGearIconOriginUrl, getGearIconUrl } from '$lib/shared/api';
 	import { UIImage } from '$lib/shared/ui';
 	import OriginIcon from '$lib/shared/ui/OriginIcon.svelte';
 	import { PotentialGrade } from '@malib/gear';
@@ -12,9 +12,7 @@
 	let origin = $state<[number, number]>();
 
 	$effect(() => {
-		fetch(getGearIconOriginUrl(icon))
-			.then((res) => res.json())
-			.then((data) => (origin = data));
+		getGearIconOrigin(icon).then((data) => (origin = data));
 	});
 
 	function getIconBorder(grade: PotentialGrade) {

@@ -2,7 +2,7 @@
 	font-family: 'Dotum';
 	font-size: 11px;
 	line-height: 15px;
-	white-space: 'pre-wrap';
+	white-space: pre-wrap;
 }
 
 .gt--title {
@@ -12,7 +12,7 @@
 	line-height: 19px;
 	text-align: center;
 	text-wrap: balance;
-	white-space: 'pre-wrap';
+	white-space: pre-wrap;
 }
 
 .gt--soul {
