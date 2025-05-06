@@ -5,7 +5,7 @@
 	let { children, class: className }: { children?: Snippet; class?: string } = $props();
 </script>
 
-<div class={['relative w-[261px]', className]} style="image-rendering: pixelated;">
+<div class={['relative w-[324px]', className]} style="image-rendering: pixelated;">
 	<UIImage image="frameTop" />
 	<UIImage image="frameLine" class="flex flex-col items-center" style="height: unset;">
 		{@render children?.()}

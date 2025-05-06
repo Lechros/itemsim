@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {
-		PotentialGrade,
+		GearCapability,
 		type Gear,
 		type GearAddOption,
 		type GearStarforceOption,
@@ -8,11 +8,12 @@
 	} from '@malib/gear';
 	import { getDescriptions, getExtraJobReqString, getTags } from '../model/strings';
 	import Attributes from './components/Attributes.svelte';
+	import Description from './components/description/Description.svelte';
+	import DescriptionsWrapper from './components/description/DescriptionsWrapper.svelte';
 	import DetailCannotAdditionalPotential from './components/detail/DetailCannotAdditionalPotential.svelte';
 	import DetailCannotPotential from './components/detail/DetailCannotPotential.svelte';
 	import DetailCuttableCount from './components/detail/DetailCuttableCount.svelte';
 	import DetailGearType from './components/detail/DetailGearType.svelte';
-	import DetailGoldenHammer from './components/detail/DetailGoldenHammer.svelte';
 	import DetailOption from './components/detail/DetailOption.svelte';
 	import DetailReqLevelDecrease from './components/detail/DetailReqLevelDecrease.svelte';
 	import DetailSuperior from './components/detail/DetailSuperior.svelte';
@@ -20,6 +21,11 @@
 	import DetailUpgradeCount from './components/detail/DetailUpgradeCount.svelte';
 	import DetailWrapper from './components/detail/DetailWrapper.svelte';
 	import DotLine from './components/DotLine.svelte';
+	import ExceptionalLabel from './components/exceptional/ExceptionalLabel.svelte';
+	import ExceptionalOptions from './components/exceptional/ExceptionalOptions.svelte';
+	import ExceptionalOptionsWrapper from './components/exceptional/ExceptionalOptionsWrapper.svelte';
+	import ExceptionalUpgradeCount from './components/exceptional/ExceptionalUpgradeCount.svelte';
+	import ExceptionalWrapper from './components/exceptional/ExceptionalWrapper.svelte';
 	import Frame from './components/Frame.svelte';
 	import Grade from './components/Grade.svelte';
 	import JobReq from './components/JobReq.svelte';
@@ -27,9 +33,12 @@
 	import PotentialOption from './components/potential/PotentialOption.svelte';
 	import PotentialOptionsWrapper from './components/potential/PotentialOptionsWrapper.svelte';
 	import PotentialWrapper from './components/potential/PotentialWrapper.svelte';
+	import ShapeRow from './components/shape/ShapeRow.svelte';
+	import ShapeWrapper from './components/shape/ShapeWrapper.svelte';
 	import SoulChargeRow from './components/soul/SoulChargeRow.svelte';
 	import SoulNameRow from './components/soul/SoulNameRow.svelte';
 	import SoulOptionRow from './components/soul/SoulOptionRow.svelte';
+	import SoulSkillRow from './components/soul/SoulSkillRow.svelte';
 	import SoulWrapper from './components/soul/SoulWrapper.svelte';
 	import Spacer from './components/Spacer.svelte';
 	import Stars from './components/Stars.svelte';
@@ -40,7 +49,6 @@
 	import Incline from './components/summary/Incline.svelte';
 	import ReqLevel from './components/summary/req/ReqLevel.svelte';
 	import ReqRow from './components/summary/req/ReqRow.svelte';
-	import ReqStat from './components/summary/req/ReqStat.svelte';
 	import ReqWrapper from './components/summary/req/ReqWrapper.svelte';
 	import SummaryDetailWrapper from './components/summary/SummaryDetailWrapper.svelte';
 	import SummaryWrapper from './components/summary/SummaryWrapper.svelte';
@@ -48,16 +56,7 @@
 	import SoulTitle from './components/title/SoulTitle.svelte';
 	import TitleWrapper from './components/title/TitleWrapper.svelte';
 	import './tooltip.css';
-	import SoulSkillRow from './components/soul/SoulSkillRow.svelte';
-	import ExceptionalWrapper from './components/exceptional/ExceptionalWrapper.svelte';
-	import ExceptionalLabel from './components/exceptional/ExceptionalLabel.svelte';
-	import ExceptionalOptionsWrapper from './components/exceptional/ExceptionalOptionsWrapper.svelte';
-	import ExceptionalOptions from './components/exceptional/ExceptionalOptions.svelte';
-	import ExceptionalUpgradeCount from './components/exceptional/ExceptionalUpgradeCount.svelte';
-	import DescriptionsWrapper from './components/description/DescriptionsWrapper.svelte';
-	import Description from './components/description/Description.svelte';
-	import ShapeWrapper from './components/shape/ShapeWrapper.svelte';
-	import ShapeRow from './components/shape/ShapeRow.svelte';
+	import ReqStat from './components/summary/req/ReqStat.svelte';
 
 	let {
 		gear,
@@ -88,7 +87,6 @@
 			trade: gear.attributes.trade,
 			onlyEquip: gear.attributes.onlyEquip,
 			share: gear.attributes.share,
-			blockGoldenHammer: gear.attributes.blockGoldenHammer,
 			canPotential: gear.attributes.canPotential
 		})
 	);
@@ -108,7 +106,6 @@
 		['armor'],
 		['speed'],
 		['jump'],
-		['knockback', true],
 		['bossDamage', true],
 		['ignoreMonsterArmor', true],
 		['damage', true],
@@ -167,13 +164,13 @@
 				</ReqRow>
 				<Spacer height={9} />
 				<ReqRow>
-					<ReqStat type="str" value={gear.req.str} can={!cannot.str} />
-					<ReqStat type="luk" value={gear.req.luk} can={!cannot.luk} />
+					<ReqStat type="str" value={0} can={!cannot.str} />
+					<ReqStat type="luk" value={0} can={!cannot.luk} />
 				</ReqRow>
 				<Spacer height={3} />
 				<ReqRow>
-					<ReqStat type="dex" value={gear.req.dex} can={!cannot.dex} />
-					<ReqStat type="int" value={gear.req.int} can={!cannot.int} />
+					<ReqStat type="dex" value={0} can={!cannot.dex} />
+					<ReqStat type="int" value={0} can={!cannot.int} />
 				</ReqRow>
 			</ReqWrapper>
 		</SummaryDetailWrapper>
@@ -207,9 +204,8 @@
 			scrollTotalUpgradeableCount={gear.scrollTotalUpgradeableCount}
 			scrollUpgradeableCount={gear.scrollUpgradeableCount}
 			scrollResilienceCount={gear.scrollResilienceCount}
-			cannotUpgrade={gear.attributes.cannotUpgrade}
+			cannotUpgrade={gear.attributes.canScroll !== GearCapability.Can}
 		/>
-		<DetailGoldenHammer goldenHammer={gear.goldenHammer} />
 		<DetailCuttableCount cuttableCount={gear.attributes.cuttableCount} />
 		<DetailCannotPotential cannotPotential={!gear.supportsPotential} />
 		<DetailCannotAdditionalPotential

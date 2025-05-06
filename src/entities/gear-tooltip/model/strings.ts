@@ -1,21 +1,14 @@
 import {
 	GearAttribute,
+	GearCapability,
 	GearCuttable,
 	GearShare,
 	GearTrade,
 	GearType,
-	PotentialCan,
 	type GearOption
 } from '@malib/gear';
 
-export function getTags({
-	only,
-	trade,
-	onlyEquip,
-	share,
-	blockGoldenHammer,
-	canPotential
-}: Partial<GearAttribute>) {
+export function getTags({ only, trade, onlyEquip, share, canPotential }: Partial<GearAttribute>) {
 	const tags = [];
 	if (only) {
 		tags.push('고유 아이템');
@@ -33,10 +26,7 @@ export function getTags({
 	} else if (share === GearShare.AccountSharableOnce) {
 		tags.push('월드 내 나의 캐릭터 간 1회 이동 가능', '(이동 후 교환불가)');
 	}
-	if (blockGoldenHammer) {
-		tags.push('황금 망치 사용 불가');
-	}
-	if (canPotential === PotentialCan.Fixed) {
+	if (canPotential === GearCapability.Fixed) {
 		tags.push('잠재능력 재설정 불가');
 	}
 	return tags;

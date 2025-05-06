@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@malib/gear':
-        specifier: 1.0.0-next.4
-        version: 1.0.0-next.4
+        specifier: 1.0.0-next.6
+        version: 1.0.0-next.6
       dexie:
         specifier: ^4.0.11
         version: 4.0.11
@@ -371,8 +371,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@malib/gear@1.0.0-next.4':
-    resolution: {integrity: sha512-oIUL3qGCucXUpMHYM22ysE77cA7saC5ZIW2kd/fmqLQliUherT0NjGAM2G3fNXDFAqIrw2f7r5FTMFKIDn7V4g==}
+  '@malib/gear@1.0.0-next.6':
+    resolution: {integrity: sha512-QUMltbnP+5W2GFEU99+dhrNznHAD0m9Eq9kLet5D8yc2YOLwAJq/sv8hUEm0XNmGNkMZ5jxo3dB5gh3ZAtDCBw==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -2066,7 +2066,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@malib/gear@1.0.0-next.4': {}
+  '@malib/gear@1.0.0-next.6': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
