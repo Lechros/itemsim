@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { GearTooltip } from '$lib/entities/gear-tooltip';
-	import { Gear } from '@malib/gear';
+	import { GearTooltip as GearTooltip2 } from '$lib/entities/gear-tooltip2';
+	import { Gear, type GearData } from '@malib/gear';
 
-	const gear = new Gear({
+	const data = $state({
 		meta: {
 			id: 1212120,
 			version: 1
@@ -37,9 +38,22 @@
 			ignoreMonsterArmor: 20
 		},
 		scrollUpgradeableCount: 9
-	});
-
-	$effect(() => {});
+	}) satisfies GearData;
+	const gear = new Gear(data);
 </script>
 
-<GearTooltip {gear} incline={{ attack: 100 }} />
+<div class="flex items-start gap-4">
+	<GearTooltip {gear} incline={{ attack: 100 }} />
+	<GearTooltip2 {gear} incline={{ combat: 100 }} />
+	<div class="flex flex-col items-start gap-2">
+		<button disabled={!gear.canApplyStarforce} onclick={() => gear.applyStarforce()}>
+			스타포스
+		</button>
+		<button disabled={!gear.canApplyStarScroll} onclick={() => gear.applyStarScroll()}>
+			놀장
+		</button>
+		<button disabled={!gear.canResetStarforce} onclick={() => gear.resetStarforce()}>
+			스타포스 초기화
+		</button>
+	</div>
+</div>
