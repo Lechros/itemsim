@@ -1,11 +1,21 @@
-import { default as frameTop } from './frame/top.webp';
-import { default as frameLine } from './frame/line.webp';
-import { default as frameMiddle } from './frame/mid.webp';
-import { default as frameBottom } from './frame/btm.webp';
+import { default as frameTop } from './frame/top.png';
+import { default as frameLine } from './frame/line.png';
+import { default as frameMiddle } from './frame/mid.png';
+import { default as frameBottom } from './frame/btm.png';
+
+import { default as particleStar } from './particle/star.png';
+
+import { default as star } from './star/star.png';
+import { default as blueStar } from './star/blue.png';
+import { default as emptyStar } from './star/empty.png';
 
 export const tooltip2Images = {
 	frameTop,
 	frameLine,
 	frameMiddle,
-	frameBottom
+	frameBottom,
+	particleStar,
+	star,
+	blueStar,
+	emptyStar
 };

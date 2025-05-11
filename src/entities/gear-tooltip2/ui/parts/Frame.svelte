@@ -6,10 +6,10 @@
 </script>
 
 <div
-	class={'frame w-[324px]'}
+	class={'frame relative w-[324px]'}
 	style="background-image: url({tooltip2Images.frameTop}), url({tooltip2Images.frameMiddle}), url({tooltip2Images.frameBottom});"
 >
-	<div class={'frame-content'}>
+	<div class={'frame-content flex flex-col items-start px-[15px] py-[10px]'}>
 		{@render children?.()}
 	</div>
 </div>

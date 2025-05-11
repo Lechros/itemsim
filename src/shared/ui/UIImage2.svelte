@@ -54,4 +54,35 @@
 		width: 324px;
 		height: 12px;
 	}
+
+	.star {
+		width: 11px;
+		height: 10px;
+	}
+
+	.blueStar {
+		width: 11px;
+		height: 10px;
+	}
+
+	.emptyStar {
+		width: 11px;
+		height: 10px;
+	}
+
+	.particleStar {
+		width: 325px;
+		height: 50px;
+		background-repeat: no-repeat;
+		animation: particleStar 720ms steps(6) infinite;
+	}
+
+	@keyframes particleStar {
+		from {
+			background-position: 0 0;
+		}
+		to {
+			background-position: -1950px 0;
+		}
+	}
 </style>
