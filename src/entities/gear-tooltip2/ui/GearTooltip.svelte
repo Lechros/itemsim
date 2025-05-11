@@ -3,6 +3,8 @@
 	import { GearCapability, ReadonlyGear } from '@malib/gear';
 	import Frame from './parts/Frame.svelte';
 	import Stars from './parts/star/Stars.svelte';
+	import Text from './parts/Text.svelte';
+	import Spacer from './parts/Spacer.svelte';
 
 	let {
 		gear,
@@ -27,4 +29,9 @@
 	{#if gear.star >= 23}
 		<UIImage2 image="particleStar" class="absolute top-px left-0" />
 	{/if}
+	<Spacer height={8} />
+	{#if false}
+		<Text color="gray" class="mt-[1px] self-center">의</Text>
+	{/if}
+	<Text variant="itemName" class="self-center">{gear.name}</Text>
 </Frame>
