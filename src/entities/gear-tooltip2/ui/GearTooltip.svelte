@@ -2,6 +2,7 @@
 	import { UIImage2 } from '$lib/shared/ui';
 	import { GearCapability, ReadonlyGear } from '@malib/gear';
 	import { getCategories } from '../model/category';
+	import { getJobString } from '../model/job';
 	import Chip from './parts/Chip.svelte';
 	import FrameLine from './parts/frame/FrameLine.svelte';
 	import FrameMiddle from './parts/frame/FrameMiddle.svelte';
@@ -12,6 +13,7 @@
 	import InclineMinus from './parts/incline/InclineMinus.svelte';
 	import InclinePlus from './parts/incline/InclinePlus.svelte';
 	import InclineZero from './parts/incline/InclineZero.svelte';
+	import ReqLevel from './parts/ReqLevel.svelte';
 	import Spacer from './parts/Spacer.svelte';
 	import Stars from './parts/star/Stars.svelte';
 	import Text from './parts/Text.svelte';
@@ -80,6 +82,29 @@
 					{/each}
 				</div>
 			</div>
+		</div>
+		<Spacer height={1} />
+		<div class="flex flex-col items-start">
+			{#if gear.shape}
+				<div class="flex">
+					<Text color="gray" class="w-[64px]">현재 외형</Text>
+					<Text>{gear.shape.name}</Text>
+				</div>
+			{/if}
+			<div class="flex">
+				<Text color="gray" class="w-[64px]">착용 직업</Text>
+				<Text>{getJobString(gear.type, gear.req.job, gear.req.class)}</Text>
+			</div>
+			{#if gear.req.level > 0 || gear.req.levelIncrease > 0}
+			<div class="flex">
+				<Text color="gray" class="w-[63px]">요구 레벨</Text>
+				<ReqLevel
+					level={gear.req.level}
+					increase={gear.req.levelIncrease}
+					decrease={gear.baseOption.reqLevelDecrease + gear.addOption.reqLevelDecrease}
+				/>
+			</div>
+			{/if}
 		</div>
 	</FrameMiddle>
 </div>
