@@ -7,6 +7,7 @@
 	import Spacer from './parts/Spacer.svelte';
 	import Stars from './parts/star/Stars.svelte';
 	import Text from './parts/Text.svelte';
+	import Icon from './parts/icon/Icon.svelte';
 
 	let {
 		gear,
@@ -38,7 +39,16 @@
 			<Text color="gray" class="mt-[1px] self-center">의</Text>
 		{/if}
 		<Text variant="itemName" class="self-center">{gear.name}</Text>
+		<Spacer height={2} />
 	</FrameTop>
 	<FrameLine />
-	<FrameMiddle></FrameMiddle>
+	<FrameMiddle class="px-[15px]">
+		<Spacer height={2} />
+		<div class="flex w-full justify-between">
+			<Icon icon={gear.shapeIcon} />
+			<div class="flex flex-col items-end">
+				<Text variant="normal" color="darkGray">전투력 증가량</Text>
+			</div>
+		</div>
+	</FrameMiddle>
 </div>

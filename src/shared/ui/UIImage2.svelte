@@ -77,6 +77,16 @@
 		animation: particleStar 720ms steps(6) infinite;
 	}
 
+	.iconBase {
+		width: 82px;
+		height: 82px;
+	}
+
+	.iconShade {
+		width: 82px;
+		height: 82px;
+	}
+
 	@keyframes particleStar {
 		from {
 			background-position: 0 0;

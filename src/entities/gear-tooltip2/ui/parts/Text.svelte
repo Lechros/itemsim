@@ -11,7 +11,7 @@
 		tag = 'div'
 	}: {
 		children: Snippet;
-		variant?: 'default' | 'itemName';
+		variant?: 'default' | 'itemName' | 'normal';
 		color?:
 			| 'white'
 			| 'gray'
@@ -52,6 +52,11 @@
 		line-height: 19px;
 		font-weight: bold;
 	}
+	.text.normal {
+		font-family: 'Dotum', '돋움';
+		font-size: 11px;
+		line-height: 15px;
+	}
 	.text.white {
 		color: #ffffff;
 	}
@@ -59,7 +64,7 @@
 		color: #b7bfc5;
 	}
 	.text.darkGray {
-		color: #b7bfc5;
+		color: #85919f;
 	}
 	.text.red {
 		color: #ff6633;
