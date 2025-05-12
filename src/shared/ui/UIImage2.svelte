@@ -87,6 +87,115 @@
 		height: 82px;
 	}
 
+	.inclineEquipped {
+		width: 159px;
+		height: 20px;
+	}
+	.inclineMinus_0 {
+		width: 14px;
+		height: 21px;
+	}
+	.inclineMinus_1 {
+		width: 10px;
+		height: 21px;
+	}
+	.inclineMinus_2 {
+		width: 13px;
+		height: 21px;
+	}
+	.inclineMinus_3 {
+		width: 13px;
+		height: 21px;
+	}
+	.inclineMinus_4 {
+		width: 15px;
+		height: 21px;
+	}
+	.inclineMinus_5 {
+		width: 13px;
+		height: 21px;
+	}
+	.inclineMinus_6 {
+		width: 13px;
+		height: 21px;
+	}
+	.inclineMinus_7 {
+		width: 14px;
+		height: 21px;
+	}
+	.inclineMinus_8 {
+		width: 14px;
+		height: 21px;
+	}
+	.inclineMinus_9 {
+		width: 13px;
+		height: 21px;
+	}
+	.inclineMinus_a {
+		width: 18px;
+		height: 21px;
+	}
+	.inclineMinus_b {
+		width: 17px;
+		height: 21px;
+	}
+	.inclineMinus_sign {
+		width: 12px;
+		height: 21px;
+	}
+	.inclinePlus_0 {
+		width: 14px;
+		height: 21px;
+	}
+	.inclinePlus_1 {
+		width: 10px;
+		height: 21px;
+	}
+	.inclinePlus_2 {
+		width: 13px;
+		height: 21px;
+	}
+	.inclinePlus_3 {
+		width: 13px;
+		height: 21px;
+	}
+	.inclinePlus_4 {
+		width: 15px;
+		height: 21px;
+	}
+	.inclinePlus_5 {
+		width: 13px;
+		height: 21px;
+	}
+	.inclinePlus_6 {
+		width: 13px;
+		height: 21px;
+	}
+	.inclinePlus_7 {
+		width: 14px;
+		height: 21px;
+	}
+	.inclinePlus_8 {
+		width: 14px;
+		height: 21px;
+	}
+	.inclinePlus_9 {
+		width: 13px;
+		height: 21px;
+	}
+	.inclinePlus_a {
+		width: 18px;
+		height: 21px;
+	}
+	.inclinePlus_b {
+		width: 17px;
+		height: 21px;
+	}
+	.inclinePlus_sign {
+		width: 12px;
+		height: 21px;
+	}
+
 	@keyframes particleStar {
 		from {
 			background-position: 0 0;

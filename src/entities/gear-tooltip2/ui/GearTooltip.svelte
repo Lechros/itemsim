@@ -4,10 +4,13 @@
 	import FrameLine from './parts/frame/FrameLine.svelte';
 	import FrameMiddle from './parts/frame/FrameMiddle.svelte';
 	import FrameTop from './parts/frame/FrameTop.svelte';
+	import Icon from './parts/icon/Icon.svelte';
+	import InclineEquipped from './parts/incline/InclineEquipped.svelte';
+	import InclineMinus from './parts/incline/InclineMinus.svelte';
+	import InclinePlus from './parts/incline/InclinePlus.svelte';
 	import Spacer from './parts/Spacer.svelte';
 	import Stars from './parts/star/Stars.svelte';
 	import Text from './parts/Text.svelte';
-	import Icon from './parts/icon/Icon.svelte';
 
 	let {
 		gear,
@@ -43,11 +46,22 @@
 	</FrameTop>
 	<FrameLine />
 	<FrameMiddle class="px-[15px]">
-		<Spacer height={2} />
 		<div class="flex w-full justify-between">
-			<Icon icon={gear.shapeIcon} />
+			<div>
+				<Spacer height={2} />
+				<Icon icon={gear.shapeIcon} />
+			</div>
 			<div class="flex flex-col items-end">
-				<Text variant="normal" color="darkGray">전투력 증가량</Text>
+				<Spacer height={1} />
+				<Text color="darkGray">전투력 증가량</Text>
+				<Spacer height={13} />
+				{#if 'equipped' in incline}
+					<InclineEquipped />
+				{:else if incline.combat >= 0}
+					<InclinePlus incline={incline.combat} class="-mr-[2px]" />
+				{:else}
+					<InclineMinus incline={incline.combat} class="-mr-[2px]" />
+				{/if}
 			</div>
 		</div>
 	</FrameMiddle>
