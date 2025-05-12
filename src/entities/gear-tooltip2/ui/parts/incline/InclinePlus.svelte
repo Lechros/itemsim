@@ -3,26 +3,17 @@
 	import type { tooltip2Images } from '$lib/shared/assets';
 	import { UIImage2 } from '$lib/shared/ui';
 
-	let {
-		incline,
-		class: className
-	}: {
-		incline: number;
-		class?: string;
-	} = $props();
+	let { incline }: { incline: number } = $props();
 
 	const digits = $derived(splitKoreanNumber(incline));
+	const unitCount = $derived(digits.filter((digit) => digit === '만' || digit === '억').length);
 </script>
 
-<div class={['flex gap-[2px]', className]}>
-	{#if incline === 0}
-		<UIImage2 image="inclinePlus_0" />
-	{:else}
-		<UIImage2 image="inclinePlus_sign" class="mr-[5px]" />
-		{#each digits as digit}
-			{@render image(digit)}
-		{/each}
-	{/if}
+<div class="flex gap-[2px]" style="margin-right: -{unitCount * 4}px;">
+	<UIImage2 image="inclinePlus_sign" class="mr-[5px]" />
+	{#each digits as digit}
+		{@render image(digit)}
+	{/each}
 </div>
 
 {#snippet image(digit: string)}

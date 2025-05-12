@@ -7,9 +7,11 @@
 	import FrameMiddle from './parts/frame/FrameMiddle.svelte';
 	import FrameTop from './parts/frame/FrameTop.svelte';
 	import Icon from './parts/icon/Icon.svelte';
+	import InclineCannot from './parts/incline/InclineCannot.svelte';
 	import InclineEquipped from './parts/incline/InclineEquipped.svelte';
 	import InclineMinus from './parts/incline/InclineMinus.svelte';
 	import InclinePlus from './parts/incline/InclinePlus.svelte';
+	import InclineZero from './parts/incline/InclineZero.svelte';
 	import Spacer from './parts/Spacer.svelte';
 	import Stars from './parts/star/Stars.svelte';
 	import Text from './parts/Text.svelte';
@@ -58,10 +60,18 @@
 				<Spacer height={13} />
 				{#if 'equipped' in incline}
 					<InclineEquipped />
-				{:else if incline.combat >= 0}
-					<InclinePlus incline={incline.combat} class="-mr-[2px]" />
+				{:else if cannot.job || cannot.level}
+					<InclineCannot />
 				{:else}
-					<InclineMinus incline={incline.combat} class="-mr-[2px]" />
+					<div class="pr-[2px]">
+						{#if incline.combat > 0}
+							<InclinePlus incline={incline.combat} />
+						{:else if incline.combat < 0}
+							<InclineMinus incline={incline.combat} />
+						{:else}
+							<InclineZero />
+						{/if}
+					</div>
 				{/if}
 				<Spacer height={19} />
 				<div class="flex gap-[3px]">
