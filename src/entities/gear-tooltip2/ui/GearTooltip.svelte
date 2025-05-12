@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
-	import { GearCapability, ReadonlyGear } from '@malib/gear';
+	import { GearCapability, GearType, isWeapon, ReadonlyGear } from '@malib/gear';
 	import { getCategories } from '../model/category';
 	import { getJobString } from '../model/job';
 	import Chip from './parts/Chip.svelte';
@@ -16,6 +16,9 @@
 	import ReqLevel from './parts/ReqLevel.svelte';
 	import Spacer from './parts/Spacer.svelte';
 	import Stars from './parts/star/Stars.svelte';
+	import StatLabel from './parts/stat/StatLabel.svelte';
+	import StatLine from './parts/stat/StatLine.svelte';
+	import StatValue from './parts/stat/StatValue.svelte';
 	import Text from './parts/Text.svelte';
 
 	let {
@@ -43,6 +46,29 @@
 		}
 		return words.join(', ');
 	}
+
+	const basicStats = [
+		{ key: 'str', label: 'STR' },
+		{ key: 'dex', label: 'DEX' },
+		{ key: 'int', label: 'INT' },
+		{ key: 'luk', label: 'LUK' },
+		{ key: 'maxHp', label: '최대 HP' },
+		{ key: 'maxMp', label: '최대 MP' },
+		{ key: 'maxDemonForce', label: '최대 데몬포스' },
+		{ key: 'attackPower', label: '공격력' },
+		{ key: 'magicPower', label: '마력' },
+		{ key: 'armor', label: '방어력' },
+		{ key: 'speed', label: '이동속도' },
+		{ key: 'jump', label: '점프력' }
+	] as const;
+	const rateStats = [
+		{ key: 'maxHpRate', label: '최대 HP' },
+		{ key: 'maxMpRate', label: '최대 MP' },
+		{ key: 'allStat', label: '올스텟' },
+		{ key: 'damage', label: '데미지' },
+		{ key: 'bossDamage', label: '보스 몬스터 데미지' },
+		{ key: 'ignoreMonsterArmor', label: '몬스터 방어율 무시' }
+	] as const;
 </script>
 
 <div class="relative">
@@ -136,5 +162,19 @@
 				<Text color="gray" class="mr-[2px]">{gear.attributes.skills.join(', ')}</Text>
 			</div>
 		{/if}
+		<div class="flex flex-col">
+			{#each basicStats as stat}
+				<StatLine {gear} label={stat.label} key={stat.key} />
+			{/each}
+			{#if gear.attributes.attackSpeed || isWeapon(gear.type) || gear.type === GearType.katara}
+				<div class="flex w-[96px] justify-between">
+					<StatLabel label="공격 속도" />
+					<StatValue value={10 - (gear.attributes.attackSpeed ?? 6)} suffix="단계" />
+				</div>
+			{/if}
+			{#each rateStats as stat}
+				<StatLine size="large" {gear} label={stat.label} key={stat.key} rate />
+			{/each}
+		</div>
 	</FrameMiddle>
 </div>
