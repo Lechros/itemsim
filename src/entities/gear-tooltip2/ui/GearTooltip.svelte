@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
 	import { GearCapability, GearType, isWeapon, ReadonlyGear } from '@malib/gear';
-	import { getCategories } from '../model/category';
+	import { getCategories, isEnhanceable } from '../model/category';
 	import { getJobString } from '../model/job';
 	import Chip from './parts/Chip.svelte';
+	import EnhanceStarforce from './parts/enhance/EnhanceStarforce.svelte';
 	import FrameLine from './parts/frame/FrameLine.svelte';
 	import FrameMiddle from './parts/frame/FrameMiddle.svelte';
 	import FrameTop from './parts/frame/FrameTop.svelte';
@@ -19,7 +20,10 @@
 	import StatLabel from './parts/stat/StatLabel.svelte';
 	import StatLine from './parts/stat/StatLine.svelte';
 	import StatValue from './parts/stat/StatValue.svelte';
+	import TemplateText from './parts/TemplateText.svelte';
 	import Text from './parts/Text.svelte';
+	import EnhanceScroll from './parts/enhance/EnhanceScroll.svelte';
+	import EnhanceAdd from './parts/enhance/EnhanceAdd.svelte';
 
 	let {
 		gear,
@@ -176,5 +180,34 @@
 				<StatLine size="large" {gear} label={stat.label} key={stat.key} rate />
 			{/each}
 		</div>
+		{#if gear.desc}
+			<Spacer height={4} />
+			<TemplateText raw={gear.desc} />
+		{/if}
+		<Spacer height={2} />
 	</FrameMiddle>
+	{#if gear.attributes.specialGrade || isEnhanceable(gear.type)}
+		<FrameLine />
+		<FrameMiddle class="px-[15px]">
+			<Spacer height={1} />
+			{#if gear.attributes.specialGrade}
+				<Text>스페셜 아이템</Text>
+				<Spacer height={4} />
+			{/if}
+			{#if isEnhanceable(gear.type)}
+				<EnhanceStarforce
+					can={gear.attributes.canStarforce}
+					star={gear.star}
+					maxStar={Math.max(gear.star, gear.maxStar)}
+				/>
+				<EnhanceScroll
+					can={gear.attributes.canScroll}
+					upgrade={gear.scrollUpgradeCount}
+					upgradeable={gear.scrollUpgradeableCount}
+					resile={gear.scrollResilienceCount}
+				/>
+				<EnhanceAdd can={gear.attributes.canAddOption} addOptions={gear.addOptions} />
+			{/if}
+		</FrameMiddle>
+	{/if}
 </div>

@@ -264,3 +264,16 @@ export function getGearTypeString(type: GearType) {
 			return '헥스시커';
 	}
 }
+
+export function isEnhanceable(type: GearType) {
+	switch (type) {
+		case GearType.medal:
+		case GearType.android:
+		case GearType.shovel:
+		case GearType.pickaxe:
+		case GearType.petEquip:
+			return false;
+		default:
+			return true;
+	}
+}

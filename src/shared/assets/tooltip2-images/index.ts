@@ -46,6 +46,17 @@ import { default as categoryLeft } from './category/w.png';
 
 import { default as setGuide } from './textIcon/set_guide.png';
 
+import { default as bonus_0 } from './bonusStat/0.png';
+import { default as bonus_1 } from './bonusStat/1.png';
+import { default as bonus_2 } from './bonusStat/2.png';
+import { default as bonus_3 } from './bonusStat/3.png';
+import { default as bonus_4 } from './bonusStat/4.png';
+import { default as bonus_5 } from './bonusStat/5.png';
+import { default as bonus_6 } from './bonusStat/6.png';
+import { default as bonus_7 } from './bonusStat/7.png';
+import { default as bonus_8 } from './bonusStat/8.png';
+import { default as bonus_9 } from './bonusStat/9.png';
+
 export const tooltip2Images = {
 	frameTop,
 	frameLine,
@@ -87,5 +98,15 @@ export const tooltip2Images = {
 	categoryMiddle,
 	categoryLeft,
 	categoryRight,
-	setGuide
+	setGuide,
+	bonus_0,
+	bonus_1,
+	bonus_2,
+	bonus_3,
+	bonus_4,
+	bonus_5,
+	bonus_6,
+	bonus_7,
+	bonus_8,
+	bonus_9
 };

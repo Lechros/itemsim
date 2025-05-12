@@ -217,6 +217,47 @@
 		height: 12px;
 	}
 
+	.bonus_0 {
+		width: 10px;
+		height: 10px;
+	}
+	.bonus_1 {
+		width: 10px;
+		height: 10px;
+	}
+	.bonus_2 {
+		width: 10px;
+		height: 10px;
+	}
+	.bonus_3 {
+		width: 10px;
+		height: 10px;
+	}
+	.bonus_4 {
+		width: 10px;
+		height: 10px;
+	}
+	.bonus_5 {
+		width: 10px;
+		height: 10px;
+	}
+	.bonus_6 {
+		width: 10px;
+		height: 10px;
+	}
+	.bonus_7 {
+		width: 10px;
+		height: 10px;
+	}
+	.bonus_8 {
+		width: 10px;
+		height: 10px;
+	}
+	.bonus_9 {
+		width: 10px;
+		height: 10px;
+	}
+
 	@keyframes particleStar {
 		from {
 			background-position: 0 0;

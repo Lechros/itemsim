@@ -1,6 +1,6 @@
 export function parseColorString(
 	text: string,
-	classTable: Record<string, string> = { c: 'emphasis' }
+	classTable: Record<string, string> = { c: 'gt--orange' }
 ) {
 	text = text.replaceAll(/(\\r)?\\n/g, '\n').replaceAll('\\r', ' ');
 

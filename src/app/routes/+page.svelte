@@ -1,7 +1,13 @@
 <script lang="ts">
 	import { GearTooltip } from '$lib/entities/gear-tooltip';
 	import { GearTooltip as GearTooltip2 } from '$lib/entities/gear-tooltip2';
-	import { Gear, type GearData } from '@malib/gear';
+	import {
+		AddOptionType,
+		Gear,
+		SpellTraceType,
+		type AddOptionGrade,
+		type GearData
+	} from '@malib/gear';
 
 	const data = $state({
 		meta: {
@@ -40,6 +46,9 @@
 		scrollUpgradeableCount: 9
 	}) satisfies GearData;
 	const gear = new Gear(data);
+
+	let addOptionType = $state(AddOptionType.str);
+	let addOptionGrade: AddOptionGrade = $state(3);
 </script>
 
 <div class="flex items-start gap-4">
@@ -58,6 +67,51 @@
 		</button>
 		<button disabled={!gear.canResetStarforce} onclick={() => gear.resetStarforce()}>
 			스타포스 초기화
+		</button>
+		<button
+			disabled={!gear.canApplyScroll}
+			onclick={() => gear.applySpellTrace(SpellTraceType.str, 30)}
+		>
+			힘 주흔 30%
+		</button>
+		<button disabled={!gear.canApplyScrollFail} onclick={() => gear.applyScrollFail()}>
+			주문서 실패
+		</button>
+		<button disabled={!gear.canApplyResileScroll} onclick={() => gear.applyResileScroll()}>
+			주문서 복구
+		</button>
+		<button disabled={!gear.canResetUpgrade} onclick={() => gear.resetUpgrade()}>
+			주문서 초기화
+		</button>
+		<select bind:value={addOptionType}>
+			<option value={AddOptionType.str}>str</option>
+			<option value={AddOptionType.dex}>dex</option>
+			<option value={AddOptionType.int}>int</option>
+			<option value={AddOptionType.luk}>luk</option>
+			<option value={AddOptionType.str_dex}>str, dex</option>
+			<option value={AddOptionType.str_int}>str, int</option>
+			<option value={AddOptionType.str_luk}>str, luk</option>
+			<option value={AddOptionType.dex_int}>dex, int</option>
+			<option value={AddOptionType.dex_luk}>dex, luk</option>
+			<option value={AddOptionType.int_luk}>int, luk</option>
+			<option value={AddOptionType.maxHp}>maxHp</option>
+			<option value={AddOptionType.maxMp}>maxMp</option>
+			<option value={AddOptionType.attackPower}>attackPower</option>
+			<option value={AddOptionType.magicPower}>magicPower</option>
+			<option value={AddOptionType.armor}>armor</option>
+			<option value={AddOptionType.speed}>speed</option>
+			<option value={AddOptionType.jump}>jump</option>
+			<option value={AddOptionType.bossDamage}>bossDamage</option>
+			<option value={AddOptionType.damage}>damage</option>
+			<option value={AddOptionType.allStat}>allStat</option>
+			<option value={AddOptionType.reqLevelDecrease}>reqLevelDecrease</option>
+		</select>
+		<input type="number" bind:value={addOptionGrade} />
+		<button
+			disabled={!gear.canApplyAddOption}
+			onclick={() => gear.applyAddOption(addOptionType, addOptionGrade)}
+		>
+			추가 옵션 적용
 		</button>
 	</div>
 </div>
