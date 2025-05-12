@@ -44,7 +44,7 @@
 
 <div class="flex items-start gap-4">
 	<GearTooltip {gear} incline={{ combat: 123456789 }} />
-	<GearTooltip2 {gear} incline={{ combat: 123456789 }} />
+	<GearTooltip2 {gear} incline={{ combat: -1231231 }} />
 	<div class="flex flex-col items-start gap-2">
 		<button disabled={!gear.canApplyStarforce} onclick={() => gear.applyStarforce()}>
 			스타포스

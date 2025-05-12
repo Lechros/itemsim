@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
 	import { GearCapability, ReadonlyGear } from '@malib/gear';
+	import { getCategories } from '../model/category';
+	import Chip from './parts/Chip.svelte';
 	import FrameLine from './parts/frame/FrameLine.svelte';
 	import FrameMiddle from './parts/frame/FrameMiddle.svelte';
 	import FrameTop from './parts/frame/FrameTop.svelte';
@@ -11,7 +13,6 @@
 	import Spacer from './parts/Spacer.svelte';
 	import Stars from './parts/star/Stars.svelte';
 	import Text from './parts/Text.svelte';
-
 	let {
 		gear,
 		cannot = {},
@@ -62,6 +63,12 @@
 				{:else}
 					<InclineMinus incline={incline.combat} class="-mr-[2px]" />
 				{/if}
+				<Spacer height={19} />
+				<div class="flex gap-[3px]">
+					{#each getCategories(gear.type) as category}
+						<Chip>{category}</Chip>
+					{/each}
+				</div>
 			</div>
 		</div>
 	</FrameMiddle>

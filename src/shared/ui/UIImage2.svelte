@@ -37,6 +37,7 @@
 <style>
 	div {
 		background-image: var(--url);
+		background-repeat: no-repeat;
 	}
 	.frameTop {
 		width: 324px;
@@ -45,6 +46,7 @@
 	.frameMid {
 		width: 324px;
 		height: 1px;
+		background-repeat: repeat-y;
 	}
 	.frameLine {
 		width: 324px;
@@ -89,7 +91,7 @@
 
 	.inclineEquipped {
 		width: 159px;
-		height: 20px;
+		height: 21px;
 	}
 	.inclineMinus_0 {
 		width: 14px;
@@ -196,6 +198,19 @@
 		height: 21px;
 	}
 
+	.categoryLeft {
+		width: 8px;
+		height: 14px;
+	}
+	.categoryMiddle {
+		width: 1px;
+		height: 14px;
+		background-repeat: repeat-x;
+	}
+	.categoryRight {
+		width: 8px;
+		height: 14px;
+	}
 	@keyframes particleStar {
 		from {
 			background-position: 0 0;
