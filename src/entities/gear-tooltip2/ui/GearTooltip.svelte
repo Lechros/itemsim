@@ -27,6 +27,7 @@
 	import TemplateText from './parts/TemplateText.svelte';
 	import Text from './parts/Text.svelte';
 	import SoulWeapon from './parts/soul/SoulWeapon.svelte';
+	import Exceptional from './parts/exceptional/Exceptional.svelte';
 
 	let {
 		gear,
@@ -233,6 +234,14 @@
 					{#each gear.additionalPotentials as additionalPotential}
 						<PotentialDetail potential={additionalPotential} />
 					{/each}
+				{/if}
+				{#if gear.exceptionalTotalUpgradeableCount > 0}
+					<Spacer height={4} />
+					<Exceptional
+						upgrade={gear.exceptionalUpgradeCount}
+						total={gear.exceptionalTotalUpgradeableCount}
+						option={gear.exceptionalOption}
+					/>
 				{/if}
 				{#if isWeapon(gear.type)}
 					<Spacer height={3} />

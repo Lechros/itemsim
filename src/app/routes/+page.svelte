@@ -45,7 +45,8 @@
 			bossDamage: 30,
 			ignoreMonsterArmor: 20
 		},
-		scrollUpgradeableCount: 9
+		scrollUpgradeableCount: 9,
+		exceptionalUpgradeableCount: 1
 	}) as GearData;
 	const gear = new Gear(data);
 	gear.setPotential(PotentialGrade.Unique, [
@@ -94,6 +95,20 @@
 			}
 		}
 	]);
+	gear.applyExceptional({
+		name: '',
+		option: {
+			str: 20,
+			dex: 20,
+			int: 20,
+			luk: 20,
+			maxHp: 1000,
+			maxMp: 1000,
+			attackPower: 15,
+			magicPower: 15
+		}
+	});
+	gear.resetExceptional();
 	gear.applySoulEnchant();
 	gear.setSoul({
 		name: '위대한 루시드의 소울',

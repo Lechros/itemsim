@@ -300,6 +300,11 @@
 		height: 12px;
 	}
 
+	.exceptionalNormal {
+		width: 17px;
+		height: 10px;
+	}
+
 	@keyframes particleStar {
 		from {
 			background-position: 0 0;
