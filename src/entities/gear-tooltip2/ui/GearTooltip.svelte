@@ -4,6 +4,8 @@
 	import { getCategories, isEnhanceable } from '../model/category';
 	import { getJobString } from '../model/job';
 	import Chip from './parts/Chip.svelte';
+	import EnhanceAdd from './parts/enhance/EnhanceAdd.svelte';
+	import EnhanceScroll from './parts/enhance/EnhanceScroll.svelte';
 	import EnhanceStarforce from './parts/enhance/EnhanceStarforce.svelte';
 	import FrameLine from './parts/frame/FrameLine.svelte';
 	import FrameMiddle from './parts/frame/FrameMiddle.svelte';
@@ -14,6 +16,8 @@
 	import InclineMinus from './parts/incline/InclineMinus.svelte';
 	import InclinePlus from './parts/incline/InclinePlus.svelte';
 	import InclineZero from './parts/incline/InclineZero.svelte';
+	import PotentialDetail from './parts/potential/PotentialDetail.svelte';
+	import PotentialTitle from './parts/potential/PotentialTitle.svelte';
 	import ReqLevel from './parts/ReqLevel.svelte';
 	import Spacer from './parts/Spacer.svelte';
 	import Stars from './parts/star/Stars.svelte';
@@ -22,8 +26,6 @@
 	import StatValue from './parts/stat/StatValue.svelte';
 	import TemplateText from './parts/TemplateText.svelte';
 	import Text from './parts/Text.svelte';
-	import EnhanceScroll from './parts/enhance/EnhanceScroll.svelte';
-	import EnhanceAdd from './parts/enhance/EnhanceAdd.svelte';
 
 	let {
 		gear,
@@ -208,6 +210,28 @@
 					resile={gear.scrollResilienceCount}
 				/>
 				<EnhanceAdd can={gear.attributes.canAddOption} addOptions={gear.addOptions} />
+				<Spacer height={4} />
+				<PotentialTitle
+					can={gear.attributes.canPotential}
+					grade={gear.potentialGrade}
+					label="잠재능력"
+				/>
+				{#if gear.potentials.length > 0}
+					{#each gear.potentials as potential}
+						<PotentialDetail {potential} />
+					{/each}
+				{/if}
+				<Spacer height={4} />
+				<PotentialTitle
+					can={gear.attributes.canAdditionalPotential}
+					grade={gear.additionalPotentialGrade}
+					label="에디셔널 잠재능력"
+				/>
+				{#if gear.additionalPotentials.length > 0}
+					{#each gear.additionalPotentials as additionalPotential}
+						<PotentialDetail potential={additionalPotential} />
+					{/each}
+				{/if}
 			{/if}
 		</FrameMiddle>
 	{/if}

@@ -4,6 +4,8 @@
 	import {
 		AddOptionType,
 		Gear,
+		GearCapability,
+		PotentialGrade,
 		SpellTraceType,
 		type AddOptionGrade,
 		type GearData
@@ -44,9 +46,31 @@
 			ignoreMonsterArmor: 20
 		},
 		scrollUpgradeableCount: 9
-	}) satisfies GearData;
+	}) as GearData;
 	const gear = new Gear(data);
-
+	gear.setPotential(PotentialGrade.Unique, [
+		{
+			grade: PotentialGrade.Unique,
+			summary: '보스 몬스터 데미지 +30%',
+			option: {
+				bossDamage: 30
+			}
+		},
+		{
+			grade: PotentialGrade.Epic,
+			summary: '몬스터 방어율 무시 +15%',
+			option: {
+				ignoreMonsterArmor: 15
+			}
+		},
+		{
+			grade: PotentialGrade.Epic,
+			summary: '마력 +6%',
+			option: {
+				magicPower: 6
+			}
+		}
+	]);
 	let addOptionType = $state(AddOptionType.str);
 	let addOptionGrade: AddOptionGrade = $state(3);
 </script>
@@ -113,5 +137,6 @@
 		>
 			추가 옵션 적용
 		</button>
+		<input type="number" bind:value={data.potentialGrade} />
 	</div>
 </div>

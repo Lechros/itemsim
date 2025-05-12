@@ -57,6 +57,16 @@ import { default as bonus_7 } from './bonusStat/7.png';
 import { default as bonus_8 } from './bonusStat/8.png';
 import { default as bonus_9 } from './bonusStat/9.png';
 
+import { default as potentialTitleNormal } from './potential/title/normal.png';
+import { default as potentialTitleRare } from './potential/title/rare.png';
+import { default as potentialTitleEpic } from './potential/title/epic.png';
+import { default as potentialTitleUnique } from './potential/title/unique.png';
+import { default as potentialTitleLegendary } from './potential/title/legendary.png';
+import { default as potentialDetailRare } from './potential/detail/rare.png';
+import { default as potentialDetailEpic } from './potential/detail/epic.png';
+import { default as potentialDetailUnique } from './potential/detail/unique.png';
+import { default as potentialDetailLegendary } from './potential/detail/legendary.png';
+
 export const tooltip2Images = {
 	frameTop,
 	frameLine,
@@ -108,5 +118,14 @@ export const tooltip2Images = {
 	bonus_6,
 	bonus_7,
 	bonus_8,
-	bonus_9
+	bonus_9,
+	potentialTitleNormal,
+	potentialTitleRare,
+	potentialTitleEpic,
+	potentialTitleUnique,
+	potentialTitleLegendary,
+	potentialDetailRare,
+	potentialDetailEpic,
+	potentialDetailUnique,
+	potentialDetailLegendary
 };

@@ -258,6 +258,43 @@
 		height: 10px;
 	}
 
+	.potentialTitleNormal {
+		width: 10px;
+		height: 10px;
+	}
+	.potentialTitleRare {
+		width: 10px;
+		height: 10px;
+	}
+	.potentialTitleEpic {
+		width: 10px;
+		height: 10px;
+	}
+	.potentialTitleUnique {
+		width: 10px;
+		height: 10px;
+	}
+	.potentialTitleLegendary {
+		width: 10px;
+		height: 10px;
+	}
+	.potentialDetailRare {
+		width: 10px;
+		height: 10px;
+	}
+	.potentialDetailEpic {
+		width: 10px;
+		height: 10px;
+	}
+	.potentialDetailUnique {
+		width: 10px;
+		height: 10px;
+	}
+	.potentialDetailLegendary {
+		width: 10px;
+		height: 10px;
+	}
+
 	@keyframes particleStar {
 		from {
 			background-position: 0 0;
