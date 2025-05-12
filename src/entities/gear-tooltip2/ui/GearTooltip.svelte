@@ -197,6 +197,7 @@
 			{#if isEnhanceable(gear.type)}
 				<EnhanceStarforce
 					can={gear.attributes.canStarforce}
+					superior={gear.attributes.superior}
 					star={gear.star}
 					maxStar={Math.max(gear.star, gear.maxStar)}
 				/>

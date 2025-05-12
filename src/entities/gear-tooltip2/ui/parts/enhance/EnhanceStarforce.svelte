@@ -5,10 +5,12 @@
 
 	let {
 		can,
+		superior,
 		star,
 		maxStar
 	}: {
 		can: GearCapability;
+		superior: boolean;
 		star: number;
 		maxStar: number;
 	} = $props();
@@ -18,7 +20,15 @@
 	<Text color="darkGray">스타포스 강화 : 강화 불가</Text>
 {:else}
 	<div class="flex">
-		{#if star > 0}
+		{#if superior}
+			{#if star > 0}
+				<Text color="starforce">
+					스타포스 강화 (슈페리얼) : {star}성
+				</Text>
+			{:else}
+				<Text color="darkGray">스타포스 강화 (슈페리얼) : 없음</Text>
+			{/if}
+		{:else if star > 0}
 			<Text color="starforce">스타포스 강화 : {star}성</Text>
 		{:else}
 			<Text color="darkGray">스타포스 강화 : 없음</Text>
