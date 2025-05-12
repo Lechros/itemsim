@@ -211,6 +211,12 @@
 		width: 8px;
 		height: 14px;
 	}
+
+	.setGuide {
+		width: 59px;
+		height: 12px;
+	}
+
 	@keyframes particleStar {
 		from {
 			background-position: 0 0;

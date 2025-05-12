@@ -44,6 +44,8 @@ import { default as categoryMiddle } from './category/c.png';
 import { default as categoryRight } from './category/e.png';
 import { default as categoryLeft } from './category/w.png';
 
+import { default as setGuide } from './textIcon/set_guide.png';
+
 export const tooltip2Images = {
 	frameTop,
 	frameLine,
@@ -84,5 +86,6 @@ export const tooltip2Images = {
 	inclinePlus_sign,
 	categoryMiddle,
 	categoryLeft,
-	categoryRight
+	categoryRight,
+	setGuide
 };

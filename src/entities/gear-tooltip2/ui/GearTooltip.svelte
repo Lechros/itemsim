@@ -17,10 +17,12 @@
 	import Spacer from './parts/Spacer.svelte';
 	import Stars from './parts/star/Stars.svelte';
 	import Text from './parts/Text.svelte';
+
 	let {
 		gear,
 		cannot = {},
-		incline
+		incline,
+		resolveSetItemName
 	}: {
 		gear: ReadonlyGear;
 		cannot?: {
@@ -28,7 +30,19 @@
 			job?: boolean;
 		};
 		incline: { equipped: true } | { combat: number };
+		resolveSetItemName: (id: number) => string;
 	} = $props();
+
+	function getSetItemLine(gear: ReadonlyGear) {
+		const words: string[] = [];
+		if (gear.attributes.setItemId) {
+			words.push(resolveSetItemName(gear.attributes.setItemId));
+		}
+		if (gear.attributes.lucky) {
+			words.push('럭키 아이템');
+		}
+		return words.join(', ');
+	}
 </script>
 
 <div class="relative">
@@ -96,15 +110,31 @@
 				<Text>{getJobString(gear.type, gear.req.job, gear.req.class)}</Text>
 			</div>
 			{#if gear.req.level > 0 || gear.req.levelIncrease > 0}
-			<div class="flex">
-				<Text color="gray" class="w-[63px]">요구 레벨</Text>
-				<ReqLevel
-					level={gear.req.level}
-					increase={gear.req.levelIncrease}
-					decrease={gear.baseOption.reqLevelDecrease + gear.addOption.reqLevelDecrease}
-				/>
-			</div>
+				<div class="flex">
+					<Text color="gray" class="w-[63px]">요구 레벨</Text>
+					<ReqLevel
+						level={gear.req.level}
+						increase={gear.req.levelIncrease}
+						decrease={gear.baseOption.reqLevelDecrease + gear.addOption.reqLevelDecrease}
+					/>
+				</div>
 			{/if}
 		</div>
+	</FrameMiddle>
+	<FrameLine />
+	<FrameMiddle class="px-[15px]">
+		<Spacer height={2} />
+		{#if gear.attributes.setItemId || gear.attributes.lucky}
+			<div class="flex w-full justify-between">
+				<UIImage2 image="setGuide" />
+				<Text color="gray" class="mr-[2px]">{getSetItemLine(gear)}</Text>
+			</div>
+		{/if}
+		{#if gear.attributes.skills && gear.attributes.skills.length > 0}
+			<div class="flex w-full justify-between">
+				<Text color="gray">사용 가능 스킬</Text>
+				<Text color="gray" class="mr-[2px]">{gear.attributes.skills.join(', ')}</Text>
+			</div>
+		{/if}
 	</FrameMiddle>
 </div>
