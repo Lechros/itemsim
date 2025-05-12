@@ -4,11 +4,13 @@
 	let {
 		star,
 		maxStar,
-		color
+		color,
+		class: className
 	}: {
 		star: number;
 		maxStar: number;
 		color: 'yellow' | 'blue';
+		class?: string;
 	} = $props();
 
 	const STAR_PER_LINE = 15;
@@ -35,7 +37,7 @@
 </script>
 
 {#if lines}
-	<div class="mx-auto flex flex-col items-center gap-y-[8px]">
+	<div class={['mx-auto flex flex-col items-center gap-y-[8px]', className]}>
 		{#each lines as line}
 			<div class="flex gap-x-[10px]">
 				{#each line as group}
