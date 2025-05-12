@@ -26,6 +26,7 @@
 	import StatValue from './parts/stat/StatValue.svelte';
 	import TemplateText from './parts/TemplateText.svelte';
 	import Text from './parts/Text.svelte';
+	import SoulWeapon from './parts/soul/SoulWeapon.svelte';
 
 	let {
 		gear,
@@ -67,6 +68,7 @@
 		{ key: 'speed', label: '이동속도' },
 		{ key: 'jump', label: '점프력' }
 	] as const;
+
 	const rateStats = [
 		{ key: 'maxHpRate', label: '최대 HP' },
 		{ key: 'maxMpRate', label: '최대 MP' },
@@ -231,6 +233,10 @@
 					{#each gear.additionalPotentials as additionalPotential}
 						<PotentialDetail potential={additionalPotential} />
 					{/each}
+				{/if}
+				{#if isWeapon(gear.type)}
+					<Spacer height={3} />
+					<SoulWeapon enchanted={gear.soulEnchanted} soul={gear.soul} />
 				{/if}
 			{/if}
 		</FrameMiddle>

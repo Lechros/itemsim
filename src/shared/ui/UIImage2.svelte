@@ -295,6 +295,11 @@
 		height: 10px;
 	}
 
+	.soulNormal {
+		width: 9px;
+		height: 12px;
+	}
+
 	@keyframes particleStar {
 		from {
 			background-position: 0 0;

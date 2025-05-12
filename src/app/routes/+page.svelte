@@ -71,6 +71,37 @@
 			}
 		}
 	]);
+	gear.setAdditionalPotential(PotentialGrade.Unique, [
+		{
+			grade: PotentialGrade.Unique,
+			summary: '보스 몬스터 데미지 +30%',
+			option: {
+				bossDamage: 30
+			}
+		},
+		{
+			grade: PotentialGrade.Epic,
+			summary: '몬스터 방어율 무시 +15%',
+			option: {
+				ignoreMonsterArmor: 15
+			}
+		},
+		{
+			grade: PotentialGrade.Epic,
+			summary: '마력 +6%',
+			option: {
+				magicPower: 6
+			}
+		}
+	]);
+	gear.applySoulEnchant();
+	gear.setSoul({
+		name: '위대한 루시드의 소울',
+		skill: '악몽의 지배자',
+		option: {
+			bossDamage: 7
+		}
+	});
 	let addOptionType = $state(AddOptionType.str);
 	let addOptionGrade: AddOptionGrade = $state(3);
 </script>

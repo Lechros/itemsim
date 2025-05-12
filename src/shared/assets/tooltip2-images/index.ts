@@ -67,6 +67,8 @@ import { default as potentialDetailEpic } from './potential/detail/epic.png';
 import { default as potentialDetailUnique } from './potential/detail/unique.png';
 import { default as potentialDetailLegendary } from './potential/detail/legendary.png';
 
+import { default as soulNormal } from './soul/normal.png';
+
 export const tooltip2Images = {
 	frameTop,
 	frameLine,
@@ -127,5 +129,6 @@ export const tooltip2Images = {
 	potentialDetailRare,
 	potentialDetailEpic,
 	potentialDetailUnique,
-	potentialDetailLegendary
+	potentialDetailLegendary,
+	soulNormal
 };
