@@ -60,28 +60,21 @@
 	}
 
 	const basicStats = [
-		{ key: 'str', label: 'STR' },
-		{ key: 'dex', label: 'DEX' },
-		{ key: 'int', label: 'INT' },
-		{ key: 'luk', label: 'LUK' },
-		{ key: 'maxHp', label: '최대 HP' },
-		{ key: 'maxMp', label: '최대 MP' },
-		{ key: 'maxDemonForce', label: '최대 데몬포스' },
-		{ key: 'attackPower', label: '공격력' },
-		{ key: 'magicPower', label: '마력' },
-		{ key: 'armor', label: '방어력' },
-		{ key: 'speed', label: '이동속도' },
-		{ key: 'jump', label: '점프력' }
+		'str',
+		'dex',
+		'int',
+		'luk',
+		'maxHp',
+		'maxMp',
+		'maxDemonForce',
+		'attackPower',
+		'magicPower',
+		'armor',
+		'speed',
+		'jump'
 	] as const;
-
-	const rateStats = [
-		{ key: 'maxHpRate', label: '최대 HP' },
-		{ key: 'maxMpRate', label: '최대 MP' },
-		{ key: 'allStat', label: '올스텟' },
-		{ key: 'damage', label: '데미지' },
-		{ key: 'bossDamage', label: '보스 몬스터 데미지' },
-		{ key: 'ignoreMonsterArmor', label: '몬스터 방어율 무시' }
-	] as const;
+	const rateStats = ['maxHpRate', 'maxMpRate', 'allStat', 'damage'] as const;
+	const longRateStats = ['bossDamage', 'ignoreMonsterArmor'] as const;
 </script>
 
 <div class="relative">
@@ -177,7 +170,7 @@
 		{/if}
 		<div class="flex flex-col">
 			{#each basicStats as stat}
-				<StatLine {gear} label={stat.label} key={stat.key} />
+				<StatLine {gear} key={stat} />
 			{/each}
 			{#if gear.attributes.attackSpeed || isWeapon(gear.type) || gear.type === GearType.katara}
 				<div class="flex w-[96px] justify-between">
@@ -186,7 +179,10 @@
 				</div>
 			{/if}
 			{#each rateStats as stat}
-				<StatLine size="large" {gear} label={stat.label} key={stat.key} rate />
+				<StatLine {gear} key={stat} />
+			{/each}
+			{#each longRateStats as stat}
+				<StatLine size="large" {gear} key={stat} />
 			{/each}
 		</div>
 		{#if gear.desc}

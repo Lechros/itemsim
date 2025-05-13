@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { convertGearOptionToSummaries } from '../../../model/option';
 	import { UIImage2 } from '$lib/shared/ui';
 	import type { GearExceptionalOption } from '@malib/gear';
 	import Spacer from '../Spacer.svelte';
 	import Text from '../Text.svelte';
-	import { convertGearOptionToSummaries } from '$lib/entities/gear-tooltip2/model/exceptional';
 
 	let {
 		upgrade,

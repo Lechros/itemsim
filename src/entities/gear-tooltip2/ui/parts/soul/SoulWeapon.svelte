@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
 	import type { SoulData, SoulOption } from '@malib/gear';
+	import { convertGearOptionToSummaries, getOptionString } from '../../../model/option';
 	import Spacer from '../Spacer.svelte';
 	import Text from '../Text.svelte';
-	import { getSoulOptionString } from '$lib/entities/gear-tooltip2/model/soul';
 
 	let {
 		enchanted,
@@ -14,9 +14,9 @@
 	} = $props();
 
 	function getFirstSoulOptionString(option: Partial<SoulOption>) {
-		const [type, value] = Object.entries(option)[0] as [keyof SoulOption, number];
+		const summaries = convertGearOptionToSummaries(option);
 
-		return getSoulOptionString(type, value);
+		return summaries[0];
 	}
 </script>
 

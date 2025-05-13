@@ -16,6 +16,10 @@
 		.map((option) => option.grade)
 		.reduce((acc, grade) => acc + grade, 0);
 
+	function getString(type: AddOptionType, value: number) {
+		return format[type].replace('{value}', value.toString());
+	}
+
 	const format: Record<AddOptionType, string> = {
 		[AddOptionType.str]: 'STR  +{value}',
 		[AddOptionType.dex]: 'DEX  +{value}',
@@ -59,7 +63,7 @@
 		{#each addOptions as option}
 			<div class="flex items-center gap-[4px]">
 				<UIImage2 image={`bonus_${option.grade}`} />
-				<Text>{format[option.type].replace('{value}', option.value.toString())}</Text>
+				<Text>{getString(option.type, option.value)}</Text>
 			</div>
 		{/each}
 	</div>
