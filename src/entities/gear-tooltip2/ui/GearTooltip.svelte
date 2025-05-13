@@ -33,7 +33,8 @@
 		gear,
 		cannot = {},
 		incline,
-		loadSetItemName
+		loadSetItemName,
+		loadExclusiveEquips
 	}: {
 		gear: ReadonlyGear;
 		cannot?: {
@@ -41,10 +42,13 @@
 			job?: boolean;
 		};
 		incline: { equipped: true } | { combat: number };
-		loadSetItemName: (id: number) => string;
+		loadSetItemName: (setItemId: number) => string;
+		loadExclusiveEquips: (gearId: number) => string[];
 	} = $props();
 
-	const attributeStrings = $derived(getAttributeHtmlStrings(gear.attributes));
+	const attributeStrings = $derived(
+		getAttributeHtmlStrings(gear.attributes, loadExclusiveEquips(gear.meta.id))
+	);
 
 	function getSetItemLine(gear: ReadonlyGear) {
 		const words: string[] = [];

@@ -6,7 +6,10 @@ import {
 	type GearAttributeData
 } from '@malib/gear';
 
-export function getAttributeHtmlStrings(attributes: GearAttributeData | GearAttribute): string[] {
+export function getAttributeHtmlStrings(
+	attributes: GearAttributeData | GearAttribute,
+	exclusiveEquips: string[]
+): string[] {
 	const result: string[] = [];
 
 	// 교환환
@@ -53,11 +56,13 @@ export function getAttributeHtmlStrings(attributes: GearAttributeData | GearAttr
 	if (attributes.onlyEquip) {
 		temp.push('중복 장착 불가');
 	}
+	if (exclusiveEquips.length > 0) {
+		temp.push(`#$r아이템 그룹 내 중복 장착 불가# (${exclusiveEquips.join(', ')})`);
+	}
 	if (temp.length > 0) {
 		result.push(temp.join('#$r,# '));
 		temp = [];
 	}
-	// TODO: ExclusiveEquip
 
 	return result;
 }
