@@ -1,12 +1,4 @@
 <script lang="ts">
-	import { GearAttribute } from '@malib/gear';
-	import { getTags } from '../../model/strings';
-
-	type Props = Pick<
-		GearAttribute,
-		'only' | 'trade' | 'onlyEquip' | 'share' | 'blockGoldenHammer' | 'canPotential'
-	>;
-
 	let { tags }: { tags: string[] } = $props();
 
 	// svelte-ignore non_reactive_update

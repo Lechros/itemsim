@@ -520,8 +520,6 @@ export function getGearOptionString(type: keyof GearOption, value: number) {
 				return `이동속도 : +${value}`;
 			case 'jump':
 				return `점프력 : +${value}`;
-			case 'knockback':
-				return `직접 타격시 ${value}%의 확률로 넉백`;
 			case 'bossDamage':
 				return `보스 몬스터 공격 시 데미지 +${value}%`;
 			case 'ignoreMonsterArmor':
@@ -571,7 +569,6 @@ export function convertGearOptionToSummaries(option: Partial<GearOption>) {
 		'armor',
 		'speed',
 		'jump',
-		'knockback',
 		'bossDamage',
 		'ignoreMonsterArmor',
 		'damage',
