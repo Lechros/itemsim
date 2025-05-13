@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { convertGearOptionToSummaries } from '../../../model/option';
 	import { UIImage2 } from '$lib/shared/ui';
 	import type { GearExceptionalOption } from '@malib/gear';
+	import { convertGearOptionToSummaries } from '../../../model/option';
 	import Spacer from '../Spacer.svelte';
 	import Text from '../Text.svelte';
 

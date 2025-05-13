@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { getOptionStrings } from '$lib/entities/gear-tooltip2/model/option';
 	import {
 		ReadonlyGear,
 		type GearAddOption,
@@ -8,6 +7,7 @@
 		type GearStarforceOption,
 		type GearUpgradeOption
 	} from '@malib/gear';
+	import { getOptionStrings } from '../../../model/option';
 	import Spacer from '../Spacer.svelte';
 	import Text from '../Text.svelte';
 	import StatDetail from './StatDetail.svelte';

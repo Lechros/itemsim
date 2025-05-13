@@ -1,8 +1,8 @@
 <script lang="ts">
+	import { UIImage2 } from '$lib/shared/ui';
 	import type { Snippet } from 'svelte';
 	import type { ClassValue } from 'svelte/elements';
 	import Text from './Text.svelte';
-	import { UIImage2 } from '$lib/shared/ui';
 
 	let {
 		children,

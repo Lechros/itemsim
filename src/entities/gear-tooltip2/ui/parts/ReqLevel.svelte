@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Spacer from './Spacer.svelte';
 	import Text from './Text.svelte';
 
 	let {

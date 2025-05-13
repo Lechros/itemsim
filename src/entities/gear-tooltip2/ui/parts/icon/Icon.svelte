@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { getGearIconOrigin, getGearIconUrl } from '$lib/shared/api';
-	import { UIImage2 } from '$lib/shared/ui';
-	import OriginIcon from '$lib/shared/ui/OriginIcon.svelte';
+	import { OriginIcon, UIImage2 } from '$lib/shared/ui';
 
 	let { icon, newBonus }: { icon: string; newBonus?: boolean } = $props();
 

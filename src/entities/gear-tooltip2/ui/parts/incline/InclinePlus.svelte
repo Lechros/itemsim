@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { splitKoreanNumber } from '$lib/entities/gear-tooltip2/model/digit';
 	import type { tooltip2Images } from '$lib/shared/assets';
 	import { UIImage2 } from '$lib/shared/ui';
+	import { splitKoreanNumber } from '../../../model/digit';
 
 	let { incline }: { incline: number } = $props();
 

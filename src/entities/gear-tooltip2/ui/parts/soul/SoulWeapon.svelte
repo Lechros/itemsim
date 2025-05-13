@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
 	import type { SoulData, SoulOption } from '@malib/gear';
-	import { convertGearOptionToSummaries, getOptionString } from '../../../model/option';
+	import { convertGearOptionToSummaries } from '../../../model/option';
 	import Spacer from '../Spacer.svelte';
 	import Text from '../Text.svelte';
 

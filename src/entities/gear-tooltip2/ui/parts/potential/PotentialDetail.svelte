@@ -1,13 +1,8 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
-	import {
-		GearCapability,
-		PotentialGrade,
-		type PotentialData,
-		type ReadonlyPotential
-	} from '@malib/gear';
-	import Text from '../Text.svelte';
+	import { PotentialGrade, type PotentialData, type ReadonlyPotential } from '@malib/gear';
 	import Spacer from '../Spacer.svelte';
+	import Text from '../Text.svelte';
 
 	let { potential }: { potential: PotentialData | ReadonlyPotential } = $props();
 

@@ -1,8 +1,8 @@
 <script lang="ts">
+	import { UIImage2 } from '$lib/shared/ui';
 	import { AddOptionType, GearCapability, type AddOptionData } from '@malib/gear';
 	import Spacer from '../Spacer.svelte';
 	import Text from '../Text.svelte';
-	import { UIImage2 } from '$lib/shared/ui';
 
 	let {
 		can,
