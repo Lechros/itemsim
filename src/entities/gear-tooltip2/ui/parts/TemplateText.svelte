@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { parseColorString } from '../parser';
+	import { parseColorString } from '../../model/parser';
 
 	let { raw }: { raw: string } = $props();
 </script>
 
 <div class="text">
-	{@html parseColorString(raw, { c: 'emphasis' })}
+	{@html parseColorString(raw, { c: 'emphasis', $r: 'red', $g: 'gray' })}
 </div>
 
 <style>
@@ -18,5 +18,11 @@
 	}
 	.text :global(.emphasis) {
 		color: #ffcc00;
+	}
+	.text :global(.red) {
+		color: #ff6633;
+	}
+	.text :global(.gray) {
+		color: #b7bfc5;
 	}
 </style>

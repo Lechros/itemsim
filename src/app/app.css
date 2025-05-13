@@ -2,5 +2,5 @@
 
 @font-face {
 	font-family: 'Morris';
-	src: url('/fonts/font2.woff2');
+	src: url('/fonts/font2.woff2') format('woff2');
 }

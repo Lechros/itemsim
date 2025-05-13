@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
 	import { GearCapability, GearType, isWeapon, ReadonlyGear } from '@malib/gear';
+	import { getAttributeHtmlStrings } from '../model/attribute';
 	import { getCategories, isEnhanceable } from '../model/category';
 	import { getJobString } from '../model/job';
 	import Chip from './parts/Chip.svelte';
 	import EnhanceAdd from './parts/enhance/EnhanceAdd.svelte';
 	import EnhanceScroll from './parts/enhance/EnhanceScroll.svelte';
 	import EnhanceStarforce from './parts/enhance/EnhanceStarforce.svelte';
+	import Exceptional from './parts/exceptional/Exceptional.svelte';
+	import FrameBottom from './parts/frame/FrameBottom.svelte';
 	import FrameLine from './parts/frame/FrameLine.svelte';
 	import FrameMiddle from './parts/frame/FrameMiddle.svelte';
 	import FrameTop from './parts/frame/FrameTop.svelte';
@@ -19,6 +22,7 @@
 	import PotentialDetail from './parts/potential/PotentialDetail.svelte';
 	import PotentialTitle from './parts/potential/PotentialTitle.svelte';
 	import ReqLevel from './parts/ReqLevel.svelte';
+	import SoulWeapon from './parts/soul/SoulWeapon.svelte';
 	import Spacer from './parts/Spacer.svelte';
 	import Stars from './parts/star/Stars.svelte';
 	import StatLabel from './parts/stat/StatLabel.svelte';
@@ -26,8 +30,6 @@
 	import StatValue from './parts/stat/StatValue.svelte';
 	import TemplateText from './parts/TemplateText.svelte';
 	import Text from './parts/Text.svelte';
-	import SoulWeapon from './parts/soul/SoulWeapon.svelte';
-	import Exceptional from './parts/exceptional/Exceptional.svelte';
 
 	let {
 		gear,
@@ -43,6 +45,8 @@
 		incline: { equipped: true } | { combat: number };
 		resolveSetItemName: (id: number) => string;
 	} = $props();
+
+	const attributeStrings = $derived(getAttributeHtmlStrings(gear.attributes));
 
 	function getSetItemLine(gear: ReadonlyGear) {
 		const words: string[] = [];
@@ -250,4 +254,13 @@
 			{/if}
 		</FrameMiddle>
 	{/if}
+	{#if attributeStrings.length > 0}
+		<FrameMiddle class="px-[15px]">
+			<Spacer height={4} />
+			{#each attributeStrings as html}
+				<TemplateText raw={html} />
+			{/each}
+		</FrameMiddle>
+	{/if}
+	<FrameBottom />
 </div>
