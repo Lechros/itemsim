@@ -1,70 +1,137 @@
-export function parseColorString(
-	text: string,
-	classTable: Record<string, string> = { c: 'gt--orange' }
-) {
-	text = text.replaceAll(/(\\r)?\\n/g, '\n').replaceAll('\\r', ' ');
-
+export function parseColorString(text: string, classTable: Record<string, string>) {
+	text = normalizeText(text);
 	if (!text.includes('#')) {
 		return text;
 	}
 
-	const result: string[] = [];
-	let currentColor: string | undefined = undefined;
-	let lastIndex = 0;
+	const tokens = parseColorStringToTokens(text);
+	const html = buildHtml(tokens, classTable);
+	return html;
+}
+
+function normalizeText(text: string): string {
+	return text.replaceAll(/(\\r)?\\n/g, '\n').replaceAll('\\r', ' ');
+}
+
+function parseColorStringToTokens(text: string): Token[] {
+	const tokens: Token[] = [];
+	let openedKey: string | undefined = undefined;
+	let searchStartIndex = 0;
 	while (true) {
-		const nextIndex = text.indexOf('#', lastIndex);
-		if (nextIndex === -1) {
+		const tagIndex = text.indexOf('#', searchStartIndex);
+		if (tagIndex === -1) {
 			break;
 		}
 
-		const type = text[nextIndex + 1];
-		const color = type ? classTable[type] : undefined;
+		const tag = parseTag(text, tagIndex);
 
-		if (color) {
-			// Current tag is opening tag
-			// Flush the text before the tag
-			if (nextIndex > lastIndex) {
-				result.push(text.substring(lastIndex, nextIndex));
-			}
-			// If current color is different from the previous color
-			if (currentColor !== color) {
-				// Close previous color tag
-				if (currentColor !== undefined) {
-					result.push('</span>');
-				}
-				// Open current color tag
-				result.push(`<span class="${color}">`);
-				currentColor = color;
-			} else {
-				// If current color is the same as the previous color, just add space
-				result.push(' ');
-			}
-			lastIndex = nextIndex + 2;
-		} else {
-			// Current tag is closing tag
-			// Flush the text before the tag
-			if (nextIndex > lastIndex) {
-				result.push(text.substring(lastIndex, nextIndex));
-			}
-			// Close previous color tag
-			if (currentColor !== undefined) {
-				result.push('</span>');
-				currentColor = undefined;
-			} else {
-				// If there is no opening tag, just add space
-				result.push(' ');
-			}
-			lastIndex = nextIndex + 1;
+		// Flush the text before the tag
+		if (tagIndex > searchStartIndex) {
+			tokens.push({ type: 'text', text: text.substring(searchStartIndex, tagIndex) });
 		}
+		if (tag.isOpen) {
+			// If opened key is different from the current key
+			if (openedKey !== tag.key) {
+				// Close the key block
+				if (openedKey !== undefined) {
+					tokens.push({ type: 'close' });
+				}
+				// Open current key block
+				tokens.push({ type: 'open', key: tag.key });
+				openedKey = tag.key;
+			}
+		} else {
+			// If there is opened key block
+			if (openedKey !== undefined) {
+				// Close the key block
+				tokens.push({ type: 'close' });
+				openedKey = undefined;
+			}
+		}
+		searchStartIndex = tag.endIndex;
 	}
 	// Flush the remaining text
-	if (lastIndex < text.length) {
-		result.push(text.substring(lastIndex));
-		// Close the last color tag
-		if (currentColor !== undefined) {
-			result.push('</span>');
+	if (searchStartIndex < text.length) {
+		tokens.push({ type: 'text', text: text.substring(searchStartIndex) });
+		// Close the last key block
+		if (openedKey !== undefined) {
+			tokens.push({ type: 'close' });
 		}
 	}
 
+	return tokens;
+}
+
+function buildHtml(tokens: Token[], classTable: Record<string, string>): string {
+	const result: string[] = [];
+	let skipNextClose = false;
+	for (const token of tokens) {
+		switch (token.type) {
+			case 'text':
+				result.push(token.text);
+				break;
+			case 'open':
+				if (classTable[token.key]) {
+					result.push(`<span class="${classTable[token.key]}">`);
+				} else {
+					result.push(token.key);
+					skipNextClose = true;
+				}
+				break;
+			case 'close':
+				if (skipNextClose) {
+					skipNextClose = false;
+				} else {
+					result.push('</span>');
+				}
+				break;
+		}
+	}
 	return result.join('').trim();
 }
+
+function parseTag(text: string, index: number): Tag {
+	const firstKeyChar = text[index + 1];
+	if (firstKeyChar === '$') {
+		return {
+			isOpen: true,
+			key: text.substring(index + 1, index + 3),
+			endIndex: index + 3
+		};
+	} else if ('a' <= firstKeyChar && firstKeyChar <= 'z') {
+		return {
+			isOpen: true,
+			key: firstKeyChar,
+			endIndex: index + 2
+		};
+	} else {
+		return {
+			isOpen: false,
+			endIndex: index + 1
+		};
+	}
+}
+
+type Token =
+	| {
+			type: 'text';
+			text: string;
+	  }
+	| {
+			type: 'open';
+			key: string;
+	  }
+	| {
+			type: 'close';
+	  };
+
+type Tag =
+	| {
+			isOpen: true;
+			key: string;
+			endIndex: number;
+	  }
+	| {
+			isOpen: false;
+			endIndex: number;
+	  };
