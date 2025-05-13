@@ -33,7 +33,7 @@
 		gear,
 		cannot = {},
 		incline,
-		resolveSetItemName
+		loadSetItemName
 	}: {
 		gear: ReadonlyGear;
 		cannot?: {
@@ -41,7 +41,7 @@
 			job?: boolean;
 		};
 		incline: { equipped: true } | { combat: number };
-		resolveSetItemName: (id: number) => string;
+		loadSetItemName: (id: number) => string;
 	} = $props();
 
 	const attributeStrings = $derived(getAttributeHtmlStrings(gear.attributes));
@@ -49,7 +49,7 @@
 	function getSetItemLine(gear: ReadonlyGear) {
 		const words: string[] = [];
 		if (gear.attributes.setItemId) {
-			words.push(resolveSetItemName(gear.attributes.setItemId));
+			words.push(loadSetItemName(gear.attributes.setItemId));
 		}
 		if (gear.attributes.lucky) {
 			words.push('럭키 아이템');
