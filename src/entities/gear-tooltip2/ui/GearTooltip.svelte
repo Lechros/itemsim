@@ -25,9 +25,7 @@
 	import SoulWeapon from './parts/soul/SoulWeapon.svelte';
 	import Spacer from './parts/Spacer.svelte';
 	import Stars from './parts/star/Stars.svelte';
-	import StatLabel from './parts/stat/StatLabel.svelte';
 	import StatLine from './parts/stat/StatLine.svelte';
-	import StatValue from './parts/stat/StatValue.svelte';
 	import TemplateText from './parts/TemplateText.svelte';
 	import Text from './parts/Text.svelte';
 
@@ -174,8 +172,8 @@
 			{/each}
 			{#if gear.attributes.attackSpeed || isWeapon(gear.type) || gear.type === GearType.katara}
 				<div class="flex w-[96px] justify-between">
-					<StatLabel label="공격 속도" />
-					<StatValue value={10 - (gear.attributes.attackSpeed ?? 6)} suffix="단계" />
+					<Text>공격 속도</Text>
+					<Text>{10 - (gear.attributes.attackSpeed ?? 6)}단계</Text>
 				</div>
 			{/if}
 			{#each rateStats as stat}

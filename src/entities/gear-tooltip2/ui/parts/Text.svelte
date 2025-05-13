@@ -99,23 +99,4 @@
 	.text.exceptional {
 		color: #ff3333;
 	}
-
-	.text.sm {
-		font-size: 10px;
-		line-height: 14px;
-	}
-	.text.md {
-		font-size: 11px;
-		line-height: 15px;
-	}
-	.text.lg {
-		font-size: 12px;
-		line-height: 16px;
-	}
-	.text.white {
-		color: rgb(255, 255, 255);
-	}
-	.text.gray3 {
-		color: rgb(183, 191, 197);
-	}
 </style>

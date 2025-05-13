@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Text from '../Text.svelte';
+	import TemplateText from '../TemplateText.svelte';
 
 	let {
 		rate = false,
@@ -16,16 +16,23 @@
 	} = $props();
 
 	const r = rate ? '%' : '';
+
+	function getHtmlString(base: number, add: number, upgrade: number, starforce: number) {
+		let str = `(${base}`;
+		if (add !== 0) {
+			str += ` #$b+${add}${r}#`;
+		}
+		if (upgrade > 0) {
+			str += ` #$u+${upgrade}${r}#`;
+		} else if (upgrade < 0) {
+			str += ` #$r${upgrade}${r}#`;
+		}
+		if (starforce !== 0) {
+			str += ` #$s+${starforce}${r}#`;
+		}
+		str += ')';
+		return str;
+	}
 </script>
 
-<Text class="flex">
-	({base}{r}{#if add !== 0}
-		<Text color="bonusStat">{' '}+{add}{r}</Text>
-	{/if}{#if upgrade > 0}
-		<Text color="scroll">{' '}+{upgrade}{r}</Text>
-	{:else if upgrade < 0}
-		<Text color="red">{' '}{upgrade}{r}</Text>
-	{/if}{#if starforce !== 0}
-		<Text color="starforce">{' '}+{starforce}{r}</Text>
-	{/if})
-</Text>
+<TemplateText raw={getHtmlString(base, add, upgrade, starforce)} />

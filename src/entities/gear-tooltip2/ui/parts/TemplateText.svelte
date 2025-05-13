@@ -5,7 +5,14 @@
 </script>
 
 <div class="text">
-	{@html parseColorString(raw, { c: 'emphasis', $r: 'red', $g: 'gray' })}
+	{@html parseColorString(raw, {
+		c: 'emphasis',
+		$r: 'red',
+		$g: 'gray',
+		$b: 'bonusStat',
+		$u: 'scroll',
+		$s: 'starforce'
+	})}
 </div>
 
 <style>
@@ -24,5 +31,14 @@
 	}
 	.text :global(.gray) {
 		color: #b7bfc5;
+	}
+	.text :global(.starforce) {
+		color: #ffcc00;
+	}
+	.text :global(.scroll) {
+		color: #afadff;
+	}
+	.text :global(.bonusStat) {
+		color: #0ae3ad;
 	}
 </style>
