@@ -2,7 +2,7 @@
 	import { getGearIconOrigin, getGearIconUrl } from '$lib/shared/api';
 	import { OriginIcon, UIImage2 } from '$lib/shared/ui';
 
-	let { icon, newBonus }: { icon: string; newBonus?: boolean } = $props();
+	let { icon }: { icon: string } = $props();
 
 	let origin = $state<[number, number]>();
 
