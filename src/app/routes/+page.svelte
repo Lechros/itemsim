@@ -127,6 +127,7 @@
 		{gear}
 		incline={{ combat: -127921987 }}
 		loadSetItemName={() => '아케인셰이드 세트'}
+		loadExclusiveEquips={() => []}
 	/>
 	<div class="flex flex-col items-start gap-2">
 		<button disabled={!gear.canApplyStarforce} onclick={() => gear.applyStarforce()}>
