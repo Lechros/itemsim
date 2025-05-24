@@ -71,6 +71,8 @@ import { default as soulNormal } from './soul/normal.png';
 
 import { default as exceptionalNormal } from './exceptional/normal.png';
 
+import { default as scrollIcon } from './textIcon/scroll.png';
+
 export const tooltip2Images = {
 	frameTop,
 	frameLine,
@@ -133,5 +135,6 @@ export const tooltip2Images = {
 	potentialDetailUnique,
 	potentialDetailLegendary,
 	soulNormal,
-	exceptionalNormal
+	exceptionalNormal,
+	scrollIcon
 };

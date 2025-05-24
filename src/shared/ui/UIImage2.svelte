@@ -38,6 +38,7 @@
 	div {
 		background-image: var(--url);
 		background-repeat: no-repeat;
+		image-rendering: pixelated;
 	}
 	.frameTop {
 		width: 324px;
@@ -302,6 +303,11 @@
 
 	.exceptionalNormal {
 		width: 17px;
+		height: 10px;
+	}
+
+	.scrollIcon {
+		width: 11px;
 		height: 10px;
 	}
 

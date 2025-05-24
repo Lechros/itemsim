@@ -10,12 +10,19 @@
 		origin?: [number, number];
 		scale?: number;
 	} = $props();
+
+	const ml = $derived(origin ? -origin[0] : 0);
+	const mt = $derived(origin ? 32 - origin[1] : 0);
+	const invisible = $derived(origin === undefined);
 </script>
 
 <div class="h-8 w-8" style="scale: {scale}">
-	{#if origin}
-		<img {src} {alt} style="margin-left: {-origin[0]}px; margin-top: {32 - origin[1]}px" />
-	{/if}
+	<img
+		{src}
+		{alt}
+		style="margin-left: {ml}px; margin-top: {mt}px"
+		class={[invisible && 'invisible']}
+	/>
 </div>
 
 <style>

@@ -1,74 +1,72 @@
 <script lang="ts">
-	import GearTooltip from '$lib/entities/gear-tooltip2/ui/GearTooltip.svelte';
-	import {
-		addGearData,
-		deleteGearData,
-		updateGearData,
-		useGearQuery
-	} from '$lib/features/gear-inventory/model/inventory-store';
-	import { Gear, type GearData } from '@malib/gear';
+	import { GearTooltip } from '$lib/entities/gear-tooltip2';
+	import { useGearQuery } from '$lib/features/gear-inventory/model/inventory-store';
+	import GearInventoryItem from '$lib/features/gear-inventory/ui/GearInventoryItem.svelte';
+	import GearInventoryList from '$lib/features/gear-inventory/ui/GearInventoryList.svelte';
+	import { ReadonlyGear } from '@malib/gear';
 
 	const rows = useGearQuery();
 
-	let seq = $state(0);
+	let hoverIndex = $state(-1);
 
-	const sample = {
-		meta: {
-			id: 1152196,
-			version: 1
-		},
-		name: '아케인셰이드 나이트숄더',
-		icon: '1152196',
-		type: 115,
-		req: {
-			level: 200,
-			job: 1
-		},
-		attributes: {
-			trade: 2,
-			cuttable: 2,
-			setItemId: 617,
-			bossReward: true,
-			incline: {
-				charm: 200
-			},
-			canStarforce: 1,
-			canScroll: 1,
-			canPotential: 1,
-			canAdditionalPotential: 1
-		},
-		baseOption: {
-			str: 35,
-			dex: 35,
-			int: 35,
-			luk: 35,
-			attackPower: 20,
-			magicPower: 20,
-			armor: 300
-		},
-		scrollUpgradeableCount: 2
-	} as GearData;
+	let mouseX = $state(0);
+	let mouseY = $state(0);
 
-	const other = structuredClone(sample);
-	other.name = '앱솔랩스 나이트숄더';
+	let tooltipElement: HTMLDivElement | null = $state(null);
+
+	function handleMouseMove(event: MouseEvent) {
+		mouseX = event.clientX;
+		mouseY = event.clientY;
+	}
+
+	let windowWidth = $state(0);
+	let windowHeight = $state(0);
+
+	let tooltipWidth = $state(0);
+	let tooltipHeight = $state(0);
+
+	let tooltipX = $derived(Math.max(0, Math.min(mouseX, windowWidth - tooltipWidth)));
+	let tooltipY = $derived(Math.max(0, Math.min(mouseY, windowHeight - tooltipHeight)));
+
+	$effect(() => {
+		if (tooltipElement) {
+			tooltipWidth = tooltipElement.clientWidth;
+			tooltipHeight = tooltipElement.clientHeight;
+		}
+	});
 </script>
 
-<button onclick={() => addGearData(sample)}>Add gear</button>
-<input type="number" bind:value={seq} />
-<button onclick={() => updateGearData(seq, other)}>Update gear</button>
-<button onclick={() => deleteGearData(seq)}>Delete gear</button>
+<svelte:window
+	on:mousemove={handleMouseMove}
+	bind:innerWidth={windowWidth}
+	bind:innerHeight={windowHeight}
+/>
 
-<div>
-	{#if $rows}
-		{#each $rows as row}
-			{#if row}
-				<div>
-					{row.seq}
-					{row.gear.name}
-				</div>
-			{/if}
+<div class="mx-auto max-w-[848px]">
+	<GearInventoryList>
+		{#each $rows as row, index}
+			<GearInventoryItem
+				gearData={row.gear}
+				scale={2}
+				href="/gear/{row.seq}"
+				onmouseenter={() => (hoverIndex = index)}
+				onmouseleave={() => (hoverIndex = -1)}
+			/>
 		{/each}
-	{:else}
-		<div>Loading...</div>
-	{/if}
+	</GearInventoryList>
 </div>
+
+{#if hoverIndex !== -1}
+	<div
+		class="pointer-events-none fixed"
+		style="left: {tooltipX}px; top: {tooltipY}px;"
+		bind:this={tooltipElement}
+	>
+		<GearTooltip
+			gear={new ReadonlyGear($rows[hoverIndex].gear)}
+			incline={{ combat: 0 }}
+			loadSetItemName={() => ''}
+			loadExclusiveEquips={() => []}
+		/>
+	</div>
+{/if}

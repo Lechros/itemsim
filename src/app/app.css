@@ -118,9 +118,37 @@
 	body {
 		@apply bg-background text-foreground;
 	}
+
+	html {
+		font-family: 'NEXON Lv2 Gothic', sans-serif;
+	}
 }
 
 @font-face {
 	font-family: 'Morris';
 	src: url('/fonts/font2.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'NEXON Lv2 Gothic';
+	src: url('/fonts/NEXON Lv2 Gothic.woff2') format('woff2');
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: 'NEXON Lv2 Gothic';
+	src: url('/fonts/NEXON Lv2 Gothic Bold.woff2') format('woff2');
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'NEXON Lv2 Gothic';
+	src: url('/fonts/NEXON Lv2 Gothic Light.woff2') format('woff2');
+	font-weight: 300;
+}
+
+@font-face {
+	font-family: 'NEXON Lv2 Gothic';
+	src: url('/fonts/NEXON Lv2 Gothic Medium.woff2') format('woff2');
+	font-weight: 500;
 }
