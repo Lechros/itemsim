@@ -40,7 +40,7 @@
 
 {#each segments as segment}
 	{#if segment.highlighted}
-		<span class="bg-ring">{segment.text}</span>
+		<span class="bg-accent">{segment.text}</span>
 	{:else}
 		{segment.text}
 	{/if}

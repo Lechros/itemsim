@@ -1,12 +1,9 @@
 <script lang="ts">
-	import { Footer } from '$lib/widgets/footer';
+	import { Toaster } from '$lib/shared/shadcn/components/ui/sonner';
 	import '../app.css';
 	let { children } = $props();
 </script>
 
-<div class="mx-auto flex min-h-screen flex-col">
-	<main class="flex-grow p-4">
-		{@render children()}
-	</main>
-	<Footer />
-</div>
+<Toaster />
+
+{@render children()}

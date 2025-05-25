@@ -8,6 +8,10 @@ export function getGearDataUrl(id: number) {
 	return new URL(`/gears/${id}`, apiBaseUrl);
 }
 
+export function getGearDatasUrl(ids: number[]) {
+	return new URL(`/gears?id=${ids.join(',')}`, apiBaseUrl);
+}
+
 export type SearchGearResponse = {
 	id: number;
 	name: string;
