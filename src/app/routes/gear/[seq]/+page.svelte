@@ -4,25 +4,27 @@
 	import GearPreview from '$lib/features/gear-editor/ui/GearPreview.svelte';
 	import GearTabSelector from '$lib/features/gear-editor/ui/GearTabSelector.svelte';
 	import ManageProps from '$lib/features/gear-editor/ui/ManageProps.svelte';
+	import Starforce from '$lib/features/gear-editor/ui/Starforce.svelte';
 	import { getGearData, updateGearData } from '$lib/features/gear-inventory';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import ScrollArea from '$lib/shared/shadcn/components/ui/scroll-area/scroll-area.svelte';
 	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
 	import { Gear, type GearData } from '@malib/gear';
-	import type { PageProps } from './$types';
-	import { untrack } from 'svelte';
 	import { toast } from 'svelte-sonner';
+	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 
 	let isLoading = $state(true);
 	let gearData = $state<GearData | undefined>(undefined);
+	let lastGearData = $state<GearData | undefined>(undefined);
 	const gear = $derived(gearData ? new Gear(gearData) : undefined);
 
 	$effect(() => {
 		getGearData(Number(data.seq))
 			.then((d) => {
 				gearData = d;
+				lastGearData = structuredClone(d);
 			})
 			.finally(() => {
 				isLoading = false;
@@ -30,12 +32,17 @@
 	});
 
 	$effect(() => {
-		if (gearData) {
-			updateGearData(Number(data.seq), $state.snapshot(gearData)).catch((e) => {
-				toast.error('아이템 저장에 실패했습니다.', {
-					description: e.message
+		if (gearData && JSON.stringify(gearData) !== JSON.stringify(lastGearData)) {
+			const snapshot = $state.snapshot(gearData);
+			updateGearData(Number(data.seq), snapshot)
+				.then(() => {
+					lastGearData = snapshot;
+				})
+				.catch((e) => {
+					toast.error('아이템 저장에 실패했습니다.', {
+						description: e.message
+					});
 				});
-			});
 		}
 	});
 
@@ -73,7 +80,7 @@
 			{:else if currentTab.value === 'props'}
 				<ManageProps {gear} />
 			{:else if currentTab.value === 'starforce'}
-				스타포스 탭
+				<Starforce {gear} />
 			{:else if currentTab.value === 'scroll'}
 				주문서 탭
 			{:else if currentTab.value === 'bonus'}
