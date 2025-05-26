@@ -56,7 +56,7 @@
 
 	function canAddStarforce(gear: Gear, star: number, ignoreMaxStar: boolean) {
 		if (ignoreMaxStar) {
-			return gear.canApplyStarforceIgnoringMaxStar;
+			return gear.canApplyStarforceIgnoringMaxStar && gear.star + star <= 30;
 		} else {
 			return gear.canApplyStarforce && gear.star + star <= gear.maxStar;
 		}
