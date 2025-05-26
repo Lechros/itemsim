@@ -131,7 +131,7 @@
 						<Highlight text={item.name} highlight={item.highlight} />
 					</div>
 					{#if selectedItems.has(item.id)}
-						<div class="ml-auto p-2" transition:fade={{ duration: 100, easing: cubicInOut }}>
+						<div class="ml-auto p-2" transition:fade={{ duration: 100 }}>
 							<Check class="text-primary size-4" />
 						</div>
 					{/if}
@@ -150,7 +150,7 @@
 		{#if isOpen}
 			<div
 				class="bg-card mx-auto w-full max-w-screen-md rounded-t-xl border border-b-0 shadow-lg"
-				transition:slide={{ duration: 150, easing: cubicInOut }}
+				transition:slide={{ duration: 300 }}
 			>
 				<div class="flex flex-col px-4">
 					<button
