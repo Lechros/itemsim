@@ -14,7 +14,7 @@
 	let visible = $state(false);
 </script>
 
-<div class="mt-4 flex flex-col">
+<div class="flex flex-col">
 	<div class="flex justify-center">
 		<div
 			onmouseenter={() => (visible = true)}

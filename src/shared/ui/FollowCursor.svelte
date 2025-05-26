@@ -42,6 +42,10 @@
 	bind:innerHeight={windowHeight}
 />
 
-<div class="pointer-events-none fixed" style="left: {left}px; top: {top}px;" bind:this={wrapper}>
+<div
+	class="pointer-events-none fixed z-50"
+	style="left: {left}px; top: {top}px;"
+	bind:this={wrapper}
+>
 	{@render children?.()}
 </div>

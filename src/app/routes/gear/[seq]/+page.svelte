@@ -12,6 +12,7 @@
 	import { Gear, type GearData } from '@malib/gear';
 	import { toast } from 'svelte-sonner';
 	import type { PageProps } from './$types';
+	import Upgrade from '$lib/features/gear-editor/ui/Upgrade.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -61,7 +62,7 @@
 				<Button variant="outline" href="/">돌아가기</Button>
 			</div>
 		{:else}
-			<div class="mt-4 flex w-full flex-col">
+			<div class="mt-4 flex w-full flex-col gap-y-2">
 				<GearTabSelector
 					bind:currentTab
 					tabs={gearTabs.map((tab) => ({
@@ -82,7 +83,7 @@
 			{:else if currentTab.value === 'starforce'}
 				<Starforce {gear} />
 			{:else if currentTab.value === 'scroll'}
-				주문서 탭
+				<Upgrade {gear} />
 			{:else if currentTab.value === 'bonus'}
 				추가옵션 탭
 			{:else if currentTab.value === 'pot'}
