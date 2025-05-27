@@ -67,7 +67,7 @@ export const scrolls = {
 	},
 	'얼티밋 방어구 강화 주문서 20%': {
 		name: '얼티밋 방어구 강화 주문서 20%',
-		icon: '2047917',
+		icon: '2040020',
 		option: {
 			str: 9,
 			dex: 9,
@@ -87,7 +87,7 @@ export const scrolls = {
 	},
 	'10주년 프라임 방어구 주문서': {
 		name: '10주년 프라임 방어구 주문서',
-		icon: '2047950',
+		icon: '2046994',
 		option: {
 			str: 10,
 			dex: 10,
