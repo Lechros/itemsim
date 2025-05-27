@@ -75,12 +75,37 @@
 		<div class="flex flex-col gap-1">
 			<h5 class="mt-2 text-sm font-medium">최대 가위 사용 횟수</h5>
 			<div class="flex gap-2">
-				<Button onclick={() => removeCuttableCount(gear)}>제한 없음</Button>
-				<Button variant="outline" onclick={() => setTotalCuttableCount(gear, 10)}>
-					10회로 설정
+				<Button
+					variant={gear.attributes.totalCuttableCount === undefined ? 'default' : 'outline'}
+					class={[gear.attributes.totalCuttableCount === undefined && 'border-primary border']}
+					onclick={() => removeCuttableCount(gear)}
+					disabled={!gear.attributes.cuttable}
+				>
+					제한 없음
 				</Button>
-				<Button variant="outline" onclick={() => setTotalCuttableCount(gear, 20)}>
-					20회로 설정
+				<Button
+					variant={gear.attributes.totalCuttableCount === 5 ? 'default' : 'outline'}
+					class={[gear.attributes.totalCuttableCount === 5 && 'border-primary border']}
+					onclick={() => setTotalCuttableCount(gear, 5)}
+					disabled={!gear.attributes.cuttable}
+				>
+					5회
+				</Button>
+				<Button
+					variant={gear.attributes.totalCuttableCount === 10 ? 'default' : 'outline'}
+					class={[gear.attributes.totalCuttableCount === 10 && 'border-primary border']}
+					onclick={() => setTotalCuttableCount(gear, 10)}
+					disabled={!gear.attributes.cuttable}
+				>
+					10회
+				</Button>
+				<Button
+					variant={gear.attributes.totalCuttableCount === 20 ? 'default' : 'outline'}
+					class={[gear.attributes.totalCuttableCount === 20 && 'border-primary border']}
+					onclick={() => setTotalCuttableCount(gear, 20)}
+					disabled={!gear.attributes.cuttable}
+				>
+					20회
 				</Button>
 			</div>
 		</div>
