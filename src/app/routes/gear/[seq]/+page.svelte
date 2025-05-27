@@ -16,6 +16,7 @@
 	import type { PageProps } from './$types';
 	import Potential from '$lib/features/gear-editor/ui/Potential.svelte';
 	import AdditionalPotential from '$lib/features/gear-editor/ui/AdditionalPotential.svelte';
+	import Exceptional from '$lib/features/gear-editor/ui/Exceptional.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -94,7 +95,7 @@
 			{:else if currentTab.value === 'addiPot'}
 				<AdditionalPotential {gear} />
 			{:else if currentTab.value === 'exceptional'}
-				익셉셔널 탭
+				<Exceptional {gear} />
 			{:else if currentTab.value === 'soul'}
 				소울웨폰 탭
 			{/if}
