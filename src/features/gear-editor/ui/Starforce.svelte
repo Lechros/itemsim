@@ -62,11 +62,19 @@
 		}
 	}
 
-	function removeStarforce(gear: Gear, star: number) {
+	function removeStarforce(gear: Gear, star: number, ignoreMaxStar: boolean) {
 		const targetStar = gear.star - star;
 		gear.resetStarforce();
 		for (let i = 0; i < targetStar; i++) {
-			gear.applyStarforce();
+			if (ignoreMaxStar) {
+				if (gear.canApplyStarforceIgnoringMaxStar) {
+					gear.applyStarforceIgnoringMaxStar();
+				}
+			} else {
+				if (gear.canApplyStarforce) {
+					gear.applyStarforce();
+				}
+			}
 		}
 	}
 
@@ -156,17 +164,19 @@
 	</div>
 
 	<Tabs value="starforce" class="gap-y-6">
-		{#if gear.req.level <= 150}
+		{#if gear.req.level <= 150 && !gear.attributes.superior}
 			<TabsList class="grid w-full grid-cols-2">
 				<TabsTrigger value="starforce">스타포스</TabsTrigger>
-				<TabsTrigger value="starScroll" disabled={gear.req.level > 150}>놀장강</TabsTrigger>
+				<TabsTrigger value="starScroll">놀장강</TabsTrigger>
 			</TabsList>
 		{/if}
 		<TabsContent value="starforce" class="flex flex-col gap-y-8">
-			<div class="flex items-center gap-x-2">
-				<Switch bind:checked={ignoreMaxStar} id="ignoreMaxStar" />
-				<Label for="ignoreMaxStar">최대 스타포스 강화 초과</Label>
-			</div>
+			{#if gear.req.level < 140}
+				<div class="flex items-center gap-x-2">
+					<Switch bind:checked={ignoreMaxStar} id="ignoreMaxStar" />
+					<Label for="ignoreMaxStar">최대 스타포스 강화 초과</Label>
+				</div>
+			{/if}
 			<div class="flex flex-col gap-y-4">
 				<h4 class="text-lg leading-none font-semibold">스타포스 강화</h4>
 				<div class="flex gap-x-2">
@@ -174,7 +184,7 @@
 						<Button
 							variant="outline"
 							class="text-destructive"
-							onclick={() => removeStarforce(gear, star)}
+							onclick={() => removeStarforce(gear, star, ignoreMaxStar)}
 							disabled={!canRemoveStarforce(gear, star)}
 						>
 							-{star}성
@@ -211,7 +221,7 @@
 					onclick={() => gear.resetStarforce()}
 					disabled={!gear.canResetStarforce}
 				>
-					초기화
+					스타포스 강화 초기화
 				</Button>
 			</div>
 		</TabsContent>
@@ -262,7 +272,7 @@
 					onclick={() => gear.resetStarforce()}
 					disabled={!gear.canResetStarforce}
 				>
-					초기화
+					스타포스 강화 초기화
 				</Button>
 			</div>
 		</TabsContent>
