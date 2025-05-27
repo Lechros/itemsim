@@ -60,6 +60,7 @@
 	"dependencies": {
 		"@malib/gear": "1.0.0-next.7",
 		"dexie": "^4.0.11",
+		"es-hangul": "^2.3.3",
 		"ky": "^1.8.1",
 		"lucide-svelte": "^0.511.0"
 	}

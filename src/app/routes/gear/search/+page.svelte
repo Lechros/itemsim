@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import GearIcon from '$lib/entities/gear-icon/ui/GearIcon.svelte';
 	import Highlight from '$lib/entities/highlight/ui/Highlight.svelte';
 	import { addGearData } from '$lib/features/gear-inventory';
@@ -9,10 +10,10 @@
 	import { Toggle } from '$lib/shared/shadcn/components/ui/toggle';
 	import { cn } from '$lib/shared/shadcn/utils';
 	import type { GearData } from '@malib/gear';
+	import { josa } from 'es-hangul';
 	import ky from 'ky';
 	import { ArrowLeft, Check, ChevronDown, ChevronUp, X } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
-	import { cubicInOut } from 'svelte/easing';
 	import { SvelteMap } from 'svelte/reactivity';
 	import { fade, slide } from 'svelte/transition';
 
@@ -43,8 +44,20 @@
 		try {
 			const url = getGearDatasUrl(Array.from(selectedItems.keys()));
 			const data = await ky.get(url).json<Record<string, GearData>>();
-			await addGearData(...Object.values(data));
-			toast.success(`아이템 ${Object.values(data).length}개를 추가했어요.`);
+			const gears = Object.values(data);
+			const seq = await addGearData(...gears);
+			if (gears.length === 1) {
+				toast.success(`${josa(gears[0].name, '을/를')} 추가했어요.`, {
+					action: {
+						label: '이동',
+						onClick: () => {
+							goto(`/gear/${seq}`);
+						}
+					}
+				});
+			} else {
+				toast.success(`아이템 ${gears.length}개를 추가했어요.`);
+			}
 			selectedItems.clear();
 		} catch (error) {
 			toast.error('아이템을 추가하지 못했어요.', {
@@ -100,9 +113,10 @@
 			<div class="flex h-12 items-center">
 				<Input
 					type="search"
-					bind:value={query}
 					placeholder="아이템 이름을 입력해 주세요."
 					class="w-full"
+					bind:value={query}
+					autofocus
 				/>
 			</div>
 		</div>
