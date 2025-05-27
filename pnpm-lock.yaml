@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@malib/gear':
-        specifier: 1.0.0-next.7
-        version: 1.0.0-next.7
+        specifier: 1.0.0-next.8
+        version: 1.0.0-next.8
       dexie:
         specifier: ^4.0.11
         version: 4.0.11
@@ -435,8 +435,8 @@ packages:
     peerDependencies:
       svelte: ^5
 
-  '@malib/gear@1.0.0-next.7':
-    resolution: {integrity: sha512-YJPl3oPD9Wf/uFSQrPkhLZg8I2Ob6ODHraUG/H1a9E3QUPLAcgLP99gBiqU6GSsRcLfYk1Vr/zWnoZwlIbuvng==}
+  '@malib/gear@1.0.0-next.8':
+    resolution: {integrity: sha512-lNsCpxawOO0ZOdQfTROiijen95uP8O/XuueV4kWxqDrq7ZXY2XbyHpkf0nPQubtKvsUXnm4KxpX/tUXnKCAI8w==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -2216,7 +2216,7 @@ snapshots:
     dependencies:
       svelte: 5.33.1
 
-  '@malib/gear@1.0.0-next.7': {}
+  '@malib/gear@1.0.0-next.8': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
