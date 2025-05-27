@@ -48,5 +48,5 @@ export function getGearData(seq: number) {
  * TODO: 필터, 정렬 기능 추가
  */
 export function useGearQuery() {
-	return liveQuery(() => db.inventory.toArray());
+	return liveQuery(() => db.inventory.orderBy('createdAt').reverse().toArray());
 }
