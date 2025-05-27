@@ -312,7 +312,7 @@
 	<div class="mx-auto w-full max-w-xs">
 		<Card class="flex flex-col gap-y-4 p-4">
 			<div class="text-center">
-				강화 <span class="font-semibold">{gear.scrollUpgradeCount}</span>회 (잔여
+				주문서 강화 <span class="font-semibold">{gear.scrollUpgradeCount}</span>회 (잔여
 				<span class="font-semibold">{gear.scrollUpgradeableCount}</span>회, 복구 가능
 				<span class="font-semibold">{gear.scrollResilienceCount}</span>회)
 			</div>
