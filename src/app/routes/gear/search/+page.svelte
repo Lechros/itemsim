@@ -43,8 +43,7 @@
 		isAdding = true;
 		try {
 			const url = getGearDatasUrl(Array.from(selectedItems.keys()));
-			const data = await ky.get(url).json<Record<string, GearData>>();
-			const gears = Object.values(data);
+			const gears = await ky.get(url).json<GearData[]>();
 			const seq = await addGearData(...gears);
 			if (gears.length === 1) {
 				toast.success(`${josa(gears[0].name, '을/를')} 추가했어요.`, {
