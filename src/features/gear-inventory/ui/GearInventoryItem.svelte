@@ -75,7 +75,11 @@
 	</div>
 	<div class="absolute bottom-2 left-2 flex flex-col gap-1">
 		{#if gear.exceptionalTotalUpgradeableCount > 0}
-			<UIImage2 image="exceptionalNormal" />
+			{#if gear.exceptionalUpgradeCount > 0}
+				<UIImage2 image="exceptionalNormal" />
+			{:else}
+				<UIImage2 image="potentialTitleNormal" />
+			{/if}
 		{/if}
 	</div>
 </a>
