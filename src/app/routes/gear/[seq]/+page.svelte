@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { gearTabs } from '$lib/features/gear-editor/model/gear-tabs';
+	import AddOption from '$lib/features/gear-editor/ui/AddOption.svelte';
 	import GearHeader from '$lib/features/gear-editor/ui/GearHeader.svelte';
 	import GearPreview from '$lib/features/gear-editor/ui/GearPreview.svelte';
 	import GearTabSelector from '$lib/features/gear-editor/ui/GearTabSelector.svelte';
 	import ManageProps from '$lib/features/gear-editor/ui/ManageProps.svelte';
 	import Starforce from '$lib/features/gear-editor/ui/Starforce.svelte';
+	import Upgrade from '$lib/features/gear-editor/ui/Upgrade.svelte';
 	import { getGearData, updateGearData } from '$lib/features/gear-inventory';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import ScrollArea from '$lib/shared/shadcn/components/ui/scroll-area/scroll-area.svelte';
@@ -12,7 +14,6 @@
 	import { Gear, type GearData } from '@malib/gear';
 	import { toast } from 'svelte-sonner';
 	import type { PageProps } from './$types';
-	import Upgrade from '$lib/features/gear-editor/ui/Upgrade.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -85,7 +86,7 @@
 			{:else if currentTab.value === 'scroll'}
 				<Upgrade {gear} />
 			{:else if currentTab.value === 'bonus'}
-				추가옵션 탭
+				<AddOption {gear} />
 			{:else if currentTab.value === 'pot'}
 				잠재능력 탭
 			{:else if currentTab.value === 'addiPot'}
