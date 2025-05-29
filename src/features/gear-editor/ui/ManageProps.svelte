@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ButtonGroup } from '$lib/entities/button-group';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Input } from '$lib/shared/shadcn/components/ui/input';
 	import { Label } from '$lib/shared/shadcn/components/ui/label';
@@ -74,40 +75,26 @@
 		</RadioGroup>
 		<div class="flex flex-col gap-1">
 			<h5 class="mt-2 text-sm font-medium">최대 가위 사용 횟수</h5>
-			<div class="flex gap-2">
+			<ButtonGroup>
 				<Button
 					variant={gear.attributes.totalCuttableCount === undefined ? 'default' : 'outline'}
 					class={[gear.attributes.totalCuttableCount === undefined && 'border-primary border']}
 					onclick={() => removeCuttableCount(gear)}
 					disabled={!gear.attributes.cuttable}
 				>
-					제한 없음
+					없음
 				</Button>
-				<Button
-					variant={gear.attributes.totalCuttableCount === 5 ? 'default' : 'outline'}
-					class={[gear.attributes.totalCuttableCount === 5 && 'border-primary border']}
-					onclick={() => setTotalCuttableCount(gear, 5)}
-					disabled={!gear.attributes.cuttable}
-				>
-					5회
-				</Button>
-				<Button
-					variant={gear.attributes.totalCuttableCount === 10 ? 'default' : 'outline'}
-					class={[gear.attributes.totalCuttableCount === 10 && 'border-primary border']}
-					onclick={() => setTotalCuttableCount(gear, 10)}
-					disabled={!gear.attributes.cuttable}
-				>
-					10회
-				</Button>
-				<Button
-					variant={gear.attributes.totalCuttableCount === 20 ? 'default' : 'outline'}
-					class={[gear.attributes.totalCuttableCount === 20 && 'border-primary border']}
-					onclick={() => setTotalCuttableCount(gear, 20)}
-					disabled={!gear.attributes.cuttable}
-				>
-					20회
-				</Button>
-			</div>
+				{#each [5, 10, 20] as count}
+					<Button
+						variant={gear.attributes.totalCuttableCount === count ? 'default' : 'outline'}
+						class={[gear.attributes.totalCuttableCount === count && 'border-primary border']}
+						onclick={() => setTotalCuttableCount(gear, 5)}
+						disabled={!gear.attributes.cuttable}
+					>
+						{count}회
+					</Button>
+				{/each}
+			</ButtonGroup>
 		</div>
 		<div class="mt-2 flex flex-col gap-1">
 			<div class="flex flex-col gap-1.5">
@@ -123,4 +110,33 @@
 			</div>
 		</div>
 	</div>
+
+	{#if 80 <= gear.req.level && gear.req.level <= 110}
+		<div class="flex flex-col gap-2">
+			<div>
+				<h4 class="text-lg font-semibold">착용 레벨 증가</h4>
+				<p class="text-muted-foreground text-sm">
+					잠재능력과 에디셔널 잠재능력 수치는 자동으로 업데이트되지 않아요.
+				</p>
+			</div>
+			<ButtonGroup>
+				<Button
+					variant={gear.req.levelIncrease === 0 ? 'default' : 'outline'}
+					class={[gear.req.levelIncrease === 0 && 'border-primary border']}
+					onclick={() => (gear.data.req.levelIncrease = 0)}
+				>
+					없음
+				</Button>
+				{#each [10, 20, 30] as value}
+					<Button
+						variant={gear.req.levelIncrease === value ? 'default' : 'outline'}
+						class={[gear.req.levelIncrease === value && 'border-primary border']}
+						onclick={() => (gear.data.req.levelIncrease = value)}
+					>
+						+{value}
+					</Button>
+				{/each}
+			</ButtonGroup>
+		</div>
+	{/if}
 </div>
