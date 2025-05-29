@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { DetailNavbar } from '$lib/features/detail-navbar';
 	import { gearTabs } from '$lib/features/gear-editor/model/gear-tabs';
 	import AdditionalPotential from '$lib/features/gear-editor/ui/AdditionalPotential.svelte';
 	import AddOption from '$lib/features/gear-editor/ui/AddOption.svelte';
 	import Exceptional from '$lib/features/gear-editor/ui/Exceptional.svelte';
-	import GearHeader from '$lib/features/gear-editor/ui/GearHeader.svelte';
 	import GearPreview from '$lib/features/gear-editor/ui/GearPreview.svelte';
 	import GearTabSelector from '$lib/features/gear-editor/ui/GearTabSelector.svelte';
 	import ManageProps from '$lib/features/gear-editor/ui/ManageProps.svelte';
@@ -61,7 +61,7 @@
 </script>
 
 <ScrollArea class="flex h-screen flex-col">
-	<GearHeader />
+	<DetailNavbar title="아이템 강화" backHref="/" />
 
 	<div class="mx-auto w-full max-w-screen-md px-4">
 		{#if isLoading}
