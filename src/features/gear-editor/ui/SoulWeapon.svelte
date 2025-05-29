@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ButtonGroup } from '$lib/entities/button-group';
 	import { ItemRawIcon } from '$lib/entities/item-icon';
 	import { getGearOptionGroupedStrings } from '$lib/entities/item-string';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
@@ -95,7 +96,7 @@
 						<X />
 					</Button>
 				</div>
-				<div class="flex flex-col gap-y-4 px-2">
+				<div class="flex flex-col gap-y-4">
 					{#if selectedSoulSummary.magnificent}
 						<Select
 							type="single"
@@ -107,7 +108,7 @@
 								}
 							}
 						>
-							<SelectTrigger class="w-full max-w-xs">
+							<SelectTrigger class="w-full max-w-sm">
 								{getGearOptionGroupedStrings(selectedSouls![selectedSoulIndex].option)[0].join(' ')}
 							</SelectTrigger>
 							<SelectContent>
@@ -125,7 +126,7 @@
 							</div>
 						</div>
 					{/if}
-					<div class="flex gap-x-2">
+					<ButtonGroup>
 						<Button
 							onclick={() => {
 								if (gear.canApplySoulEnchant) {
@@ -140,7 +141,7 @@
 						>
 							소울 장착
 						</Button>
-					</div>
+					</ButtonGroup>
 				</div>
 			</div>
 		{:else}
@@ -148,7 +149,7 @@
 		{/if}
 	</Card>
 
-	<div class="flex gap-2">
+	<ButtonGroup>
 		<Button variant="outline" onclick={() => gear.applySoulEnchant()} disabled={gear.soulEnchanted}>
 			소울 인챈트
 		</Button>
@@ -170,5 +171,5 @@
 		>
 			소울 웨폰 초기화
 		</Button>
-	</div>
+	</ButtonGroup>
 </div>

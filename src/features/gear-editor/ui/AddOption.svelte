@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ButtonGroup } from '$lib/entities/button-group';
 	import { getOptionStrings } from '$lib/entities/gear-tooltip2';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Label } from '$lib/shared/shadcn/components/ui/label';
@@ -8,6 +9,7 @@
 		SelectItem,
 		SelectTrigger
 	} from '$lib/shared/shadcn/components/ui/select';
+	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
 	import { AddOptionType, getAddOptionValue, type AddOptionGrade, type Gear } from '@malib/gear';
 	import { untrack } from 'svelte';
 
@@ -181,7 +183,7 @@
 	}
 </script>
 
-<div class="flex flex-col gap-y-8">
+<div class="flex flex-col gap-y-4">
 	<div class="flex flex-col gap-y-2">
 		<div class="grid grid-cols-2 gap-4">
 			<Label>스탯</Label>
@@ -240,7 +242,9 @@
 		{/each}
 	</div>
 
-	<div>
+	<Separator />
+
+	<ButtonGroup>
 		<Button variant="destructive" onclick={() => gear.resetAddOption()}>추가 옵션 초기화</Button>
-	</div>
+	</ButtonGroup>
 </div>

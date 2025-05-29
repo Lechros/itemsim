@@ -6,6 +6,8 @@
 	import { cn } from '$lib/shared/shadcn/utils';
 	import { Gear, GearType } from '@malib/gear';
 	import { exceptionalHammers } from '../model/exceptionals';
+	import { ButtonGroup } from '$lib/entities/button-group';
+	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
 
 	let { gear }: { gear: Gear } = $props();
 
@@ -82,16 +84,18 @@
 		{/if}
 	</Card>
 
-	<div class="flex gap-2">
+	<ButtonGroup>
 		<Button
 			onclick={() => exceptionalHammer && gear.applyExceptional(exceptionalHammer)}
 			disabled={!exceptionalHammer || !gear.canApplyExceptional}
 		>
 			사용하기
 		</Button>
-	</div>
+	</ButtonGroup>
 
-	<div class="mt-4">
+	<Separator />
+
+	<ButtonGroup>
 		<Button
 			variant="destructive"
 			onclick={() => gear.resetExceptional()}
@@ -99,5 +103,5 @@
 		>
 			익셉셔널 강화 초기화
 		</Button>
-	</div>
+	</ButtonGroup>
 </div>

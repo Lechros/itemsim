@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { ButtonGroup } from '$lib/entities/button-group';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Card } from '$lib/shared/shadcn/components/ui/card';
 	import { Checkbox } from '$lib/shared/shadcn/components/ui/checkbox';
 	import { Label } from '$lib/shared/shadcn/components/ui/label';
+	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
 	import { Switch } from '$lib/shared/shadcn/components/ui/switch';
 	import { Tabs, TabsContent, TabsList, TabsTrigger } from '$lib/shared/shadcn/components/ui/tabs';
 	import { UIImage2 } from '$lib/shared/ui';
@@ -163,23 +165,23 @@
 		</Card>
 	</div>
 
-	<Tabs value="starforce" class="gap-y-6">
+	<Tabs value="starforce" class="gap-y-4">
 		{#if gear.req.level <= 150 && !gear.attributes.superior}
 			<TabsList class="grid w-full grid-cols-2">
 				<TabsTrigger value="starforce">스타포스</TabsTrigger>
 				<TabsTrigger value="starScroll">놀장강</TabsTrigger>
 			</TabsList>
 		{/if}
-		<TabsContent value="starforce" class="flex flex-col gap-y-8">
+		<TabsContent value="starforce" class="flex flex-col gap-y-4">
 			{#if gear.req.level < 140}
-				<div class="flex items-center gap-x-2">
+				<div class="flex h-8 items-center gap-x-2">
 					<Switch bind:checked={ignoreMaxStar} id="ignoreMaxStar" />
 					<Label for="ignoreMaxStar">최대 스타포스 강화 초과</Label>
 				</div>
 			{/if}
 			<div class="flex flex-col gap-y-4">
 				<h4 class="text-lg leading-none font-semibold">스타포스 강화</h4>
-				<div class="flex gap-x-2">
+				<ButtonGroup>
 					{#each [5, 1] as star}
 						<Button
 							variant="outline"
@@ -199,11 +201,11 @@
 							+{star}성
 						</Button>
 					{/each}
-				</div>
+				</ButtonGroup>
 			</div>
 			<div class="flex flex-col gap-y-4">
 				<h4 class="text-lg leading-none font-semibold">일괄 강화</h4>
-				<div class="flex gap-x-2">
+				<ButtonGroup>
 					{#each [17, 18, 22] as star}
 						<Button
 							variant="outline"
@@ -213,9 +215,12 @@
 							{star}성
 						</Button>
 					{/each}
-				</div>
+				</ButtonGroup>
 			</div>
-			<div>
+
+			<Separator />
+
+			<ButtonGroup>
 				<Button
 					variant="destructive"
 					onclick={() => gear.resetStarforce()}
@@ -223,10 +228,10 @@
 				>
 					스타포스 강화 초기화
 				</Button>
-			</div>
+			</ButtonGroup>
 		</TabsContent>
-		<TabsContent value="starScroll" class="flex flex-col gap-y-8">
-			<div class="flex items-center gap-x-2">
+		<TabsContent value="starScroll" class="flex flex-col gap-y-4">
+			<div class="flex h-8 items-center gap-x-2">
 				<Switch bind:checked={ignoreMaxStar} id="ignoreMaxStar" />
 				<Label for="ignoreMaxStar">최대 강화 단계 초과</Label>
 			</div>

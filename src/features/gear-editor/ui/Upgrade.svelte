@@ -27,6 +27,8 @@
 	import { Check, X } from 'lucide-svelte';
 	import { fade } from 'svelte/transition';
 	import { scrolls as scrollData } from '../model/scrolls';
+	import { ButtonGroup } from '$lib/entities/button-group';
+	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
 
 	let { gear }: { gear: Gear } = $props();
 
@@ -367,14 +369,14 @@
 				</div>
 			</ScrollArea>
 		</TabsContent>
-		<TabsContent value="chaos">
+		<TabsContent value="chaos" class="flex flex-col gap-y-4">
 			{#if columns === 1}
 				<div class="mb-2 px-2">
 					<h4 class="text-lg font-semibold">혼돈의 주문서</h4>
 				</div>
 			{/if}
-			<div class="grid sm:grid-cols-2">
-				<div class="flex flex-col gap-y-2 px-4">
+			<div class="grid gap-y-2 sm:grid-cols-2">
+				<div class="flex flex-col gap-y-2 px-2 sm:pr-4">
 					{#each leftChaosStats as stat}
 						<div class="grid grid-cols-4 items-center">
 							<Label>{stat.label}</Label>
@@ -388,7 +390,7 @@
 						</div>
 					{/each}
 				</div>
-				<div class="flex flex-col gap-y-2 border-l px-4">
+				<div class="flex flex-col gap-y-2 px-2 sm:border-l sm:pl-4">
 					{#each rightChaosStats as stat}
 						<div class="grid grid-cols-4 items-center">
 							<Label>{stat.label}</Label>
@@ -403,11 +405,11 @@
 					{/each}
 				</div>
 			</div>
-			<div class="mt-4 flex items-center gap-x-2 px-2">
+			<div class="flex items-center gap-x-2 px-2">
 				<Checkbox id="randomChaos" bind:checked={isRandomChaos} />
 				<Label for="randomChaos">빈 스탯을 임의의 놀긍혼 수치로 적용</Label>
 			</div>
-			<div class="mt-4 px-2">
+			<ButtonGroup class="px-2">
 				<Button
 					variant="outline"
 					onclick={() => {
@@ -438,7 +440,7 @@
 				>
 					입력 수치 초기화
 				</Button>
-			</div>
+			</ButtonGroup>
 		</TabsContent>
 		<TabsContent value="etc">
 			<ScrollArea class="h-[calc(3rem*3+2px)] sm:h-[calc(3rem*6+5px)]">
@@ -512,7 +514,7 @@
 		{/if}
 	</Card>
 
-	<div class="flex flex-col gap-y-4">
+	<ButtonGroup>
 		<div class="flex flex-col gap-2 sm:flex-row">
 			<Button onclick={() => applyFunction?.()} disabled={!gear.canApplyScroll || !applyFunction}>
 				{selectedScroll?.name} 사용하기
@@ -530,9 +532,11 @@
 				{gear.scrollUpgradeableCount}회 사용
 			</Button>
 		</div>
-	</div>
+	</ButtonGroup>
 
-	<div class="mt-4 flex flex-col gap-2 sm:flex-row">
+	<Separator />
+
+	<ButtonGroup>
 		<Button
 			variant="outline"
 			class="text-destructive hover:text-destructive/90"
@@ -555,5 +559,5 @@
 		>
 			주문서 강화 초기화
 		</Button>
-	</div>
+	</ButtonGroup>
 </div>

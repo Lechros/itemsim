@@ -10,6 +10,7 @@
 	import { Gear, PotentialGrade, type PotentialData } from '@malib/gear';
 	import { untrack } from 'svelte';
 	import { getAdditionalPotentialDatas } from '../model/potential';
+	import { ButtonGroup } from '$lib/entities/button-group';
 
 	let { gear }: { gear: Gear } = $props();
 
@@ -82,7 +83,7 @@
 <div class="mt-6 flex flex-col gap-y-8">
 	<div class="flex flex-col gap-y-2">
 		<h4 class="text-lg leading-none font-semibold">에디셔널 잠재능력 등급</h4>
-		<div class="flex flex-col gap-2 sm:flex-row">
+		<ButtonGroup>
 			{#each grades as { label, value }}
 				<Button
 					variant={grade === value ? 'default' : 'outline'}
@@ -93,7 +94,7 @@
 					{label}
 				</Button>
 			{/each}
-		</div>
+		</ButtonGroup>
 	</div>
 
 	<div class="flex flex-col gap-y-2">
@@ -108,7 +109,7 @@
 				}
 				disabled={grade === PotentialGrade.Normal}
 			>
-				<SelectTrigger class="w-full">
+				<SelectTrigger class="w-full max-w-sm">
 					<div class="flex items-center gap-x-2">
 						{#if selected}
 							{@render potential(selected)}
