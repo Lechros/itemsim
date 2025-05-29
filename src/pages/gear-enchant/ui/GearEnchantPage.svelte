@@ -1,20 +1,9 @@
 <script lang="ts">
 	import { DetailNavbar } from '$lib/features/detail-navbar';
-	import { gearTabs } from '$lib/features/gear-editor/model/gear-tabs';
-	import AdditionalPotential from '$lib/features/gear-editor/ui/AdditionalPotential.svelte';
-	import AddOption from '$lib/features/gear-editor/ui/AddOption.svelte';
-	import Exceptional from '$lib/features/gear-editor/ui/Exceptional.svelte';
-	import GearPreview from '$lib/features/gear-editor/ui/GearPreview.svelte';
-	import GearTabSelector from '$lib/features/gear-editor/ui/GearTabSelector.svelte';
-	import ManageProps from '$lib/features/gear-editor/ui/ManageProps.svelte';
-	import Potential from '$lib/features/gear-editor/ui/Potential.svelte';
-	import SoulWeapon from '$lib/features/gear-editor/ui/SoulWeapon.svelte';
-	import Starforce from '$lib/features/gear-editor/ui/Starforce.svelte';
-	import Upgrade from '$lib/features/gear-editor/ui/Upgrade.svelte';
 	import { getGearData, updateGearData } from '$lib/features/gear-inventory';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import ScrollArea from '$lib/shared/shadcn/components/ui/scroll-area/scroll-area.svelte';
-	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
+	import GearEnchanter from '$lib/widgets/gear-enchanter/ui/GearEnchanter.svelte';
 	import { Gear, type GearData } from '@malib/gear';
 	import { toast } from 'svelte-sonner';
 
@@ -56,8 +45,6 @@
 				});
 		}
 	});
-
-	let currentTab = $state(gearTabs.find((tab) => tab.value === initialTab) ?? gearTabs[0]);
 </script>
 
 <ScrollArea class="flex h-screen flex-col">
@@ -72,39 +59,7 @@
 				<Button variant="outline" href="/">돌아가기</Button>
 			</div>
 		{:else}
-			<div class="mt-4 flex w-full flex-col gap-y-2">
-				<GearTabSelector
-					bind:currentTab
-					tabs={gearTabs.map((tab) => ({
-						label: tab.label,
-						value: tab.value,
-						disabled: tab.disabled?.(gear) ?? false
-					}))}
-				/>
-				<GearPreview {gear} />
-			</div>
-
-			<Separator class="my-4" />
-
-			{#if currentTab.value === 'default'}
-				관리 탭
-			{:else if currentTab.value === 'props'}
-				<ManageProps {gear} />
-			{:else if currentTab.value === 'starforce'}
-				<Starforce {gear} />
-			{:else if currentTab.value === 'scroll'}
-				<Upgrade {gear} />
-			{:else if currentTab.value === 'bonus'}
-				<AddOption {gear} />
-			{:else if currentTab.value === 'pot'}
-				<Potential {gear} />
-			{:else if currentTab.value === 'addiPot'}
-				<AdditionalPotential {gear} />
-			{:else if currentTab.value === 'exceptional'}
-				<Exceptional {gear} />
-			{:else if currentTab.value === 'soul'}
-				<SoulWeapon {gear} />
-			{/if}
+			<GearEnchanter {gear} {initialTab} />
 		{/if}
 	</div>
 </ScrollArea>

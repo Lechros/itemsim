@@ -1,12 +1,12 @@
-import { Gear } from '@malib/gear';
+import type { Gear } from '@malib/gear';
 
-export type GearTab = {
+export type GearEnchantTab = {
 	label: string;
 	value: string;
 	disabled?: (gear: Gear) => boolean;
 };
 
-export const gearTabs: GearTab[] = [
+export const tabs: GearEnchantTab[] = [
 	{
 		label: '관리',
 		value: 'default',
