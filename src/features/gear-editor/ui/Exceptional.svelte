@@ -55,7 +55,7 @@
 				</div>
 				<div
 					class={cn(
-						'-mx-4 grid h-30 auto-rows-min justify-start',
+						'-mx-4 grid auto-rows-min justify-start sm:h-30',
 						summaries.length > 6 && 'md:grid-cols-2'
 					)}
 				>
@@ -76,6 +76,15 @@
 						{/each}
 					</div>
 				</div>
+
+				<ButtonGroup>
+					<Button
+						onclick={() => exceptionalHammer && gear.applyExceptional(exceptionalHammer)}
+						disabled={!exceptionalHammer || !gear.canApplyExceptional}
+					>
+						사용하기
+					</Button>
+				</ButtonGroup>
 			</div>
 		{:else}
 			<div class="text-muted-foreground h-41 text-sm">
@@ -83,15 +92,6 @@
 			</div>
 		{/if}
 	</Card>
-
-	<ButtonGroup>
-		<Button
-			onclick={() => exceptionalHammer && gear.applyExceptional(exceptionalHammer)}
-			disabled={!exceptionalHammer || !gear.canApplyExceptional}
-		>
-			사용하기
-		</Button>
-	</ButtonGroup>
 
 	<Separator />
 

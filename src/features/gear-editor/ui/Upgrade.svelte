@@ -487,7 +487,7 @@
 				</div>
 				<div
 					class={cn(
-						'-mx-4 grid h-30 auto-rows-min justify-start',
+						'-mx-4 grid auto-rows-min justify-start sm:h-30',
 						summaries.length > 6 && 'md:grid-cols-2'
 					)}
 				>
@@ -508,31 +508,34 @@
 						{/each}
 					</div>
 				</div>
+
+				<ButtonGroup>
+					<div class="flex flex-col gap-2 sm:flex-row">
+						<Button
+							onclick={() => applyFunction?.()}
+							disabled={!gear.canApplyScroll || !applyFunction}
+						>
+							{selectedScroll?.name} 사용하기
+						</Button>
+						<Button
+							variant="outline"
+							onclick={() => {
+								const count = gear.scrollUpgradeableCount;
+								for (let i = 0; i < count; i++) {
+									applyFunction?.();
+								}
+							}}
+							disabled={!gear.canApplyScroll || !applyFunction}
+						>
+							{gear.scrollUpgradeableCount}회 사용
+						</Button>
+					</div>
+				</ButtonGroup>
 			</div>
 		{:else}
-			<div class="text-muted-foreground h-41 text-sm">주문서를 선택해 주세요.</div>
+			<div class="text-muted-foreground text-sm sm:h-52">주문서를 선택해 주세요.</div>
 		{/if}
 	</Card>
-
-	<ButtonGroup>
-		<div class="flex flex-col gap-2 sm:flex-row">
-			<Button onclick={() => applyFunction?.()} disabled={!gear.canApplyScroll || !applyFunction}>
-				{selectedScroll?.name} 사용하기
-			</Button>
-			<Button
-				variant="outline"
-				onclick={() => {
-					const count = gear.scrollUpgradeableCount;
-					for (let i = 0; i < count; i++) {
-						applyFunction?.();
-					}
-				}}
-				disabled={!gear.canApplyScroll || !applyFunction}
-			>
-				{gear.scrollUpgradeableCount}회 사용
-			</Button>
-		</div>
-	</ButtonGroup>
 
 	<Separator />
 
