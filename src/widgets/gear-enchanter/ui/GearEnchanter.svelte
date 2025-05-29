@@ -3,11 +3,11 @@
 	import AddOption from '$lib/features/gear-editor/ui/AddOption.svelte';
 	import Exceptional from '$lib/features/gear-editor/ui/Exceptional.svelte';
 	import GearPreview from '$lib/features/gear-editor/ui/GearPreview.svelte';
-	import ManageProps from '$lib/features/gear-editor/ui/ManageProps.svelte';
 	import Potential from '$lib/features/gear-editor/ui/Potential.svelte';
 	import SoulWeapon from '$lib/features/gear-editor/ui/SoulWeapon.svelte';
 	import Starforce from '$lib/features/gear-editor/ui/Starforce.svelte';
 	import Upgrade from '$lib/features/gear-editor/ui/Upgrade.svelte';
+	import { GearEnchanterAttributes } from '$lib/features/gear-enchanter-attributes';
 	import { TabSelector } from '$lib/features/tab-selector';
 	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
 	import { Tabs } from '$lib/shared/shadcn/components/ui/tabs';
@@ -43,7 +43,7 @@
 <Tabs bind:value={tab}>
 	<TabsContent value="default">관리 탭</TabsContent>
 	<TabsContent value="props">
-		<ManageProps {gear} />
+		<GearEnchanterAttributes {gear} />
 	</TabsContent>
 	<TabsContent value="starforce">
 		<Starforce {gear} />
