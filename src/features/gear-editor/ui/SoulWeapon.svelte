@@ -3,6 +3,7 @@
 	import { getGearOptionGroupedStrings } from '$lib/entities/item-string';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Card } from '$lib/shared/shadcn/components/ui/card';
+	import { Input } from '$lib/shared/shadcn/components/ui/input';
 	import { ScrollArea } from '$lib/shared/shadcn/components/ui/scroll-area';
 	import {
 		Select,
@@ -26,21 +27,22 @@
 
 	const soulSummaries = $derived(getSoulSummaries());
 
+	let searchQuery = $state('');
+
 	let selectedSoulSummary: SoulSummary | null = $state(null);
 	let selectedSoul: SoulData | null = $state(null);
 	let selectedSouls: SoulData[] | null = $state(null);
 	let selectedSoulIndex: number = $state(0);
-
-	// 주문서 UI랑 비슷하게 만들자.
-	// 위에 스크롤 목록에선 소울 목록을 보여주고,
-	// 아래 소울 선택 박스에는 선택된 소울, 위대한 소울일 경우 스탯 선택하도록.
-	// 소울 개수가 많을 테니까 스크롤 목록 위에 검색 창 노출?
 </script>
 
 <div class="flex flex-col gap-y-4">
+	<div>
+		<Input type="search" placeholder="소울 이름으로 검색할 수 있어요" bind:value={searchQuery} />
+	</div>
+
 	<ScrollArea class="h-[calc(3rem*3+2px)] sm:h-[calc(3rem*6+5px)]">
 		<div class="flex flex-col gap-px">
-			{#each soulSummaries as soulSummary (soulSummary.id)}
+			{#each soulSummaries.filter( (soulSummary) => soulSummary.name.includes(searchQuery) ) as soulSummary (soulSummary.id)}
 				<Toggle
 					class="h-12 justify-start"
 					bind:pressed={
@@ -166,7 +168,7 @@
 			onclick={() => gear.resetSoulEnchant()}
 			disabled={!gear.soulEnchanted}
 		>
-			소울 웨폰 해제
+			소울 웨폰 초기화
 		</Button>
 	</div>
 </div>
