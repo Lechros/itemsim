@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { ItemRawIcon } from '$lib/entities/item-icon';
-	import { getGearOptionSummaries } from '$lib/entities/item-string';
+	import { getGearOptionGroupedStrings } from '$lib/entities/item-string';
+	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Card } from '$lib/shared/shadcn/components/ui/card';
 	import { cn } from '$lib/shared/shadcn/utils';
 	import { Gear, GearType } from '@malib/gear';
 	import { exceptionalHammers } from '../model/exceptionals';
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
 
 	let { gear }: { gear: Gear } = $props();
 
@@ -44,7 +44,7 @@
 
 	<Card class="p-4">
 		{#if exceptionalHammer}
-			{@const summaries = getGearOptionSummaries(exceptionalHammer.option)}
+			{@const summaries = getGearOptionGroupedStrings(exceptionalHammer.option)}
 			{@const [leftSummaries, rightSummaries] = splitHalf(summaries)}
 			<div class="flex flex-col gap-y-2">
 				<div class="flex items-center gap-x-2">

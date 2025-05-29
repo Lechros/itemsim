@@ -1,10 +1,14 @@
 <script lang="ts">
 	import { gearTabs } from '$lib/features/gear-editor/model/gear-tabs';
+	import AdditionalPotential from '$lib/features/gear-editor/ui/AdditionalPotential.svelte';
 	import AddOption from '$lib/features/gear-editor/ui/AddOption.svelte';
+	import Exceptional from '$lib/features/gear-editor/ui/Exceptional.svelte';
 	import GearHeader from '$lib/features/gear-editor/ui/GearHeader.svelte';
 	import GearPreview from '$lib/features/gear-editor/ui/GearPreview.svelte';
 	import GearTabSelector from '$lib/features/gear-editor/ui/GearTabSelector.svelte';
 	import ManageProps from '$lib/features/gear-editor/ui/ManageProps.svelte';
+	import Potential from '$lib/features/gear-editor/ui/Potential.svelte';
+	import SoulWeapon from '$lib/features/gear-editor/ui/SoulWeapon.svelte';
 	import Starforce from '$lib/features/gear-editor/ui/Starforce.svelte';
 	import Upgrade from '$lib/features/gear-editor/ui/Upgrade.svelte';
 	import { getGearData, updateGearData } from '$lib/features/gear-inventory';
@@ -14,9 +18,6 @@
 	import { Gear, type GearData } from '@malib/gear';
 	import { toast } from 'svelte-sonner';
 	import type { PageProps } from './$types';
-	import Potential from '$lib/features/gear-editor/ui/Potential.svelte';
-	import AdditionalPotential from '$lib/features/gear-editor/ui/AdditionalPotential.svelte';
-	import Exceptional from '$lib/features/gear-editor/ui/Exceptional.svelte';
 
 	let { data }: PageProps = $props();
 
@@ -97,7 +98,7 @@
 			{:else if currentTab.value === 'exceptional'}
 				<Exceptional {gear} />
 			{:else if currentTab.value === 'soul'}
-				소울웨폰 탭
+				<SoulWeapon {gear} />
 			{/if}
 		{/if}
 	</div>

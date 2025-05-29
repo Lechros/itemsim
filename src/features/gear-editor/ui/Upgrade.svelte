@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getOptionStrings } from '$lib/entities/gear-tooltip2';
 	import { ItemRawIcon } from '$lib/entities/item-icon';
-	import { getGearOptionSummaries } from '$lib/entities/item-string';
+	import { getGearOptionStrings } from '$lib/entities/item-string';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Card } from '$lib/shared/shadcn/components/ui/card';
 	import { Checkbox } from '$lib/shared/shadcn/components/ui/checkbox';
@@ -42,7 +42,7 @@
 		if (scroll) {
 			selectedScroll = scroll;
 			applyFunction = applyFunc ?? (() => gear.applyScroll(scroll));
-			optionFunction = optionFunc ?? (() => getGearOptionSummaries(scroll.option));
+			optionFunction = optionFunc ?? (() => getGearOptionStrings(scroll.option));
 		} else {
 			selectedScroll = null;
 			applyFunction = null;
