@@ -424,7 +424,7 @@
 								() => {
 									gear.applyScroll(getEmptyOptionRandomizedChaosScroll(scroll));
 								},
-								() => getRandomChaosScrollOptionSummaries(chaosOption)
+								() => getRandomChaosScrollOptionSummaries(scroll.option)
 							);
 						} else {
 							selectScroll(scroll);
