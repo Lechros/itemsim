@@ -1,12 +1,14 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import GearPreview from '$lib/features/gear-editor/ui/GearPreview.svelte';
-	import SoulWeapon from '$lib/features/gear-enchanter-soulweapon/ui/SoulWeapon.svelte';
+	import { GearEnchanterAddOption } from '$lib/features/gear-enchanter-addoption';
 	import { GearEnchanterAttributes } from '$lib/features/gear-enchanter-attributes';
 	import { GearEnchanterExceptional } from '$lib/features/gear-enchanter-exceptional';
 	import {
 		GearEnchanterAdditionalPotential,
 		GearEnchanterPotential
 	} from '$lib/features/gear-enchanter-potential';
+	import SoulWeapon from '$lib/features/gear-enchanter-soulweapon/ui/SoulWeapon.svelte';
 	import { GearEnchanterStarforce } from '$lib/features/gear-enchanter-starforce';
 	import { GearEnchanterUpgrade } from '$lib/features/gear-enchanter-upgrade';
 	import { TabSelector } from '$lib/features/tab-selector';
@@ -15,7 +17,6 @@
 	import TabsContent from '$lib/shared/shadcn/components/ui/tabs/tabs-content.svelte';
 	import type { Gear } from '@malib/gear';
 	import { tabs } from '../model/tabs';
-	import { GearEnchanterAddOption } from '$lib/features/gear-enchanter-addoption';
 
 	let {
 		gear,
@@ -25,7 +26,18 @@
 		initialTab?: string;
 	} = $props();
 
-	let tab = $state(initialTab ?? tabs[0].value);
+	let tab = $state(getTab(initialTab));
+
+	function getTab(initialTab?: string) {
+		const activeTabs = tabs.filter((tab) => !tab.disabled?.(gear));
+		if (activeTabs.some((tab) => tab.value === initialTab)) {
+			return initialTab;
+		}
+		if (initialTab) {
+			goto('?');
+		}
+		return activeTabs[0].value;
+	}
 </script>
 
 <div class="mt-4 flex w-full flex-col gap-y-2">
