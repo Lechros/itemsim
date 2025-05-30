@@ -1,5 +1,4 @@
 <script lang="ts">
-	import AddOption from '$lib/features/gear-editor/ui/AddOption.svelte';
 	import GearPreview from '$lib/features/gear-editor/ui/GearPreview.svelte';
 	import SoulWeapon from '$lib/features/gear-editor/ui/SoulWeapon.svelte';
 	import { GearEnchanterAttributes } from '$lib/features/gear-enchanter-attributes';
@@ -16,6 +15,7 @@
 	import TabsContent from '$lib/shared/shadcn/components/ui/tabs/tabs-content.svelte';
 	import type { Gear } from '@malib/gear';
 	import { tabs } from '../model/tabs';
+	import { GearEnchanterAddOption } from '$lib/features/gear-enchanter-addoption';
 
 	let {
 		gear,
@@ -54,7 +54,7 @@
 		<GearEnchanterUpgrade {gear} />
 	</TabsContent>
 	<TabsContent value="bonus">
-		<AddOption {gear} />
+		<GearEnchanterAddOption {gear} />
 	</TabsContent>
 	<TabsContent value="pot">
 		<GearEnchanterPotential {gear} />
