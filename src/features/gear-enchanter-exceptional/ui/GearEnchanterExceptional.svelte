@@ -1,11 +1,7 @@
 <script lang="ts">
 	import { BalancedGrid } from '$lib/entities/balanced-grid';
+	import { ItemCard, ItemCardContent, ItemCardFooter } from '$lib/entities/item-card';
 	import { getGearOptionGroupedStrings } from '$lib/entities/item-string';
-	import {
-		SelectedItemCard,
-		SelectedItemCardContent,
-		SelectedItemCardFooter
-	} from '$lib/entities/selected-item-card';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Card } from '$lib/shared/shadcn/components/ui/card';
 	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
@@ -28,11 +24,8 @@
 		</Card>
 	</div>
 
-	<SelectedItemCard
-		selectedItem={exceptionalHammer}
-		placeholder="장비에 사용할 수 있는 익셉셔널 해머가 없어요."
-	>
-		<SelectedItemCardContent>
+	<ItemCard item={exceptionalHammer} placeholder="장비에 사용할 수 있는 익셉셔널 해머가 없어요.">
+		<ItemCardContent>
 			{#if exceptionalHammer}
 				{@const optionStrings = getGearOptionGroupedStrings(exceptionalHammer?.option)}
 				<BalancedGrid items={optionStrings} size={6} class="sm:h-30">
@@ -46,8 +39,8 @@
 			{:else}
 				<div class="sm:h-30"></div>
 			{/if}
-		</SelectedItemCardContent>
-		<SelectedItemCardFooter>
+		</ItemCardContent>
+		<ItemCardFooter>
 			{#if exceptionalHammer}
 				<ButtonGroup>
 					<Button
@@ -64,8 +57,8 @@
 			{:else}
 				<div class="sm:h-9"></div>
 			{/if}
-		</SelectedItemCardFooter>
-	</SelectedItemCard>
+		</ItemCardFooter>
+	</ItemCard>
 
 	<Separator />
 

@@ -1,6 +1,7 @@
 <script lang="ts">
+	import { BalancedGrid } from '$lib/entities/balanced-grid';
+	import { ItemCard, ItemCardContent, ItemCardFooter } from '$lib/entities/item-card';
 	import { getGearOptionStrings } from '$lib/entities/item-string';
-	import { SelectedItemCard, SelectedItemCardFooter } from '$lib/entities/selected-item-card';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Card } from '$lib/shared/shadcn/components/ui/card';
 	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
@@ -12,8 +13,6 @@
 	import ChaosScrollTab from './ChaosScrollTab.svelte';
 	import EtcScrollTab from './EtcScrollTab.svelte';
 	import SpellTraceTab from './SpellTraceTab.svelte';
-	import SelectedItemCardContent from '$lib/entities/selected-item-card/ui/SelectedItemCardContent.svelte';
-	import { BalancedGrid } from '$lib/entities/balanced-grid';
 
 	let { gear }: { gear: Gear } = $props();
 
@@ -84,13 +83,13 @@
 		</TabsContent>
 	</Tabs>
 
-	<SelectedItemCard
-		selectedItem={selectedScroll}
+	<ItemCard
+		item={selectedScroll}
 		clearable
 		onClear={() => selectScroll(null)}
 		placeholder="주문서를 선택해 주세요."
 	>
-		<SelectedItemCardContent>
+		<ItemCardContent>
 			{@const optionStrings = getOptionStrings?.()}
 			{#if optionStrings}
 				<BalancedGrid items={optionStrings} size={6} class="sm:h-30">
@@ -104,8 +103,8 @@
 			{:else}
 				<div class="sm:h-30"></div>
 			{/if}
-		</SelectedItemCardContent>
-		<SelectedItemCardFooter>
+		</ItemCardContent>
+		<ItemCardFooter>
 			{#if selectedScroll}
 				<ButtonGroup>
 					<Button onclick={() => apply?.()} disabled={!apply || !gear.canApplyScroll}>
@@ -127,8 +126,8 @@
 			{:else}
 				<div class="sm:h-9"></div>
 			{/if}
-		</SelectedItemCardFooter>
-	</SelectedItemCard>
+		</ItemCardFooter>
+	</ItemCard>
 
 	<Separator />
 

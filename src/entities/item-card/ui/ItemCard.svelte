@@ -1,16 +1,16 @@
 <script lang="ts">
 	import { Card } from '$lib/shared/shadcn/components/ui/card';
 	import type { Snippet } from 'svelte';
-	import SelectedItemCardHeader from './SelectedItemCardHeader.svelte';
+	import ItemCardHeader from './ItemCardHeader.svelte';
 
 	let {
-		selectedItem,
+		item,
 		clearable,
 		onClear,
 		placeholder,
 		children
 	}: {
-		selectedItem: {
+		item: {
 			name: string;
 			icon?: string;
 		} | null;
@@ -22,6 +22,6 @@
 </script>
 
 <Card class="gap-4 py-4">
-	<SelectedItemCardHeader {selectedItem} {clearable} {onClear} {placeholder} />
+	<ItemCardHeader selectedItem={item} {clearable} {onClear} {placeholder} />
 	{@render children?.()}
 </Card>
