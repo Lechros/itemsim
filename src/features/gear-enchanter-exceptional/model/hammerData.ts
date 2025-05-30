@@ -1,4 +1,4 @@
-export const exceptionalHammers = {
+export const exceptionalHammerData = {
 	'익셉셔널 해머 (벨트)': {
 		name: '익셉셔널 해머 (벨트)',
 		icon: '2644204',

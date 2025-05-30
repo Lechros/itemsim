@@ -1,9 +1,9 @@
 <script lang="ts">
 	import AddOption from '$lib/features/gear-editor/ui/AddOption.svelte';
-	import Exceptional from '$lib/features/gear-editor/ui/Exceptional.svelte';
 	import GearPreview from '$lib/features/gear-editor/ui/GearPreview.svelte';
 	import SoulWeapon from '$lib/features/gear-editor/ui/SoulWeapon.svelte';
 	import { GearEnchanterAttributes } from '$lib/features/gear-enchanter-attributes';
+	import { GearEnchanterExceptional } from '$lib/features/gear-enchanter-exceptional';
 	import {
 		GearEnchanterAdditionalPotential,
 		GearEnchanterPotential
@@ -63,7 +63,7 @@
 		<GearEnchanterAdditionalPotential {gear} />
 	</TabsContent>
 	<TabsContent value="exceptional">
-		<Exceptional {gear} />
+		<GearEnchanterExceptional {gear} />
 	</TabsContent>
 	<TabsContent value="soul">
 		<SoulWeapon {gear} />
