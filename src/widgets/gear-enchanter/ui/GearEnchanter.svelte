@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import GearPreview from '$lib/features/gear-editor/ui/GearPreview.svelte';
 	import { GearEnchanterAddOption } from '$lib/features/gear-enchanter-addoption';
 	import { GearEnchanterAttributes } from '$lib/features/gear-enchanter-attributes';
 	import { GearEnchanterExceptional } from '$lib/features/gear-enchanter-exceptional';
@@ -8,13 +7,13 @@
 		GearEnchanterAdditionalPotential,
 		GearEnchanterPotential
 	} from '$lib/features/gear-enchanter-potential';
+	import { GearEnchanterPreview } from '$lib/features/gear-enchanter-preview';
 	import { GearEnchanterSoulWeapon } from '$lib/features/gear-enchanter-soulweapon';
 	import { GearEnchanterStarforce } from '$lib/features/gear-enchanter-starforce';
 	import { GearEnchanterUpgrade } from '$lib/features/gear-enchanter-upgrade';
 	import { TabSelector } from '$lib/features/tab-selector';
 	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
-	import { Tabs } from '$lib/shared/shadcn/components/ui/tabs';
-	import TabsContent from '$lib/shared/shadcn/components/ui/tabs/tabs-content.svelte';
+	import { Tabs, TabsContent } from '$lib/shared/shadcn/components/ui/tabs';
 	import type { Gear } from '@malib/gear';
 	import { tabs } from '../model/tabs';
 
@@ -49,7 +48,7 @@
 			disabled: tab.disabled?.(gear)
 		}))}
 	/>
-	<GearPreview {gear} />
+	<GearEnchanterPreview {gear} />
 </div>
 
 <Separator class="my-4" />
