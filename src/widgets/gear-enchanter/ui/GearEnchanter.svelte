@@ -8,7 +8,7 @@
 		GearEnchanterAdditionalPotential,
 		GearEnchanterPotential
 	} from '$lib/features/gear-enchanter-potential';
-	import SoulWeapon from '$lib/features/gear-enchanter-soulweapon/ui/SoulWeapon.svelte';
+	import { GearEnchanterSoulWeapon } from '$lib/features/gear-enchanter-soulweapon';
 	import { GearEnchanterStarforce } from '$lib/features/gear-enchanter-starforce';
 	import { GearEnchanterUpgrade } from '$lib/features/gear-enchanter-upgrade';
 	import { TabSelector } from '$lib/features/tab-selector';
@@ -78,6 +78,6 @@
 		<GearEnchanterExceptional {gear} />
 	</TabsContent>
 	<TabsContent value="soul">
-		<SoulWeapon {gear} />
+		<GearEnchanterSoulWeapon {gear} />
 	</TabsContent>
 </Tabs>
