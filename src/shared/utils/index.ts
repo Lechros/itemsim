@@ -1,1 +1,1 @@
-export * from './splitHalf';
+export * from './arrays';
