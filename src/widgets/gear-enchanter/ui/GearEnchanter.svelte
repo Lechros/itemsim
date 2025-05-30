@@ -1,11 +1,13 @@
 <script lang="ts">
-	import AdditionalPotential from '$lib/features/gear-editor/ui/AdditionalPotential.svelte';
 	import AddOption from '$lib/features/gear-editor/ui/AddOption.svelte';
 	import Exceptional from '$lib/features/gear-editor/ui/Exceptional.svelte';
 	import GearPreview from '$lib/features/gear-editor/ui/GearPreview.svelte';
-	import Potential from '$lib/features/gear-editor/ui/Potential.svelte';
 	import SoulWeapon from '$lib/features/gear-editor/ui/SoulWeapon.svelte';
 	import { GearEnchanterAttributes } from '$lib/features/gear-enchanter-attributes';
+	import {
+		GearEnchanterAdditionalPotential,
+		GearEnchanterPotential
+	} from '$lib/features/gear-enchanter-potential';
 	import { GearEnchanterStarforce } from '$lib/features/gear-enchanter-starforce';
 	import { GearEnchanterUpgrade } from '$lib/features/gear-enchanter-upgrade';
 	import { TabSelector } from '$lib/features/tab-selector';
@@ -55,10 +57,10 @@
 		<AddOption {gear} />
 	</TabsContent>
 	<TabsContent value="pot">
-		<Potential {gear} />
+		<GearEnchanterPotential {gear} />
 	</TabsContent>
 	<TabsContent value="addiPot">
-		<AdditionalPotential {gear} />
+		<GearEnchanterAdditionalPotential {gear} />
 	</TabsContent>
 	<TabsContent value="exceptional">
 		<Exceptional {gear} />
