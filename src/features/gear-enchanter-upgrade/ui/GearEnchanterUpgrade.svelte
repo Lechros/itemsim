@@ -87,6 +87,7 @@
 		optionStrings={getOptionStrings?.()}
 		clearable
 		onClear={() => selectScroll(null)}
+		placeholder="주문서를 선택해 주세요."
 	>
 		{#snippet footer()}
 			<ButtonGroup>
