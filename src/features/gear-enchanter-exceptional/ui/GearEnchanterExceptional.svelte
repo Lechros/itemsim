@@ -1,6 +1,11 @@
 <script lang="ts">
+	import { BalancedGrid } from '$lib/entities/balanced-grid';
 	import { getGearOptionGroupedStrings } from '$lib/entities/item-string';
-	import { SelectedItemCard } from '$lib/entities/selected-item-card';
+	import {
+		SelectedItemCard,
+		SelectedItemCardContent,
+		SelectedItemCardFooter
+	} from '$lib/entities/selected-item-card';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Card } from '$lib/shared/shadcn/components/ui/card';
 	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
@@ -25,25 +30,41 @@
 
 	<SelectedItemCard
 		selectedItem={exceptionalHammer}
-		optionStrings={exceptionalHammer
-			? getGearOptionGroupedStrings(exceptionalHammer.option)
-			: undefined}
 		placeholder="장비에 사용할 수 있는 익셉셔널 해머가 없어요."
 	>
-		{#snippet footer()}
-			<ButtonGroup>
-				<Button
-					onclick={() => {
-						if (exceptionalHammer) {
-							gear.applyExceptional(exceptionalHammer);
-						}
-					}}
-					disabled={!exceptionalHammer || !gear.canApplyExceptional}
-				>
-					사용하기
-				</Button>
-			</ButtonGroup>
-		{/snippet}
+		<SelectedItemCardContent>
+			{#if exceptionalHammer}
+				{@const optionStrings = getGearOptionGroupedStrings(exceptionalHammer?.option)}
+				<BalancedGrid items={optionStrings} size={6} class="sm:h-30">
+					{#snippet itemRenderer(strings: [string, string])}
+						<div class="text-sm">
+							<span>{strings[0]}</span>
+							<span class="font-semibold">{strings[1]}</span>
+						</div>
+					{/snippet}
+				</BalancedGrid>
+			{:else}
+				<div class="sm:h-30"></div>
+			{/if}
+		</SelectedItemCardContent>
+		<SelectedItemCardFooter>
+			{#if exceptionalHammer}
+				<ButtonGroup>
+					<Button
+						onclick={() => {
+							if (exceptionalHammer) {
+								gear.applyExceptional(exceptionalHammer);
+							}
+						}}
+						disabled={!exceptionalHammer || !gear.canApplyExceptional}
+					>
+						사용하기
+					</Button>
+				</ButtonGroup>
+			{:else}
+				<div class="sm:h-9"></div>
+			{/if}
+		</SelectedItemCardFooter>
 	</SelectedItemCard>
 
 	<Separator />

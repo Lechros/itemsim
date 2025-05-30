@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { BalancedGrid } from '$lib/entities/balanced-grid';
 	import { getSingleGearOptionStrings } from '$lib/entities/item-string';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Checkbox } from '$lib/shared/shadcn/components/ui/checkbox';
@@ -12,7 +13,6 @@
 		createEmptyOptionRandomizedChaosScroll
 	} from '../model/chaosScroll';
 	import type { SelectScrollFunction } from '../model/types';
-	import { splitHalf } from '../model/utils';
 
 	let {
 		gear,
@@ -24,8 +24,6 @@
 
 	let option = $state<Partial<GearUpgradeOption>>({});
 	let randomizeEmptyValues = $state(false);
-
-	const [leftTypes, rightTypes] = splitHalf(chaosOptionTypes);
 
 	function getRandomChaosScrollOptionStrings(option: Record<string, number>) {
 		const strings: [string, string][] = [];
@@ -42,36 +40,14 @@
 </script>
 
 <div class="flex flex-col gap-y-4">
-	<div class="grid gap-y-2 sm:grid-cols-2">
-		<div class="flex flex-col gap-y-2 px-2 sm:pr-4">
-			{#each leftTypes as stat}
-				<div class="grid grid-cols-4 items-center">
-					<Label>{stat.label}</Label>
-					<Input
-						type="number"
-						class="col-span-3"
-						min={-6}
-						max={6}
-						bind:value={option[stat.value]}
-					/>
-				</div>
-			{/each}
-		</div>
-		<div class="flex flex-col gap-y-2 px-2 sm:border-l sm:pl-4">
-			{#each rightTypes as stat}
-				<div class="grid grid-cols-4 items-center">
-					<Label>{stat.label}</Label>
-					<Input
-						type="number"
-						class="col-span-3"
-						min={-6}
-						max={6}
-						bind:value={option[stat.value]}
-					/>
-				</div>
-			{/each}
-		</div>
-	</div>
+	<BalancedGrid items={chaosOptionTypes} class="gap-y-2 px-2" classes={{ column: 'gap-y-2' }}>
+		{#snippet itemRenderer(stat: (typeof chaosOptionTypes)[number])}
+			<div class="grid grid-cols-4 items-center">
+				<Label>{stat.label}</Label>
+				<Input type="number" class="col-span-3" min={-6} max={6} bind:value={option[stat.value]} />
+			</div>
+		{/snippet}
+	</BalancedGrid>
 
 	<div class="flex items-center gap-x-2 px-2">
 		<Checkbox id="randomChaos" bind:checked={randomizeEmptyValues} />

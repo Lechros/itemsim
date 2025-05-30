@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getGearOptionStrings } from '$lib/entities/item-string';
-	import { SelectedItemCard } from '$lib/entities/selected-item-card';
+	import { SelectedItemCard, SelectedItemCardFooter } from '$lib/entities/selected-item-card';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Card } from '$lib/shared/shadcn/components/ui/card';
 	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
@@ -12,6 +12,8 @@
 	import ChaosScrollTab from './ChaosScrollTab.svelte';
 	import EtcScrollTab from './EtcScrollTab.svelte';
 	import SpellTraceTab from './SpellTraceTab.svelte';
+	import SelectedItemCardContent from '$lib/entities/selected-item-card/ui/SelectedItemCardContent.svelte';
+	import { BalancedGrid } from '$lib/entities/balanced-grid';
 
 	let { gear }: { gear: Gear } = $props();
 
@@ -84,30 +86,48 @@
 
 	<SelectedItemCard
 		selectedItem={selectedScroll}
-		optionStrings={getOptionStrings?.()}
 		clearable
 		onClear={() => selectScroll(null)}
 		placeholder="주문서를 선택해 주세요."
 	>
-		{#snippet footer()}
-			<ButtonGroup>
-				<Button onclick={() => apply?.()} disabled={!apply || !gear.canApplyScroll}>
-					{selectedScroll?.name} 사용하기
-				</Button>
-				<Button
-					variant="outline"
-					onclick={() => {
-						const count = gear.scrollUpgradeableCount;
-						for (let i = 0; i < count; i++) {
-							apply?.();
-						}
-					}}
-					disabled={!gear.canApplyScroll || !apply}
-				>
-					{gear.scrollUpgradeableCount}회 사용
-				</Button>
-			</ButtonGroup>
-		{/snippet}
+		<SelectedItemCardContent>
+			{@const optionStrings = getOptionStrings?.()}
+			{#if optionStrings}
+				<BalancedGrid items={optionStrings} size={6} class="sm:h-30">
+					{#snippet itemRenderer(strings: [string, string])}
+						<div class="text-sm">
+							<span>{strings[0]}</span>
+							<span class="font-semibold">{strings[1]}</span>
+						</div>
+					{/snippet}
+				</BalancedGrid>
+			{:else}
+				<div class="sm:h-30"></div>
+			{/if}
+		</SelectedItemCardContent>
+		<SelectedItemCardFooter>
+			{#if selectedScroll}
+				<ButtonGroup>
+					<Button onclick={() => apply?.()} disabled={!apply || !gear.canApplyScroll}>
+						{selectedScroll?.name} 사용하기
+					</Button>
+					<Button
+						variant="outline"
+						onclick={() => {
+							const count = gear.scrollUpgradeableCount;
+							for (let i = 0; i < count; i++) {
+								apply?.();
+							}
+						}}
+						disabled={!gear.canApplyScroll || !apply}
+					>
+						{gear.scrollUpgradeableCount}회 사용
+					</Button>
+				</ButtonGroup>
+			{:else}
+				<div class="sm:h-9"></div>
+			{/if}
+		</SelectedItemCardFooter>
 	</SelectedItemCard>
 
 	<Separator />
