@@ -1,44 +1,66 @@
 <script lang="ts">
+	import { ItemCard, ItemCardContent, ItemCardFooter } from '$lib/entities/item-card';
 	import { ItemRawIcon } from '$lib/entities/item-icon';
-	import { getGearOptionGroupedStrings } from '$lib/entities/item-string';
+	import { SelectList, SelectListItem } from '$lib/entities/select-list';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
-	import { Card } from '$lib/shared/shadcn/components/ui/card';
 	import { Input } from '$lib/shared/shadcn/components/ui/input';
-	import { ScrollArea } from '$lib/shared/shadcn/components/ui/scroll-area';
 	import {
 		Select,
 		SelectContent,
 		SelectItem,
 		SelectTrigger
 	} from '$lib/shared/shadcn/components/ui/select';
-	import { Toggle } from '$lib/shared/shadcn/components/ui/toggle';
 	import { ButtonGroup } from '$lib/shared/ui';
 	import { Gear, type SoulData } from '@malib/gear';
-	import { Check, X } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
-	import { fade } from 'svelte/transition';
 	import {
 		getMagnificentSoulDatas,
 		getNormalSoulData,
+		getSoulOptionString,
 		getSoulSummaries,
 		type SoulSummary
 	} from '../model/soul';
-	import { SelectList, SelectListItem } from '$lib/entities/select-list';
+
+	type SelectedItem =
+		| {
+				summary: SoulSummary;
+				type: 'normal';
+				soul: SoulData;
+		  }
+		| {
+				summary: SoulSummary;
+				type: 'magnificent';
+				souls: SoulData[];
+				index: number;
+		  };
 
 	let { gear }: { gear: Gear } = $props();
 
-	const soulSummaries = $derived(getSoulSummaries());
-
 	let searchQuery = $state('');
+	let selectedItem: SelectedItem | null = $state(null);
 
+	const soulSummaries = $derived(getSoulSummaries());
 	const filteredSoulSummaries = $derived(
 		soulSummaries.filter((soulSummary) => soulSummary.name.includes(searchQuery))
 	);
 
-	let selectedSoulSummary: SoulSummary | null = $state(null);
-	let selectedSoul: SoulData | null = $state(null);
-	let selectedSouls: SoulData[] | null = $state(null);
-	let selectedSoulIndex: number = $state(0);
+	function selectSoulSummary(soulSummary: SoulSummary) {
+		if (soulSummary.magnificent) {
+			const souls = getMagnificentSoulDatas(soulSummary.id);
+			selectedItem = {
+				summary: soulSummary,
+				type: 'magnificent',
+				souls,
+				index: 0
+			};
+		} else {
+			selectedItem = {
+				summary: soulSummary,
+				type: 'normal',
+				soul: getNormalSoulData(soulSummary.id)
+			};
+		}
+	}
 </script>
 
 <div class="flex flex-col gap-y-4">
@@ -47,23 +69,14 @@
 	</div>
 
 	<SelectList
-		value={selectedSoulSummary ? String(selectedSoulSummary.id) : null}
+		value={selectedItem ? String(selectedItem.summary.id) : null}
 		size={9}
 		allowSingleDeselect={false}
 	>
 		{#each filteredSoulSummaries as soulSummary (soulSummary.id)}
 			<SelectListItem
 				value={String(soulSummary.id)}
-				onSelect={() => {
-					selectedSoulSummary = soulSummary;
-					if (soulSummary.magnificent) {
-						selectedSouls = getMagnificentSoulDatas(soulSummary.id);
-						selectedSoulIndex = 0;
-						selectedSoul = selectedSouls![selectedSoulIndex];
-					} else {
-						selectedSoul = getNormalSoulData(soulSummary.id);
-					}
-				}}
+				onSelect={() => selectSoulSummary(soulSummary)}
 			>
 				<ItemRawIcon icon={String(soulSummary.id)} />
 				{soulSummary.name}
@@ -71,80 +84,76 @@
 		{/each}
 	</SelectList>
 
-	<Card class="p-4">
-		{#if selectedSoulSummary}
-			<div class="flex flex-col gap-y-2">
-				<div class="flex items-center gap-x-2">
-					<ItemRawIcon icon={String(selectedSoulSummary.id)} />
-					<div class="text-sm font-medium">
-						{selectedSoulSummary.name}
+	<ItemCard
+		item={selectedItem
+			? { name: selectedItem.summary.name, icon: String(selectedItem.summary.id) }
+			: null}
+		placeholder="장착할 소울을 선택해 주세요."
+		clearable
+		onClear={() => (selectedItem = null)}
+	>
+		<ItemCardContent>
+			{#if selectedItem}
+				{#if selectedItem.type === 'magnificent'}
+					<Select
+						type="single"
+						bind:value={
+							() => String((selectedItem as { index: number }).index),
+							(v) => {
+								if (selectedItem?.type !== 'magnificent') return;
+								selectedItem.index = Number(v);
+							}
+						}
+					>
+						<SelectTrigger class="w-full max-w-sm">
+							{getSoulOptionString(selectedItem.souls[selectedItem.index].option)}
+						</SelectTrigger>
+						<SelectContent>
+							{#each selectedItem.souls as soul, index}
+								<SelectItem value={String(index)}>
+									{getSoulOptionString(soul.option)}
+								</SelectItem>
+							{/each}
+						</SelectContent>
+					</Select>
+				{:else}
+					<div class="flex h-9 items-center">
+						<div class="text-sm">
+							{getSoulOptionString(selectedItem.soul.option)}
+						</div>
 					</div>
+				{/if}
+			{:else}
+				<div class="sm:h-9"></div>
+			{/if}
+		</ItemCardContent>
+		<ItemCardFooter>
+			{#if selectedItem}
+				<ButtonGroup>
 					<Button
-						variant="ghost"
-						size="icon"
-						class="ml-auto"
 						onclick={() => {
-							selectedSoulSummary = null;
-							selectedSoul = null;
-							selectedSouls = null;
-							selectedSoulIndex = 0;
+							if (!selectedItem) return;
+							if (gear.canApplySoulEnchant) {
+								gear.applySoulEnchant();
+							}
+							const soul =
+								selectedItem.type === 'normal'
+									? selectedItem.soul
+									: selectedItem.souls[selectedItem.index];
+							gear.setSoul(soul);
+							toast.success(`선택한 소울을 장착했어요.`, {
+								description: `${soul.name} (${getSoulOptionString(soul.option)})`
+							});
 						}}
 					>
-						<X />
+						소울 장착
 					</Button>
-				</div>
-				<div class="flex flex-col gap-y-4">
-					{#if selectedSoulSummary.magnificent}
-						<Select
-							type="single"
-							bind:value={
-								() => String(selectedSoulIndex),
-								(v) => {
-									selectedSoulIndex = Number(v);
-									selectedSoul = selectedSouls![selectedSoulIndex];
-								}
-							}
-						>
-							<SelectTrigger class="w-full max-w-sm">
-								{getGearOptionGroupedStrings(selectedSouls![selectedSoulIndex].option)[0].join(' ')}
-							</SelectTrigger>
-							<SelectContent>
-								{#each selectedSouls! as soul, index}
-									<SelectItem value={String(index)}>
-										{getGearOptionGroupedStrings(soul.option)[0].join(' ')}
-									</SelectItem>
-								{/each}
-							</SelectContent>
-						</Select>
-					{:else}
-						<div class="flex h-9 items-center">
-							<div class="text-sm">
-								{getGearOptionGroupedStrings(selectedSoul!.option)[0].join(' ')}
-							</div>
-						</div>
-					{/if}
-					<ButtonGroup>
-						<Button
-							onclick={() => {
-								if (gear.canApplySoulEnchant) {
-									gear.applySoulEnchant();
-								}
-								gear.setSoul(selectedSoul!);
-								const description = `${gear.soul!.name} (${getGearOptionGroupedStrings(selectedSoul!.option)[0].join(' ')})`;
-								toast.success(`선택한 소울을 장착했어요.`, {
-									description
-								});
-							}}
-						>
-							소울 장착
-						</Button>
-					</ButtonGroup>
-				</div>
-			</div>
-		{:else}
-			<div class="text-muted-foreground h-33 text-sm">장착할 소울을 선택해 주세요.</div>
-		{/if}
-	</Card>
+				</ButtonGroup>
+			{:else}
+				<div class="sm:h-9"></div>
+			{/if}
+		</ItemCardFooter>
+	</ItemCard>
 
 	<ButtonGroup>
 		<Button variant="outline" onclick={() => gear.applySoulEnchant()} disabled={gear.soulEnchanted}>

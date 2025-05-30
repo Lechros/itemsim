@@ -1,3 +1,4 @@
+import { getGearOptionGroupedStrings } from '$lib/entities/item-string';
 import type { SoulData, SoulOption } from '@malib/gear';
 import soulData from './soul-data.json';
 
@@ -61,4 +62,8 @@ export function getMagnificentSoulDatas(id: number): SoulData[] {
 			...option
 		}
 	}));
+}
+
+export function getSoulOptionString(option: Partial<SoulOption>): string {
+	return getGearOptionGroupedStrings(option)[0].join(' ');
 }
