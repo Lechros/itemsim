@@ -5,6 +5,6 @@
 	let { children, class: className }: { children: Snippet; class?: string } = $props();
 </script>
 
-<div class={cn('flex flex-col gap-2 sm:flex-row', className)}>
+<div class={cn('flex w-full flex-col gap-2 sm:flex-row', className)}>
 	{@render children()}
 </div>

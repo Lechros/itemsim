@@ -1,6 +1,6 @@
 import type { Scroll } from '@malib/gear';
 
-export const scrolls = {
+export const scrollData = {
 	'악세서리 공격력 주문서 100% (+2)': {
 		name: '악세서리 공격력 주문서 100% (+2)',
 		icon: '2046829',

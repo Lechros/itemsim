@@ -5,20 +5,22 @@
 	import { SvelteSet } from 'svelte/reactivity';
 
 	let {
-		yCount = 6,
+		size,
 		multiple = false,
+		allowSingleDeselect = true,
 		value = $bindable(null),
 		values = $bindable([]),
 		children
 	}: {
-		yCount?: number;
+		size?: number;
 		multiple?: boolean;
+		allowSingleDeselect?: boolean;
 		value?: string | null;
 		values?: string[];
 		children?: Snippet;
 	} = $props();
 
-	const wrapperHeight = $derived(yCount * 48);
+	const wrapperStyle = $derived(size ? `height: ${size * 48}px` : undefined);
 
 	const selected = $state(new SvelteSet<string>());
 
@@ -43,7 +45,9 @@
 			}
 		} else {
 			if (isSelected(v)) {
-				value = null;
+				if (allowSingleDeselect) {
+					value = null;
+				}
 			} else {
 				value = v;
 			}
@@ -51,7 +55,7 @@
 	}
 </script>
 
-<ScrollArea style="height: {wrapperHeight}px">
+<ScrollArea style={wrapperStyle}>
 	<div class="flex flex-col">
 		{@render children?.()}
 	</div>
