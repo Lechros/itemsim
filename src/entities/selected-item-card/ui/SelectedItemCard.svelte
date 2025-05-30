@@ -18,7 +18,7 @@
 	}: {
 		selectedItem: {
 			name: string;
-			icon: string;
+			icon?: string;
 		} | null;
 		optionStrings?: [string, string][];
 		clearable?: boolean;
@@ -32,7 +32,9 @@
 	<CardHeader class="flex items-center gap-x-2 px-4">
 		{#if selectedItem}
 			<div class="flex h-9 items-center gap-x-2">
-				<ItemRawIcon icon={selectedItem.icon} />
+				{#if selectedItem.icon}
+					<ItemRawIcon icon={selectedItem.icon} />
+				{/if}
 				<div class="text-sm font-medium">{selectedItem.name}</div>
 			</div>
 			{#if clearable}

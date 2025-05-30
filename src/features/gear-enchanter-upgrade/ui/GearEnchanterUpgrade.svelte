@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getGearOptionStrings } from '$lib/entities/item-string';
+	import { SelectedItemCard } from '$lib/entities/selected-item-card';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Card } from '$lib/shared/shadcn/components/ui/card';
 	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
@@ -10,7 +11,6 @@
 	import { tabs } from '../model/tabs';
 	import ChaosScrollTab from './ChaosScrollTab.svelte';
 	import EtcScrollTab from './EtcScrollTab.svelte';
-	import SelectedScrollCard from './SelectedScrollCard.svelte';
 	import SpellTraceTab from './SpellTraceTab.svelte';
 
 	let { gear }: { gear: Gear } = $props();
@@ -82,9 +82,10 @@
 		</TabsContent>
 	</Tabs>
 
-	<SelectedScrollCard
-		{selectedScroll}
+	<SelectedItemCard
+		selectedItem={selectedScroll}
 		optionStrings={getOptionStrings?.()}
+		clearable
 		onClear={() => selectScroll(null)}
 	>
 		{#snippet footer()}
@@ -106,7 +107,7 @@
 				</Button>
 			</ButtonGroup>
 		{/snippet}
-	</SelectedScrollCard>
+	</SelectedItemCard>
 
 	<Separator />
 
