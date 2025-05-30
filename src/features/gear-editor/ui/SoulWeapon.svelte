@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ButtonGroup } from '$lib/entities/button-group';
+	import { ButtonGroup } from '$lib/shared/ui';
 	import { ItemRawIcon } from '$lib/entities/item-icon';
 	import { getGearOptionGroupedStrings } from '$lib/entities/item-string';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';

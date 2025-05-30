@@ -10,7 +10,7 @@
 	import { Gear, PotentialGrade, type PotentialData } from '@malib/gear';
 	import { untrack } from 'svelte';
 	import { getAdditionalPotentialDatas } from '../model/potential';
-	import { ButtonGroup } from '$lib/entities/button-group';
+	import { ButtonGroup } from '$lib/shared/ui';
 
 	let { gear }: { gear: Gear } = $props();
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ButtonGroup } from '$lib/entities/button-group';
+	import { ButtonGroup } from '$lib/shared/ui';
 	import { getOptionStrings } from '$lib/entities/gear-tooltip2';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Label } from '$lib/shared/shadcn/components/ui/label';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ButtonGroup } from '$lib/entities/button-group';
+	import { ButtonGroup } from '$lib/shared/ui';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Input } from '$lib/shared/shadcn/components/ui/input';
 	import { Label } from '$lib/shared/shadcn/components/ui/label';

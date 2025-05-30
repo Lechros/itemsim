@@ -5,9 +5,9 @@
 	import GearPreview from '$lib/features/gear-editor/ui/GearPreview.svelte';
 	import Potential from '$lib/features/gear-editor/ui/Potential.svelte';
 	import SoulWeapon from '$lib/features/gear-editor/ui/SoulWeapon.svelte';
-	import Upgrade from '$lib/features/gear-editor/ui/Upgrade.svelte';
 	import { GearEnchanterAttributes } from '$lib/features/gear-enchanter-attributes';
 	import { GearEnchanterStarforce } from '$lib/features/gear-enchanter-starforce';
+	import { GearEnchanterUpgrade } from '$lib/features/gear-enchanter-upgrade';
 	import { TabSelector } from '$lib/features/tab-selector';
 	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
 	import { Tabs } from '$lib/shared/shadcn/components/ui/tabs';
@@ -49,7 +49,7 @@
 		<GearEnchanterStarforce {gear} />
 	</TabsContent>
 	<TabsContent value="scroll">
-		<Upgrade {gear} />
+		<GearEnchanterUpgrade {gear} />
 	</TabsContent>
 	<TabsContent value="bonus">
 		<AddOption {gear} />

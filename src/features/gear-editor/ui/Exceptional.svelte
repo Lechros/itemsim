@@ -6,7 +6,7 @@
 	import { cn } from '$lib/shared/shadcn/utils';
 	import { Gear, GearType } from '@malib/gear';
 	import { exceptionalHammers } from '../model/exceptionals';
-	import { ButtonGroup } from '$lib/entities/button-group';
+	import { ButtonGroup } from '$lib/shared/ui';
 	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
 
 	let { gear }: { gear: Gear } = $props();

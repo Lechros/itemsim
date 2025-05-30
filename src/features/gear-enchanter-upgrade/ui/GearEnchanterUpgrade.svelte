@@ -1,16 +1,16 @@
 <script lang="ts">
-	import { getOptionStrings } from '$lib/entities/gear-tooltip2';
 	import { ItemRawIcon } from '$lib/entities/item-icon';
-	import { getGearOptionStrings } from '$lib/entities/item-string';
+	import { getGearOptionStrings, getSingleGearOptionStrings } from '$lib/entities/item-string';
+	import { SelectList, SelectListItem } from '$lib/entities/select-list';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Card } from '$lib/shared/shadcn/components/ui/card';
 	import { Checkbox } from '$lib/shared/shadcn/components/ui/checkbox';
 	import { Input } from '$lib/shared/shadcn/components/ui/input';
 	import { Label } from '$lib/shared/shadcn/components/ui/label';
-	import { ScrollArea } from '$lib/shared/shadcn/components/ui/scroll-area';
+	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
 	import { Tabs, TabsContent, TabsList, TabsTrigger } from '$lib/shared/shadcn/components/ui/tabs';
-	import { Toggle } from '$lib/shared/shadcn/components/ui/toggle';
 	import { cn } from '$lib/shared/shadcn/utils';
+	import { ButtonGroup } from '$lib/shared/ui';
 	import {
 		Gear,
 		GearType,
@@ -24,11 +24,8 @@
 		type SpellTrace,
 		type SpellTraceRate
 	} from '@malib/gear';
-	import { Check, X } from 'lucide-svelte';
-	import { fade } from 'svelte/transition';
+	import { X } from 'lucide-svelte';
 	import { scrolls as scrollData } from '../model/scrolls';
-	import { ButtonGroup } from '$lib/entities/button-group';
-	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
 
 	let { gear }: { gear: Gear } = $props();
 
@@ -170,7 +167,7 @@
 			if (option[stat.value] === undefined) {
 				summaries.push([stat.label, '0 ~ +6']);
 			} else {
-				const summary = getOptionStrings(stat.value, option[stat.value], true);
+				const summary = getSingleGearOptionStrings(stat.value, option[stat.value], true);
 				summaries.push(summary);
 			}
 		}
@@ -341,33 +338,20 @@
 			</TabsList>
 		{/if}
 		<TabsContent value="spellTrace">
-			<ScrollArea class="h-[calc(3rem*3+2px)] sm:h-[calc(3rem*6+5px)]">
-				<div class="flex flex-col gap-px">
-					{#each spellTraceScrolls as scroll (scroll.name)}
-						<Toggle
-							class="h-12 justify-start"
-							bind:pressed={
-								() => selectedScroll?.name === scroll.name,
-								(pressed) => {
-									if (pressed) {
-										selectScroll(scroll, () => {
-											gear.applySpellTrace(scroll.type, scroll.rate);
-										});
-									}
-								}
-							}
-						>
-							<ItemRawIcon icon={scroll.icon!} />
-							{scroll.name}
-							{#if selectedScroll?.name === scroll.name}
-								<div class="ml-auto p-2" transition:fade={{ duration: 100 }}>
-									<Check />
-								</div>
-							{/if}
-						</Toggle>
-					{/each}
-				</div>
-			</ScrollArea>
+			<SelectList bind:value={() => selectedScroll?.name ?? null, () => {}}>
+				{#each spellTraceScrolls as scroll (scroll.name)}
+					<SelectListItem
+						value={scroll.name}
+						onSelect={() =>
+							selectScroll(scroll, () => {
+								gear.applySpellTrace(scroll.type, scroll.rate);
+							})}
+					>
+						<ItemRawIcon icon={scroll.icon!} />
+						{scroll.name}
+					</SelectListItem>
+				{/each}
+			</SelectList>
 		</TabsContent>
 		<TabsContent value="chaos" class="flex flex-col gap-y-4">
 			{#if columns === 1}
@@ -443,31 +427,14 @@
 			</ButtonGroup>
 		</TabsContent>
 		<TabsContent value="etc">
-			<ScrollArea class="h-[calc(3rem*3+2px)] sm:h-[calc(3rem*6+5px)]">
-				<div class="flex flex-col gap-px">
-					{#each etcScrolls as scroll (scroll.name)}
-						<Toggle
-							class="h-12 justify-start"
-							bind:pressed={
-								() => selectedScroll?.name === scroll.name,
-								(pressed) => {
-									if (pressed) {
-										selectScroll(scroll);
-									}
-								}
-							}
-						>
-							<ItemRawIcon icon={scroll.icon!} />
-							{scroll.name}
-							{#if selectedScroll?.name === scroll.name}
-								<div class="ml-auto p-2" transition:fade={{ duration: 100 }}>
-									<Check />
-								</div>
-							{/if}
-						</Toggle>
-					{/each}
-				</div>
-			</ScrollArea>
+			<SelectList bind:value={() => selectedScroll?.name ?? null, () => {}}>
+				{#each etcScrolls as scroll (scroll.name)}
+					<SelectListItem value={scroll.name} onSelect={() => selectScroll(scroll)}>
+						<ItemRawIcon icon={scroll.icon!} />
+						{scroll.name}
+					</SelectListItem>
+				{/each}
+			</SelectList>
 		</TabsContent>
 	</Tabs>
 
