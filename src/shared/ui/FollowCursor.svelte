@@ -43,7 +43,7 @@
 />
 
 <div
-	class="pointer-events-none fixed z-50"
+	class={['pointer-events-none fixed z-50', left !== null && top !== null ? 'block' : 'hidden']}
 	style="left: {left}px; top: {top}px;"
 	bind:this={wrapper}
 >
