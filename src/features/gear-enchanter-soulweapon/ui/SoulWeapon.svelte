@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { ButtonGroup } from '$lib/shared/ui';
 	import { ItemRawIcon } from '$lib/entities/item-icon';
 	import { getGearOptionGroupedStrings } from '$lib/entities/item-string';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
@@ -13,6 +12,7 @@
 		SelectTrigger
 	} from '$lib/shared/shadcn/components/ui/select';
 	import { Toggle } from '$lib/shared/shadcn/components/ui/toggle';
+	import { ButtonGroup } from '$lib/shared/ui';
 	import { Gear, type SoulData } from '@malib/gear';
 	import { Check, X } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
@@ -22,13 +22,18 @@
 		getNormalSoulData,
 		getSoulSummaries,
 		type SoulSummary
-	} from '../model/souls';
+	} from '../model/soul';
+	import { SelectList, SelectListItem } from '$lib/entities/select-list';
 
 	let { gear }: { gear: Gear } = $props();
 
 	const soulSummaries = $derived(getSoulSummaries());
 
 	let searchQuery = $state('');
+
+	const filteredSoulSummaries = $derived(
+		soulSummaries.filter((soulSummary) => soulSummary.name.includes(searchQuery))
+	);
 
 	let selectedSoulSummary: SoulSummary | null = $state(null);
 	let selectedSoul: SoulData | null = $state(null);
@@ -41,38 +46,30 @@
 		<Input type="search" placeholder="소울 이름으로 검색할 수 있어요" bind:value={searchQuery} />
 	</div>
 
-	<ScrollArea class="h-[calc(3rem*3+2px)] sm:h-[calc(3rem*6+5px)]">
-		<div class="flex flex-col gap-px">
-			{#each soulSummaries.filter( (soulSummary) => soulSummary.name.includes(searchQuery) ) as soulSummary (soulSummary.id)}
-				<Toggle
-					class="h-12 justify-start"
-					bind:pressed={
-						() => selectedSoulSummary?.id === soulSummary.id,
-						(pressed) => {
-							if (pressed) {
-								selectedSoulSummary = soulSummary;
-								if (soulSummary.magnificent) {
-									selectedSouls = getMagnificentSoulDatas(soulSummary.id);
-									selectedSoulIndex = 0;
-									selectedSoul = selectedSouls![selectedSoulIndex];
-								} else {
-									selectedSoul = getNormalSoulData(soulSummary.id);
-								}
-							}
-						}
+	<SelectList
+		value={selectedSoulSummary ? String(selectedSoulSummary.id) : null}
+		size={9}
+		allowSingleDeselect={false}
+	>
+		{#each filteredSoulSummaries as soulSummary (soulSummary.id)}
+			<SelectListItem
+				value={String(soulSummary.id)}
+				onSelect={() => {
+					selectedSoulSummary = soulSummary;
+					if (soulSummary.magnificent) {
+						selectedSouls = getMagnificentSoulDatas(soulSummary.id);
+						selectedSoulIndex = 0;
+						selectedSoul = selectedSouls![selectedSoulIndex];
+					} else {
+						selectedSoul = getNormalSoulData(soulSummary.id);
 					}
-				>
-					<ItemRawIcon icon={String(soulSummary.id)} />
-					{soulSummary.name}
-					{#if selectedSoulSummary?.id === soulSummary.id}
-						<div class="ml-auto p-2" transition:fade={{ duration: 100 }}>
-							<Check />
-						</div>
-					{/if}
-				</Toggle>
-			{/each}
-		</div>
-	</ScrollArea>
+				}}
+			>
+				<ItemRawIcon icon={String(soulSummary.id)} />
+				{soulSummary.name}
+			</SelectListItem>
+		{/each}
+	</SelectList>
 
 	<Card class="p-4">
 		{#if selectedSoulSummary}

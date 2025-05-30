@@ -1,6 +1,6 @@
 <script lang="ts">
 	import GearPreview from '$lib/features/gear-editor/ui/GearPreview.svelte';
-	import SoulWeapon from '$lib/features/gear-editor/ui/SoulWeapon.svelte';
+	import SoulWeapon from '$lib/features/gear-enchanter-soulweapon/ui/SoulWeapon.svelte';
 	import { GearEnchanterAttributes } from '$lib/features/gear-enchanter-attributes';
 	import { GearEnchanterExceptional } from '$lib/features/gear-enchanter-exceptional';
 	import {
