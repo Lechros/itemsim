@@ -11,6 +11,9 @@ importers:
       '@malib/gear':
         specifier: 1.0.0-next.8
         version: 1.0.0-next.8
+      '@tanstack/svelte-query':
+        specifier: ^5.79.0
+        version: 5.79.0(svelte@5.33.1)
       dexie:
         specifier: ^4.0.11
         version: 4.0.11
@@ -684,6 +687,14 @@ packages:
     resolution: {integrity: sha512-tYa2fO3zDe41I7WqijyVbRd8oWT0aEID1Eokz5hMT6wShLIHj3yvwj9XbfuloHP9glZ6H+aG2AN/+ZrxJ1Y5RQ==}
     peerDependencies:
       vite: ^5.2.0 || ^6
+
+  '@tanstack/query-core@5.79.0':
+    resolution: {integrity: sha512-s+epTqqLM0/TbJzMAK7OEhZIzh63P9sWz5HEFc5XHL4FvKQXQkcjI8F3nee+H/xVVn7mrP610nVXwOytTSYd0w==}
+
+  '@tanstack/svelte-query@5.79.0':
+    resolution: {integrity: sha512-C7mXKtuVwvspYND+Sux+8dR7nMl6OLvjLmnwWGPH2H27A0aisxRfyQvvGexVD0nz6uWT8OT4fsjicaYCgBHwWQ==}
+    peerDependencies:
+      svelte: ^3.54.0 || ^4.0.0 || ^5.0.0
 
   '@testing-library/dom@10.4.0':
     resolution: {integrity: sha512-pemlzrSESWbdAloYml3bAJMEfNh1Z7EduzqPKprCH5S341frlpYnUEW0H72dLxa6IsYr+mPno20GiSm+h9dEdQ==}
@@ -2419,6 +2430,13 @@ snapshots:
       '@tailwindcss/oxide': 4.1.7
       tailwindcss: 4.1.7
       vite: 6.3.5(jiti@2.4.2)(lightningcss@1.30.1)
+
+  '@tanstack/query-core@5.79.0': {}
+
+  '@tanstack/svelte-query@5.79.0(svelte@5.33.1)':
+    dependencies:
+      '@tanstack/query-core': 5.79.0
+      svelte: 5.33.1
 
   '@testing-library/dom@10.4.0':
     dependencies:

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getGearIconOrigin, getGearIconUrl } from '$lib/shared/api';
 	import { OriginIcon } from '$lib/shared/ui';
+	import { createQuery } from '@tanstack/svelte-query';
 
 	let {
 		icon,
@@ -10,13 +11,13 @@
 		scale?: number;
 	} = $props();
 
-	let origin = $state<[number, number] | undefined>(undefined);
-
-	$effect(() => {
-		(async () => {
-			origin = await getGearIconOrigin(icon);
-		})();
+	const query = createQuery({
+		queryKey: ['gear-icon-origin', icon],
+		queryFn: () => getGearIconOrigin(icon),
+		staleTime: 1000 * 60 * 60 // 1 hour
 	});
+
+	const origin = $derived($query.data);
 </script>
 
 <OriginIcon src={getGearIconUrl(icon)} alt={icon} {origin} {scale} />
