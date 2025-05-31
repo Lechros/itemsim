@@ -51,10 +51,10 @@ export function getAttributeHtmlStrings(
 
 	// 중복 소지/장착
 	if (attributes.only) {
-		temp.push('중복 소지 불가');
+		temp.push('#$r중복 소지 불가#');
 	}
 	if (attributes.onlyEquip) {
-		temp.push('중복 장착 불가');
+		temp.push('#$r중복 장착 불가#');
 	}
 	if (exclusiveEquips.length > 0) {
 		temp.push(`#$r아이템 그룹 내 중복 장착 불가# (${exclusiveEquips.join(', ')})`);
