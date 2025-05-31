@@ -22,6 +22,8 @@
 	const selectedOptions: SelectedOption[] = $state(getInitialSelectedOptions(gear));
 
 	$effect(() => {
+		if (!gear.supportsAddOption) return;
+
 		untrack(() => gear.resetAddOption());
 		for (const option of selectedOptions) {
 			if (option.type && option.grade) {

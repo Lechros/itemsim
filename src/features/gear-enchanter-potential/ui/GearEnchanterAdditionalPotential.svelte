@@ -4,27 +4,21 @@
 	import GearEnchanterPotentialBase from './GearEnchanterBasePotential.svelte';
 
 	let { gear }: { gear: Gear } = $props();
-
-	const gradePotentials = $derived(
-		getGradeAdditionalPotentialDatas(gear, gear.additionalPotentialGrade)
-	);
-	const subGradePotentials = $derived(
-		getGradeAdditionalPotentialDatas(gear, gear.additionalPotentialGrade - 1)
-	);
 </script>
 
 <GearEnchanterPotentialBase
 	initialGrade={gear.additionalPotentialGrade}
 	initialPotentials={gear.additionalPotentials as PotentialData[]}
-	{gradePotentials}
-	{subGradePotentials}
+	getGradePotentials={(grade) => getGradeAdditionalPotentialDatas(gear, grade)}
 	gradeLabel="에디셔널 잠재능력 등급"
 	optionLabel="에디셔널 잠재능력 옵션"
 	onChange={(grade, potentials) => {
-		if (grade === PotentialGrade.Normal) {
-			gear.resetAdditionalPotential();
-		} else {
+		if (!gear.supportsAdditionalPotential) return;
+
+		if (grade > PotentialGrade.Normal && potentials.length > 0) {
 			gear.setAdditionalPotential(grade, potentials);
+		} else {
+			gear.resetAdditionalPotential();
 		}
 	}}
 />

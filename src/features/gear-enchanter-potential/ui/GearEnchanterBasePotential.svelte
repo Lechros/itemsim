@@ -15,16 +15,14 @@
 	let {
 		initialGrade,
 		initialPotentials,
-		gradePotentials,
-		subGradePotentials,
+		getGradePotentials,
 		gradeLabel,
 		optionLabel,
 		onChange
 	}: {
 		initialGrade?: PotentialGrade;
 		initialPotentials?: PotentialData[];
-		gradePotentials: PotentialData[];
-		subGradePotentials: PotentialData[];
+		getGradePotentials: (grade: PotentialGrade) => PotentialData[];
 		gradeLabel: string;
 		optionLabel: string;
 		onChange?: (grade: PotentialGrade, potentials: PotentialData[]) => void;
@@ -33,7 +31,9 @@
 	let grade = $state(initialGrade ?? PotentialGrade.Normal);
 	let potentials = $state(getInitialPotentialOptions(initialPotentials ?? []));
 
-	let concatPotentials = $derived([...subGradePotentials, ...gradePotentials]);
+	const gradePotentials = $derived(getGradePotentials(grade));
+	const subGradePotentials = $derived(getGradePotentials(grade - 1));
+	const concatPotentials = $derived([...subGradePotentials, ...gradePotentials]);
 
 	$effect(() => {
 		onChange?.(
