@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { GearTooltip } from '$lib/entities/gear-tooltip2';
 	import { GearEnchanterAddOption } from '$lib/features/gear-enchanter-addoption';
 	import { GearEnchanterAttributes } from '$lib/features/gear-enchanter-attributes';
 	import { GearEnchanterExceptional } from '$lib/features/gear-enchanter-exceptional';
@@ -12,12 +13,11 @@
 	import { GearEnchanterStarforce } from '$lib/features/gear-enchanter-starforce';
 	import { GearEnchanterUpgrade } from '$lib/features/gear-enchanter-upgrade';
 	import { TabSelectorDrawer } from '$lib/features/tab-selector';
+	import TabSelectorList from '$lib/features/tab-selector/ui/TabSelectorList.svelte';
 	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
 	import { Tabs, TabsContent } from '$lib/shared/shadcn/components/ui/tabs';
 	import type { Gear } from '@malib/gear';
 	import { tabs } from '../model/tabs';
-	import TabSelectorList from '$lib/features/tab-selector/ui/TabSelectorList.svelte';
-	import { GearTooltip } from '$lib/entities/gear-tooltip2';
 
 	let {
 		gear,
@@ -49,18 +49,22 @@
 	}
 </script>
 
-<div class="mx-auto w-full max-w-screen-md px-4 lg:max-w-none">
-	<div class="flex w-full flex-col gap-y-2 lg:hidden">
-		<TabSelectorDrawer bind:tab tabs={tabInfos} />
-		<GearEnchanterPreview {gear} />
-		<Separator class="mt-4" />
-	</div>
-
+<div class="mx-auto w-full max-w-screen-md px-4 md:max-w-none">
 	<div class="flex justify-center gap-x-8">
-		<div class="hidden w-56 lg:block">
+		<div class="hidden w-52 lg:block">
 			<TabSelectorList bind:tab tabs={tabInfos} />
 		</div>
-		<div class="w-full max-w-screen-sm">
+
+		<div class="w-full md:max-w-screen-sm">
+			<div class="-mx-4 mb-2 lg:hidden">
+				<TabSelectorDrawer bind:tab tabs={tabInfos} />
+			</div>
+
+			<div class="md:hidden">
+				<GearEnchanterPreview {gear} />
+				<Separator class="my-4" />
+			</div>
+
 			<Tabs bind:value={tab}>
 				<TabsContent value="default">관리 탭</TabsContent>
 				<TabsContent value="props">
@@ -89,7 +93,8 @@
 				</TabsContent>
 			</Tabs>
 		</div>
-		<div class="sticky top-0 hidden h-full lg:block">
+
+		<div class="sticky top-0 hidden h-full md:block">
 			<GearTooltip
 				{gear}
 				incline={{ combat: 0 }}
