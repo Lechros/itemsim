@@ -18,8 +18,8 @@
 	let scrolls = $derived(getSpellTraceScrolls(gear));
 </script>
 
-<SelectList value={selectedScroll?.name} size={6} allowSingleDeselect={false}>
-	{#each scrolls as scroll (scroll.name)}
+<SelectList value={selectedScroll?.name} size={6} allowSingleDeselect={false} items={scrolls}>
+	{#snippet renderItem(scroll)}
 		<SelectListItem
 			value={scroll.name}
 			onSelect={() =>
@@ -30,5 +30,5 @@
 			<ItemRawIcon icon={scroll.icon!} />
 			{scroll.name}
 		</SelectListItem>
-	{/each}
+	{/snippet}
 </SelectList>

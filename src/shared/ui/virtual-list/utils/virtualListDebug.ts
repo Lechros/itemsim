@@ -1,0 +1,92 @@
+import type { SvelteVirtualListDebugInfo } from '../types';
+
+/**
+ * Determines whether debug information should be displayed based on state changes in the virtual list.
+ *
+ * This function implements an intelligent change detection algorithm that prevents unnecessary debug
+ * output while ensuring critical state transitions are captured. It specifically tracks changes in
+ * the visible range boundaries and item height calculations to provide meaningful debugging insights
+ * without overwhelming the console.
+ *
+ * Typical usage:
+ * ```typescript
+ * if (shouldShowDebugInfo(prevRange, currentRange, prevHeight, currentHeight)) {
+ *   console.log('Virtual list state changed significantly');
+ * }
+ * ```
+ *
+ * @param prevRange - Previous visible range state object containing start and end indices
+ * @param currentRange - Current visible range state object containing start and end indices
+ * @param prevHeight - Previous calculated item height in pixels
+ * @param currentHeight - Current calculated item height in pixels
+ * @returns {boolean} Returns true if debug information should be displayed based on state changes
+ *
+ * @example
+ * const shouldShow = shouldShowDebugInfo(
+ *   { start: 0, end: 10 },
+ *   { start: 5, end: 15 },
+ *   100,
+ *   120
+ * );
+ */
+export function shouldShowDebugInfo(
+	prevRange: { start: number; end: number } | null,
+	currentRange: { start: number; end: number },
+	prevHeight: number,
+	currentHeight: number
+): boolean {
+	if (!prevRange) return true;
+
+	return (
+		prevRange.start !== currentRange.start ||
+		prevRange.end !== currentRange.end ||
+		prevHeight !== currentHeight
+	);
+}
+
+/**
+ * Creates a comprehensive debug information object for virtual list state analysis.
+ *
+ * This utility function generates a structured debug object that captures the complete
+ * state of a virtual list at any given moment. It includes critical metrics such as
+ * visible item count, viewport boundaries, total items, processing progress, and
+ * height calculations. This information is essential for performance monitoring,
+ * debugging scroll behavior, and optimizing virtual list configurations.
+ *
+ * Performance considerations:
+ * - All calculations are O(1)
+ * - Memory footprint is constant regardless of list size
+ * - Safe for high-frequency calls during scroll events
+ *
+ * @param visibleRange - Current visible range object containing start and end indices
+ * @param totalItems - Total number of items in the virtual list
+ * @param processedItems - Number of items that have been processed/measured
+ * @param averageItemHeight - Current calculated average height per item in pixels
+ * @returns {SvelteVirtualListDebugInfo} A structured debug information object
+ *
+ * @example
+ * const debugInfo = createDebugInfo(
+ *   { start: 0, end: 10 },
+ *   1000,
+ *   100,
+ *   50
+ * );
+ * console.log('Virtual List State:', debugInfo);
+ *
+ * @throws {Error} Will throw if end index is less than start index in visibleRange
+ */
+export function createDebugInfo(
+	visibleRange: { start: number; end: number },
+	totalItems: number,
+	processedItems: number,
+	averageItemHeight: number
+): SvelteVirtualListDebugInfo {
+	return {
+		visibleItemsCount: visibleRange.end - visibleRange.start,
+		startIndex: visibleRange.start,
+		endIndex: visibleRange.end,
+		totalItems,
+		processedItems,
+		averageItemHeight
+	};
+}

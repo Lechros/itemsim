@@ -15,14 +15,14 @@
 		selectScroll: SelectScrollFunction;
 	} = $props();
 
-	let scrolls = $derived(getEtcScrolls(gear));
+	let scrolls: Scroll[] = $derived(getEtcScrolls(gear));
 </script>
 
-<SelectList value={selectedScroll?.name} size={6} allowSingleDeselect={false}>
-	{#each scrolls as scroll (scroll.name)}
+<SelectList value={selectedScroll?.name} size={6} allowSingleDeselect={false} items={scrolls}>
+	{#snippet renderItem(scroll)}
 		<SelectListItem value={scroll.name} onSelect={() => selectScroll(scroll)}>
 			<ItemRawIcon icon={scroll.icon!} />
 			{scroll.name}
 		</SelectListItem>
-	{/each}
+	{/snippet}
 </SelectList>

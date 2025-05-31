@@ -1,23 +1,25 @@
-<script lang="ts">
+<script lang="ts" generics="T">
 	import type { SelectListContextType } from '$lib/entities/select-list/model/types';
-	import { ScrollArea } from '$lib/shared/shadcn/components/ui/scroll-area';
+	import { VirtualList } from '$lib/shared/ui/virtual-list';
 	import { setContext, type Snippet } from 'svelte';
 	import { SvelteSet } from 'svelte/reactivity';
 
 	let {
+		items,
 		size,
 		multiple = false,
 		allowSingleDeselect = true,
 		value = $bindable(null),
 		values = $bindable([]),
-		children
+		renderItem
 	}: {
+		items: T[] | readonly T[];
 		size?: number;
 		multiple?: boolean;
 		allowSingleDeselect?: boolean;
 		value?: string | null;
 		values?: string[];
-		children?: Snippet;
+		renderItem: Snippet<[item: T, index: number]>;
 	} = $props();
 
 	const wrapperStyle = $derived(size ? `height: ${size * 48}px` : undefined);
@@ -55,8 +57,10 @@
 	}
 </script>
 
-<ScrollArea style={wrapperStyle}>
-	<div class="flex flex-col">
-		{@render children?.()}
-	</div>
-</ScrollArea>
+<VirtualList
+	containerStyle={wrapperStyle}
+	{items}
+	{renderItem}
+	defaultEstimatedItemHeight={48}
+	bufferSize={size}
+/>

@@ -72,8 +72,9 @@
 		value={selectedItem ? String(selectedItem.summary.id) : null}
 		size={9}
 		allowSingleDeselect={false}
+		items={filteredSoulSummaries}
 	>
-		{#each filteredSoulSummaries as soulSummary (soulSummary.id)}
+		{#snippet renderItem(soulSummary)}
 			<SelectListItem
 				value={String(soulSummary.id)}
 				onSelect={() => selectSoulSummary(soulSummary)}
@@ -81,7 +82,7 @@
 				<ItemRawIcon icon={String(soulSummary.id)} />
 				{soulSummary.name}
 			</SelectListItem>
-		{/each}
+		{/snippet}
 	</SelectList>
 
 	<ItemCard
