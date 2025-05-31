@@ -13,12 +13,15 @@
 	} = $props();
 
 	let open = $state(false);
-	let currentTab = $state<TabInfo>(tabs.find((t) => t.value === tabValue) ?? tabs[0]);
+	const currentTab = $derived(tabs.find((t) => t.value === tabValue) ?? tabs[0]);
 
 	const buttonClass = 'h-12 w-full justify-start px-4! text-xl';
 
+	$effect(() => {
+		tabValue = currentTab.value;
+	});
+
 	function handleButtonClick(tab: TabInfo) {
-		currentTab = tab;
 		tabValue = tab.value;
 		open = false;
 	}
