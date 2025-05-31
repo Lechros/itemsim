@@ -14,8 +14,8 @@
 	const exceptionalHammer = $derived(getExceptionalHammer(gear));
 </script>
 
-<div class="mt-4 flex flex-col gap-y-4">
-	<div class="mx-auto w-full max-w-xs">
+<div class="flex flex-col gap-y-4">
+	<div class="mx-auto w-full max-w-xs lg:hidden">
 		<Card class="flex flex-col gap-y-4 p-4">
 			<div class="text-center">
 				익셉셔널 강화 <span class="font-semibold">{gear.exceptionalUpgradeCount}</span>회 (최대

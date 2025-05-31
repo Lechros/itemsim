@@ -23,7 +23,7 @@
 </script>
 
 <div class="flex flex-col gap-y-4">
-	<div class="mx-auto w-full max-w-xs">
+	<div class="mx-auto w-full max-w-xs lg:hidden">
 		<Card class="p-4">
 			<StarDisplay
 				star={gear.star}

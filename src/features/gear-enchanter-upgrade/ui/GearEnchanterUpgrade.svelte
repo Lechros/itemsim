@@ -42,7 +42,7 @@
 </script>
 
 <div class="flex flex-col gap-y-4">
-	<div class="mx-auto w-full max-w-xs">
+	<div class="mx-auto w-full max-w-xs lg:hidden">
 		<Card class="flex flex-col gap-y-4 p-4">
 			<div class="text-center">
 				주문서 강화 <span class="font-semibold">{gear.scrollUpgradeCount}</span>회 (잔여

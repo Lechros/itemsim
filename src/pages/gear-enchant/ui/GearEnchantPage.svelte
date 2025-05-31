@@ -47,14 +47,14 @@
 	});
 </script>
 
-<ScrollArea class="flex h-screen flex-col">
+<ScrollArea class="h-screen">
 	<DetailNavbar title="아이템 강화" backHref="/" />
 
-	<div class="mx-auto w-full max-w-screen-md px-4">
+	<div class="my-4 flex flex-col">
 		{#if isLoading}
 			Loading...
 		{:else if !gear}
-			<div class="mt-8 flex w-full flex-col items-center justify-center gap-4">
+			<div class="flex w-full flex-col items-center justify-center gap-4">
 				<h2 class="text-2xl font-semibold">잘못된 접근입니다.</h2>
 				<Button variant="outline" href="/">돌아가기</Button>
 			</div>
