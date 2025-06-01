@@ -25,20 +25,12 @@
 			results = query.data;
 		}
 	});
-
-	let scrollY = $state(0);
-
-	const handleScroll = (event: Event) => {
-		const target = event.target as HTMLElement;
-		scrollY = target.scrollTop;
-	};
 </script>
 
-<ScrollArea class="flex h-screen flex-col" onscroll={handleScroll}>
+<ScrollArea class="flex h-screen flex-col">
 	<SearchNavbar
 		backHref="/"
 		title="아이템 추가"
-		{scrollY}
 		bind:query={searchQuery}
 		placeholder="예) 창세의 뱃지"
 	/>
