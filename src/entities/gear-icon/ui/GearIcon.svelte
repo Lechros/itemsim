@@ -11,13 +11,13 @@
 		scale?: number;
 	} = $props();
 
-	const query = createQuery({
+	const query = createQuery(() => ({
 		queryKey: ['gear-icon-origin', icon],
 		queryFn: () => getGearIconOrigin(icon),
 		staleTime: 1000 * 60 * 60 // 1 hour
-	});
+	}));
 
-	const origin = $derived($query.data);
+	const origin = $derived(query.data);
 </script>
 
 <OriginIcon src={getGearIconUrl(icon)} alt={icon} {origin} {scale} />

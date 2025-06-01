@@ -12,8 +12,8 @@ importers:
         specifier: 1.0.0-next.8
         version: 1.0.0-next.8
       '@tanstack/svelte-query':
-        specifier: ^5.79.0
-        version: 5.79.0(svelte@5.33.1)
+        specifier: https://pkg.pr.new/@tanstack/svelte-query@746b9c5
+        version: https://pkg.pr.new/@tanstack/svelte-query@746b9c5(svelte@5.33.1)
       dexie:
         specifier: ^4.0.11
         version: 4.0.11
@@ -688,13 +688,15 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6
 
-  '@tanstack/query-core@5.79.0':
-    resolution: {integrity: sha512-s+epTqqLM0/TbJzMAK7OEhZIzh63P9sWz5HEFc5XHL4FvKQXQkcjI8F3nee+H/xVVn7mrP610nVXwOytTSYd0w==}
+  '@tanstack/query-core@https://pkg.pr.new/TanStack/query/@tanstack/query-core@746b9c5':
+    resolution: {tarball: https://pkg.pr.new/TanStack/query/@tanstack/query-core@746b9c5}
+    version: 5.75.7
 
-  '@tanstack/svelte-query@5.79.0':
-    resolution: {integrity: sha512-C7mXKtuVwvspYND+Sux+8dR7nMl6OLvjLmnwWGPH2H27A0aisxRfyQvvGexVD0nz6uWT8OT4fsjicaYCgBHwWQ==}
+  '@tanstack/svelte-query@https://pkg.pr.new/@tanstack/svelte-query@746b9c5':
+    resolution: {tarball: https://pkg.pr.new/@tanstack/svelte-query@746b9c5}
+    version: 5.75.7
     peerDependencies:
-      svelte: ^3.54.0 || ^4.0.0 || ^5.0.0
+      svelte: ^5.7.0
 
   '@testing-library/dom@10.4.0':
     resolution: {integrity: sha512-pemlzrSESWbdAloYml3bAJMEfNh1Z7EduzqPKprCH5S341frlpYnUEW0H72dLxa6IsYr+mPno20GiSm+h9dEdQ==}
@@ -2431,11 +2433,11 @@ snapshots:
       tailwindcss: 4.1.7
       vite: 6.3.5(jiti@2.4.2)(lightningcss@1.30.1)
 
-  '@tanstack/query-core@5.79.0': {}
+  '@tanstack/query-core@https://pkg.pr.new/TanStack/query/@tanstack/query-core@746b9c5': {}
 
-  '@tanstack/svelte-query@5.79.0(svelte@5.33.1)':
+  '@tanstack/svelte-query@https://pkg.pr.new/@tanstack/svelte-query@746b9c5(svelte@5.33.1)':
     dependencies:
-      '@tanstack/query-core': 5.79.0
+      '@tanstack/query-core': https://pkg.pr.new/TanStack/query/@tanstack/query-core@746b9c5
       svelte: 5.33.1
 
   '@testing-library/dom@10.4.0':
