@@ -27,7 +27,7 @@
 	});
 </script>
 
-<ScrollArea class="flex h-screen flex-col">
+<ScrollArea class="h-screen">
 	<SearchNavbar
 		backHref="/"
 		title="아이템 추가"
