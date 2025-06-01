@@ -7,10 +7,12 @@
 	import { ScrollArea } from '$lib/shared/shadcn/components/ui/scroll-area';
 	import { GearSearchFooter } from '$lib/widgets/gear-search-footer';
 	import { createQuery } from '@tanstack/svelte-query';
-	import { SvelteMap } from 'svelte/reactivity';
+	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 
 	let searchQuery = $state('');
 	let selectedItems = $state<Map<number, SearchGearSummary>>(new SvelteMap());
+	const selectedIds = $state(new SvelteSet<string>());
+	const selectedGears = $derived([...selectedItems.values()]);
 
 	const query = createQuery(() => ({
 		queryKey: ['gear-search', searchQuery],
@@ -25,6 +27,16 @@
 			results = query.data;
 		}
 	});
+
+	function selectItem(item: SearchGearSummary) {
+		selectedItems.set(item.id, item);
+		selectedIds.add(String(item.id));
+	}
+
+	function deselectItem(item: SearchGearSummary) {
+		selectedItems.delete(item.id);
+		selectedIds.delete(String(item.id));
+	}
 </script>
 
 <ScrollArea class="h-screen">
@@ -40,12 +52,12 @@
 		{#if !searchQuery}
 			<div class="flex pt-4">아이템 이름을 입력해 주세요.</div>
 		{:else if results && results.length > 0}
-			<SelectList multiple items={results} size={results.length}>
+			<SelectList multiple values={selectedIds} items={results} size={results.length}>
 				{#snippet renderItem(item)}
 					<SelectListItem
 						value={String(item.id)}
-						onSelect={() => selectedItems.set(item.id, item)}
-						onDeselect={() => selectedItems.delete(item.id)}
+						onSelect={() => selectItem(item)}
+						onDeselect={() => deselectItem(item)}
 					>
 						<GearIcon icon={item.icon} />
 						<div>
@@ -60,5 +72,5 @@
 	</div>
 
 	<!-- Bottom Section -->
-	<GearSearchFooter selectedGears={selectedItems} />
+	<GearSearchFooter {selectedGears} onDeselect={(gear) => deselectItem(gear)} />
 </ScrollArea>

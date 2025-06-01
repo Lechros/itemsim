@@ -10,7 +10,7 @@
 		multiple = false,
 		allowSingleDeselect = true,
 		value = $bindable(null),
-		values = $bindable([]),
+		values = $bindable(new SvelteSet<string>()),
 		renderItem
 	}: {
 		items: T[] | readonly T[];
@@ -18,19 +18,17 @@
 		multiple?: boolean;
 		allowSingleDeselect?: boolean;
 		value?: string | null;
-		values?: string[];
+		values?: Set<string>;
 		renderItem: Snippet<[item: T, index: number]>;
 	} = $props();
 
 	const wrapperStyle = $derived(size ? `height: ${size * 48}px` : undefined);
 
-	const selected = $state(new SvelteSet<string>());
-
 	setContext<SelectListContextType>('SelectList', { toggle, isSelected });
 
 	function isSelected(v: string) {
 		if (multiple) {
-			return selected.has(v);
+			return values.has(v);
 		} else {
 			return value === v;
 		}
@@ -39,11 +37,9 @@
 	function toggle(v: string) {
 		if (multiple) {
 			if (isSelected(v)) {
-				selected.delete(v);
-				values.splice(values.indexOf(v), 1);
+				values.delete(v);
 			} else {
-				selected.add(v);
-				values.push(v);
+				values.add(v);
 			}
 		} else {
 			if (isSelected(v)) {

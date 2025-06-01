@@ -9,12 +9,14 @@
 	import { toast } from 'svelte-sonner';
 	import { slide } from 'svelte/transition';
 	import ActionButtons from './ActionButtons.svelte';
-	import SelectedItemsList from './SelectedItemsList.svelte';
+	import SelectedGearsList from './SelectedGearsList.svelte';
 
 	let {
-		selectedGears
+		selectedGears,
+		onDeselect
 	}: {
-		selectedGears: Map<number, SearchGearSummary>;
+		selectedGears: SearchGearSummary[];
+		onDeselect: (gear: SearchGearSummary) => void;
 	} = $props();
 
 	let open = $state(false);
@@ -23,7 +25,7 @@
 	async function handleAdd() {
 		isAdding = true;
 		try {
-			const gears = await getGearDatas(Array.from(selectedGears.keys()));
+			const gears = await getGearDatas(selectedGears.map((gear) => gear.id));
 			const seq = await addGearData(...gears);
 			if (gears.length === 1) {
 				toast.success(`${josa(gears[0].name, '을/를')} 추가했어요.`, {
@@ -62,7 +64,7 @@
 				>
 					<ChevronDown class="text-muted-foreground size-4" />
 				</button>
-				<SelectedItemsList selectedItems={selectedGears} />
+				<SelectedGearsList {selectedGears} {onDeselect} />
 			</div>
 		</div>
 	{/if}
@@ -70,14 +72,14 @@
 		<div class="mx-auto flex max-w-screen-md flex-col gap-2 p-2">
 			<Button variant="ghost" size="sm" onclick={() => (open = !open)}>
 				<div>
-					선택된 아이템 <span class="text-base font-semibold">{selectedGears.size}</span>개
+					선택된 아이템 <span class="text-base font-semibold">{selectedGears.length}</span>개
 				</div>
 				<ChevronUp class={cn('transition-transform', open ? 'rotate-180' : '')} />
 			</Button>
 
 			<ActionButtons
 				handleSubmit={handleAdd}
-				disabledSubmit={selectedGears.size === 0 || isAdding}
+				disabledSubmit={selectedGears.length === 0 || isAdding}
 			/>
 		</div>
 	</div>

@@ -36,7 +36,7 @@ export type SvelteVirtualListProps<T> = {
 	defaultEstimatedItemHeight?: number;
 	debug?: boolean;
 	debugFunction?: (_info: SvelteVirtualListDebugInfo) => void;
-	items: T[];
+	items: T[] | readonly T[];
 	itemsClass?: string;
 	mode?: SvelteVirtualListMode;
 	renderItem: Snippet<[item: T, index: number]>;

@@ -5,24 +5,25 @@
 	import { ScrollArea } from '$lib/shared/shadcn/components/ui/scroll-area';
 	import { X } from 'lucide-svelte';
 
-	let { selectedItems }: { selectedItems: Map<number, SearchGearSummary> } = $props();
+	let {
+		selectedGears: selectedItems,
+		onDeselect
+	}: {
+		selectedGears: SearchGearSummary[];
+		onDeselect: (gear: SearchGearSummary) => void;
+	} = $props();
 
-	const count = $derived(Math.max(1, Math.min(6, selectedItems.size)));
+	const count = $derived(Math.max(1, Math.min(6, selectedItems.length)));
 </script>
 
 <ScrollArea type="auto" class="flex flex-col" style="height: {count * 48}px;">
-	{#each selectedItems.values() as item (item.id)}
+	{#each selectedItems as item (item.id)}
 		<div class="flex h-12 items-center not-last:border-b">
 			<div class="flex items-center gap-3">
 				<GearIcon icon={item.icon} />
 				<div class="text-sm font-medium">{item.name}</div>
 			</div>
-			<Button
-				variant="ghost"
-				size="icon"
-				class="mr-2 ml-auto"
-				onclick={() => selectedItems.delete(item.id)}
-			>
+			<Button variant="ghost" size="icon" class="mr-2 ml-auto" onclick={() => onDeselect(item)}>
 				<X />
 			</Button>
 		</div>
