@@ -1,0 +1,82 @@
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import { addGearData } from '$lib/features/gear-inventory';
+	import { getGearDatas, type SearchGearSummary } from '$lib/shared/api';
+	import { Button } from '$lib/shared/shadcn/components/ui/button';
+	import { cn } from '$lib/shared/shadcn/utils';
+	import { josa } from 'es-hangul';
+	import { ChevronDown, ChevronUp } from 'lucide-svelte';
+	import { toast } from 'svelte-sonner';
+	import { slide } from 'svelte/transition';
+	import ActionButtons from './ActionButtons.svelte';
+	import SelectedItemsList from './SelectedItemsList.svelte';
+
+	let {
+		selectedGears
+	}: {
+		selectedGears: Map<number, SearchGearSummary>;
+	} = $props();
+
+	let open = $state(false);
+	let isAdding = $state(false);
+
+	async function handleAdd() {
+		isAdding = true;
+		try {
+			const gears = await getGearDatas(Array.from(selectedGears.keys()));
+			const seq = await addGearData(...gears);
+			if (gears.length === 1) {
+				toast.success(`${josa(gears[0].name, '을/를')} 추가했어요.`, {
+					action: {
+						label: '이동',
+						onClick: () => {
+							goto(`/gear/${seq}`);
+						}
+					}
+				});
+			} else {
+				toast.success(`아이템 ${gears.length}개를 추가했어요.`);
+			}
+		} catch (error) {
+			toast.error('아이템을 추가하지 못했어요.', {
+				description: error instanceof Error ? error.message : String(error)
+			});
+		} finally {
+			isAdding = false;
+		}
+	}
+</script>
+
+<div class="fixed bottom-0 w-full">
+	{#if open}
+		<div
+			class="bg-card mx-auto w-full max-w-screen-md rounded-t-xl border border-b-0 shadow-lg"
+			transition:slide={{ duration: 300 }}
+		>
+			<div class="flex flex-col px-4">
+				<button
+					class="flex cursor-pointer items-center justify-center p-2"
+					onclick={() => (open = false)}
+				>
+					<ChevronDown class="text-muted-foreground size-4" />
+				</button>
+				<SelectedItemsList selectedItems={selectedGears} />
+			</div>
+		</div>
+	{/if}
+	<div class="bg-card relative border-t">
+		<div class="mx-auto flex max-w-screen-md flex-col gap-2 p-2">
+			<Button variant="ghost" size="sm" onclick={() => (open = !open)}>
+				<div>
+					선택된 아이템 <span class="text-base font-semibold">{selectedGears.size}</span>개
+				</div>
+				<ChevronUp class={cn('transition-transform', open ? 'rotate-180' : '')} />
+			</Button>
+
+			<ActionButtons
+				handleSubmit={handleAdd}
+				disabledSubmit={selectedGears.size === 0 || isAdding}
+			/>
+		</div>
+	</div>
+</div>
