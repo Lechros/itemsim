@@ -3,7 +3,7 @@
 	import { tooltip2Images } from '$lib/shared/assets';
 	import { Badge } from '$lib/shared/shadcn/components/ui/badge';
 	import { OriginIcon, UIImage2 } from '$lib/shared/ui';
-	import { PotentialGrade, ReadonlyGear, type GearData } from '@malib/gear';
+	import { GearCapability, PotentialGrade, ReadonlyGear, type GearData } from '@malib/gear';
 
 	let {
 		gearData,
@@ -69,10 +69,12 @@
 			</Badge>
 		{/if}
 	</div>
-	<div class="absolute right-2 bottom-2 flex flex-col gap-1">
-		<UIImage2 image={getPotentialImage(gear.potentialGrade)} />
-		<UIImage2 image={getPotentialImage(gear.additionalPotentialGrade)} />
-	</div>
+	{#if gear.attributes.canPotential !== GearCapability.Cannot}
+		<div class="absolute right-2 bottom-2 flex flex-col gap-1">
+			<UIImage2 image={getPotentialImage(gear.potentialGrade)} />
+			<UIImage2 image={getPotentialImage(gear.additionalPotentialGrade)} />
+		</div>
+	{/if}
 	<div class="absolute bottom-2 left-2 flex flex-col gap-1">
 		{#if gear.exceptionalTotalUpgradeableCount > 0}
 			{#if gear.exceptionalUpgradeCount > 0}
