@@ -47,6 +47,8 @@
 	}
 </script>
 
+<div class="h-[89px]"></div>
+
 <div class="fixed bottom-0 w-full">
 	{#if open}
 		<div

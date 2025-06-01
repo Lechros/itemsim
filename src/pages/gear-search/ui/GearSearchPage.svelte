@@ -58,7 +58,6 @@
 			<div class="flex pt-4">검색된 아이템이 없어요.</div>
 		{/if}
 	</div>
-	<div class="h-[89px]"></div>
 
 	<!-- Bottom Section -->
 	<GearSearchFooter selectedGears={selectedItems} />
