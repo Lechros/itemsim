@@ -6,29 +6,17 @@
 	let mouseX: number | null = $state(null);
 	let mouseY: number | null = $state(null);
 
-	let wrapper: HTMLDivElement | null = $state(null);
-
 	let windowWidth = $state(0);
 	let windowHeight = $state(0);
 	let width = $state(0);
 	let height = $state(0);
 
-	let left: number | null = $state(null);
-	let top: number | null = $state(null);
-
-	$effect(() => {
-		if (wrapper) {
-			width = wrapper.clientWidth;
-			height = wrapper.clientHeight;
-		}
-	});
-
-	$effect(() => {
-		if (mouseX !== null && mouseY !== null) {
-			left = Math.max(0, Math.min(mouseX, windowWidth - width));
-			top = Math.max(0, Math.min(mouseY, windowHeight - height));
-		}
-	});
+	const left: number | null = $derived(
+		mouseX !== null && mouseY !== null ? Math.max(0, Math.min(mouseX, windowWidth - width)) : null
+	);
+	const top: number | null = $derived(
+		mouseX !== null && mouseY !== null ? Math.max(0, Math.min(mouseY, windowHeight - height)) : null
+	);
 
 	function handleMouseMove(event: MouseEvent) {
 		mouseX = event.clientX;
@@ -45,7 +33,8 @@
 <div
 	class={['pointer-events-none fixed z-50', left !== null && top !== null ? 'block' : 'hidden']}
 	style="left: {left}px; top: {top}px;"
-	bind:this={wrapper}
+	bind:clientWidth={width}
+	bind:clientHeight={height}
 >
 	{@render children?.()}
 </div>
