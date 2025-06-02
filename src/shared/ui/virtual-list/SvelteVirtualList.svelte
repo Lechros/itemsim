@@ -448,7 +448,7 @@
 		if (!items.length) return;
 
 		await processChunked(
-			items,
+			items as T[],
 			chunkSize,
 			(processed) => (processedItems = processed),
 			() => (initialized = true)
