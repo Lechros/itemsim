@@ -522,7 +522,7 @@
 	data-slot="scroll-area"
 >
 	{#if renderFixedHeader}
-		<div bind:clientHeight={fixedHeaderHeight} class="w-full">
+		<div bind:offsetHeight={fixedHeaderHeight} class="w-full">
 			{@render renderFixedHeader()}
 		</div>
 	{/if}
@@ -530,13 +530,13 @@
 	<ScrollAreaPrimitive.Viewport
 		id="virtual-list-viewport"
 		{...testId ? { 'data-testid': `${testId}-viewport` } : {}}
-		class={cn('absolute inset-0 overflow-y-scroll', viewportClass)}
+		class={cn('absolute inset-0', viewportClass)}
 		style="top: {fixedHeaderHeight}px; bottom: {fixedFooterHeight}px; {viewportStyle ?? ''}"
 		bind:ref={viewportRef}
 		onscroll={handleScroll}
 	>
 		{#if renderHeader}
-			<div bind:clientHeight={headerHeight} class="w-full">
+			<div bind:offsetHeight={headerHeight} class="w-full">
 				{@render renderHeader()}
 			</div>
 		{/if}
@@ -588,13 +588,13 @@
 			</div>
 		</div>
 		{#if renderFooter}
-			<div bind:clientHeight={footerHeight} class="w-full">
+			<div bind:offsetHeight={footerHeight} class="w-full">
 				{@render renderFooter()}
 			</div>
 		{/if}
 	</ScrollAreaPrimitive.Viewport>
 	{#if renderFixedFooter}
-		<div bind:clientHeight={fixedFooterHeight} class="w-full">
+		<div bind:offsetHeight={fixedFooterHeight} class="w-full">
 			{@render renderFixedFooter()}
 		</div>
 	{/if}

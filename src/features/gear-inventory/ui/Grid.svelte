@@ -2,15 +2,17 @@
 	import type { GearRow } from '$lib/shared/lib';
 	import { VirtualList } from '$lib/shared/ui/virtual-list';
 	import { chunk } from '$lib/shared/utils';
+	import { Loader2 } from 'lucide-svelte';
 	import type { Snippet } from 'svelte';
 	import GridRow from './GridRow.svelte';
 
 	let {
 		items,
-		renderItem: renderSingleItem,
+		renderItem: renderItemProp,
 		columns,
 		maxColumns,
-		renderFixedHeader,
+		renderFixedHeader: renderFixedHeaderProp,
+		loading = false,
 		class: className
 	}: {
 		items: GearRow[];
@@ -18,6 +20,7 @@
 		columns?: number;
 		maxColumns?: number;
 		renderFixedHeader?: Snippet;
+		loading?: boolean;
 		class?: string;
 	} = $props();
 
@@ -26,19 +29,23 @@
 	const GAP = 16;
 
 	let viewportRef: HTMLElement | null = $state(null);
+	let resizeObserver: ResizeObserver | null = $state(null);
+	let scrollTop = $state(0);
 	let width = $state<number | null>(null);
 	const columnCount = $derived(getColumnCount(width, columns, maxColumns));
 	const rows = $derived(chunk(items, columnCount));
 
-	$inspect(columnCount);
-
 	$effect(() => {
 		if (viewportRef) {
-			const resizeObserver = new ResizeObserver(() => {
-				width = viewportRef!.clientWidth;
-			});
-			resizeObserver.observe(viewportRef);
-			return () => resizeObserver.disconnect();
+			if (!resizeObserver) {
+				viewportRef.addEventListener('scroll', (event) => {
+					scrollTop = (event.target as HTMLElement).scrollTop;
+				});
+				resizeObserver = new ResizeObserver(() => {
+					width = viewportRef!.clientWidth;
+				});
+				resizeObserver.observe(viewportRef);
+			}
 		}
 	});
 
@@ -65,21 +72,29 @@
 	itemKeyFunction={(row) => row[0].seq}
 	bufferSize={2}
 	defaultEstimatedItemHeight={144}
-	{renderFixedHeader}
 	containerClass={className}
-	viewportClass="mx-2 min-[450px]:mx-4 pt-4"
+	viewportClass="mx-2 min-[450px]:mx-4 mt-2 pt-2"
 	itemsClass="flex flex-col items-center"
 	bind:viewportRef
 >
-	{#snippet renderItem(row)}
+	{#snippet renderFixedHeader()}
+		{@render renderFixedHeaderProp?.()}
+		<div class="relative mt-2">
+			{#if scrollTop > 0}
+				<div class="from-background absolute z-10 h-4 w-full bg-gradient-to-b to-transparent"></div>
+			{/if}
+		</div>
+	{/snippet}
+	{#snippet renderItem(row, index)}
 		<GridRow
 			items={row}
 			columns={columnCount}
+			rowIndex={index}
+			maxWidth={getMaxWidth(columnCount)}
 			class="w-full gap-2 self-center pb-2 min-[450px]:gap-4 min-[450px]:pb-4"
-			style="max-width: {getMaxWidth(columnCount)}px"
 		>
-			{#snippet renderItem(item, index)}
-				{@render renderSingleItem(item, index)}
+			{#snippet renderItemRow(item, index)}
+				{@render renderItemProp(item, index)}
 			{/snippet}
 		</GridRow>
 	{/snippet}

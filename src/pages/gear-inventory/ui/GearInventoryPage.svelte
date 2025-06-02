@@ -27,12 +27,10 @@
 	import { Input } from '$lib/shared/shadcn/components/ui/input';
 	import { Label } from '$lib/shared/shadcn/components/ui/label';
 	import { FollowCursor } from '$lib/shared/ui';
-	import { VirtualList } from '$lib/shared/ui/virtual-list';
 	import { ReadonlyGear } from '@malib/gear';
 	import { Trash2 } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
 	import { SvelteSet } from 'svelte/reactivity';
-	import { fade } from 'svelte/transition';
 	import LayoutButton from './LayoutButton.svelte';
 	import SortButton from './SortButton.svelte';
 
@@ -73,6 +71,7 @@
 	class="h-screen"
 	items={$rows ?? []}
 	maxColumns={columns === 'auto' ? undefined : columns}
+	loading={$rows === undefined}
 >
 	{#snippet renderFixedHeader()}
 		<div class="mx-auto flex w-full max-w-screen-md flex-col gap-y-2 pt-4">

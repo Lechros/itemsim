@@ -6,21 +6,27 @@
 	let {
 		items,
 		columns,
-		renderItem,
+		renderItemRow,
+		rowIndex,
 		class: className,
-		style
+		maxWidth
 	}: {
 		items: GearRow[];
 		columns: number;
-		renderItem: Snippet<[item: GearRow, index: number]>;
+		renderItemRow: Snippet<[item: GearRow, index: number]>;
+		rowIndex: number;
 		class?: string;
-		style?: string;
+		maxWidth?: number;
 	} = $props();
 </script>
 
-<div class={cn('grid', className)} style:grid-template-columns={`repeat(${columns}, 1fr)`} {style}>
+<div
+	class={cn('grid-row-class grid', className)}
+	style:grid-template-columns={`repeat(${columns}, 1fr)`}
+	style:max-width={maxWidth ? `${maxWidth}px` : undefined}
+>
 	{#each items as item, index}
-		{@render renderItem(item, index)}
+		{@render renderItemRow(item, rowIndex * columns + index)}
 	{/each}
 	{#if items.length < columns}
 		{#each Array(columns - items.length) as _}
