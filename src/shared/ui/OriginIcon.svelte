@@ -22,6 +22,7 @@
 		{alt}
 		style="margin-left: {ml}px; margin-top: {mt}px"
 		class={[invisible && 'invisible']}
+		draggable="false"
 	/>
 </div>
 
@@ -29,5 +30,6 @@
 	img {
 		image-rendering: pixelated;
 		max-width: none;
+		pointer-events: none;
 	}
 </style>

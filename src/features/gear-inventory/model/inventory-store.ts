@@ -1,6 +1,7 @@
-import { db } from '$lib/shared/lib';
+import { db, type GearRow } from '$lib/shared/lib';
 import type { GearData } from '@malib/gear';
 import { liveQuery } from 'dexie';
+import { getRegExp } from 'korean-regexp';
 
 /**
  * DB에 장비 정보를 추가합니다.
@@ -43,10 +44,109 @@ export function getGearData(seq: number) {
 }
 
 /**
- * DB에서 장비 정보를 조회하는 훅.
- *
- * TODO: 필터, 정렬 기능 추가
+ * DB에 저장된 장비 정보의 총 개수를 반환합니다.
+ * @returns 장비 정보의 총 개수
  */
-export function useGearQuery() {
-	return liveQuery(() => db.inventory.orderBy('createdAt').reverse().toArray());
+export function useGearDataCount() {
+	return liveQuery(() => db.inventory.count());
+}
+
+/**
+ * DB에서 장비 정보를 조회하는 훅.
+ */
+export function useGearQuery({ filter, sort = 'createdAtDesc' }: GearQueryOptions = {}) {
+	const filterFn = getFilter(filter);
+	const compareFn = getComparer(sort);
+	return liveQuery(() =>
+		db.inventory
+			.filter(filterFn)
+			.toArray()
+			.then((arr) => arr.sort(compareFn))
+	);
+}
+
+export interface GearQueryOptions {
+	filter?: {
+		name?: string;
+	};
+	sort?: GearQuerySortTypes;
+}
+
+export type GearQuerySortTypes =
+	| 'nameAsc'
+	| 'nameDesc'
+	| 'idAsc'
+	| 'idDesc'
+	| 'createdAtAsc'
+	| 'createdAtDesc'
+	| 'updatedAtAsc'
+	| 'updatedAtDesc';
+
+function getFilter(filter: GearQueryOptions['filter']) {
+	const filters: ((row: GearRow) => boolean)[] = [];
+	if (filter?.name) {
+		const name = filter.name.trim();
+		if (name) {
+			filters.push((row) => getRegExp(name, { fuzzy: true, ignoreCase: true }).test(row.gear.name));
+		}
+	}
+	return chainFilter(...filters);
+}
+
+function chainFilter(...filters: ((row: GearRow) => boolean)[]) {
+	return (row: GearRow) => filters.every((filter) => filter(row));
+}
+
+function getComparer(sort: NonNullable<GearQueryOptions['sort']>) {
+	switch (sort) {
+		case 'nameAsc':
+			return chainCompare(nameCompare, idCompare, createdAtCompare);
+		case 'nameDesc':
+			return chainCompare(nameCompare, idCompare, createdAtCompare).reversed();
+		case 'idAsc':
+			return chainCompare(idCompare, createdAtCompare);
+		case 'idDesc':
+			return chainCompare(idCompare, createdAtCompare).reversed();
+		case 'createdAtAsc':
+			return chainCompare(createdAtCompare, idCompare);
+		case 'createdAtDesc':
+			return chainCompare(createdAtCompare, idCompare).reversed();
+		case 'updatedAtAsc':
+			return chainCompare(updatedAtCompare, idCompare);
+		case 'updatedAtDesc':
+			return chainCompare(updatedAtCompare, idCompare).reversed();
+	}
+}
+
+function nameCompare(a: GearRow, b: GearRow) {
+	return a.gear.name.localeCompare(b.gear.name, 'ko', { sensitivity: 'accent', numeric: true });
+}
+
+function idCompare(a: GearRow, b: GearRow) {
+	return a.gear.meta.id - b.gear.meta.id;
+}
+
+function createdAtCompare(a: GearRow, b: GearRow) {
+	return a.createdAt.getTime() - b.createdAt.getTime();
+}
+
+function updatedAtCompare(a: GearRow, b: GearRow) {
+	return a.updatedAt.getTime() - b.updatedAt.getTime();
+}
+
+function chainCompare(...comparers: ((a: GearRow, b: GearRow) => number)[]) {
+	const compare = (a: GearRow, b: GearRow) => {
+		for (const comparer of comparers) {
+			const result = comparer(a, b);
+			if (result !== 0) {
+				return result;
+			}
+		}
+		return 0;
+	};
+	return withReversed(compare);
+}
+
+function withReversed(compare: (a: GearRow, b: GearRow) => number) {
+	return Object.assign(compare, { reversed: () => (a: GearRow, b: GearRow) => compare(b, a) });
 }

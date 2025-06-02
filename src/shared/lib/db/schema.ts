@@ -13,7 +13,7 @@ const db = new Dexie('itemsim') as Dexie & {
 };
 
 db.version(1).stores({
-	inventory: '++seq, gear.name, gear.meta.version, createdAt, updatedAt'
+	inventory: '++seq, gear.name, gear.meta.id, gear.meta.version, createdAt, updatedAt'
 });
 
 export { db };

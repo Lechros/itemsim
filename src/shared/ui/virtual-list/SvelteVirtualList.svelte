@@ -150,6 +150,10 @@
 		defaultEstimatedItemHeight = 40, // Initial height estimate for items before measurement
 		debug = false, // Enable debug logging
 		renderItem, // Function to render each item
+		renderHeader,
+		renderFooter,
+		renderFixedHeader,
+		renderFixedFooter,
 		containerClass, // Custom class for the container element
 		viewportClass, // Custom class for the viewport element
 		contentClass, // Custom class for the content wrapper
@@ -167,6 +171,10 @@
 	 */
 	let containerElement: HTMLElement | null = $state(null); // Reference to the main container element
 	let viewportElement: HTMLElement | null = $state(null); // Reference to the scrollable viewport element
+	let headerElement: HTMLElement | null = $state(null); // Reference to the header element
+	let footerElement: HTMLElement | null = $state(null); // Reference to the footer element
+	let fixedHeaderElement: HTMLElement | null = $state(null); // Reference to the fixed header element
+	let fixedFooterElement: HTMLElement | null = $state(null); // Reference to the fixed footer element
 	const itemElements = $state<HTMLElement[]>([]); // Array of rendered item element references
 
 	/**
@@ -520,6 +528,11 @@
 		bind:ref={viewportElement}
 		onscroll={handleScroll}
 	>
+		{#if renderHeader}
+			<div bind:this={headerElement} class="w-full">
+				{@render renderHeader()}
+			</div>
+		{/if}
 		<!-- Content provides full scrollable height -->
 		<div
 			id="virtual-list-content"

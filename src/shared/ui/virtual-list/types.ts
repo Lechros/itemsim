@@ -40,6 +40,10 @@ export type SvelteVirtualListProps<T> = {
 	itemsClass?: string;
 	mode?: SvelteVirtualListMode;
 	renderItem: Snippet<[item: T, index: number]>;
+	renderHeader?: Snippet;
+	renderFooter?: Snippet;
+	renderFixedHeader?: Snippet;
+	renderFixedFooter?: Snippet;
 	itemKeyFunction?: (item: T) => unknown;
 	testId?: string;
 	viewportClass?: string;
