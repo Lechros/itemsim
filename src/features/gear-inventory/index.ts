@@ -8,6 +8,6 @@ export {
 	type GearQueryOptions,
 	type GearQuerySortTypes
 } from './model/inventory-store';
-export { default as GearInventoryGrid } from './ui/GearInventoryGrid.svelte';
-export { default as GearInventoryGridItem } from './ui/GearInventoryGridItem.svelte';
-export { default as GearInventoryGridItemContent } from './ui/GearInventoryGridItemContent.svelte';
+export { default as GearInventoryGrid } from './ui/Grid.svelte';
+export { default as GearInventoryGridItem } from './ui/GridItem.svelte';
+export { default as GearInventoryGridItemContent } from './ui/GridItemContent.svelte';

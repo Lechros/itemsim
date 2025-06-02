@@ -10,3 +10,11 @@ export function padRight<T>(array: T[], length: number, value: (index: number) =
 	}
 	return result;
 }
+
+export function chunk<T>(array: T[], size: number) {
+	const result = [];
+	for (let i = 0; i < array.length; i += size) {
+		result.push(array.slice(i, i + size));
+	}
+	return result;
+}

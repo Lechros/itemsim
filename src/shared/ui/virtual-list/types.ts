@@ -32,6 +32,7 @@ export type SvelteVirtualListProps<T> = {
 	bufferSize?: number;
 	containerClass?: string;
 	containerStyle?: string;
+	containerRef?: HTMLElement | null;
 	contentClass?: string;
 	defaultEstimatedItemHeight?: number;
 	debug?: boolean;
@@ -47,6 +48,8 @@ export type SvelteVirtualListProps<T> = {
 	itemKeyFunction?: (item: T) => unknown;
 	testId?: string;
 	viewportClass?: string;
+	viewportStyle?: string;
+	viewportRef?: HTMLElement | null;
 };
 
 /**

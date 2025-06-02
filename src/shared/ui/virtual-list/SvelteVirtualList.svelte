@@ -145,7 +145,7 @@
 	 * Core configuration props with default values
 	 * @type {SvelteVirtualListProps}
 	 */
-	const {
+	let {
 		items = [], // Array of items to be rendered in the virtual list
 		defaultEstimatedItemHeight = 40, // Initial height estimate for items before measurement
 		debug = false, // Enable debug logging
@@ -159,6 +159,9 @@
 		contentClass, // Custom class for the content wrapper
 		itemsClass, // Custom class for the items wrapper
 		containerStyle,
+		viewportStyle,
+		containerRef = $bindable(null), // Reference to the main container element
+		viewportRef = $bindable(null), // Reference to the scrollable viewport element
 		debugFunction, // Custom debug logging function
 		itemKeyFunction, // Custom item key function
 		mode = 'topToBottom', // Scroll direction mode
@@ -169,12 +172,6 @@
 	/**
 	 * DOM References and Core State
 	 */
-	let containerElement: HTMLElement | null = $state(null); // Reference to the main container element
-	let viewportElement: HTMLElement | null = $state(null); // Reference to the scrollable viewport element
-	let headerElement: HTMLElement | null = $state(null); // Reference to the header element
-	let footerElement: HTMLElement | null = $state(null); // Reference to the footer element
-	let fixedHeaderElement: HTMLElement | null = $state(null); // Reference to the fixed header element
-	let fixedFooterElement: HTMLElement | null = $state(null); // Reference to the fixed footer element
 	const itemElements = $state<HTMLElement[]>([]); // Array of rendered item element references
 
 	/**
@@ -183,6 +180,10 @@
 	let scrollTop = $state(0); // Current scroll position
 	let height = $state(0); // Container height
 	let calculatedItemHeight = $state(defaultEstimatedItemHeight); // Current average item height
+	let headerHeight = $state(0); // Header height
+	let footerHeight = $state(0); // Footer height
+	let fixedHeaderHeight = $state(0); // Fixed header height
+	let fixedFooterHeight = $state(0); // Fixed footer height
 
 	/**
 	 * State Flags and Control
@@ -230,15 +231,15 @@
 
 	// Add new effect to handle height changes
 	$effect(() => {
-		if (browser && initialized && mode === 'bottomToTop' && viewportElement) {
+		if (browser && initialized && mode === 'bottomToTop' && viewportRef) {
 			const totalHeight = Math.max(0, items.length * calculatedItemHeight);
 			const targetScrollTop = Math.max(0, totalHeight - height);
 
 			// Only update if the difference is significant
-			if (Math.abs(viewportElement.scrollTop - targetScrollTop) > calculatedItemHeight) {
+			if (Math.abs(viewportRef.scrollTop - targetScrollTop) > calculatedItemHeight) {
 				requestAnimationFrame(() => {
-					if (viewportElement) {
-						viewportElement.scrollTop = targetScrollTop;
+					if (viewportRef) {
+						viewportRef.scrollTop = targetScrollTop;
 						scrollTop = targetScrollTop;
 					}
 				});
@@ -248,8 +249,8 @@
 
 	// Update container height when element is mounted
 	$effect(() => {
-		if (browser && containerElement) {
-			height = containerElement.getBoundingClientRect().height;
+		if (browser && containerRef) {
+			height = containerRef.getBoundingClientRect().height;
 		}
 	});
 
@@ -258,7 +259,7 @@
 		if (
 			browser &&
 			mode === 'bottomToTop' &&
-			viewportElement &&
+			viewportRef &&
 			height > 0 &&
 			items.length &&
 			!initialized
@@ -268,15 +269,15 @@
 
 			// Add delay to ensure layout is complete
 			setTimeout(() => {
-				if (viewportElement) {
+				if (viewportRef) {
 					// Start at the bottom for bottom-to-top mode
-					viewportElement.scrollTop = targetScrollTop;
+					viewportRef.scrollTop = targetScrollTop;
 					scrollTop = targetScrollTop;
 
 					// Double-check the scroll position after a frame
 					requestAnimationFrame(() => {
-						if (viewportElement && viewportElement.scrollTop !== targetScrollTop) {
-							viewportElement.scrollTop = targetScrollTop;
+						if (viewportRef && viewportRef.scrollTop !== targetScrollTop) {
+							viewportRef.scrollTop = targetScrollTop;
 							scrollTop = targetScrollTop;
 						}
 						initialized = true;
@@ -341,12 +342,12 @@
 	 * @returns {void}
 	 */
 	const handleScroll = () => {
-		if (!browser || !viewportElement) return;
+		if (!browser || !viewportRef) return;
 
 		if (!isScrolling) {
 			isScrolling = true;
 			rafSchedule(() => {
-				scrollTop = viewportElement!.scrollTop;
+				scrollTop = viewportRef!.scrollTop;
 				isScrolling = false;
 			});
 		}
@@ -369,13 +370,13 @@
 	const updateHeightAndScroll = (immediate = false) => {
 		if (!initialized && mode === 'bottomToTop') {
 			setTimeout(() => {
-				if (containerElement) {
-					const initialHeight = containerElement.getBoundingClientRect().height;
+				if (containerRef) {
+					const initialHeight = containerRef.getBoundingClientRect().height;
 					height = initialHeight;
 
 					setTimeout(() => {
-						if (containerElement && viewportElement) {
-							const finalHeight = containerElement.getBoundingClientRect().height;
+						if (containerRef && viewportRef) {
+							const finalHeight = containerRef.getBoundingClientRect().height;
 							height = finalHeight;
 
 							const targetScrollTop = calculateScrollPosition(
@@ -384,16 +385,16 @@
 								finalHeight
 							);
 
-							void containerElement.offsetHeight;
+							void containerRef.offsetHeight;
 
-							viewportElement.scrollTop = targetScrollTop;
+							viewportRef.scrollTop = targetScrollTop;
 							scrollTop = targetScrollTop;
 
 							requestAnimationFrame(() => {
-								if (viewportElement) {
-									const currentScroll = viewportElement.scrollTop;
+								if (viewportRef) {
+									const currentScroll = viewportRef.scrollTop;
 									if (currentScroll !== scrollTop) {
-										viewportElement.scrollTop = targetScrollTop;
+										viewportRef.scrollTop = targetScrollTop;
 										scrollTop = targetScrollTop;
 									}
 									initialized = true;
@@ -410,8 +411,8 @@
 			{
 				initialized,
 				mode,
-				containerElement,
-				viewportElement,
+				containerElement: containerRef,
+				viewportElement: viewportRef,
 				calculatedItemHeight,
 				height,
 				scrollTop
@@ -483,8 +484,8 @@
 				updateHeightAndScroll(true);
 			});
 
-			if (containerElement) {
-				resizeObserver.observe(containerElement);
+			if (containerRef) {
+				resizeObserver.observe(containerRef);
 			}
 
 			// Cleanup on component destruction
@@ -517,19 +518,25 @@
 	{...testId ? { 'data-testid': `${testId}-container` } : {}}
 	class={cn('relative h-full w-full overflow-hidden', containerClass)}
 	style={containerStyle}
-	bind:ref={containerElement}
+	bind:ref={containerRef}
 	data-slot="scroll-area"
 >
+	{#if renderFixedHeader}
+		<div bind:clientHeight={fixedHeaderHeight} class="w-full">
+			{@render renderFixedHeader()}
+		</div>
+	{/if}
 	<!-- Viewport handles scrolling -->
 	<ScrollAreaPrimitive.Viewport
 		id="virtual-list-viewport"
 		{...testId ? { 'data-testid': `${testId}-viewport` } : {}}
 		class={cn('absolute inset-0 overflow-y-scroll', viewportClass)}
-		bind:ref={viewportElement}
+		style="top: {fixedHeaderHeight}px; bottom: {fixedFooterHeight}px; {viewportStyle ?? ''}"
+		bind:ref={viewportRef}
 		onscroll={handleScroll}
 	>
 		{#if renderHeader}
-			<div bind:this={headerElement} class="w-full">
+			<div bind:clientHeight={headerHeight} class="w-full">
 				{@render renderHeader()}
 			</div>
 		{/if}
@@ -580,7 +587,17 @@
 				{/each}
 			</div>
 		</div>
+		{#if renderFooter}
+			<div bind:clientHeight={footerHeight} class="w-full">
+				{@render renderFooter()}
+			</div>
+		{/if}
 	</ScrollAreaPrimitive.Viewport>
+	{#if renderFixedFooter}
+		<div bind:clientHeight={fixedFooterHeight} class="w-full">
+			{@render renderFixedFooter()}
+		</div>
+	{/if}
 	<Scrollbar orientation="vertical" />
 	<ScrollAreaPrimitive.Corner />
 </ScrollAreaPrimitive.Root>
