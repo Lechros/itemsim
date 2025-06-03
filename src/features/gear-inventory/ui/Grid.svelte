@@ -21,11 +21,11 @@
 	const ITEM_WIDTH = 128;
 	const MIN_COLUMN_COUNT = 2;
 	const GAP = 16;
+	const PADDING = 16;
 
 	let width = $state<number | null>(null);
-	const columnCount = $derived(getColumnCount(width, maxColumns));
+	const { columnCount, maxWidth } = $derived(getGridProps(width, maxColumns));
 	const rows = $derived(chunk(items, columnCount));
-	const maxWidth = $derived(getMaxWidth(columnCount));
 
 	$effect(() => {
 		const observer = new ResizeObserver((entries) => {
@@ -39,20 +39,33 @@
 		}
 	});
 
-	function getColumnCount(width: number | null, maxColumns?: number) {
-		const baseCount = getBaseColumnCount(width);
-		if (maxColumns) return Math.min(maxColumns, baseCount);
-		return baseCount;
+	function getGridProps(
+		width: number | null,
+		maxColumns?: number
+	): {
+		columnCount: number;
+		maxWidth: number | undefined;
+	} {
+		if (!width || width < 380) {
+			return { columnCount: 2, maxWidth: undefined };
+		} else if (width < 450) {
+			return { columnCount: 3, maxWidth: undefined };
+		} else {
+			const columnCount = getColumnCount(width, maxColumns);
+			const maxWidth = getMaxWidth(columnCount);
+			return { columnCount, maxWidth };
+		}
 	}
 
-	function getBaseColumnCount(width: number | null) {
-		if (!width) return MIN_COLUMN_COUNT;
-		const count = Math.floor((width - GAP) / (ITEM_WIDTH + GAP));
-		return Math.max(MIN_COLUMN_COUNT, count);
+	function getColumnCount(width: number, maxColumns?: number) {
+		const workableWidth = width - PADDING * 2;
+		const count = Math.floor((workableWidth + GAP) / (ITEM_WIDTH + GAP));
+		if (maxColumns) return Math.min(maxColumns, count);
+		return count;
 	}
 
 	function getMaxWidth(columnCount: number) {
-		return columnCount * ITEM_WIDTH + (columnCount + 1) * GAP;
+		return columnCount * ITEM_WIDTH + (columnCount - 1) * GAP + PADDING * 2;
 	}
 </script>
 
