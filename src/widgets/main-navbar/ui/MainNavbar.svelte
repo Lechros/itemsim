@@ -1,0 +1,15 @@
+<script lang="ts">
+	import { Button } from '$lib/shared/shadcn/components/ui/button';
+	import Logo from './logo.png';
+</script>
+
+<header class="bg-background/80 sticky h-14 w-full backdrop-blur">
+	<div class="mx-auto flex h-full w-full px-2">
+		<div class="flex items-center gap-2">
+			<Button variant="ghost" href="/">
+				<img src={Logo} alt="logo" class="size-5" />
+				<span class="font-semibold"> 아이템 시뮬레이터 </span>
+			</Button>
+		</div>
+	</div>
+</header>

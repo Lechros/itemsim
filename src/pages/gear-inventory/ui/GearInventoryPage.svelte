@@ -27,6 +27,7 @@
 	import { Input } from '$lib/shared/shadcn/components/ui/input';
 	import { Label } from '$lib/shared/shadcn/components/ui/label';
 	import { FollowCursor } from '$lib/shared/ui';
+	import { MainNavbar } from '$lib/widgets/main-navbar';
 	import { ReadonlyGear } from '@malib/gear';
 	import { Trash2 } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
@@ -74,7 +75,8 @@
 	loading={$rows === undefined}
 >
 	{#snippet renderFixedHeader()}
-		<div class="mx-auto flex w-full max-w-screen-md flex-col gap-y-2 pt-4">
+		<MainNavbar />
+		<div class="mx-auto flex w-full max-w-screen-md flex-col gap-y-2 px-2 pt-4 min-[450px]:px-4">
 			<div class="flex items-center justify-between gap-x-2">
 				<div>
 					아이템 <span class="font-bold">{$count}</span>개

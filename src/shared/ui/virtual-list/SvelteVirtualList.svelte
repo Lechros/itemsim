@@ -162,6 +162,7 @@
 		viewportStyle,
 		containerRef = $bindable(null), // Reference to the main container element
 		viewportRef = $bindable(null), // Reference to the scrollable viewport element
+		itemsWidth = $bindable(null),
 		debugFunction, // Custom debug logging function
 		itemKeyFunction, // Custom item key function
 		mode = 'topToBottom', // Scroll direction mode
@@ -545,7 +546,10 @@
 			id="virtual-list-content"
 			{...testId ? { 'data-testid': `${testId}-content` } : {}}
 			class={cn('relative min-h-full w-full', contentClass)}
-			style:height="{Math.max(height, items.length * calculatedItemHeight)}px"
+			style:height="{Math.max(
+				height - fixedHeaderHeight - fixedFooterHeight,
+				items.length * calculatedItemHeight
+			)}px"
 		>
 			<!-- Items container is translated to show correct items -->
 			<div
@@ -559,6 +563,7 @@
 					visibleItems().start,
 					calculatedItemHeight
 				)}px)"
+				bind:clientWidth={itemsWidth}
 			>
 				{#each mode === 'bottomToTop' ? items
 							.slice(visibleItems().start, visibleItems().end)

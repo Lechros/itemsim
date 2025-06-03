@@ -39,6 +39,7 @@ export type SvelteVirtualListProps<T> = {
 	debugFunction?: (_info: SvelteVirtualListDebugInfo) => void;
 	items: T[] | readonly T[];
 	itemsClass?: string;
+	itemsWidth?: number | null;
 	mode?: SvelteVirtualListMode;
 	renderItem: Snippet<[item: T, index: number]>;
 	renderHeader?: Snippet;

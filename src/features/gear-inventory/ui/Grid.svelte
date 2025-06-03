@@ -29,22 +29,19 @@
 	const GAP = 16;
 
 	let viewportRef: HTMLElement | null = $state(null);
-	let resizeObserver: ResizeObserver | null = $state(null);
 	let scrollTop = $state(0);
+	let isListening = $state(false);
 	let width = $state<number | null>(null);
 	const columnCount = $derived(getColumnCount(width, columns, maxColumns));
 	const rows = $derived(chunk(items, columnCount));
 
 	$effect(() => {
 		if (viewportRef) {
-			if (!resizeObserver) {
+			if (!isListening) {
 				viewportRef.addEventListener('scroll', (event) => {
 					scrollTop = (event.target as HTMLElement).scrollTop;
 				});
-				resizeObserver = new ResizeObserver(() => {
-					width = viewportRef!.clientWidth;
-				});
-				resizeObserver.observe(viewportRef);
+				isListening = true;
 			}
 		}
 	});
@@ -73,15 +70,18 @@
 	bufferSize={2}
 	defaultEstimatedItemHeight={144}
 	containerClass={className}
-	viewportClass="mx-2 min-[450px]:mx-4 mt-2 pt-2"
+	contentClass="mx-2 min-[450px]:mx-4 w-[calc(100%-16px)] min-[450px]:w-[calc(100%-32px)]"
 	itemsClass="flex flex-col items-center"
 	bind:viewportRef
+	bind:itemsWidth={width}
 >
 	{#snippet renderFixedHeader()}
 		{@render renderFixedHeaderProp?.()}
-		<div class="relative mt-2">
+		<div class="relative h-4">
 			{#if scrollTop > 0}
-				<div class="from-background absolute z-10 h-4 w-full bg-gradient-to-b to-transparent"></div>
+				<div
+					class="from-background absolute top-4 z-10 h-4 w-full bg-gradient-to-b to-transparent"
+				></div>
 			{/if}
 		</div>
 	{/snippet}
