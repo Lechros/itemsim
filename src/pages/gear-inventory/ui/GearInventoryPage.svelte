@@ -3,13 +3,13 @@
 	import {
 		deleteGearData,
 		GearInventoryGrid,
+		GearInventoryGridDeleteItem,
 		GearInventoryGridItem,
 		GearInventoryGridItemContent,
 		useGearDataCount,
 		useGearQuery,
 		type GearQuerySortTypes
 	} from '$lib/features/gear-inventory';
-	import GearInventoryGridDeleteItem from '$lib/features/gear-inventory/ui/GridDeleteItem.svelte';
 	import { Alert, AlertTitle } from '$lib/shared/shadcn/components/ui/alert';
 	import {
 		AlertDialog,
@@ -26,10 +26,14 @@
 	import { Button, buttonVariants } from '$lib/shared/shadcn/components/ui/button';
 	import { Input } from '$lib/shared/shadcn/components/ui/input';
 	import { Label } from '$lib/shared/shadcn/components/ui/label';
+	import { ScrollArea } from '$lib/shared/shadcn/components/ui/scroll-area';
+	import { cn } from '$lib/shared/shadcn/utils';
 	import { FollowCursor } from '$lib/shared/ui';
+	import { Virtualizer } from '$lib/shared/ui/virtua-custom/svelte';
+	import { chunk } from '$lib/shared/utils';
 	import { MainNavbar } from '$lib/widgets/main-navbar';
-	import { ReadonlyGear } from '@malib/gear';
-	import { Trash2 } from 'lucide-svelte';
+	import { ReadonlyGear, type GearData } from '@malib/gear';
+	import { ArrowUp, Loader2, Trash2 } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
 	import { SvelteSet } from 'svelte/reactivity';
 	import LayoutButton from './LayoutButton.svelte';
@@ -42,17 +46,37 @@
 	let columns = $state<number | 'auto'>('auto');
 
 	const count = $derived(useGearDataCount());
-	const rows = $derived(useGearQuery({ filter: { name: nameFilter }, sort }));
+	const gears = $derived(useGearQuery({ filter: { name: nameFilter }, sort }));
 
 	const selectedSeqs = $state(new SvelteSet<number>());
 	let isDeleteMode = $state(false);
 	let openDeleteDialog = $state(false);
+	let viewportRef = $state<HTMLElement | null>(null);
+	let scrollY = $state(0);
 
-	let hoverIndex = $state(-1);
+	let hoverGearData = $state<GearData | null>(null);
+
+	const NAVBAR_HEIGHT = 56;
+	const FLOATING_HEIGHT = 136;
+	const DELETE_MODE_DIFF = 62;
+	const SCROLL_THRESHOLD = 80;
 
 	function toggleDeleteMode() {
+		if (!isDeleteMode) {
+			// 진입
+			if (scrollY > SCROLL_THRESHOLD) {
+				if (viewportRef) {
+					viewportRef.scrollTop += DELETE_MODE_DIFF;
+				}
+			}
+		} else {
+			// 돌아가기
+			if (viewportRef) {
+				viewportRef.scrollTop -= DELETE_MODE_DIFF;
+			}
+			selectedSeqs.clear();
+		}
 		isDeleteMode = !isDeleteMode;
-		selectedSeqs.clear();
 	}
 
 	async function handleDelete() {
@@ -66,24 +90,31 @@
 			toast.error('아이템 삭제에 실패했어요.');
 		}
 	}
+
+	function onscroll(event: Event) {
+		const target = event.target as HTMLElement;
+		scrollY = target.scrollTop;
+	}
 </script>
 
-<GearInventoryGrid
-	class="h-screen"
-	items={$rows ?? []}
-	maxColumns={columns === 'auto' ? undefined : columns}
-	loading={$rows === undefined}
->
-	{#snippet renderFixedHeader()}
-		<MainNavbar />
-		<div class="mx-auto flex w-full max-w-screen-md flex-col gap-y-2 px-2 pt-4 min-[450px]:px-4">
+<ScrollArea class="h-screen" bind:viewportRef {onscroll}>
+	<MainNavbar />
+	<div class="sticky top-14 z-10 mx-auto max-w-screen-md px-4 py-2">
+		<div
+			class={cn(
+				'bg-background/95 flex flex-col gap-y-4 rounded-xl p-4 backdrop-blur',
+				scrollY > SCROLL_THRESHOLD && 'shadow-lg'
+			)}
+		>
 			<div class="flex items-center justify-between gap-x-2">
 				<div>
-					아이템 <span class="font-bold">{$count}</span>개
+					아이템 <span class="font-bold">{$count ?? '...'}</span>개
 				</div>
 				<div class="flex items-center gap-x-2">
 					{#if !isDeleteMode}
-						<Button variant="outline" onclick={toggleDeleteMode}>삭제</Button>
+						<Button variant="outline" onclick={toggleDeleteMode} disabled={!$gears?.length}
+							>삭제</Button
+						>
 						<Button href="/gear/search">아이템 추가</Button>
 					{:else}
 						<Badge variant="destructive" class="mr-2">{selectedSeqs.size}개 선택됨</Badge>
@@ -120,38 +151,80 @@
 				</div>
 			</div>
 			{#if isDeleteMode}
-				<Alert variant="destructive" class="mt-2">
+				<Alert variant="destructive">
 					<Trash2 />
 					<AlertTitle>삭제할 아이템을 선택해 주세요.</AlertTitle>
 				</Alert>
 			{/if}
 		</div>
-	{/snippet}
-	{#snippet renderItem(row, index)}
-		{#if isDeleteMode}
-			<GearInventoryGridDeleteItem
-				selected={selectedSeqs.has(row.seq)}
-				onclick={() =>
-					selectedSeqs.has(row.seq) ? selectedSeqs.delete(row.seq) : selectedSeqs.add(row.seq)}
-			>
-				<GearInventoryGridItemContent gearData={row.gear} scale={2} />
-			</GearInventoryGridDeleteItem>
-		{:else}
-			<GearInventoryGridItem
-				href="/gear/{row.seq}"
-				onmouseenter={() => (hoverIndex = index)}
-				onmouseleave={() => (hoverIndex = -1)}
-			>
-				<GearInventoryGridItemContent gearData={row.gear} scale={2} />
-			</GearInventoryGridItem>
-		{/if}
-	{/snippet}
-</GearInventoryGrid>
+	</div>
 
-{#if hoverIndex !== -1}
-	<FollowCursor>
+	{#if !$gears}
+		<div class="flex h-32 items-center justify-center">
+			<Loader2 class="size-8 animate-spin" />
+		</div>
+	{:else if $gears.length > 0}
+		<GearInventoryGrid
+			items={$gears}
+			startMargin={NAVBAR_HEIGHT + FLOATING_HEIGHT}
+			scrollRef={viewportRef}
+			maxColumns={columns === 'auto' ? undefined : columns}
+		>
+			{#snippet children(item)}
+				{#if isDeleteMode}
+					<GearInventoryGridDeleteItem
+						selected={selectedSeqs.has(item.seq)}
+						onclick={() =>
+							selectedSeqs.has(item.seq)
+								? selectedSeqs.delete(item.seq)
+								: selectedSeqs.add(item.seq)}
+					>
+						<GearInventoryGridItemContent gearData={item.gear} scale={2} />
+					</GearInventoryGridDeleteItem>
+				{:else}
+					<GearInventoryGridItem
+						href="/gear/{item.seq}"
+						onmouseenter={() => (hoverGearData = item.gear)}
+						onmouseleave={() => (hoverGearData = null)}
+					>
+						<GearInventoryGridItemContent gearData={item.gear} scale={2} />
+					</GearInventoryGridItem>
+				{/if}
+			{/snippet}
+		</GearInventoryGrid>
+	{:else if $count === 0}
+		<div class="flex h-32 flex-col items-center justify-center gap-y-2">
+			<div>인벤토리에 아이템을 추가해 보세요.</div>
+			<Button href="/gear/search">아이템 추가</Button>
+		</div>
+	{:else if nameFilter}
+		<div class="flex h-32 flex-col items-center justify-center gap-y-2">
+			<div>필터에 해당하는 결과가 없어요.</div>
+		</div>
+	{/if}
+</ScrollArea>
+
+{#if scrollY > SCROLL_THRESHOLD}
+	<div class="fixed right-0 bottom-0 z-50 p-8">
+		<Button
+			variant="outline"
+			size="icon"
+			class="pointer-events-auto shadow-lg"
+			onclick={() => {
+				if (viewportRef) {
+					viewportRef.scrollTo({ top: 0, behavior: 'smooth' });
+				}
+			}}
+		>
+			<ArrowUp />
+		</Button>
+	</div>
+{/if}
+
+{#if hoverGearData}
+	<FollowCursor paddingRight={9}>
 		<GearTooltip
-			gear={new ReadonlyGear($rows[hoverIndex].gear)}
+			gear={new ReadonlyGear(hoverGearData)}
 			incline={{ combat: 0 }}
 			loadSetItemName={() => ''}
 			loadExclusiveEquips={() => []}

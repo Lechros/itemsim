@@ -1,101 +1,76 @@
 <script lang="ts">
 	import type { GearRow } from '$lib/shared/lib';
-	import { VirtualList } from '$lib/shared/ui/virtual-list';
+	import { Virtualizer } from '$lib/shared/ui/virtua-custom/svelte';
 	import { chunk } from '$lib/shared/utils';
-	import { Loader2 } from 'lucide-svelte';
 	import type { Snippet } from 'svelte';
 	import GridRow from './GridRow.svelte';
-
 	let {
 		items,
-		renderItem: renderItemProp,
-		columns,
+		children: itemChildren,
 		maxColumns,
-		renderFixedHeader: renderFixedHeaderProp,
-		loading = false,
-		class: className
+		startMargin = 0,
+		scrollRef
 	}: {
 		items: GearRow[];
-		renderItem: Snippet<[item: GearRow, index: number]>;
-		columns?: number;
+		children: Snippet<[item: GearRow, index: number]>;
 		maxColumns?: number;
-		renderFixedHeader?: Snippet;
-		loading?: boolean;
-		class?: string;
+		startMargin?: number;
+		scrollRef: HTMLElement | null;
 	} = $props();
 
 	const ITEM_WIDTH = 128;
 	const MIN_COLUMN_COUNT = 2;
 	const GAP = 16;
 
-	let viewportRef: HTMLElement | null = $state(null);
-	let scrollTop = $state(0);
-	let isListening = $state(false);
 	let width = $state<number | null>(null);
-	const columnCount = $derived(getColumnCount(width, columns, maxColumns));
+	const columnCount = $derived(getColumnCount(width, maxColumns));
 	const rows = $derived(chunk(items, columnCount));
+	const maxWidth = $derived(getMaxWidth(columnCount));
 
 	$effect(() => {
-		if (viewportRef) {
-			if (!isListening) {
-				viewportRef.addEventListener('scroll', (event) => {
-					scrollTop = (event.target as HTMLElement).scrollTop;
-				});
-				isListening = true;
+		const observer = new ResizeObserver((entries) => {
+			const entry = entries.find((e) => e.target === scrollRef);
+			if (entry) {
+				width = entry.contentBoxSize[0].inlineSize;
 			}
+		});
+		if (scrollRef) {
+			observer.observe(scrollRef);
 		}
 	});
 
-	function getColumnCount(width: number | null, columns?: number, maxColumns?: number) {
-		const baseCount = getBaseColumnCount(width, columns);
+	function getColumnCount(width: number | null, maxColumns?: number) {
+		const baseCount = getBaseColumnCount(width);
 		if (maxColumns) return Math.min(maxColumns, baseCount);
 		return baseCount;
 	}
 
-	function getBaseColumnCount(width: number | null, columns?: number) {
-		if (columns) return columns;
+	function getBaseColumnCount(width: number | null) {
 		if (!width) return MIN_COLUMN_COUNT;
-		const count = Math.floor((width + GAP) / (ITEM_WIDTH + GAP));
+		const count = Math.floor((width - GAP) / (ITEM_WIDTH + GAP));
 		return Math.max(MIN_COLUMN_COUNT, count);
 	}
 
 	function getMaxWidth(columnCount: number) {
-		return columnCount * ITEM_WIDTH + (columnCount - 1) * GAP;
+		return columnCount * ITEM_WIDTH + (columnCount + 1) * GAP;
 	}
 </script>
 
-<VirtualList
-	items={rows}
-	itemKeyFunction={(row) => row[0].seq}
-	bufferSize={2}
-	defaultEstimatedItemHeight={144}
-	containerClass={className}
-	contentClass="mx-2 min-[450px]:mx-4 w-[calc(100%-16px)] min-[450px]:w-[calc(100%-32px)]"
-	itemsClass="flex flex-col items-center"
-	bind:viewportRef
-	bind:itemsWidth={width}
+<Virtualizer
+	data={rows}
+	getKey={(row) => `${row[0].seq}-${row[row.length - 1].seq}`}
+	{startMargin}
+	overscan={1}
+	scrollRef={scrollRef ?? undefined}
 >
-	{#snippet renderFixedHeader()}
-		{@render renderFixedHeaderProp?.()}
-		<div class="relative h-4">
-			{#if scrollTop > 0}
-				<div
-					class="from-background absolute top-4 z-10 h-4 w-full bg-gradient-to-b to-transparent"
-				></div>
-			{/if}
-		</div>
-	{/snippet}
-	{#snippet renderItem(row, index)}
+	{#snippet children(row, index)}
 		<GridRow
 			items={row}
 			columns={columnCount}
+			children={itemChildren}
 			rowIndex={index}
-			maxWidth={getMaxWidth(columnCount)}
-			class="w-full gap-2 self-center pb-2 min-[450px]:gap-4 min-[450px]:pb-4"
-		>
-			{#snippet renderItemRow(item, index)}
-				{@render renderItemProp(item, index)}
-			{/snippet}
-		</GridRow>
+			{maxWidth}
+			class="mx-auto mb-4 gap-4 px-4"
+		/>
 	{/snippet}
-</VirtualList>
+</Virtualizer>

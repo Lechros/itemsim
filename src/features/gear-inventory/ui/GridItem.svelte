@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { itemClasses } from './item';
-	import { fade } from 'svelte/transition';
 
 	let {
 		children,

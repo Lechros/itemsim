@@ -3,7 +3,7 @@
 	import Logo from './logo.png';
 </script>
 
-<header class="bg-background/80 sticky h-14 w-full backdrop-blur">
+<header class="bg-background sticky top-0 z-50 h-14 w-full">
 	<div class="mx-auto flex h-full w-full px-2">
 		<div class="flex items-center gap-2">
 			<Button variant="ghost" href="/">

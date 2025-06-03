@@ -1,7 +1,19 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
-	let { children }: { children?: Snippet } = $props();
+	let {
+		children,
+		paddingTop = 0,
+		paddingRight = 0,
+		paddingBottom = 0,
+		paddingLeft = 0
+	}: {
+		children?: Snippet;
+		paddingTop?: number;
+		paddingRight?: number;
+		paddingBottom?: number;
+		paddingLeft?: number;
+	} = $props();
 
 	let mouseX: number | null = $state(null);
 	let mouseY: number | null = $state(null);
@@ -12,10 +24,14 @@
 	let height = $state(0);
 
 	const left: number | null = $derived(
-		mouseX !== null && mouseY !== null ? Math.max(0, Math.min(mouseX, windowWidth - width)) : null
+		mouseX !== null && mouseY !== null
+			? Math.max(paddingLeft, Math.min(mouseX, windowWidth - width - paddingRight))
+			: null
 	);
 	const top: number | null = $derived(
-		mouseX !== null && mouseY !== null ? Math.max(0, Math.min(mouseY, windowHeight - height)) : null
+		mouseX !== null && mouseY !== null
+			? Math.max(paddingTop, Math.min(mouseY, windowHeight - height - paddingBottom))
+			: null
 	);
 
 	function handleMouseMove(event: MouseEvent) {

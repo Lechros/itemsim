@@ -100,21 +100,21 @@ function chainFilter(...filters: ((row: GearRow) => boolean)[]) {
 function getComparer(sort: NonNullable<GearQueryOptions['sort']>) {
 	switch (sort) {
 		case 'nameAsc':
-			return chainCompare(nameCompare, idCompare, createdAtCompare);
+			return chainCompare(nameCompare, idCompare, seqCompare);
 		case 'nameDesc':
-			return chainCompare(nameCompare, idCompare, createdAtCompare).reversed();
+			return chainCompare(nameCompare, idCompare, seqCompare).reversed();
 		case 'idAsc':
-			return chainCompare(idCompare, createdAtCompare);
+			return chainCompare(idCompare, seqCompare);
 		case 'idDesc':
-			return chainCompare(idCompare, createdAtCompare).reversed();
+			return chainCompare(idCompare, seqCompare).reversed();
 		case 'createdAtAsc':
-			return chainCompare(createdAtCompare, idCompare);
+			return chainCompare(createdAtCompare, seqCompare);
 		case 'createdAtDesc':
-			return chainCompare(createdAtCompare, idCompare).reversed();
+			return chainCompare(createdAtCompare, seqCompare).reversed();
 		case 'updatedAtAsc':
-			return chainCompare(updatedAtCompare, idCompare);
+			return chainCompare(updatedAtCompare, seqCompare);
 		case 'updatedAtDesc':
-			return chainCompare(updatedAtCompare, idCompare).reversed();
+			return chainCompare(updatedAtCompare, seqCompare).reversed();
 	}
 }
 
@@ -132,6 +132,10 @@ function createdAtCompare(a: GearRow, b: GearRow) {
 
 function updatedAtCompare(a: GearRow, b: GearRow) {
 	return a.updatedAt.getTime() - b.updatedAt.getTime();
+}
+
+function seqCompare(a: GearRow, b: GearRow) {
+	return a.seq - b.seq;
 }
 
 function chainCompare(...comparers: ((a: GearRow, b: GearRow) => number)[]) {

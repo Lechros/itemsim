@@ -18,38 +18,40 @@
 </script>
 
 <GearIcon icon={gear.shapeIcon} {scale} />
-<div class="absolute top-1.5 left-1.5 flex gap-1">
-	{#if gear.star}
-		<Badge variant="outline">
-			<UIImage2 image={gear.starScroll ? 'blueStar' : 'star'} />
-			{gear.star}
-		</Badge>
-	{/if}
-	{#if gear.scrollUpgradeCount}
-		<Badge variant="outline">
-			<i
-				class="scroll-icon bg-current opacity-60"
-				style="mask-image: url({tooltip2Images.scrollIcon});"
-			></i>
-			{gear.scrollUpgradeCount}
-		</Badge>
-	{/if}
-</div>
+{#if gear.star || gear.scrollUpgradeCount}
+	<div class="absolute top-1.5 left-1.5 flex gap-1">
+		{#if gear.star}
+			<Badge variant="outline">
+				<UIImage2 image={gear.starScroll ? 'blueStar' : 'star'} />
+				{gear.star}
+			</Badge>
+		{/if}
+		{#if gear.scrollUpgradeCount}
+			<Badge variant="outline">
+				<i
+					class="scroll-icon bg-current opacity-60"
+					style="mask-image: url({tooltip2Images.scrollIcon});"
+				></i>
+				{gear.scrollUpgradeCount}
+			</Badge>
+		{/if}
+	</div>
+{/if}
 {#if gear.attributes.canPotential !== GearCapability.Cannot}
 	<div class="absolute right-2 bottom-2 flex flex-col gap-1">
 		<PotentialTitle grade={gear.potentialGrade} />
 		<PotentialTitle grade={gear.additionalPotentialGrade} />
 	</div>
 {/if}
-<div class="absolute bottom-2 left-2 flex flex-col gap-1">
-	{#if gear.exceptionalTotalUpgradeableCount > 0}
+{#if gear.exceptionalTotalUpgradeableCount > 0}
+	<div class="absolute bottom-2 left-2 flex flex-col gap-1">
 		{#if gear.exceptionalUpgradeCount > 0}
 			<UIImage2 image="exceptionalNormal" />
 		{:else}
 			<UIImage2 image="potentialTitleNormal" />
 		{/if}
-	{/if}
-</div>
+	</div>
+{/if}
 
 <style>
 	.scroll-icon {
