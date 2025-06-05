@@ -6,7 +6,6 @@
 		DropdownMenuLabel,
 		DropdownMenuRadioGroup,
 		DropdownMenuRadioItem,
-		DropdownMenuSeparator,
 		DropdownMenuTrigger
 	} from '$lib/shared/shadcn/components/ui/dropdown-menu';
 	import { ChevronDown } from 'lucide-svelte';
