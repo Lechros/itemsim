@@ -39,6 +39,11 @@
 
 	let hoverGearData = $state<GearData | null>(null);
 
+	$effect(() => {
+		gearQuery.value;
+		hoverGearData = null;
+	});
+
 	function onModeChange(mode: 'default' | 'delete') {
 		if (mode === 'delete') {
 			if (scrollY > SCROLL_THRESHOLD) {
