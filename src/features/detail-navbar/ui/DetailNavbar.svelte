@@ -5,9 +5,9 @@
 	let { backHref, title }: { backHref?: string; title: string } = $props();
 </script>
 
-<header class="bg-background/80 sticky w-full border-b backdrop-blur">
-	<div class="mx-auto flex w-full max-w-screen-md flex-col px-2">
-		<div class="flex h-12 items-center gap-2">
+<header class="bg-background sticky top-0 z-50 h-14 w-full">
+	<div class="mx-auto flex h-full w-full max-w-screen-md px-2">
+		<div class="flex items-center gap-2">
 			{#if backHref}
 				<Button variant="ghost" size="icon" href={backHref}>
 					<ArrowLeft />
