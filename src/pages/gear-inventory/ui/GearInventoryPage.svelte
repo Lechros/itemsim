@@ -16,6 +16,7 @@
 		createGearLiveQuery,
 		GearInventoryHeader
 	} from '$lib/widgets/gear-inventory-header';
+	import { createLayoutStore } from '$lib/widgets/gear-inventory-header/model/LayoutStore.svelte';
 	import { MainNavbar } from '$lib/widgets/main-navbar';
 	import { ReadonlyGear, type GearData } from '@malib/gear';
 	import { Loader2, Plus } from 'lucide-svelte';
@@ -31,8 +32,7 @@
 
 	let mode = $state<'default' | 'delete'>('default');
 
-	let layout = $state<'grid' | 'list'>('grid');
-	let columns = $state<number | 'auto'>('auto');
+	const layoutStore = createLayoutStore();
 
 	let viewportRef = $state<HTMLElement | null>(null);
 	let scrollY = $state(0);
@@ -72,8 +72,7 @@
 		{deleter}
 		{scrollY}
 		bind:mode
-		bind:layout
-		bind:columns
+		{layoutStore}
 		top={NAVBAR_HEIGHT}
 		{onModeChange}
 	/>
@@ -91,7 +90,7 @@
 			items={gearQuery.value}
 			startMargin={NAVBAR_HEIGHT + FLOATING_HEIGHT}
 			scrollRef={viewportRef}
-			maxColumns={columns === 'auto' ? undefined : columns}
+			maxColumns={layoutStore.columns === 'auto' ? undefined : layoutStore.columns}
 		>
 			{#snippet children(item)}
 				{#if mode === 'delete'}

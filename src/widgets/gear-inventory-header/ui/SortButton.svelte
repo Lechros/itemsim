@@ -11,7 +11,7 @@
 	import { ChevronDown } from 'lucide-svelte';
 
 	let {
-		sort = $bindable('createdAtDesc')
+		sort = $bindable()
 	}: {
 		sort?: string;
 	} = $props();

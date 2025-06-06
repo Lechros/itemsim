@@ -13,6 +13,7 @@
 	import LayoutButton from './LayoutButton.svelte';
 	import SelectedCountBadge from './SelectedCountBadge.svelte';
 	import SortButton from './SortButton.svelte';
+	import type { LayoutStore } from '../model/LayoutStore.svelte';
 
 	type Mode = 'default' | 'delete';
 
@@ -22,8 +23,7 @@
 		deleter,
 		scrollY,
 		mode = $bindable('default'),
-		layout = $bindable('grid'),
-		columns = $bindable('auto'),
+		layoutStore,
 		top,
 		onModeChange
 	}: {
@@ -32,8 +32,7 @@
 		deleter: Deleter;
 		scrollY: number;
 		mode: Mode;
-		layout: 'grid' | 'list';
-		columns: number | 'auto';
+		layoutStore: LayoutStore;
 		top: number;
 		onModeChange: (mode: Mode) => void;
 	} = $props();
@@ -89,7 +88,7 @@
 				<SortButton bind:sort={gearQuery.sort} />
 			</div>
 			<div>
-				<LayoutButton bind:layout bind:columns />
+				<LayoutButton {layoutStore} />
 			</div>
 		</div>
 		{#if mode === 'delete'}

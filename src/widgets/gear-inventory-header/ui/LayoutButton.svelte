@@ -9,14 +9,13 @@
 		DropdownMenuSeparator,
 		DropdownMenuTrigger
 	} from '$lib/shared/shadcn/components/ui/dropdown-menu';
+	import type { LayoutStore } from '$lib/widgets/gear-inventory-header/model/LayoutStore.svelte';
 	import { LayoutGrid, LayoutList } from 'lucide-svelte';
 
 	let {
-		layout = $bindable('grid'),
-		columns = $bindable('auto')
+		layoutStore
 	}: {
-		layout?: 'grid' | 'list';
-		columns?: number | 'auto';
+		layoutStore: LayoutStore;
 	} = $props();
 
 	const columnItems = [
@@ -29,7 +28,7 @@
 
 <DropdownMenu>
 	<DropdownMenuTrigger class={buttonVariants({ variant: 'outline', size: 'icon' })}>
-		{#if layout === 'grid'}
+		{#if layoutStore.layout === 'grid'}
 			<LayoutGrid />
 		{:else}
 			<LayoutList />
@@ -37,7 +36,7 @@
 	</DropdownMenuTrigger>
 	<DropdownMenuContent>
 		<DropdownMenuLabel>보기</DropdownMenuLabel>
-		<DropdownMenuRadioGroup bind:value={layout}>
+		<DropdownMenuRadioGroup bind:value={layoutStore.layout}>
 			<DropdownMenuRadioItem value="grid">
 				<LayoutGrid /> 바둑판
 			</DropdownMenuRadioItem>
@@ -48,10 +47,13 @@
 		<DropdownMenuSeparator />
 		<DropdownMenuLabel>최대 열 개수</DropdownMenuLabel>
 		<DropdownMenuRadioGroup
-			bind:value={() => String(columns), (v) => (columns = v === 'auto' ? 'auto' : Number(v))}
+			bind:value={
+				() => String(layoutStore.columns),
+				(v) => (layoutStore.columns = v === 'auto' ? 'auto' : Number(v))
+			}
 		>
 			{#each columnItems as item}
-				<DropdownMenuRadioItem value={String(item.value)} disabled={layout === 'list'}>
+				<DropdownMenuRadioItem value={String(item.value)} disabled={layoutStore.layout === 'list'}>
 					{item.label}
 				</DropdownMenuRadioItem>
 			{/each}
