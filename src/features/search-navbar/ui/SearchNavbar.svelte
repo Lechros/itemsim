@@ -1,24 +1,29 @@
 <script lang="ts">
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Input } from '$lib/shared/shadcn/components/ui/input';
-	import { ArrowLeft } from 'lucide-svelte';
+	import { cn } from '$lib/shared/shadcn/utils';
+	import { ArrowLeft, Search, X } from 'lucide-svelte';
 
 	let {
 		backHref,
 		title,
 		query = $bindable(''),
-		placeholder = $bindable('아이템 이름을 입력해 주세요.')
+		placeholder = $bindable(),
+		scrollTop = 0
 	}: {
 		backHref?: string;
 		title: string;
 		query?: string;
 		placeholder?: string;
+		scrollTop?: number;
 	} = $props();
+
+	const SCROLL_TOP_THRESHOLD = 46;
 </script>
 
-<header class="bg-background/80 w-full backdrop-blur">
-	<div class="mx-auto flex w-full max-w-screen-md flex-col px-2">
-		<div class="flex h-10 items-center gap-2 pt-2">
+<header class="bg-background -mb-2.5 h-14 w-full">
+	<div class="mx-auto flex h-full w-full max-w-screen-md px-2">
+		<div class="flex items-center gap-2">
 			<Button variant="ghost" size="icon" href={backHref}>
 				<ArrowLeft />
 			</Button>
@@ -26,10 +31,37 @@
 		</div>
 	</div>
 </header>
-<header class="bg-background/80 sticky top-0 z-40 w-full border-b backdrop-blur">
-	<div class="mx-auto flex w-full max-w-screen-md flex-col px-2">
-		<div class="flex h-12 items-center">
-			<Input type="search" {placeholder} class="w-full" bind:value={query} autofocus />
+<header class="bg-background/95 sticky top-0 z-50 h-14 w-full backdrop-blur">
+	<div
+		class={cn(
+			'mx-auto flex h-full w-full max-w-screen-md px-4',
+			scrollTop > SCROLL_TOP_THRESHOLD && 'pl-2'
+		)}
+	>
+		<div class="flex w-full items-center gap-2">
+			{#if scrollTop > SCROLL_TOP_THRESHOLD}
+				<Button variant="ghost" size="icon" href={backHref}>
+					<ArrowLeft />
+				</Button>
+			{/if}
+			<div class="relative w-full">
+				<Input class="pr-8.5 pl-9" {placeholder} bind:value={query} autofocus />
+				<Search
+					class={cn(
+						'text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2'
+					)}
+				/>
+				{#if query}
+					<Button
+						class="absolute top-px right-px bottom-px size-[34px]"
+						variant="ghost"
+						size="icon"
+						onclick={() => (query = '')}
+					>
+						<X class="text-muted-foreground" />
+					</Button>
+				{/if}
+			</div>
 		</div>
 	</div>
 </header>

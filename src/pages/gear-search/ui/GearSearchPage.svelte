@@ -13,6 +13,7 @@
 	let selectedItems = $state<Map<number, SearchGearSummary>>(new SvelteMap());
 	const selectedIds = $state(new SvelteSet<string>());
 	const selectedGears = $derived([...selectedItems.values()]);
+	let scrollTop = $state(0);
 
 	const query = createQuery(() => ({
 		queryKey: ['gear-search', searchQuery],
@@ -37,18 +38,23 @@
 		selectedItems.delete(item.id);
 		selectedIds.delete(String(item.id));
 	}
+
+	function onscroll(event: Event) {
+		scrollTop = (event.target as HTMLElement).scrollTop;
+	}
 </script>
 
-<ScrollArea class="h-screen">
+<ScrollArea class="h-screen" {onscroll}>
 	<SearchNavbar
 		backHref="/"
 		title="아이템 추가"
 		bind:query={searchQuery}
 		placeholder="예) 창세의 뱃지"
+		{scrollTop}
 	/>
 
 	<!-- Search Results -->
-	<div class="mx-auto w-full max-w-screen-md px-2">
+	<div class="mx-auto w-full max-w-screen-md px-4">
 		{#if !searchQuery}
 			<div class="flex pt-4">아이템 이름을 입력해 주세요.</div>
 		{:else if results && results.length > 0}
