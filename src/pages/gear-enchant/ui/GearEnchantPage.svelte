@@ -5,6 +5,7 @@
 	import ScrollArea from '$lib/shared/shadcn/components/ui/scroll-area/scroll-area.svelte';
 	import GearEnchanter from '$lib/widgets/gear-enchanter/ui/GearEnchanter.svelte';
 	import { Gear, type GearData } from '@malib/gear';
+	import { Loader2 } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
 
 	let {
@@ -21,7 +22,7 @@
 	const gear = $derived(gearData ? new Gear(gearData) : undefined);
 
 	$effect(() => {
-		getGearData(Number(seq))
+		getGearData(seq)
 			.then((d) => {
 				gearData = d;
 				lastGearData = structuredClone(d);
@@ -52,7 +53,9 @@
 
 	<div class="my-4 flex flex-col">
 		{#if isLoading}
-			Loading...
+			<div class="flex w-full items-center justify-center">
+				<Loader2 class="h-10 w-10 animate-spin" />
+			</div>
 		{:else if !gear}
 			<div class="flex w-full flex-col items-center justify-center gap-4">
 				<h2 class="text-2xl font-semibold">잘못된 접근입니다.</h2>
