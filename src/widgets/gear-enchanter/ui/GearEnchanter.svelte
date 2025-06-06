@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { GearTooltip } from '$lib/entities/gear-tooltip2';
 	import { GearEnchanterAddOption } from '$lib/features/gear-enchanter-addoption';
 	import { GearEnchanterAttributes } from '$lib/features/gear-enchanter-attributes';
@@ -12,7 +11,7 @@
 	import { GearEnchanterSoulWeapon } from '$lib/features/gear-enchanter-soulweapon';
 	import { GearEnchanterStarforce } from '$lib/features/gear-enchanter-starforce';
 	import { GearEnchanterUpgrade } from '$lib/features/gear-enchanter-upgrade';
-	import { TabSelectorDrawer } from '$lib/features/tab-selector';
+	import { TabSelectorDrawer, createTabStore } from '$lib/features/tab-selector';
 	import TabSelectorList from '$lib/features/tab-selector/ui/TabSelectorList.svelte';
 	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
 	import { Tabs, TabsContent } from '$lib/shared/shadcn/components/ui/tabs';
@@ -27,37 +26,23 @@
 		initialTab?: string;
 	} = $props();
 
-	const tabInfos = $derived(
-		tabs.map((tab) => ({
-			label: tab.label,
-			value: tab.value,
-			disabled: tab.disabled?.(gear)
-		}))
+	const tabStore = $derived(
+		createTabStore(
+			tabs.map((tab) => ({ ...tab, disabled: tab.disabled?.(gear) })),
+			initialTab
+		)
 	);
-
-	let tab = $state(getTab(initialTab));
-
-	function getTab(initialTab?: string) {
-		const activeTabs = tabInfos.filter((tab) => !tab.disabled);
-		if (activeTabs.some((tab) => tab.value === initialTab)) {
-			return initialTab;
-		}
-		if (initialTab) {
-			goto('?');
-		}
-		return activeTabs[0].value;
-	}
 </script>
 
 <div class="mx-auto w-full max-w-screen-md px-4 md:max-w-none">
 	<div class="flex justify-center gap-x-8">
 		<div class="hidden w-52 lg:block">
-			<TabSelectorList bind:tab tabs={tabInfos} />
+			<TabSelectorList {tabStore} />
 		</div>
 
 		<div class="w-full md:max-w-screen-sm">
 			<div class="-mx-4 mb-2 lg:hidden">
-				<TabSelectorDrawer bind:tab tabs={tabInfos} />
+				<TabSelectorDrawer {tabStore} />
 			</div>
 
 			<div class="md:hidden">
@@ -65,7 +50,7 @@
 				<Separator class="my-4" />
 			</div>
 
-			<Tabs bind:value={tab}>
+			<Tabs value={tabStore.currentTab.value}>
 				<TabsContent value="default">관리 탭</TabsContent>
 				<TabsContent value="props">
 					<GearEnchanterAttributes {gear} />
