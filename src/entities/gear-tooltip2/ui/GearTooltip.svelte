@@ -6,7 +6,9 @@
 	import { getJobString } from '../model/job';
 	import Chip from './parts/Chip.svelte';
 	import EnhanceAdd from './parts/enhance/EnhanceAdd.svelte';
+	import EnhanceCannot from './parts/enhance/EnhanceCannot.svelte';
 	import EnhanceScroll from './parts/enhance/EnhanceScroll.svelte';
+	import EnhanceScrollSummary from './parts/enhance/EnhanceScrollSummary.svelte';
 	import EnhanceStarforce from './parts/enhance/EnhanceStarforce.svelte';
 	import Exceptional from './parts/exceptional/Exceptional.svelte';
 	import FrameBottom from './parts/frame/FrameBottom.svelte';
@@ -34,14 +36,17 @@
 		cannot = {},
 		incline,
 		loadSetItemName,
-		loadExclusiveEquips
+		loadExclusiveEquips,
+		expand = false
 	}: {
 		gear: ReadonlyGear;
 		cannot?: {
 			level?: boolean;
 			job?: boolean;
+			gender?: boolean;
 		};
 		incline: { equipped: true } | { combat: number };
+		expand?: boolean;
 		loadSetItemName: (setItemId: number) => string;
 		loadExclusiveEquips: (gearId: number) => string[];
 	} = $props();
@@ -216,13 +221,15 @@
 			<Spacer height={4} />
 			<TemplateText raw={gear.desc} />
 		{/if}
-		<Spacer height={2} />
+		{#if gear.attributes.superior}
+			<Spacer height={4} />
+			<Text>아이템 강화 성공시 더욱 높은 효과를 받을 수 있습니다.</Text>
+		{/if}
 	</FrameMiddle>
-	{#if gear.attributes.specialGrade || isEnhanceable(gear.type)}
-		<FrameLine />
+	{#if isEnhanceable(gear.type)}
 		<FrameMiddle class="px-[15px]">
-			<Spacer height={1} />
-			{#if isEnhanceable(gear.type)}
+			<Spacer height={4} />
+			{#if expand}
 				<EnhanceStarforce
 					can={gear.attributes.canStarforce}
 					superior={gear.attributes.superior}
@@ -236,7 +243,28 @@
 					resile={gear.scrollResilienceCount}
 				/>
 				<EnhanceAdd can={gear.attributes.canAddOption} addOptions={gear.addOptions} />
-				<Spacer height={4} />
+			{:else}
+				<EnhanceCannot
+					canStarforce={gear.attributes.canStarforce}
+					canScroll={gear.attributes.canScroll}
+					canAddOption={gear.attributes.canAddOption}
+				/>
+				{#if gear.attributes.canScroll !== GearCapability.Cannot}
+					<EnhanceScrollSummary
+						can={gear.attributes.canScroll}
+						upgrade={gear.scrollUpgradeCount}
+						upgradeable={gear.scrollUpgradeableCount}
+						resile={gear.scrollResilienceCount}
+					/>
+				{/if}
+				<Text color="darkGray">NPC/채집키를 통해 강화 정보 상세 확인 가능</Text>
+			{/if}
+			<Spacer height={2} />
+		</FrameMiddle>
+		<FrameLine />
+		<FrameMiddle class="px-[15px]">
+			{#if isEnhanceable(gear.type)}
+				<Spacer height={1} />
 				<PotentialTitle
 					can={gear.attributes.canPotential}
 					grade={gear.potentialGrade}
