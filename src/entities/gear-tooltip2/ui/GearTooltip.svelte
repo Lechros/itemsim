@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
 	import { GearCapability, GearGender, GearType, isWeapon, ReadonlyGear } from '@malib/gear';
-	import { getAttributeHtmlStrings } from '../model/attribute';
+	import { getAttributeHtmlStrings, getTopAttributeHtmlStrings } from '../model/attribute';
 	import { getCategories, isEnhanceable } from '../model/category';
 	import { getJobString } from '../model/job';
 	import Chip from './parts/Chip.svelte';
@@ -46,6 +46,7 @@
 		loadExclusiveEquips: (gearId: number) => string[];
 	} = $props();
 
+	const topAttributeStrings = $derived(getTopAttributeHtmlStrings(gear.attributes));
 	const attributeStrings = $derived(
 		getAttributeHtmlStrings(gear.attributes, loadExclusiveEquips(gear.meta.id))
 	);
@@ -95,6 +96,14 @@
 			<Text color="gray" class="mt-[1px] self-center">의</Text>
 		{/if}
 		<Text variant="itemName" class="self-center">{gear.name}</Text>
+		{#if gear.attributes.specialGrade}
+			<Text class="self-center">스페셜 아이템</Text>
+		{/if}
+		{#if topAttributeStrings.length > 0}
+			{#each topAttributeStrings as html}
+				<TemplateText raw={html} class="self-center" />
+			{/each}
+		{/if}
 		<Spacer height={2} />
 	</FrameTop>
 	<FrameLine />

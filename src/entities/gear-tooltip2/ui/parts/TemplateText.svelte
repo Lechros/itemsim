@@ -1,10 +1,11 @@
 <script lang="ts">
+	import { cn } from '$lib/shared/shadcn/utils';
 	import { parseColorString } from '../../model/parser';
 
-	let { raw }: { raw: string } = $props();
+	let { raw, class: className }: { raw: string; class?: string } = $props();
 </script>
 
-<div class="text">
+<div class={cn('text', className)}>
 	{@html parseColorString(raw, {
 		c: 'emphasis',
 		$r: 'red',
