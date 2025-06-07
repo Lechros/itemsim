@@ -34,7 +34,11 @@
 		<NewText value="{label}   {valueStr}" />
 		{#if add !== 0 || upgrade !== 0 || starforce !== 0}
 			<Spacer width={6} />
-			<StatDetail {base} {add} {upgrade} {starforce} {rate} />
+			{#if gear.starScroll}
+				<StatDetail {base} {add} upgrade={upgrade + starforce} starforce={0} {rate} />
+			{:else}
+				<StatDetail {base} {add} {upgrade} {starforce} {rate} />
+			{/if}
 		{/if}
 	</div>
 {/if}
