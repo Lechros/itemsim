@@ -75,22 +75,26 @@
 		return words.join(', ');
 	}
 
-	const basicStats = [
+	const stats = [
 		'str',
 		'dex',
 		'int',
 		'luk',
+		'allStat',
 		'maxHp',
 		'maxMp',
+		'maxHpRate',
+		'maxMpRate',
 		'maxDemonForce',
 		'attackPower',
 		'magicPower',
 		'armor',
 		'speed',
-		'jump'
+		'jump',
+		'damage',
+		'bossDamage',
+		'ignoreMonsterArmor'
 	] as const;
-	const rateStats = ['maxHpRate', 'maxMpRate', 'allStat', 'damage'] as const;
-	const longRateStats = ['bossDamage', 'ignoreMonsterArmor'] as const;
 </script>
 
 <div class="relative">
@@ -209,14 +213,8 @@
 			</div>
 		{/if}
 		<div class="flex flex-col">
-			{#each basicStats as stat}
+			{#each stats as stat}
 				<StatLine {gear} key={stat} />
-			{/each}
-			{#each rateStats as stat}
-				<StatLine {gear} key={stat} />
-			{/each}
-			{#each longRateStats as stat}
-				<StatLine size="large" {gear} key={stat} />
 			{/each}
 		</div>
 		{#if gear.desc}

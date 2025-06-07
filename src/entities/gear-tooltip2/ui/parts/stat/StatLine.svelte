@@ -11,16 +11,13 @@
 	import NewText from '../NewText.svelte';
 	import Spacer from '../Spacer.svelte';
 	import StatDetail from './StatDetail.svelte';
-	import { cn } from '$lib/shared/shadcn/utils';
 
 	let {
 		gear,
-		key,
-		size = 'normal'
+		key
 	}: {
 		gear: ReadonlyGear;
 		key: keyof GearOption;
-		size?: 'normal' | 'large';
 	} = $props();
 
 	const base = $derived(gear.baseOption[key as keyof GearBaseOption]);
@@ -30,8 +27,6 @@
 	const sum = $derived(base + add + upgrade + starforce);
 	const [label, valueStr] = $derived(getOptionStrings(key, sum, true));
 	const rate = $derived(valueStr.endsWith('%'));
-
-	const isFirstLetterAlphabet = $derived(label[0]?.match(/[a-zA-Z]/));
 </script>
 
 {#if base > 0 || sum > 0}
