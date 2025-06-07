@@ -33,12 +33,9 @@
 
 {#if base > 0 || sum > 0}
 	<div class="flex">
-		<div class={['flex justify-between', size === 'normal' ? 'w-[95px]' : 'w-[129px]']}>
-			<Text>{label}</Text>
-			<Text>{valueStr}</Text>
-		</div>
+		<Text>{`${label}   ${valueStr}`}</Text>
 		{#if add !== 0 || upgrade !== 0 || starforce !== 0}
-			<Spacer width={size === 'normal' ? 12 : 15} />
+			<Spacer width={6} />
 			<StatDetail {base} {add} {upgrade} {starforce} {rate} />
 		{/if}
 	</div>
