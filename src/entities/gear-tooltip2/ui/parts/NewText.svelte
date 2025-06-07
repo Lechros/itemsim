@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { cn } from '$lib/shared/shadcn/utils';
 	import NewTextChar from './NewTextChar.svelte';
 	import Text from './Text.svelte';
 
@@ -75,7 +76,11 @@
 {#if variant === 'default'}
 	<svelte:element
 		this={tag}
-		class={['text flex', className, alignFirstLetter && isFirstLetterAlphabet && 'pl-[1px]']}
+		class={cn(
+			'text flex flex-wrap',
+			alignFirstLetter && isFirstLetterAlphabet && 'pl-[1px]',
+			className
+		)}
 		{style}
 	>
 		{#if value}

@@ -9,6 +9,14 @@ export function parseColorString(text: string, classTable: Record<string, string
 	return html;
 }
 
+export function tokenizeColorString(text: string, classTable: Record<string, string>) {
+	text = normalizeText(text);
+
+	const tokens = parseColorStringToTokens(text);
+	const coloredTokens = toColoredTokens(tokens, classTable);
+	return coloredTokens;
+}
+
 function normalizeText(text: string): string {
 	return text.replaceAll(/(\\r)?\\n/g, '\n').replaceAll('\\r', ' ');
 }
@@ -90,6 +98,25 @@ function buildHtml(tokens: Token[], classTable: Record<string, string>): string 
 	return result.join('').trim();
 }
 
+function toColoredTokens(tokens: Token[], classTable: Record<string, string>): ColoredToken[] {
+	const result: ColoredToken[] = [];
+	let color: string | undefined = undefined;
+	for (const token of tokens) {
+		switch (token.type) {
+			case 'text':
+				result.push({ text: token.text, color });
+				break;
+			case 'open':
+				color = classTable[token.key];
+				break;
+			case 'close':
+				color = undefined;
+				break;
+		}
+	}
+	return result;
+}
+
 function parseTag(text: string, index: number): Tag {
 	const firstKeyChar = text[index + 1];
 	if (firstKeyChar === '$') {
@@ -124,6 +151,11 @@ type Token =
 	| {
 			type: 'close';
 	  };
+
+export type ColoredToken = {
+	text: string;
+	color?: string;
+};
 
 type Tag =
 	| {

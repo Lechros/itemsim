@@ -12,12 +12,12 @@
 
 	const { fontRender } = getContext<{ fontRender: FontRender | undefined }>('FontRenderProvider');
 
-	let canvas: HTMLCanvasElement;
+	let canvas: HTMLCanvasElement | null = $state(null);
 	let _width = $state(0);
 	let _height = $state(0);
 
 	$effect(() => {
-		if (fontRender && !fontRender.isLoading) {
+		if (fontRender && !fontRender.isLoading && canvas) {
 			const fontChar = fontRender.getCharacter(charCode);
 			if (!fontChar) return;
 			const { width, height, bits } = fontChar;
@@ -41,10 +41,14 @@
 	});
 </script>
 
-<canvas bind:this={canvas}></canvas>
+{#if charCode === '\n'.charCodeAt(0)}
+	<div class="h-0 basis-full"></div>
+{:else}
+	<canvas bind:this={canvas}>{String.fromCharCode(charCode)}</canvas>
+{/if}
 
 <style>
-	* {
+	canvas {
 		image-rendering: pixelated;
 		padding-top: 1px;
 	}
