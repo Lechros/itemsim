@@ -18,7 +18,7 @@
 	const r = rate ? '%' : '';
 
 	function getHtmlString(base: number, add: number, upgrade: number, starforce: number) {
-		let str = `(${base}`;
+		let str = `(${base}${r}`;
 		if (starforce !== 0) {
 			str += ` #$s+${starforce}${r}#`;
 		}
