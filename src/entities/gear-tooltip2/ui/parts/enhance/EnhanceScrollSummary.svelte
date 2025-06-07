@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { GearCapability } from '@malib/gear';
-	import Spacer from '../Spacer.svelte';
-	import Text from '../Text.svelte';
+	import NewText from '../NewText.svelte';
 
 	let {
 		can,
@@ -28,5 +27,5 @@
 </script>
 
 {#if can !== GearCapability.Cannot}
-	<Text color={upgrade > 0 ? 'white' : 'darkGray'}>{str}</Text>
+	<NewText color={upgrade > 0 ? 'white' : 'darkGray'} value={str} />
 {/if}

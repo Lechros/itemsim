@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Text from './Text.svelte';
+	import NewText from './NewText.svelte';
 
 	let {
 		level,
@@ -13,15 +13,17 @@
 </script>
 
 {#if increase > 0 || decrease > 0}
-	<Text class="flex">
-		Lv. {level + increase - decrease}
-		<Text color="gray" class="flex">
-			({level}{#if increase > 0}
-				<Text color="bonusStat">{' '}+ {increase}</Text>{/if}
-			{#if decrease > 0}
-				<Text color="bonusStat">{' '}- {decrease}</Text>{/if})
-		</Text>
-	</Text>
+	<div class="flex">
+		<NewText value="Lv. {level + increase - decrease} " />
+		<NewText color="gray" value="({level}" />
+		{#if increase > 0}
+			<NewText color="bonusStat" value={` + ${increase}`} />
+		{/if}
+		{#if decrease > 0}
+			<NewText color="bonusStat" value={` - ${decrease}`} />
+		{/if}
+		<NewText color="gray" value=")" />
+	</div>
 {:else}
-	<Text>Lv. {level}</Text>
+	<NewText value="Lv. {level}" />
 {/if}

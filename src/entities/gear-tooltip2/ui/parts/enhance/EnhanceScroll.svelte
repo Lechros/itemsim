@@ -2,6 +2,7 @@
 	import { UIImage2 } from '$lib/shared/ui';
 	import { GearCapability } from '@malib/gear';
 	import Text from '../Text.svelte';
+	import NewText from '../NewText.svelte';
 
 	let {
 		can,
@@ -30,16 +31,16 @@
 {#if can === GearCapability.Cannot}
 	<div class="flex items-center">
 		<UIImage2 image="scrollNormal" class="mr-[4px]" />
-		<Text color="darkGray">주문서 강화 : 강화 불가</Text>
+		<NewText color="darkGray" value="주문서 : 강화 불가" />
 	</div>
 {:else if upgrade === 0}
 	<div class="flex items-center">
 		<UIImage2 image="scrollNormal" class="mr-[4px]" />
-		<Text color="darkGray">{str}</Text>
+		<NewText color="darkGray" value={str} />
 	</div>
 {:else}
 	<div class="flex items-center">
 		<UIImage2 image="scrollEnhanced" class="mr-[4px]" />
-		<Text color="white">{str}</Text>
+		<NewText color="white" value={str} />
 	</div>
 {/if}

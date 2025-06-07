@@ -8,9 +8,10 @@
 		type GearUpgradeOption
 	} from '@malib/gear';
 	import { getOptionStrings } from '../../../model/option';
+	import NewText from '../NewText.svelte';
 	import Spacer from '../Spacer.svelte';
-	import Text from '../Text.svelte';
 	import StatDetail from './StatDetail.svelte';
+	import { cn } from '$lib/shared/shadcn/utils';
 
 	let {
 		gear,
@@ -29,11 +30,13 @@
 	const sum = $derived(base + add + upgrade + starforce);
 	const [label, valueStr] = $derived(getOptionStrings(key, sum, true));
 	const rate = $derived(valueStr.endsWith('%'));
+
+	const isFirstLetterAlphabet = $derived(label[0]?.match(/[a-zA-Z]/));
 </script>
 
 {#if base > 0 || sum > 0}
 	<div class="flex">
-		<Text>{`${label}   ${valueStr}`}</Text>
+		<NewText value="{label}   {valueStr}" />
 		{#if add !== 0 || upgrade !== 0 || starforce !== 0}
 			<Spacer width={6} />
 			<StatDetail {base} {add} {upgrade} {starforce} {rate} />

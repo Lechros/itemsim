@@ -4,6 +4,7 @@
 	import { convertGearOptionToSummaries } from '../../../model/option';
 	import Spacer from '../Spacer.svelte';
 	import Text from '../Text.svelte';
+	import NewText from '../NewText.svelte';
 
 	let {
 		enchanted,
@@ -25,21 +26,21 @@
 		<div class="flex items-center">
 			<UIImage2 image="soulNormal" />
 			<Spacer width={4} />
-			<Text>소울 : {soul.name}</Text>
+			<NewText value="소울 : {soul.name}" />
 		</div>
-		<Text>{getFirstSoulOptionString(soul.option)}</Text>
-		<Text>[{soul.skill}] 스킬 사용 가능</Text>
+		<NewText value={getFirstSoulOptionString(soul.option)} />
+		<NewText value="[{soul.skill}] 스킬 사용 가능" />
 	{:else}
 		<div class="flex items-center">
 			<UIImage2 image="soulNormal" />
 			<Spacer width={4} />
-			<Text>소울 : 장착된 소울 없음</Text>
+			<NewText value="소울 : 장착된 소울 없음" />
 		</div>
 	{/if}
 {:else}
 	<div class="flex items-center">
 		<UIImage2 image="soulNormal" />
 		<Spacer width={4} />
-		<Text>소울 : 소울 웨폰으로 변환 필요</Text>
+		<NewText value="소울 : 소울 웨폰으로 변환 필요" />
 	</div>
 {/if}

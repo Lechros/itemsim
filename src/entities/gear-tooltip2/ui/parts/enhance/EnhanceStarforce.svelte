@@ -3,6 +3,7 @@
 	import Spacer from '../Spacer.svelte';
 	import Text from '../Text.svelte';
 	import { UIImage2 } from '$lib/shared/ui';
+	import NewText from '../NewText.svelte';
 
 	let {
 		can,
@@ -29,16 +30,16 @@
 {#if can === GearCapability.Cannot}
 	<div class="flex items-center">
 		<UIImage2 image="starNormal" class="mr-[4px]" />
-		<Text color="darkGray">스타포스 강화 : 강화 불가</Text>
+		<NewText color="darkGray" value="스타포스 : 강화 불가" />
 	</div>
 {:else if star === 0}
 	<div class="flex items-center">
 		<UIImage2 image="starNormal" class="mr-[4px]" />
-		<Text color="darkGray">{str}</Text>
+		<NewText color="darkGray" value={str} />
 	</div>
 {:else}
 	<div class="flex items-center">
 		<UIImage2 image="starEnhanced" class="mr-[4px]" />
-		<Text color="white">{str}</Text>
+		<NewText color="white" value={str} />
 	</div>
 {/if}
