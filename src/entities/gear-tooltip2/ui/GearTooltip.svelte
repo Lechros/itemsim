@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
-	import { GearCapability, GearType, isWeapon, ReadonlyGear } from '@malib/gear';
+	import { GearCapability, GearGender, GearType, isWeapon, ReadonlyGear } from '@malib/gear';
 	import { getAttributeHtmlStrings } from '../model/attribute';
 	import { getCategories, isEnhanceable } from '../model/category';
 	import { getJobString } from '../model/job';
@@ -135,22 +135,32 @@
 		<div class="flex flex-col items-start">
 			{#if gear.shape}
 				<div class="flex">
-					<Text color="gray" class="w-[64px]">현재 외형</Text>
+					<Text color="gray" class="w-[85px]">현재 외형</Text>
 					<Text>{gear.shape.name}</Text>
 				</div>
 			{/if}
 			<div class="flex">
-				<Text color="gray" class="w-[64px]">착용 직업</Text>
+				<Text color="gray" class="w-[85px]">착용 직업</Text>
 				<Text>{getJobString(gear.type, gear.req.job, gear.req.class)}</Text>
 			</div>
-			{#if gear.req.level > 0 || gear.req.levelIncrease > 0}
-				<div class="flex">
-					<Text color="gray" class="w-[63px]">요구 레벨</Text>
-					<ReqLevel
-						level={gear.req.level}
-						increase={gear.req.levelIncrease}
-						decrease={gear.baseOption.reqLevelDecrease + gear.addOption.reqLevelDecrease}
-					/>
+			{#if gear.req.level > 0 || gear.req.levelIncrease > 0 || gear.req.gender !== undefined}
+				<div class="grid grid-cols-[217px_1fr]">
+					{#if gear.req.level > 0 || gear.req.levelIncrease > 0}
+						<div class="flex">
+							<Text color="gray" class="w-[85px]">요구 레벨</Text>
+							<ReqLevel
+								level={gear.req.level}
+								increase={gear.req.levelIncrease}
+								decrease={gear.baseOption.reqLevelDecrease + gear.addOption.reqLevelDecrease}
+							/>
+						</div>
+					{/if}
+					{#if gear.req.gender !== undefined}
+						<div class="flex">
+							<Text color="gray" class="w-[66px]">착용 성별</Text>
+							<Text>{gear.req.gender === GearGender.Male ? '남' : '여'}</Text>
+						</div>
+					{/if}
 				</div>
 			{/if}
 		</div>
