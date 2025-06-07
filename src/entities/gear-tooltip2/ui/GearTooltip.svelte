@@ -228,10 +228,6 @@
 		<FrameLine />
 		<FrameMiddle class="px-[15px]">
 			<Spacer height={1} />
-			{#if gear.attributes.specialGrade}
-				<Text>스페셜 아이템</Text>
-				<Spacer height={4} />
-			{/if}
 			{#if isEnhanceable(gear.type)}
 				<EnhanceStarforce
 					can={gear.attributes.canStarforce}
