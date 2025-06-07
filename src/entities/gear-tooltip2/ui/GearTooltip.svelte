@@ -50,6 +50,13 @@
 	const attributeStrings = $derived(
 		getAttributeHtmlStrings(gear.attributes, loadExclusiveEquips(gear.meta.id))
 	);
+	const gender = $derived(
+		gear.req.gender === GearGender.Male
+			? '남'
+			: gear.req.gender === GearGender.Female
+				? '여'
+				: undefined
+	);
 
 	function getSetItemLine(gear: ReadonlyGear) {
 		const words: string[] = [];
@@ -95,7 +102,12 @@
 		{#if false}
 			<Text color="gray" class="mt-[1px] self-center">의</Text>
 		{/if}
-		<Text variant="itemName" class="self-center">{gear.name}</Text>
+		<Text variant="itemName" class="self-center">
+			{gear.name}
+			{#if gender}
+				({gender})
+			{/if}
+		</Text>
 		{#if gear.attributes.specialGrade}
 			<Text class="self-center">스페셜 아이템</Text>
 		{/if}
@@ -164,10 +176,10 @@
 							/>
 						</div>
 					{/if}
-					{#if gear.req.gender !== undefined}
+					{#if gender}
 						<div class="flex">
 							<Text color="gray" class="w-[66px]">착용 성별</Text>
-							<Text>{gear.req.gender === GearGender.Male ? '남' : '여'}</Text>
+							<Text>{gender}</Text>
 						</div>
 					{/if}
 				</div>
