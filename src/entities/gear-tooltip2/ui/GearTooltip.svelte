@@ -99,7 +99,7 @@
 			star={gear.star}
 			maxStar={gear.attributes.canStarforce === GearCapability.Fixed ? gear.star : gear.maxStar}
 			color={gear.starScroll ? 'blue' : 'yellow'}
-			class="mt-[10px]"
+			class="mx-auto mt-[10px] pr-[1px]"
 		/>
 		{#if gear.star >= 23}
 			<UIImage2 image="particleStar" class="absolute top-px left-0" />
@@ -108,18 +108,18 @@
 		{#if false}
 			<Text color="gray" class="mt-[1px] self-center">의</Text>
 		{/if}
-		<Text variant="itemName" class="self-center">
+		<Text variant="itemName" class="self-center pl-[2px]">
 			{gear.name}
 			{#if gender}
 				({gender})
 			{/if}
 		</Text>
 		{#if gear.attributes.specialGrade}
-			<NewText value="스페셜 아이템" class="self-center" />
+			<NewText value="스페셜 아이템" class="self-center pr-[2px]" />
 		{/if}
 		{#if topAttributeStrings.length > 0}
 			{#each topAttributeStrings as html}
-				<TemplateText raw={html} class="self-center" />
+				<TemplateText raw={html} class="self-center pr-[2px]" />
 			{/each}
 		{/if}
 		<Spacer height={2} />
@@ -174,7 +174,7 @@
 				<div class="grid grid-cols-[217px_1fr]">
 					{#if gear.req.level > 0 || gear.req.levelIncrease > 0}
 						<div class="flex">
-							<NewText color="gray" class="w-[85px]" value="요구 레벨" alignFirstLetter={false} />
+							<NewText color="gray" class="w-[84px]" value="요구 레벨" alignFirstLetter={false} />
 							<ReqLevel
 								level={gear.req.level}
 								increase={gear.req.levelIncrease}
@@ -195,11 +195,11 @@
 	</FrameMiddle>
 	<FrameLine />
 	<FrameMiddle class="px-[15px]">
-		<Spacer height={2} />
+		<Spacer height={1} />
 		{#if gear.attributes.setItemId || gear.attributes.lucky}
 			<div class="flex">
-				<UIImage2 image="setGuide" class="ml-px w-[84px]!" />
-				<NewText color="gray" class="-mt-[1px]" value={getSetItemLine(gear)} />
+				<UIImage2 image="setGuide" class="mt-px ml-px w-[84px]!" />
+				<NewText color="gray" value={getSetItemLine(gear)} />
 			</div>
 		{/if}
 		{#if gear.attributes.attackSpeed || isWeapon(gear.type) || gear.type === GearType.katara}

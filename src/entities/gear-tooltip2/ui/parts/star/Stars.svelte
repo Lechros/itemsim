@@ -36,8 +36,8 @@
 	}
 </script>
 
-{#if lines}
-	<div class={['mx-auto flex flex-col items-center gap-y-[8px]', className]}>
+{#if lines.length > 0}
+	<div class={['flex flex-col items-center gap-y-[8px]', className]}>
 		{#each lines as line}
 			<div class="flex gap-x-[10px]">
 				{#each line as group}
