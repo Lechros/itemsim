@@ -54,7 +54,7 @@
 <div class="flex flex-col gap-y-4">
 	<div class="flex flex-col gap-y-2">
 		<h4 class="text-lg font-semibold">{gradeLabel}</h4>
-		<ButtonGroup>
+		<ButtonGroup class="flex-wrap">
 			{#each grades as { label, value }}
 				<Button
 					variant={grade === value ? 'default' : 'outline'}

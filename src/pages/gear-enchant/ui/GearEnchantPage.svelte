@@ -2,8 +2,8 @@
 	import { DetailNavbar } from '$lib/features/detail-navbar';
 	import { getGearData, updateGearData } from '$lib/features/gear-inventory';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
-	import ScrollArea from '$lib/shared/shadcn/components/ui/scroll-area/scroll-area.svelte';
-	import GearEnchanter from '$lib/widgets/gear-enchanter/ui/GearEnchanter.svelte';
+	import { ScrollArea } from '$lib/shared/shadcn/components/ui/scroll-area';
+	import { GearEnchanter } from '$lib/widgets/gear-enchanter';
 	import { Gear, type GearData } from '@malib/gear';
 	import { Loader2 } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
@@ -51,18 +51,16 @@
 <ScrollArea class="h-screen">
 	<DetailNavbar title="아이템 강화" backHref="/" />
 
-	<div class="my-4 flex flex-col">
-		{#if isLoading}
-			<div class="flex w-full items-center justify-center">
-				<Loader2 class="h-10 w-10 animate-spin" />
-			</div>
-		{:else if !gear}
-			<div class="flex w-full flex-col items-center justify-center gap-4">
-				<h2 class="text-2xl font-semibold">잘못된 접근입니다.</h2>
-				<Button variant="outline" href="/">돌아가기</Button>
-			</div>
-		{:else}
-			<GearEnchanter {gear} {initialTab} />
-		{/if}
-	</div>
+	{#if isLoading}
+		<div class="flex w-full items-center justify-center py-4">
+			<Loader2 class="h-10 w-10 animate-spin" />
+		</div>
+	{:else if !gear}
+		<div class="flex w-full flex-col items-center justify-center gap-4 py-4">
+			<h2 class="text-2xl font-semibold">잘못된 접근입니다.</h2>
+			<Button variant="outline" href="/">돌아가기</Button>
+		</div>
+	{:else}
+		<GearEnchanter {gear} {initialTab} />
+	{/if}
 </ScrollArea>

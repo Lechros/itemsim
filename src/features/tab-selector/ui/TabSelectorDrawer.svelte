@@ -26,12 +26,12 @@
 <Drawer bind:open>
 	<DrawerTrigger>
 		<Button variant="ghost" size="lg" class="flex items-center gap-2">
-			<h2 class="text-2xl font-semibold">{tabStore.currentTab.label}</h2>
+			<h1 class="text-2xl font-semibold">{tabStore.currentTab.label}</h1>
 			<ChevronDown />
 		</Button>
 	</DrawerTrigger>
 	<DrawerContent>
-		<div class="mx-auto flex w-full max-w-screen-md flex-col px-2 pt-4">
+		<div class="mx-auto flex w-full max-w-screen-md flex-col p-4">
 			{#each tabStore.tabs as tab}
 				{@const isCurrent = tab.value === tabStore.currentTab.value}
 				<Button
