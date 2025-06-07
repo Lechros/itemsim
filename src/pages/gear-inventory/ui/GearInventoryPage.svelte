@@ -138,7 +138,7 @@
 		<GearTooltip
 			gear={new ReadonlyGear(hoverGearData)}
 			incline={{ combat: 0 }}
-			loadSetItemName={() => ''}
+			loadSetItemName={() => '보스 장신구 세트'}
 			loadExclusiveEquips={() => []}
 		/>
 	</FollowCursor>

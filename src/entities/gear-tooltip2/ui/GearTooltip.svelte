@@ -190,27 +190,21 @@
 	<FrameMiddle class="px-[15px]">
 		<Spacer height={2} />
 		{#if gear.attributes.setItemId || gear.attributes.lucky}
-			<div class="flex w-full justify-between">
-				<UIImage2 image="setGuide" />
-				<Text color="gray" class="mr-[2px]">{getSetItemLine(gear)}</Text>
+			<div class="flex">
+				<UIImage2 image="setGuide" class="ml-px w-[84px]!" />
+				<Text color="gray">{getSetItemLine(gear)}</Text>
 			</div>
 		{/if}
-		{#if gear.attributes.skills && gear.attributes.skills.length > 0}
-			<div class="flex w-full justify-between">
-				<Text color="gray">사용 가능 스킬</Text>
-				<Text color="gray" class="mr-[2px]">{gear.attributes.skills.join(', ')}</Text>
+		{#if gear.attributes.attackSpeed || isWeapon(gear.type) || gear.type === GearType.katara}
+			<div class="flex">
+				<Text color="gray" class="w-[85px]">공격 속도</Text>
+				<Text color="gray">{10 - (gear.attributes.attackSpeed ?? 6)}단계</Text>
 			</div>
 		{/if}
 		<div class="flex flex-col">
 			{#each basicStats as stat}
 				<StatLine {gear} key={stat} />
 			{/each}
-			{#if gear.attributes.attackSpeed || isWeapon(gear.type) || gear.type === GearType.katara}
-				<div class="flex w-[96px] justify-between">
-					<Text>공격 속도</Text>
-					<Text>{10 - (gear.attributes.attackSpeed ?? 6)}단계</Text>
-				</div>
-			{/if}
 			{#each rateStats as stat}
 				<StatLine {gear} key={stat} />
 			{/each}
