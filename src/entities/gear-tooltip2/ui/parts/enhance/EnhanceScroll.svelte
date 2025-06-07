@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { UIImage2 } from '$lib/shared/ui';
 	import { GearCapability } from '@malib/gear';
-	import Spacer from '../Spacer.svelte';
 	import Text from '../Text.svelte';
 
 	let {
@@ -14,22 +14,32 @@
 		upgradeable: number;
 		resile: number;
 	} = $props();
+
+	const str = $derived(getStr(can, upgrade, upgradeable, resile));
+
+	function getStr(can: GearCapability, upgrade: number, upgradeable: number, resile: number) {
+		const base = upgrade > 0 ? `주문서 : ${upgrade}회` : '주문서 : 없음';
+		const add =
+			can === GearCapability.Fixed
+				? '(추가 강화 불가)'
+				: `(잔여 ${upgradeable}회, 복구 가능 ${resile}회)`;
+		return `${base} ${add}`;
+	}
 </script>
 
 {#if can === GearCapability.Cannot}
-	<Text color="darkGray">주문서 강화 : 강화 불가</Text>
+	<div class="flex items-center">
+		<UIImage2 image="scrollNormal" class="mr-[4px]" />
+		<Text color="darkGray">주문서 강화 : 강화 불가</Text>
+	</div>
+{:else if upgrade === 0}
+	<div class="flex items-center">
+		<UIImage2 image="scrollNormal" class="mr-[4px]" />
+		<Text color="darkGray">{str}</Text>
+	</div>
 {:else}
-	<div class="flex">
-		{#if upgrade > 0}
-			<Text color="scroll">주문서 강화 : {upgrade}회</Text>
-		{:else}
-			<Text color="darkGray">주문서 강화 : 없음</Text>
-		{/if}
-		<Spacer width={4} />
-		{#if can === GearCapability.Fixed}
-			<Text>(추가 강화 불가)</Text>
-		{:else}
-			<Text>(잔여 {upgradeable}회, 복구 가능 {resile}회)</Text>
-		{/if}
+	<div class="flex items-center">
+		<UIImage2 image="scrollEnhanced" class="mr-[4px]" />
+		<Text color="white">{str}</Text>
 	</div>
 {/if}
