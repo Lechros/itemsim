@@ -23,6 +23,7 @@
 		"@lucide/svelte": "^0.511.0",
 		"@playwright/test": "^1.52.0",
 		"@sveltejs/adapter-auto": "^4.0.0",
+		"@sveltejs/adapter-cloudflare": "^7.0.3",
 		"@sveltejs/kit": "^2.21.1",
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"@tailwindcss/vite": "^4.1.7",

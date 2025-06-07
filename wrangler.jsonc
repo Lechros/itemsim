@@ -1,0 +1,9 @@
+{
+	"name": "itemsim",
+	"compatibility_date": "2025-06-07",
+	"main": ".svelte-kit/cloudflare/_worker.js",
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".svelte-kit/cloudflare"
+	}
+}
