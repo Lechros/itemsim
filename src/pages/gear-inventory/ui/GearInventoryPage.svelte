@@ -24,7 +24,7 @@
 	const NAVBAR_HEIGHT = 56;
 	const FLOATING_HEIGHT = 136;
 	const DELETE_MODE_DIFF = 62;
-	const SCROLL_THRESHOLD = 80;
+	const SCROLL_THRESHOLD = 8;
 
 	const gearQuery = createGearLiveQuery();
 	const countQuery = createGearCountLiveQuery();

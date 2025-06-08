@@ -37,7 +37,7 @@
 		onModeChange: (mode: Mode) => void;
 	} = $props();
 
-	const SCROLL_THRESHOLD = 80;
+	const SCROLL_THRESHOLD = 8;
 
 	function toggleDeleteMode() {
 		mode = mode === 'delete' ? 'default' : 'delete';
