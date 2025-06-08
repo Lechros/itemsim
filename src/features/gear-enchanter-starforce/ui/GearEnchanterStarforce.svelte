@@ -20,7 +20,7 @@
 		gear.resetStarforce();
 		toast.success('스타포스 강화를 초기화했어요.', {
 			position: 'top-center',
-			duration: 1000
+			duration: 2000
 		});
 	}
 </script>

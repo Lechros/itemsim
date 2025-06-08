@@ -12,6 +12,7 @@
 	import { padRight } from '$lib/shared/utils';
 	import { AddOptionType, type AddOptionGrade, type Gear } from '@malib/gear';
 	import { untrack } from 'svelte';
+	import { toast } from 'svelte-sonner';
 	import { getAvailableGrades, getAvailableTypes } from '../model/addOption';
 	import type { AddOptionGradeOrEmpty, SelectedOption } from '../model/types';
 	import GradeItem from './GradeItem.svelte';
@@ -105,6 +106,17 @@
 	<Separator />
 
 	<ButtonGroup>
-		<Button variant="destructive" onclick={() => gear.resetAddOption()}>추가 옵션 초기화</Button>
+		<Button
+			variant="destructive"
+			onclick={() => {
+				gear.resetAddOption();
+				toast.success('추가 옵션을 초기화했어요.', {
+					position: 'top-center',
+					duration: 2000
+				});
+			}}
+		>
+			추가 옵션 초기화
+		</Button>
 	</ButtonGroup>
 </div>

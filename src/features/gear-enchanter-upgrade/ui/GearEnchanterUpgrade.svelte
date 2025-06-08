@@ -9,6 +9,7 @@
 	import { cn } from '$lib/shared/shadcn/utils';
 	import { ButtonGroup } from '$lib/shared/ui';
 	import { Gear, type Scroll } from '@malib/gear';
+	import { toast } from 'svelte-sonner';
 	import { tabs } from '../model/tabs';
 	import ChaosScrollTab from './ChaosScrollTab.svelte';
 	import EtcScrollTab from './EtcScrollTab.svelte';
@@ -149,7 +150,13 @@
 		</Button>
 		<Button
 			variant="destructive"
-			onclick={() => gear.resetUpgrade()}
+			onclick={() => {
+				gear.resetUpgrade();
+				toast.success('주문서 강화를 초기화했어요.', {
+					position: 'top-center',
+					duration: 2000
+				});
+			}}
 			disabled={!gear.canResetUpgrade}
 		>
 			주문서 강화 초기화

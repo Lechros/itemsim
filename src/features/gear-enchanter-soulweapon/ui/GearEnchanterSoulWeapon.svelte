@@ -175,7 +175,13 @@
 		</Button>
 		<Button
 			variant="destructive"
-			onclick={() => gear.resetSoulEnchant()}
+			onclick={() => {
+				gear.resetSoulEnchant();
+				toast.success('소울 웨폰을 초기화했어요.', {
+					position: 'top-center',
+					duration: 2000
+				});
+			}}
 			disabled={!gear.soulEnchanted}
 		>
 			소울 웨폰 초기화
