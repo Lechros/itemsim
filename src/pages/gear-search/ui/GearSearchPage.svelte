@@ -76,9 +76,11 @@
 						onSelect={() => selectItem(item)}
 						onDeselect={() => deselectItem(item)}
 					>
-						<GearIcon icon={item.icon} />
-						<div>
-							<Highlight text={item.name} highlight={item.highlight} />
+						<div class="flex items-center gap-3">
+							<GearIcon icon={item.icon} />
+							<div>
+								<Highlight text={item.name} highlight={item.highlight} />
+							</div>
 						</div>
 					</SelectListItem>
 				{/snippet}

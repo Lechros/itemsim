@@ -73,7 +73,7 @@
 		</div>
 	{/if}
 	<div class="bg-card relative border-t">
-		<div class="mx-auto flex max-w-screen-md flex-col gap-2 p-2">
+		<div class="mx-auto flex max-w-screen-md flex-col gap-4 p-4">
 			<Button variant="ghost" size="sm" onclick={() => (open = !open)}>
 				<div>
 					선택된 아이템 <span class="text-base font-semibold">{selectedGears.length}</span>개
