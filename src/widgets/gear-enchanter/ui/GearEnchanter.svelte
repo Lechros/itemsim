@@ -41,7 +41,7 @@
 			</div>
 		</div>
 		<div class="min-w-0 flex-1">
-			<div class="mx-auto flex max-w-2xl flex-col gap-4 px-2 py-6 sm:px-4">
+			<div class="mx-auto flex max-w-screen-md flex-col gap-4 px-2 py-6 sm:px-4">
 				<div class="items-top relative flex justify-between">
 					<div>
 						<div class="-ml-4 xl:hidden">
@@ -91,7 +91,7 @@
 			<GearTooltip
 				{gear}
 				incline={{ combat: 0 }}
-				loadSetItemName={() => ''}
+				loadSetItemName={() => '여명의 보스 세트'}
 				loadExclusiveEquips={() => []}
 			/>
 		</div>

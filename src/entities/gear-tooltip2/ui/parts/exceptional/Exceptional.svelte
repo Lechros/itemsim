@@ -3,7 +3,7 @@
 	import type { GearExceptionalOption } from '@malib/gear';
 	import { convertGearOptionToSummaries } from '../../../model/option';
 	import Spacer from '../Spacer.svelte';
-	import Text from '../Text.svelte';
+	import Text from '../text/Text.svelte';
 
 	let {
 		upgrade,
@@ -20,19 +20,17 @@
 	<div class="flex items-center">
 		<UIImage2 image="exceptionalNormal" />
 		<Spacer width={4} />
-		<Text color="exceptional">익셉셔널 : {upgrade}회</Text>
-		<Spacer width={3} />
-		<Text>(최대 {total}회)</Text>
+		<Text color="exceptional" value="익셉셔널 : {upgrade}회" />
+		<Text value=" (최대 {total}회)" />
 	</div>
 	{#each convertGearOptionToSummaries(option) as summary}
-		<Text>{summary}</Text>
+		<Text value={summary} />
 	{/each}
 {:else}
 	<div class="flex items-center">
 		<UIImage2 image="potentialTitleNormal" />
 		<Spacer width={4} />
-		<Text color="darkGray">익셉셔널 : 없음</Text>
-		<Spacer width={3} />
-		<Text>(최대 {total}회)</Text>
+		<Text color="darkGray" value="익셉셔널 : 없음" />
+		<Text color="darkGray" value=" (최대 {total}회)" />
 	</div>
 {/if}

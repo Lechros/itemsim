@@ -310,6 +310,30 @@
 		width: 11px;
 		height: 10px;
 	}
+	.starNormal {
+		width: 11px;
+		height: 10px;
+	}
+	.starEnhanced {
+		width: 11px;
+		height: 10px;
+	}
+	.scrollNormal {
+		width: 11px;
+		height: 9px;
+	}
+	.scrollEnhanced {
+		width: 11px;
+		height: 9px;
+	}
+	.addOptionNormal {
+		width: 11px;
+		height: 11px;
+	}
+	.addOptionEnhanced {
+		width: 11px;
+		height: 11px;
+	}
 
 	@keyframes particleStar {
 		from {

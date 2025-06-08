@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
-	import { GearCapability, GearType, isWeapon, ReadonlyGear } from '@malib/gear';
-	import { getAttributeHtmlStrings } from '../model/attribute';
+	import { GearCapability, GearGender, GearType, isWeapon, ReadonlyGear } from '@malib/gear';
+	import { getAttributeHtmlStrings, getTopAttributeHtmlStrings } from '../model/attribute';
 	import { getCategories, isEnhanceable } from '../model/category';
 	import { getJobString } from '../model/job';
 	import Chip from './parts/Chip.svelte';
 	import EnhanceAdd from './parts/enhance/EnhanceAdd.svelte';
+	import EnhanceCannot from './parts/enhance/EnhanceCannot.svelte';
 	import EnhanceScroll from './parts/enhance/EnhanceScroll.svelte';
+	import EnhanceScrollSummary from './parts/enhance/EnhanceScrollSummary.svelte';
 	import EnhanceStarforce from './parts/enhance/EnhanceStarforce.svelte';
 	import Exceptional from './parts/exceptional/Exceptional.svelte';
 	import FrameBottom from './parts/frame/FrameBottom.svelte';
@@ -26,28 +28,39 @@
 	import Spacer from './parts/Spacer.svelte';
 	import Stars from './parts/star/Stars.svelte';
 	import StatLine from './parts/stat/StatLine.svelte';
-	import TemplateText from './parts/TemplateText.svelte';
-	import Text from './parts/Text.svelte';
+	import TemplateText from './parts/text/TemplateText.svelte';
+	import Text from './parts/text/Text.svelte';
 
 	let {
 		gear,
 		cannot = {},
 		incline,
 		loadSetItemName,
-		loadExclusiveEquips
+		loadExclusiveEquips,
+		expand = false
 	}: {
 		gear: ReadonlyGear;
 		cannot?: {
 			level?: boolean;
 			job?: boolean;
+			gender?: boolean;
 		};
 		incline: { equipped: true } | { combat: number };
+		expand?: boolean;
 		loadSetItemName: (setItemId: number) => string;
 		loadExclusiveEquips: (gearId: number) => string[];
 	} = $props();
 
+	const topAttributeStrings = $derived(getTopAttributeHtmlStrings(gear.attributes));
 	const attributeStrings = $derived(
 		getAttributeHtmlStrings(gear.attributes, loadExclusiveEquips(gear.meta.id))
+	);
+	const gender = $derived(
+		gear.req.gender === GearGender.Male
+			? '남'
+			: gear.req.gender === GearGender.Female
+				? '여'
+				: undefined
 	);
 
 	function getSetItemLine(gear: ReadonlyGear) {
@@ -61,22 +74,26 @@
 		return words.join(', ');
 	}
 
-	const basicStats = [
+	const stats = [
 		'str',
 		'dex',
 		'int',
 		'luk',
+		'allStat',
 		'maxHp',
 		'maxMp',
+		'maxHpRate',
+		'maxMpRate',
 		'maxDemonForce',
 		'attackPower',
 		'magicPower',
 		'armor',
 		'speed',
-		'jump'
+		'jump',
+		'damage',
+		'bossDamage',
+		'ignoreMonsterArmor'
 	] as const;
-	const rateStats = ['maxHpRate', 'maxMpRate', 'allStat', 'damage'] as const;
-	const longRateStats = ['bossDamage', 'ignoreMonsterArmor'] as const;
 </script>
 
 <div class="relative">
@@ -85,16 +102,28 @@
 			star={gear.star}
 			maxStar={gear.attributes.canStarforce === GearCapability.Fixed ? gear.star : gear.maxStar}
 			color={gear.starScroll ? 'blue' : 'yellow'}
-			class="mt-[10px]"
+			class="mx-auto mt-[10px] pr-[1px]"
 		/>
 		{#if gear.star >= 23}
 			<UIImage2 image="particleStar" class="absolute top-px left-0" />
 		{/if}
 		<Spacer height={8} />
 		{#if false}
-			<Text color="gray" class="mt-[1px] self-center">의</Text>
+			<Text color="gray" class="mt-[1px] self-center" value="의" />
 		{/if}
-		<Text variant="itemName" class="self-center">{gear.name}</Text>
+		<Text
+			variant="itemName"
+			class="self-center pl-[2px]"
+			value={gear.name + (gender ? ` (${gender})` : '')}
+		/>
+		{#if gear.attributes.specialGrade}
+			<Text value="스페셜 아이템" class="self-center pr-[2px]" />
+		{/if}
+		{#if topAttributeStrings.length > 0}
+			{#each topAttributeStrings as html}
+				<TemplateText raw={html} class="self-center pr-[2px]" />
+			{/each}
+		{/if}
 		<Spacer height={2} />
 	</FrameTop>
 	<FrameLine />
@@ -106,7 +135,7 @@
 			</div>
 			<div class="flex flex-col items-end">
 				<Spacer height={1} />
-				<Text color="darkGray">전투력 증가량</Text>
+				<Text color="darkGray" value="전투력 증가량" />
 				<Spacer height={13} />
 				{#if 'equipped' in incline}
 					<InclineEquipped />
@@ -126,7 +155,7 @@
 				<Spacer height={19} />
 				<div class="flex gap-[3px]">
 					{#each getCategories(gear.type) as category}
-						<Chip>{category}</Chip>
+						<Chip value={category} />
 					{/each}
 				</div>
 			</div>
@@ -135,73 +164,70 @@
 		<div class="flex flex-col items-start">
 			{#if gear.shape}
 				<div class="flex">
-					<Text color="gray" class="w-[64px]">현재 외형</Text>
-					<Text>{gear.shape.name}</Text>
+					<Text color="gray" class="w-[85px]" value="현재 외형" />
+					<Text value={gear.shape.name} />
 				</div>
 			{/if}
 			<div class="flex">
-				<Text color="gray" class="w-[64px]">착용 직업</Text>
-				<Text>{getJobString(gear.type, gear.req.job, gear.req.class)}</Text>
+				<Text color="gray" class="w-[85px]" value="착용 직업" />
+				<Text value={getJobString(gear.type, gear.req.job, gear.req.class)} />
 			</div>
-			{#if gear.req.level > 0 || gear.req.levelIncrease > 0}
-				<div class="flex">
-					<Text color="gray" class="w-[63px]">요구 레벨</Text>
-					<ReqLevel
-						level={gear.req.level}
-						increase={gear.req.levelIncrease}
-						decrease={gear.baseOption.reqLevelDecrease + gear.addOption.reqLevelDecrease}
-					/>
+			{#if gear.req.level > 0 || gear.req.levelIncrease > 0 || gear.req.gender !== undefined}
+				<div class="grid grid-cols-[217px_1fr]">
+					{#if gear.req.level > 0 || gear.req.levelIncrease > 0}
+						<div class="flex">
+							<Text color="gray" class="w-[84px]" value="요구 레벨" alignFirstLetter={false} />
+							<ReqLevel
+								level={gear.req.level}
+								increase={gear.req.levelIncrease}
+								decrease={gear.baseOption.reqLevelDecrease + gear.addOption.reqLevelDecrease}
+							/>
+						</div>
+					{/if}
+					{#if gender}
+						<div class="flex">
+							<Text color="gray" class="w-[66px]" value="착용 성별" />
+							<Text value={gender} />
+						</div>
+					{/if}
 				</div>
 			{/if}
 		</div>
+		<Spacer height={2} />
 	</FrameMiddle>
 	<FrameLine />
 	<FrameMiddle class="px-[15px]">
-		<Spacer height={2} />
+		<Spacer height={1} />
 		{#if gear.attributes.setItemId || gear.attributes.lucky}
-			<div class="flex w-full justify-between">
-				<UIImage2 image="setGuide" />
-				<Text color="gray" class="mr-[2px]">{getSetItemLine(gear)}</Text>
+			<div class="flex">
+				<UIImage2 image="setGuide" class="mt-px ml-px w-[84px]!" />
+				<Text color="gray" value={getSetItemLine(gear)} />
 			</div>
 		{/if}
-		{#if gear.attributes.skills && gear.attributes.skills.length > 0}
-			<div class="flex w-full justify-between">
-				<Text color="gray">사용 가능 스킬</Text>
-				<Text color="gray" class="mr-[2px]">{gear.attributes.skills.join(', ')}</Text>
+		{#if gear.attributes.attackSpeed || isWeapon(gear.type) || gear.type === GearType.katara}
+			<div class="flex">
+				<Text color="gray" class="w-[85px]" value="공격 속도" />
+				<Text color="gray" value="{10 - (gear.attributes.attackSpeed ?? 6)}단계" />
 			</div>
 		{/if}
 		<div class="flex flex-col">
-			{#each basicStats as stat}
+			{#each stats as stat}
 				<StatLine {gear} key={stat} />
-			{/each}
-			{#if gear.attributes.attackSpeed || isWeapon(gear.type) || gear.type === GearType.katara}
-				<div class="flex w-[96px] justify-between">
-					<Text>공격 속도</Text>
-					<Text>{10 - (gear.attributes.attackSpeed ?? 6)}단계</Text>
-				</div>
-			{/if}
-			{#each rateStats as stat}
-				<StatLine {gear} key={stat} />
-			{/each}
-			{#each longRateStats as stat}
-				<StatLine size="large" {gear} key={stat} />
 			{/each}
 		</div>
 		{#if gear.desc}
 			<Spacer height={4} />
 			<TemplateText raw={gear.desc} />
 		{/if}
-		<Spacer height={2} />
+		{#if gear.attributes.superior}
+			<Spacer height={4} />
+			<Text value="아이템 강화 성공시 더욱 높은 효과를 받을 수 있습니다." />
+		{/if}
 	</FrameMiddle>
-	{#if gear.attributes.specialGrade || isEnhanceable(gear.type)}
-		<FrameLine />
+	{#if isEnhanceable(gear.type)}
 		<FrameMiddle class="px-[15px]">
-			<Spacer height={1} />
-			{#if gear.attributes.specialGrade}
-				<Text>스페셜 아이템</Text>
-				<Spacer height={4} />
-			{/if}
-			{#if isEnhanceable(gear.type)}
+			<Spacer height={4} />
+			{#if expand}
 				<EnhanceStarforce
 					can={gear.attributes.canStarforce}
 					superior={gear.attributes.superior}
@@ -215,7 +241,32 @@
 					resile={gear.scrollResilienceCount}
 				/>
 				<EnhanceAdd can={gear.attributes.canAddOption} addOptions={gear.addOptions} />
-				<Spacer height={4} />
+			{:else}
+				<EnhanceCannot
+					canStarforce={gear.attributes.canStarforce}
+					canScroll={gear.attributes.canScroll}
+					canAddOption={gear.attributes.canAddOption}
+				/>
+				{#if gear.attributes.canScroll !== GearCapability.Cannot}
+					<EnhanceScrollSummary
+						can={gear.attributes.canScroll}
+						upgrade={gear.scrollUpgradeCount}
+						upgradeable={gear.scrollUpgradeableCount}
+						resile={gear.scrollResilienceCount}
+					/>
+				{/if}
+				<Text
+					color="darkGray"
+					value="NPC/채집키를 통해 강화 정보 상세 확인 가능"
+					alignFirstLetter
+				/>
+			{/if}
+			<Spacer height={2} />
+		</FrameMiddle>
+		<FrameLine />
+		<FrameMiddle class="px-[15px]">
+			{#if isEnhanceable(gear.type)}
+				<Spacer height={1} />
 				<PotentialTitle
 					can={gear.attributes.canPotential}
 					grade={gear.potentialGrade}

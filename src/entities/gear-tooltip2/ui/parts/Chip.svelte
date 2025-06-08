@@ -1,17 +1,14 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
-	import type { Snippet } from 'svelte';
-	import Text from './Text.svelte';
+	import Text from './text/Text.svelte';
 
-	let { children }: { children: Snippet } = $props();
+	let { value }: { value: string } = $props();
 </script>
 
 <div class="flex">
 	<UIImage2 image="categoryLeft" />
 	<UIImage2 image="categoryMiddle" class="flex" style="width: min-content;">
-		<Text color="gray" style="white-space: nowrap;">
-			{@render children()}
-		</Text>
+		<Text color="gray" class="-mt-px h-[16px] flex-nowrap" {value} />
 	</UIImage2>
 	<UIImage2 image="categoryRight" />
 </div>

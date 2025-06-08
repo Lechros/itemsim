@@ -72,6 +72,12 @@ import { default as soulNormal } from './soul/normal.png';
 import { default as exceptionalNormal } from './exceptional/normal.png';
 
 import { default as scrollIcon } from './textIcon/scroll.png';
+import { default as starNormal } from './textIcon/starNormal.png';
+import { default as starEnhanced } from './textIcon/starEnhanced.png';
+import { default as scrollNormal } from './textIcon/scrollNormal.png';
+import { default as scrollEnhanced } from './textIcon/scrollEnhanced.png';
+import { default as addOptionNormal } from './textIcon/addOptionNormal.png';
+import { default as addOptionEnhanced } from './textIcon/addOptionEnhanced.png';
 
 export const tooltip2Images = {
 	frameTop,
@@ -136,5 +142,11 @@ export const tooltip2Images = {
 	potentialDetailLegendary,
 	soulNormal,
 	exceptionalNormal,
-	scrollIcon
+	scrollIcon,
+	starNormal,
+	starEnhanced,
+	scrollNormal,
+	scrollEnhanced,
+	addOptionNormal,
+	addOptionEnhanced
 };

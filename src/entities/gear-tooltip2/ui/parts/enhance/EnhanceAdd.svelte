@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
 	import { AddOptionType, GearCapability, type AddOptionData } from '@malib/gear';
-	import Spacer from '../Spacer.svelte';
-	import Text from '../Text.svelte';
+	import Text from '../text/Text.svelte';
 
 	let {
 		can,
@@ -12,12 +11,16 @@
 		addOptions: AddOptionData[] | readonly AddOptionData[];
 	} = $props();
 
-	const totalGrade = addOptions
-		.map((option) => option.grade)
-		.reduce((acc, grade) => acc + grade, 0);
-
 	function getString(type: AddOptionType, value: number) {
 		return format[type].replace('{value}', value.toString());
+	}
+
+	function getStr(can: GearCapability) {
+		if (can === GearCapability.Fixed) {
+			return '추가옵션 (추가 강화 불가)';
+		} else {
+			return '추가옵션';
+		}
 	}
 
 	const format: Record<AddOptionType, string> = {
@@ -46,24 +49,25 @@
 </script>
 
 {#if can === GearCapability.Cannot}
-	<Text color="darkGray">추가 옵션 : 강화 불가</Text>
-{:else}
-	<div class="flex">
-		{#if addOptions.length > 0}
-			<Text color="bonusStat">추가 옵션 : 총합 {totalGrade}단계</Text>
-		{:else}
-			<Text color="darkGray">추가 옵션 : 없음</Text>
-		{/if}
-		<Spacer width={3} />
-		{#if can === GearCapability.Fixed}
-			<Text>(추가 강화)</Text>
-		{/if}
+	<div class="flex items-center">
+		<UIImage2 image="addOptionNormal" class="mr-[4px]" />
+		<Text color="darkGray" value="추가옵션 : 강화 불가" />
 	</div>
-	<div class="grid grid-cols-[150px_1fr]">
+{:else if addOptions.length === 0}
+	<div class="flex items-center">
+		<UIImage2 image="addOptionNormal" class="mr-[4px]" />
+		<Text color="darkGray" value="추가옵션 : 없음" />
+	</div>
+{:else}
+	<div class="flex items-center">
+		<UIImage2 image="addOptionEnhanced" class="mr-[4px]" />
+		<Text color="white" value={getStr(can)} />
+	</div>
+	<div class="grid grid-cols-[147px_1fr] pl-[5px]">
 		{#each addOptions as option}
 			<div class="flex items-center gap-[4px]">
-				<UIImage2 image={`bonus_${option.grade}`} />
-				<Text>{getString(option.type, option.value)}</Text>
+				<UIImage2 image="bonus_{option.grade}" />
+				<Text value={getString(option.type, option.value)} />
 			</div>
 		{/each}
 	</div>

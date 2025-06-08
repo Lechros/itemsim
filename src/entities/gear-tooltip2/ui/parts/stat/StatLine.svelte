@@ -8,18 +8,16 @@
 		type GearUpgradeOption
 	} from '@malib/gear';
 	import { getOptionStrings } from '../../../model/option';
+	import Text from '../text/Text.svelte';
 	import Spacer from '../Spacer.svelte';
-	import Text from '../Text.svelte';
 	import StatDetail from './StatDetail.svelte';
 
 	let {
 		gear,
-		key,
-		size = 'normal'
+		key
 	}: {
 		gear: ReadonlyGear;
 		key: keyof GearOption;
-		size?: 'normal' | 'large';
 	} = $props();
 
 	const base = $derived(gear.baseOption[key as keyof GearBaseOption]);
@@ -33,13 +31,14 @@
 
 {#if base > 0 || sum > 0}
 	<div class="flex">
-		<div class={['flex justify-between', size === 'normal' ? 'w-[95px]' : 'w-[129px]']}>
-			<Text>{label}</Text>
-			<Text>{valueStr}</Text>
-		</div>
+		<Text value="{label}   {valueStr}" />
 		{#if add !== 0 || upgrade !== 0 || starforce !== 0}
-			<Spacer width={size === 'normal' ? 12 : 15} />
-			<StatDetail {base} {add} {upgrade} {starforce} {rate} />
+			<Spacer width={6} />
+			{#if gear.starScroll}
+				<StatDetail {base} {add} upgrade={upgrade + starforce} starforce={0} {rate} />
+			{:else}
+				<StatDetail {base} {add} {upgrade} {starforce} {rate} />
+			{/if}
 		{/if}
 	</div>
 {/if}

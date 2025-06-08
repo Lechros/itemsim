@@ -41,11 +41,6 @@
 	.text {
 		white-space: pre-wrap;
 	}
-	.text.default {
-		font-family: 'Morris';
-		font-size: 12px;
-		line-height: 16px;
-	}
 	.text.itemName {
 		font-family: 'Dotum', '돋움';
 		font-size: 14px;
