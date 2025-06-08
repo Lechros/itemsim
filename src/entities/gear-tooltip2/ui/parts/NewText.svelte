@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '$lib/shared/shadcn/utils';
 	import NewTextChar from './NewTextChar.svelte';
+	import NewTextLine from './NewTextLine.svelte';
 	import Text from './Text.svelte';
 
 	let {
@@ -10,7 +11,8 @@
 		class: className,
 		style,
 		tag = 'div',
-		alignFirstLetter = true
+		alignFirstLetter = true,
+		wrap = false
 	}: {
 		value?: string;
 		variant?: 'default' | 'itemName' | 'normal';
@@ -33,6 +35,7 @@
 		style?: string;
 		tag?: string;
 		alignFirstLetter?: boolean;
+		wrap?: boolean;
 	} = $props();
 
 	const isFirstLetterAlphabet = $derived(value?.[0]?.match(/[a-zA-Z]/));
@@ -74,21 +77,33 @@
 </script>
 
 {#if variant === 'default'}
-	<svelte:element
-		this={tag}
-		class={cn(
-			'text flex flex-wrap',
-			alignFirstLetter && isFirstLetterAlphabet && 'pl-[1px]',
-			className
-		)}
-		{style}
-	>
-		{#if value}
-			{#each value as char}
-				<NewTextChar charCode={char.charCodeAt(0)} color={getColorCode(color)} />
-			{/each}
-		{/if}
-	</svelte:element>
+	{#if wrap}
+		<svelte:element
+			this={tag}
+			class={cn(
+				'text flex flex-wrap',
+				alignFirstLetter && isFirstLetterAlphabet && 'pl-[1px]',
+				className
+			)}
+			{style}
+		>
+			{#if value}
+				{#each value as char}
+					<NewTextChar charCode={char.charCodeAt(0)} color={getColorCode(color)} />
+				{/each}
+			{/if}
+		</svelte:element>
+	{:else}
+		<svelte:element
+			this={tag}
+			class={cn('text', alignFirstLetter && isFirstLetterAlphabet && 'pl-[1px]', className)}
+			{style}
+		>
+			{#if value}
+				<NewTextLine {value} color={getColorCode(color)} />
+			{/if}
+		</svelte:element>
+	{/if}
 {:else}
 	<Text {variant} {color} class={className} {style} {tag}>
 		{value}

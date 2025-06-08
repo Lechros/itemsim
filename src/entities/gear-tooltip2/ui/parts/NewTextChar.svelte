@@ -13,17 +13,12 @@
 	const { fontRender } = getContext<{ fontRender: FontRender | undefined }>('FontRenderProvider');
 
 	let canvas: HTMLCanvasElement | null = $state(null);
-	let _width = $state(0);
-	let _height = $state(0);
 
 	$effect(() => {
 		if (fontRender && !fontRender.isLoading && canvas) {
 			const fontChar = fontRender.getCharacter(charCode);
 			if (!fontChar) return;
 			const { width, height, bits } = fontChar;
-
-			_width = width;
-			_height = height;
 
 			canvas.width = width;
 			canvas.height = height;
