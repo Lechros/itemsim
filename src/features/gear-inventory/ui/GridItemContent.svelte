@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { GearIcon } from '$lib/entities/gear-icon';
 	import PotentialTitle from '$lib/features/gear-enchanter-potential/ui/PotentialTitle.svelte';
-	import { tooltip2Images } from '$lib/shared/assets';
 	import { Badge } from '$lib/shared/shadcn/components/ui/badge';
 	import { UIImage2 } from '$lib/shared/ui';
 	import { GearCapability, ReadonlyGear, type GearData } from '@malib/gear';
@@ -28,10 +27,7 @@
 		{/if}
 		{#if gear.scrollUpgradeCount}
 			<Badge variant="outline">
-				<i
-					class="scroll-icon bg-current opacity-60"
-					style="mask-image: url({tooltip2Images.scrollIcon});"
-				></i>
+				<UIImage2 image="scrollEnhanced" />
 				{gear.scrollUpgradeCount}
 			</Badge>
 		{/if}
@@ -52,11 +48,3 @@
 		{/if}
 	</div>
 {/if}
-
-<style>
-	.scroll-icon {
-		width: 11px;
-		height: 10px;
-		image-rendering: pixelated;
-	}
-</style>
