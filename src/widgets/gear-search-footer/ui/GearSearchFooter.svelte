@@ -29,6 +29,7 @@
 			const seq = await addGearData(...gears);
 			if (gears.length === 1) {
 				toast.success(`${josa(gears[0].name, '을/를')} 추가했어요.`, {
+					position: 'top-center',
 					action: {
 						label: '이동',
 						onClick: () => {
@@ -37,11 +38,14 @@
 					}
 				});
 			} else {
-				toast.success(`아이템 ${gears.length}개를 추가했어요.`);
+				toast.success(`아이템 ${gears.length}개가 추가되었어요.`, {
+					position: 'top-center'
+				});
 			}
 		} catch (error) {
 			toast.error('아이템을 추가하지 못했어요.', {
-				description: error instanceof Error ? error.message : String(error)
+				description: error instanceof Error ? error.message : String(error),
+				position: 'top-center'
 			});
 		} finally {
 			isAdding = false;

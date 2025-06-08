@@ -143,7 +143,9 @@
 									: selectedItem.souls[selectedItem.index];
 							gear.setSoul(soul);
 							toast.success(`선택한 소울을 장착했어요.`, {
-								description: `${soul.name} (${getSoulOptionString(soul.option)})`
+								description: `${soul.name} (${getSoulOptionString(soul.option)})`,
+								position: 'top-center',
+								duration: 2000
 							});
 						}}
 					>

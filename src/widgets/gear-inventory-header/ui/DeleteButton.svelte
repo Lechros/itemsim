@@ -28,11 +28,16 @@
 		deleter
 			.deleteAll()
 			.then((count) => {
-				toast.success(`아이템 ${count}개를 삭제했어요.`);
+				toast.success(`아이템 ${count}개가 삭제되었어요.`, {
+					position: 'top-center'
+				});
 				postDelete?.();
 			})
-			.catch(() => {
-				toast.error('아이템 삭제에 실패했어요.');
+			.catch((e) => {
+				toast.error('아이템 삭제에 실패했어요.', {
+					description: e instanceof Error ? e.message : String(e),
+					position: 'top-center'
+				});
 			})
 			.finally(() => {
 				open = false;

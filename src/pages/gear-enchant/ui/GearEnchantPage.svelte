@@ -41,7 +41,8 @@
 				})
 				.catch((e) => {
 					toast.error('아이템 저장에 실패했습니다.', {
-						description: e.message
+						description: e.message,
+						position: 'top-center'
 					});
 				});
 		}
