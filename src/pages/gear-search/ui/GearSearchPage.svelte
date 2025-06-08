@@ -1,7 +1,8 @@
 <script lang="ts">
 	import GearIcon from '$lib/entities/gear-icon/ui/GearIcon.svelte';
 	import Highlight from '$lib/entities/highlight/ui/Highlight.svelte';
-	import { SelectList, SelectListItem } from '$lib/entities/select-list';
+	import { SelectListItem } from '$lib/entities/select-list';
+	import SelectListVirtualizer from '$lib/entities/select-list/ui/SelectListVirtualizer.svelte';
 	import SearchNavbar from '$lib/features/search-navbar/ui/SearchNavbar.svelte';
 	import { getGearSearch, type SearchGearSummary } from '$lib/shared/api';
 	import { ScrollArea } from '$lib/shared/shadcn/components/ui/scroll-area';
@@ -13,7 +14,6 @@
 	let selectedItems = $state<Map<number, SearchGearSummary>>(new SvelteMap());
 	const selectedIds = $state(new SvelteSet<string>());
 	const selectedGears = $derived([...selectedItems.values()]);
-	let scrollTop = $state(0);
 
 	const query = createQuery(() => ({
 		queryKey: ['gear-search', searchQuery],
@@ -22,6 +22,9 @@
 	}));
 
 	let results = $state(query.data);
+
+	let scrollTop = $state(0);
+	let viewportRef = $state<HTMLDivElement | null>(null);
 
 	$effect(() => {
 		if (query.data) {
@@ -44,7 +47,7 @@
 	}
 </script>
 
-<ScrollArea class="h-screen" {onscroll}>
+<ScrollArea class="h-screen" bind:viewportRef {onscroll}>
 	<SearchNavbar
 		backHref="/"
 		title="아이템 추가"
@@ -58,7 +61,15 @@
 		{#if !searchQuery}
 			<div class="flex pt-4">아이템 이름을 입력해 주세요.</div>
 		{:else if results && results.length > 0}
-			<SelectList multiple selectedSet={selectedIds} items={results} size={results.length}>
+			<SelectListVirtualizer
+				multiple
+				allowDeselect
+				selectedSet={selectedIds}
+				items={results}
+				getKey={(item) => String(item.id)}
+				startMargin={102}
+				scrollRef={viewportRef ?? null}
+			>
 				{#snippet children(item)}
 					<SelectListItem
 						value={String(item.id)}
@@ -71,7 +82,7 @@
 						</div>
 					</SelectListItem>
 				{/snippet}
-			</SelectList>
+			</SelectListVirtualizer>
 		{:else}
 			<div class="flex pt-4">검색된 아이템이 없어요.</div>
 		{/if}
