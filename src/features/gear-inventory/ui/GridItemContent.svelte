@@ -20,13 +20,13 @@
 {#if gear.star || gear.scrollUpgradeCount}
 	<div class="absolute top-1.5 left-1.5 flex gap-1">
 		{#if gear.star}
-			<Badge variant="outline">
+			<Badge variant="outline" class="bg-background/60 backdrop-blur">
 				<UIImage2 image={gear.starScroll ? 'blueStar' : 'star'} />
 				{gear.star}
 			</Badge>
 		{/if}
 		{#if gear.scrollUpgradeCount}
-			<Badge variant="outline">
+			<Badge variant="outline" class="bg-background/60 backdrop-blur">
 				<UIImage2 image="scrollEnhanced" />
 				{gear.scrollUpgradeCount}
 			</Badge>
