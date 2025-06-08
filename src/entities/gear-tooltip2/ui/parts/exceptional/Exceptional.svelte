@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
 	import type { GearExceptionalOption } from '@malib/gear';
-	import { convertGearOptionToSummaries } from '../../../model/option';
+	import { getGearOptionGroupedStrings } from '../../../model/option';
 	import Spacer from '../Spacer.svelte';
 	import Text from '../text/Text.svelte';
 
@@ -23,8 +23,8 @@
 		<Text color="exceptional" value="익셉셔널 : {upgrade}회" />
 		<Text value=" (최대 {total}회)" />
 	</div>
-	{#each convertGearOptionToSummaries(option) as summary}
-		<Text value={summary} />
+	{#each getGearOptionGroupedStrings(option) as summary}
+		<Text value={summary.join(' ')} />
 	{/each}
 {:else}
 	<div class="flex items-center">

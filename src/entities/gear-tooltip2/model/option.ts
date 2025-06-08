@@ -1,13 +1,27 @@
 import type { GearOption } from '@malib/gear';
 
-type OptionType = keyof GearOption | 'str_dex_int_luk' | 'maxHp_maxMp' | 'attackPower_magicPower';
-
-export function getOptionString(type: OptionType, value: number, plus: boolean) {
-	const [label, valueStr] = getOptionStrings(type, value, plus);
-	return `${label} ${valueStr}`;
+export function getSingleGearOptionStrings(
+	type: keyof GearOption,
+	value: number,
+	plus: boolean
+): [string, string] {
+	return getSingleGearOptionStringsInternal(type, value, plus);
 }
 
-export function getOptionStrings(type: OptionType, value: number, plus: boolean): [string, string] {
+type OptionType =
+	| keyof GearOption
+	| 'str_dex_int_luk'
+	| 'strRate_dexRate_intRate_lukRate'
+	| 'maxHp_maxMp'
+	| 'maxHpRate_maxMpRate'
+	| 'attackPower_magicPower'
+	| 'attackPowerRate_magicPowerRate';
+
+function getSingleGearOptionStringsInternal(
+	type: OptionType,
+	value: number,
+	plus: boolean
+): [string, string] {
 	const valueStr = value >= 0 && plus ? `+${value}` : `${value}`;
 	switch (type) {
 		case 'str':
@@ -81,70 +95,128 @@ export function getOptionStrings(type: OptionType, value: number, plus: boolean)
 		// Custom
 		case 'str_dex_int_luk':
 			return ['올스탯', `${valueStr}`];
+		case 'strRate_dexRate_intRate_lukRate':
+			return ['올스탯', `${valueStr}%`];
 		case 'maxHp_maxMp':
 			return ['최대 HP / 최대 MP', `${valueStr}`];
+		case 'maxHpRate_maxMpRate':
+			return ['최대 HP / 최대 MP', `${valueStr}%`];
 		case 'attackPower_magicPower':
 			return ['공격력 / 마력', `${valueStr}`];
+		case 'attackPowerRate_magicPowerRate':
+			return ['공격력 / 마력', `${valueStr}%`];
 	}
 }
 
-export function convertGearOptionToSummaries(option: Partial<GearOption>) {
-	const strings: string[] = [];
-	let value: number;
-
-	// str, dex, int, luk
-	if ((value = equalValueOrZero(option, ['str', 'dex', 'int', 'luk'])) !== 0) {
-		strings.push(getOptionString('str_dex_int_luk', value, true));
-	} else {
-		pushNonEmptyOptionStrings(strings, option, ['str', 'dex', 'int', 'luk']);
+export function getGearOptionStrings(option: Partial<GearOption>, plus: boolean = true) {
+	const strings: [string, string][] = [];
+	for (const prop of props) {
+		if (option[prop]) {
+			const summary = getSingleGearOptionStrings(prop, option[prop], plus);
+			strings.push(summary);
+		}
 	}
-	// maxHp, maxMp
-	if ((value = equalValueOrZero(option, ['maxHp', 'maxMp'])) !== 0) {
-		strings.push(getOptionString('maxHp_maxMp', value, true));
-	} else {
-		pushNonEmptyOptionStrings(strings, option, ['maxHp', 'maxMp']);
-	}
-	// maxHpRate, maxMpRate, maxDemonForce
-	pushNonEmptyOptionStrings(strings, option, ['maxHpRate', 'maxMpRate', 'maxDemonForce']);
-	// attackPower, magicPower
-	if ((value = equalValueOrZero(option, ['attackPower', 'magicPower'])) !== 0) {
-		strings.push(getOptionString('attackPower_magicPower', value, true));
-	} else {
-		pushNonEmptyOptionStrings(strings, option, ['attackPower', 'magicPower']);
-	}
-	// armor, speed, jump, knockback, bossDamage, ignoreMonsterArmor, damage, allStat
-	pushNonEmptyOptionStrings(strings, option, [
-		'armor',
-		'speed',
-		'jump',
-		'bossDamage',
-		'ignoreMonsterArmor',
-		'damage',
-		'allStat'
-	]);
-
 	return strings;
 }
 
-function equalValueOrZero(option: Partial<GearOption>, types: (keyof GearOption)[]) {
-	const values = types.map((type) => option[type]);
-	const value = values[0] ?? 0;
-	if (value !== 0 && values.every((v) => v === value)) {
-		return value;
-	} else {
-		return 0;
-	}
-}
+export function getGearOptionGroupedStrings(option: Partial<GearOption>, plus: boolean = true) {
+	const strings: [string, string][] = [];
 
-function pushNonEmptyOptionStrings(
-	strings: string[],
-	option: Partial<GearOption>,
-	types: (keyof GearOption)[]
-) {
-	for (const type of types) {
-		const value = option[type] ?? 0;
-		if (value !== 0) {
-			strings.push(getOptionString(type, value, true));
+	for (const group of groups) {
+		const keys = group[0];
+		const groupProp = group[1];
+		if (groupProp && everyValueEquals(option, keys)) {
+			const summary = getSingleGearOptionStringsInternal(groupProp, option[keys[0]]!, plus);
+			strings.push(summary);
+		} else {
+			for (const key of keys) {
+				if (option[key]) {
+					const summary = getSingleGearOptionStrings(key, option[key]!, plus);
+					strings.push(summary);
+				}
+			}
 		}
 	}
+	return strings;
 }
+
+function everyValueEquals(option: Partial<GearOption>, keys: readonly (keyof GearOption)[]) {
+	const firstValue = option[keys[0]];
+	if (!firstValue) {
+		return false;
+	}
+	for (let i = 1; i < keys.length; i++) {
+		if (option[keys[i]] !== firstValue) {
+			return false;
+		}
+	}
+	return true;
+}
+
+const props = [
+	'str',
+	'dex',
+	'int',
+	'luk',
+	'strRate',
+	'dexRate',
+	'intRate',
+	'lukRate',
+	'maxHp',
+	'maxMp',
+	'maxHpRate',
+	'maxMpRate',
+	'maxDemonForce',
+	'attackPower',
+	'magicPower',
+	'attackPowerRate',
+	'magicPowerRate',
+	'armor',
+	'armorRate',
+	'speed',
+	'jump',
+	'bossDamage',
+	'normalDamage',
+	'ignoreMonsterArmor',
+	'allStat',
+	'damage',
+	'reqLevelDecrease',
+	'criticalRate',
+	'criticalDamage',
+	'cooltimeReduce',
+	'strLv',
+	'dexLv',
+	'intLv',
+	'lukLv'
+] as const;
+
+const groups = [
+	[['str', 'dex', 'int', 'luk'], 'str_dex_int_luk'],
+	[['strRate', 'dexRate', 'intRate', 'lukRate'], 'strRate_dexRate_intRate_lukRate'],
+	[['maxHp', 'maxMp'], 'maxHp_maxMp'],
+	[['maxHpRate', 'maxMpRate'], 'maxHpRate_maxMpRate'],
+	[['maxDemonForce']],
+	[['attackPower', 'magicPower'], 'attackPower_magicPower'],
+	[['attackPowerRate', 'magicPowerRate'], 'attackPowerRate_magicPowerRate'],
+	[
+		[
+			'armor',
+			'armorRate',
+			'speed',
+			'jump',
+			'bossDamage',
+			'normalDamage',
+			'ignoreMonsterArmor',
+			'allStat',
+			'damage',
+			'reqLevelDecrease',
+			'criticalRate',
+			'criticalDamage',
+			'cooltimeReduce',
+			'strLv',
+			'dexLv',
+			'intLv',
+			'lukLv'
+		]
+	]
+] as const;

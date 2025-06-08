@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
 	import type { SoulData, SoulOption } from '@malib/gear';
-	import { convertGearOptionToSummaries } from '../../../model/option';
+	import { getGearOptionGroupedStrings } from '../../../model/option';
 	import Spacer from '../Spacer.svelte';
 	import Text from '../text/Text.svelte';
 
@@ -14,9 +14,9 @@
 	} = $props();
 
 	function getFirstSoulOptionString(option: Partial<SoulOption>) {
-		const summaries = convertGearOptionToSummaries(option);
+		const summaries = getGearOptionGroupedStrings(option);
 
-		return summaries[0];
+		return summaries[0].join(' ');
 	}
 </script>
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getSingleGearOptionStrings } from '../../../model/option';
 	import {
 		ReadonlyGear,
 		type GearAddOption,
@@ -7,9 +8,8 @@
 		type GearStarforceOption,
 		type GearUpgradeOption
 	} from '@malib/gear';
-	import { getOptionStrings } from '../../../model/option';
-	import Text from '../text/Text.svelte';
 	import Spacer from '../Spacer.svelte';
+	import Text from '../text/Text.svelte';
 	import StatDetail from './StatDetail.svelte';
 
 	let {
@@ -25,7 +25,7 @@
 	const upgrade = $derived(gear.upgradeOption[key as keyof GearUpgradeOption]);
 	const starforce = $derived(gear.starforceOption[key as keyof GearStarforceOption]);
 	const sum = $derived(base + add + upgrade + starforce);
-	const [label, valueStr] = $derived(getOptionStrings(key, sum, true));
+	const [label, valueStr] = $derived(getSingleGearOptionStrings(key, sum, true));
 	const rate = $derived(valueStr.endsWith('%'));
 </script>
 
