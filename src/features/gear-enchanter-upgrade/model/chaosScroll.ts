@@ -12,7 +12,7 @@ export function createChaosScroll(option: Partial<GearUpgradeOption>) {
 export function createEmptyOptionRandomizedChaosScroll(scroll: Scroll, min: number, max: number) {
 	const option = { ...scroll.option };
 	for (const stat of chaosOptionTypes) {
-		if (option[stat.value] === undefined) {
+		if (option[stat.value] === undefined || option[stat.value] === null) {
 			option[stat.value] = getRandomInt(min, max);
 		}
 	}

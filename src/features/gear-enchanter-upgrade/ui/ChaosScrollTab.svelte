@@ -28,7 +28,7 @@
 	function getRandomChaosScrollOptionStrings(option: Record<string, number>) {
 		const strings: [string, string][] = [];
 		for (const stat of chaosOptionTypes) {
-			if (option[stat.value] === undefined) {
+			if (option[stat.value] === undefined || option[stat.value] === null) {
 				strings.push([stat.label, '0 ~ +6']);
 			} else {
 				const singleStrings = getSingleGearOptionStrings(stat.value, option[stat.value], true);
