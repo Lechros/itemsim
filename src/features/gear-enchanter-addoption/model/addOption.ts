@@ -75,6 +75,10 @@ export const addOptionTypes = [
 		value: AddOptionType.int_luk
 	},
 	{
+		label: '올스탯',
+		value: AddOptionType.allStat
+	},
+	{
 		label: '최대 HP',
 		value: AddOptionType.maxHp
 	},
@@ -103,16 +107,12 @@ export const addOptionTypes = [
 		value: AddOptionType.jump
 	},
 	{
-		label: '보스 몬스터 데미지',
-		value: AddOptionType.bossDamage
-	},
-	{
 		label: '데미지',
 		value: AddOptionType.damage
 	},
 	{
-		label: '올스탯',
-		value: AddOptionType.allStat
+		label: '보스 몬스터 데미지',
+		value: AddOptionType.bossDamage
 	},
 	{
 		label: '착용 레벨 감소',
