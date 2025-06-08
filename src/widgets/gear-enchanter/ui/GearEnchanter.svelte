@@ -91,6 +91,7 @@
 			<GearTooltip
 				{gear}
 				incline={{ combat: 0 }}
+				expand
 				loadSetItemName={() => '여명의 보스 세트'}
 				loadExclusiveEquips={() => []}
 			/>
