@@ -72,7 +72,10 @@
 					<Button
 						variant={gear.attributes.totalCuttableCount === count.value ? 'default' : 'outline'}
 						class={[gear.attributes.totalCuttableCount === count.value && 'border-primary border']}
-						onclick={() => setTotalCuttableCount(gear, count.value)}
+						onclick={() => {
+							setTotalCuttableCount(gear, count.value);
+							cuttableCount = gear.data.attributes.cuttableCount;
+						}}
 						disabled={!gear.attributes.cuttable}
 					>
 						{count.label}
