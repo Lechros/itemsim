@@ -13,6 +13,8 @@
 
 	function getValueString(type: AddOptionType, value: number) {
 		switch (type) {
+			case AddOptionType.damage:
+			case AddOptionType.bossDamage:
 			case AddOptionType.allStat:
 				return `+${value}%`;
 			case AddOptionType.reqLevelDecrease:
