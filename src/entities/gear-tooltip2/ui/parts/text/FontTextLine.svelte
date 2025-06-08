@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { FontRender } from '$lib/entities/gear-tooltip2';
-	import { getContext, untrack } from 'svelte';
+	import { getContext } from 'svelte';
 
 	let {
 		value: value,
-		color
+		colorCode
 	}: {
 		value: string;
-		color: string;
+		colorCode: string;
 	} = $props();
 
 	const { fontRender } = getContext<{ fontRender: FontRender | undefined }>('FontRenderProvider');
@@ -24,7 +24,7 @@
 			canvas!.height = Math.max(...fontChars.map((char) => char.height));
 
 			const ctx = canvas!.getContext('2d')!;
-			ctx.fillStyle = color;
+			ctx.fillStyle = colorCode;
 
 			let startX = 0;
 

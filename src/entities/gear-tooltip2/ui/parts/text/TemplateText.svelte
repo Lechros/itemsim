@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { cn } from '$lib/shared/shadcn/utils';
-	import { tokenizeColorString } from '../../model/parser';
-	import NewTextChar from './NewTextChar.svelte';
+	import { tokenizeColorString } from '../../../model/parser';
+	import FontTextChar from './FontTextChar.svelte';
 
 	let {
 		raw,
@@ -61,7 +61,10 @@
 <div class={cn('flex flex-wrap', className)}>
 	{#each tokens as token}
 		{#each token.text as char}
-			<NewTextChar charCode={char.charCodeAt(0)} color={getColorCode(token.color ?? 'white')} />
+			<FontTextChar
+				charCode={char.charCodeAt(0)}
+				colorCode={getColorCode(token.color ?? 'white')}
+			/>
 		{/each}
 	{/each}
 </div>

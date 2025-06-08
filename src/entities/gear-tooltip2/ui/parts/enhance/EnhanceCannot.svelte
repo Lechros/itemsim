@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { GearCapability } from '@malib/gear';
-	import NewText from '../NewText.svelte';
+	import Text from '../text/Text.svelte';
 
 	const {
 		canStarforce,
@@ -34,5 +34,5 @@
 </script>
 
 {#if cannots.length > 0}
-	<NewText value="{cannots.join(', ')} 강화 불가" />
+	<Text value="{cannots.join(', ')} 강화 불가" />
 {/if}

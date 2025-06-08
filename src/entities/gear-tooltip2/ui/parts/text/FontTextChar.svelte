@@ -4,10 +4,10 @@
 
 	let {
 		charCode,
-		color
+		colorCode
 	}: {
 		charCode: number;
-		color: string;
+		colorCode: string;
 	} = $props();
 
 	const { fontRender } = getContext<{ fontRender: FontRender | undefined }>('FontRenderProvider');
@@ -23,7 +23,7 @@
 			canvas.width = width;
 			canvas.height = height;
 			const ctx = canvas.getContext('2d')!;
-			ctx.fillStyle = color;
+			ctx.fillStyle = colorCode;
 
 			for (let y = 0; y < height; y++) {
 				for (let x = 0; x < width; x++) {

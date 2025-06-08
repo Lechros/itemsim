@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
 	import { PotentialGrade, type PotentialData, type ReadonlyPotential } from '@malib/gear';
-	import NewText from '../NewText.svelte';
+	import Text from '../text/Text.svelte';
 	import Spacer from '../Spacer.svelte';
 
 	let { potential }: { potential: PotentialData | ReadonlyPotential } = $props();
@@ -25,5 +25,5 @@
 <div class="flex items-center">
 	<UIImage2 image={getImage(potential.grade)} />
 	<Spacer width={4} />
-	<NewText value={potential.summary} />
+	<Text value={potential.summary} />
 </div>

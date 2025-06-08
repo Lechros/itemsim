@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { Gear, GearCapability } from '@malib/gear';
-	import Spacer from '../Spacer.svelte';
-	import Text from '../Text.svelte';
 	import { UIImage2 } from '$lib/shared/ui';
-	import NewText from '../NewText.svelte';
+	import { GearCapability } from '@malib/gear';
+	import Text from '../text/Text.svelte';
 
 	let {
 		can,
@@ -30,16 +28,16 @@
 {#if can === GearCapability.Cannot}
 	<div class="flex items-center">
 		<UIImage2 image="starNormal" class="mr-[4px]" />
-		<NewText color="darkGray" value="스타포스 : 강화 불가" />
+		<Text color="darkGray" value="스타포스 : 강화 불가" />
 	</div>
 {:else if star === 0}
 	<div class="flex items-center">
 		<UIImage2 image="starNormal" class="mr-[4px]" />
-		<NewText color="darkGray" value={str} />
+		<Text color="darkGray" value={str} />
 	</div>
 {:else}
 	<div class="flex items-center">
 		<UIImage2 image="starEnhanced" class="mr-[4px]" />
-		<NewText color="white" value={str} />
+		<Text color="white" value={str} />
 	</div>
 {/if}

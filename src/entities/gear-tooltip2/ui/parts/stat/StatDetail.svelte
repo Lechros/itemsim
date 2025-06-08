@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TemplateText from '../TemplateText.svelte';
+	import TemplateText from '../text/TemplateText.svelte';
 
 	let {
 		rate = false,
