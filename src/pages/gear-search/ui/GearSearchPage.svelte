@@ -58,8 +58,8 @@
 		{#if !searchQuery}
 			<div class="flex pt-4">아이템 이름을 입력해 주세요.</div>
 		{:else if results && results.length > 0}
-			<SelectList multiple values={selectedIds} items={results} size={results.length}>
-				{#snippet renderItem(item)}
+			<SelectList multiple selectedSet={selectedIds} items={results} size={results.length}>
+				{#snippet children(item)}
 					<SelectListItem
 						value={String(item.id)}
 						onSelect={() => selectItem(item)}

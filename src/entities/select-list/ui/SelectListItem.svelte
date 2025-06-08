@@ -26,7 +26,7 @@
 </script>
 
 <Toggle
-	class="h-12 justify-start"
+	class="h-12 w-full justify-start"
 	bind:pressed={() => isSelected(value), () => toggle(value)}
 	onPressedChange={(v) => (v ? onSelect?.() : onDeselect?.())}
 >

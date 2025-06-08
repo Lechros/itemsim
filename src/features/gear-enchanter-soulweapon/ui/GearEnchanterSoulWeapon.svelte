@@ -69,12 +69,12 @@
 	</div>
 
 	<SelectList
-		value={selectedItem ? String(selectedItem.summary.id) : null}
+		selected={selectedItem ? String(selectedItem.summary.id) : null}
 		size={9}
-		allowSingleDeselect={false}
+		allowDeselect={false}
 		items={filteredSoulSummaries}
 	>
-		{#snippet renderItem(soulSummary)}
+		{#snippet children(soulSummary)}
 			<SelectListItem
 				value={String(soulSummary.id)}
 				onSelect={() => selectSoulSummary(soulSummary)}

@@ -18,8 +18,8 @@
 	let scrolls: Scroll[] = $derived(getEtcScrolls(gear));
 </script>
 
-<SelectList value={selectedScroll?.name} size={6} allowSingleDeselect={false} items={scrolls}>
-	{#snippet renderItem(scroll)}
+<SelectList selected={selectedScroll?.name} size={6} allowDeselect={false} items={scrolls}>
+	{#snippet children(scroll)}
 		<SelectListItem value={scroll.name} onSelect={() => selectScroll(scroll)}>
 			<ItemRawIcon icon={scroll.icon!} />
 			{scroll.name}
