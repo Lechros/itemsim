@@ -3,6 +3,7 @@
 	import { FontRenderProvider } from '$lib/entities/gear-tooltip2';
 	import { Toaster } from '$lib/shared/shadcn/components/ui/sonner';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
+	import { ModeWatcher } from 'mode-watcher';
 	import '../app.css';
 
 	let { children } = $props();
@@ -26,6 +27,7 @@
 	});
 </script>
 
+<ModeWatcher />
 <Toaster />
 
 <QueryClientProvider client={queryClient}>

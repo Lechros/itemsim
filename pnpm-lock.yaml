@@ -91,7 +91,7 @@ importers:
         specifier: ^26.1.0
         version: 26.1.0
       mode-watcher:
-        specifier: ^1.0.6
+        specifier: ^1.0.7
         version: 1.0.7(svelte@5.33.1)
       prettier:
         specifier: ^3.5.3
