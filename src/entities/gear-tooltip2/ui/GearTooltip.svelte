@@ -114,7 +114,7 @@
 		<Text
 			variant="itemName"
 			class="self-center pl-[2px]"
-			value={gear.name + (gender ? ` (${gender})` : '')}
+			value={gear.name + (gender ? ` (${gender})` : ' ')}
 		/>
 		{#if gear.attributes.specialGrade}
 			<Text value="스페셜 아이템" class="self-center pr-[2px]" />
