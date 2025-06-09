@@ -38,7 +38,7 @@
 		{/each}
 	</div>
 	{#if items.length > size}
-		<Separator orientation="vertical" />
+		<Separator orientation="vertical" class="hidden sm:block" />
 	{/if}
 	<div class={columnClass}>
 		{#each rightItems as item}
