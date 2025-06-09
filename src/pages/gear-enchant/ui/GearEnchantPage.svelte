@@ -49,7 +49,7 @@
 	});
 </script>
 
-<ScrollArea class="h-screen">
+<ScrollArea class="h-dvh">
 	<DetailNavbar title="아이템 강화" backHref="/" />
 
 	{#if isLoading}

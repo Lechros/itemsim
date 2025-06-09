@@ -47,7 +47,7 @@
 	}
 </script>
 
-<ScrollArea class="h-screen" bind:viewportRef {onscroll}>
+<ScrollArea class="h-dvh" bind:viewportRef {onscroll}>
 	<SearchNavbar
 		backHref="/"
 		title="아이템 추가"

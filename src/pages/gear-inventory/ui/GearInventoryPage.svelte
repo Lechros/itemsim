@@ -64,7 +64,7 @@
 	}
 </script>
 
-<ScrollArea class="h-screen" bind:viewportRef {onscroll}>
+<ScrollArea class="h-dvh" bind:viewportRef {onscroll}>
 	<MainNavbar />
 	<GearInventoryHeader
 		{gearQuery}
