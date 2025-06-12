@@ -28,8 +28,9 @@
 	import Spacer from './parts/Spacer.svelte';
 	import Stars from './parts/star/Stars.svelte';
 	import StatLine from './parts/stat/StatLine.svelte';
-	import TemplateText from './parts/text/TemplateText.svelte';
-	import Text from './parts/text/Text.svelte';
+	import DetailText from './parts/text/DetailText.svelte';
+	import FormattedDetailText from './parts/text/FormattedDetailText.svelte';
+	import ItemNameText from './parts/text/ItemNameText.svelte';
 
 	let {
 		gear,
@@ -109,19 +110,18 @@
 		{/if}
 		<Spacer height={8} />
 		{#if false}
-			<Text color="gray" class="mt-[1px] self-center" value="의" />
+			<DetailText color="gray" class="mt-[1px] self-center" value="의" />
 		{/if}
-		<Text
-			variant="itemName"
-			class="self-center pl-[2px]"
+		<ItemNameText
+			class="self-center pl-[3px]"
 			value={gear.name + (gender ? ` (${gender})` : ' ')}
 		/>
 		{#if gear.attributes.specialGrade}
-			<Text value="스페셜 아이템" class="self-center pr-[2px]" />
+			<DetailText value="스페셜 아이템" class="self-center pr-[2px]" />
 		{/if}
 		{#if topAttributeStrings.length > 0}
 			{#each topAttributeStrings as html}
-				<TemplateText raw={html} class="self-center pr-[2px]" />
+				<FormattedDetailText value={html} class="self-center pr-[2px]" />
 			{/each}
 		{/if}
 		<Spacer height={2} />
@@ -135,7 +135,7 @@
 			</div>
 			<div class="flex flex-col items-end">
 				<Spacer height={1} />
-				<Text color="darkGray" value="전투력 증가량" />
+				<DetailText color="darkGray" value="전투력 증가량" />
 				<Spacer height={13} />
 				{#if 'equipped' in incline}
 					<InclineEquipped />
@@ -164,19 +164,19 @@
 		<div class="flex flex-col items-start">
 			{#if gear.shape}
 				<div class="flex">
-					<Text color="gray" class="w-[85px]" value="현재 외형" />
-					<Text value={gear.shape.name} />
+					<DetailText color="gray" class="w-[85px]" value="현재 외형" />
+					<DetailText value={gear.shape.name} />
 				</div>
 			{/if}
 			<div class="flex">
-				<Text color="gray" class="w-[85px]" value="착용 직업" />
-				<Text value={getJobString(gear.type, gear.req.job, gear.req.class)} />
+				<DetailText color="gray" class="w-[85px]" value="착용 직업" />
+				<DetailText value={getJobString(gear.type, gear.req.job, gear.req.class)} />
 			</div>
 			{#if gear.req.level > 0 || gear.req.levelIncrease > 0 || gear.req.gender !== undefined}
 				<div class="grid grid-cols-[217px_1fr]">
 					{#if gear.req.level > 0 || gear.req.levelIncrease > 0}
 						<div class="flex">
-							<Text color="gray" class="w-[84px]" value="요구 레벨" alignFirstLetter={false} />
+							<DetailText color="gray" class="w-[84px]" value="요구 레벨" />
 							<ReqLevel
 								level={gear.req.level}
 								increase={gear.req.levelIncrease}
@@ -186,8 +186,8 @@
 					{/if}
 					{#if gender}
 						<div class="flex">
-							<Text color="gray" class="w-[66px]" value="착용 성별" />
-							<Text value={gender} />
+							<DetailText color="gray" class="w-[66px]" value="착용 성별" />
+							<DetailText value={gender} />
 						</div>
 					{/if}
 				</div>
@@ -201,13 +201,13 @@
 		{#if gear.attributes.setItemId || gear.attributes.lucky}
 			<div class="flex">
 				<UIImage2 image="setGuide" class="mt-px ml-px w-[84px]!" />
-				<Text color="gray" value={getSetItemLine(gear)} />
+				<DetailText color="gray" value={getSetItemLine(gear)} />
 			</div>
 		{/if}
 		{#if gear.attributes.attackSpeed || isWeapon(gear.type) || gear.type === GearType.katara}
 			<div class="flex">
-				<Text color="gray" class="w-[85px]" value="공격 속도" />
-				<Text color="gray" value="{10 - (gear.attributes.attackSpeed ?? 6)}단계" />
+				<DetailText color="gray" class="w-[85px]" value="공격 속도" />
+				<DetailText color="gray" value="{10 - (gear.attributes.attackSpeed ?? 6)}단계" />
 			</div>
 		{/if}
 		<div class="flex flex-col">
@@ -217,11 +217,11 @@
 		</div>
 		{#if gear.desc}
 			<Spacer height={4} />
-			<TemplateText raw={gear.desc} />
+			<FormattedDetailText value={gear.desc} maxWidth={294} />
 		{/if}
 		{#if gear.attributes.superior}
 			<Spacer height={4} />
-			<Text value="아이템 강화 성공시 더욱 높은 효과를 받을 수 있습니다." />
+			<DetailText value="아이템 강화 성공시 더욱 높은 효과를 받을 수 있습니다." />
 		{/if}
 	</FrameMiddle>
 	{#if isEnhanceable(gear.type)}
@@ -255,11 +255,7 @@
 						resile={gear.scrollResilienceCount}
 					/>
 				{/if}
-				<Text
-					color="darkGray"
-					value="NPC/채집키를 통해 강화 정보 상세 확인 가능"
-					alignFirstLetter
-				/>
+				<DetailText color="darkGray" value="NPC/채집키를 통해 강화 정보 상세 확인 가능" />
 			{/if}
 			<Spacer height={2} />
 		</FrameMiddle>
@@ -307,7 +303,7 @@
 		<FrameMiddle class="px-[15px]">
 			<Spacer height={4} />
 			{#each attributeStrings as html}
-				<TemplateText raw={html} />
+				<FormattedDetailText value={html} />
 			{/each}
 		</FrameMiddle>
 	{/if}

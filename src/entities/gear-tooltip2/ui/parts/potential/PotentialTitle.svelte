@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
 	import { GearCapability, PotentialGrade } from '@malib/gear';
-	import Text from '../text/Text.svelte';
 	import Spacer from '../Spacer.svelte';
+	import DetailText from '../text/DetailText.svelte';
 
 	let {
 		can,
@@ -64,13 +64,13 @@
 	{#if can === GearCapability.Cannot}
 		<UIImage2 image="potentialTitleNormal" />
 		<Spacer width={4} />
-		<Text color="darkGray" value="{label} : 강화 불가" />
+		<DetailText color="darkGray" value="{label} : 강화 불가" />
 	{:else}
 		<UIImage2 image={getImage(grade)} />
 		<Spacer width={4} />
-		<Text color={getColor(grade)} value="{label} : {getText(grade)}" />
+		<DetailText color={getColor(grade)} value="{label} : {getText(grade)}" />
 		{#if can === GearCapability.Fixed}
-			<Text value=" (추가 강화 불가)" />
+			<DetailText value=" (추가 강화 불가)" />
 		{/if}
 	{/if}
 </div>

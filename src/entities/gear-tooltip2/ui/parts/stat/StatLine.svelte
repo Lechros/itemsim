@@ -9,7 +9,7 @@
 		type GearUpgradeOption
 	} from '@malib/gear';
 	import Spacer from '../Spacer.svelte';
-	import Text from '../text/Text.svelte';
+	import DetailText from '../text/DetailText.svelte';
 	import StatDetail from './StatDetail.svelte';
 
 	let {
@@ -31,7 +31,7 @@
 
 {#if base > 0 || sum > 0}
 	<div class="flex">
-		<Text value="{label}   {valueStr}" />
+		<DetailText value="{label}   {valueStr}" />
 		{#if add !== 0 || upgrade !== 0 || starforce !== 0}
 			<Spacer width={6} />
 			{#if gear.starScroll}

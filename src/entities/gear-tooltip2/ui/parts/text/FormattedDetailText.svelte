@@ -1,0 +1,38 @@
+<script lang="ts">
+	import { useFontRenderContext } from '$lib/entities/gear-tooltip2/lib/FontRenderContext';
+	import { tokenizeColorString } from '$lib/entities/gear-tooltip2/model/parser';
+	import { getColorValue } from '$lib/entities/gear-tooltip2/model/text';
+	import InternalTextRenderer from './InternalTextRenderer.svelte';
+
+	const {
+		value,
+		class: className,
+		maxWidth
+	}: {
+		value: string;
+		class?: string;
+		maxWidth?: number;
+	} = $props();
+
+	const { itemDetailFontRender: fontRender } = useFontRenderContext();
+
+	const tokens = $derived(
+		tokenizeColorString(value, {
+			c: 'emphasis',
+			$r: 'red',
+			$g: 'gray',
+			$b: 'bonusStat',
+			$u: 'scroll',
+			$s: 'starforce'
+		})
+	);
+	const items = $derived(
+		tokens.flatMap(({ text, color }) =>
+			[...text].map((char) => ({ char, color: getColorValue(color ?? 'white') }))
+		)
+	);
+</script>
+
+<div class={className}>
+	<InternalTextRenderer {items} {fontRender} lineHeight={16} {maxWidth} />
+</div>
