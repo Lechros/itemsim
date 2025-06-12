@@ -1,19 +1,20 @@
 <script lang="ts">
-	import { setContext, type Snippet } from 'svelte';
-	import { onMount } from 'svelte';
+	import { onMount, setContext, type Snippet } from 'svelte';
 	import { FontRender } from './FontRender.svelte';
+	import type { FontRenderState } from './FontRenderContext';
 
 	const { children }: { children?: Snippet } = $props();
 
-	const state: { fontRender: FontRender | undefined } = $state({
-		fontRender: undefined
+	const state: FontRenderState = $state({
+		itemDetailFontRender: undefined
 	});
 
 	setContext('FontRenderProvider', state);
 
 	onMount(() => {
-		const fontRender = new FontRender(fetch('/fonts/font.bin').then((res) => res.arrayBuffer()));
-		state.fontRender = fontRender;
+		state.itemDetailFontRender = new FontRender(
+			fetch('/fonts/detail.bin').then((res) => res.arrayBuffer())
+		);
 	});
 </script>
 

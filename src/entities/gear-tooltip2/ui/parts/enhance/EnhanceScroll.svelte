@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { UIImage2 } from '$lib/shared/ui';
 	import { GearCapability } from '@malib/gear';
-	import Text from '../text/Text.svelte';
+	import DetailText from '../text/DetailText.svelte';
 
 	let {
 		can,
@@ -30,16 +30,16 @@
 {#if can === GearCapability.Cannot}
 	<div class="flex items-center">
 		<UIImage2 image="scrollNormal" class="mr-[4px]" />
-		<Text color="darkGray" value="주문서 : 강화 불가" />
+		<DetailText color="darkGray" value="주문서 : 강화 불가" />
 	</div>
 {:else if upgrade === 0}
 	<div class="flex items-center">
 		<UIImage2 image="scrollNormal" class="mr-[4px]" />
-		<Text color="darkGray" value={str} />
+		<DetailText color="darkGray" value={str} />
 	</div>
 {:else}
 	<div class="flex items-center">
 		<UIImage2 image="scrollEnhanced" class="mr-[4px]" />
-		<Text color="white" value={str} />
+		<DetailText color="white" value={str} />
 	</div>
 {/if}

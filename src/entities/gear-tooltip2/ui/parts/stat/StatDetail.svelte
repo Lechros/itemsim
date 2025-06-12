@@ -1,5 +1,5 @@
 <script lang="ts">
-	import TemplateText from '../text/TemplateText.svelte';
+	import FormattedDetailText from '../text/FormattedDetailText.svelte';
 
 	let {
 		rate = false,
@@ -35,4 +35,4 @@
 	}
 </script>
 
-<TemplateText raw={getHtmlString(base, add, upgrade, starforce)} />
+<FormattedDetailText value={getHtmlString(base, add, upgrade, starforce)} />

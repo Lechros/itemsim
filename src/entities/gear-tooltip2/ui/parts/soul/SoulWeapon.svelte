@@ -3,7 +3,7 @@
 	import type { SoulData, SoulOption } from '@malib/gear';
 	import { getGearOptionGroupedStrings } from '../../../model/option';
 	import Spacer from '../Spacer.svelte';
-	import Text from '../text/Text.svelte';
+	import DetailText from '../text/DetailText.svelte';
 
 	let {
 		enchanted,
@@ -25,21 +25,21 @@
 		<div class="flex items-center">
 			<UIImage2 image="soulNormal" />
 			<Spacer width={4} />
-			<Text value="소울 : {soul.name}" />
+			<DetailText value="소울 : {soul.name}" />
 		</div>
-		<Text value={getFirstSoulOptionString(soul.option)} />
-		<Text value="[{soul.skill}] 스킬 사용 가능" />
+		<DetailText value={getFirstSoulOptionString(soul.option)} />
+		<DetailText value="[{soul.skill}] 스킬 사용 가능" />
 	{:else}
 		<div class="flex items-center">
 			<UIImage2 image="soulNormal" />
 			<Spacer width={4} />
-			<Text value="소울 : 장착된 소울 없음" />
+			<DetailText value="소울 : 장착된 소울 없음" />
 		</div>
 	{/if}
 {:else}
 	<div class="flex items-center">
 		<UIImage2 image="soulNormal" />
 		<Spacer width={4} />
-		<Text value="소울 : 소울 웨폰으로 변환 필요" />
+		<DetailText value="소울 : 소울 웨폰으로 변환 필요" />
 	</div>
 {/if}
