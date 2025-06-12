@@ -15,11 +15,9 @@
 	import type { SelectScrollFunction } from '../model/types';
 
 	let {
-		gear,
-		selectScroll
+		gear
 	}: {
 		gear: Gear;
-		selectScroll: SelectScrollFunction;
 	} = $props();
 
 	let option = $state<Partial<GearUpgradeOption>>({});
@@ -56,23 +54,34 @@
 
 	<ButtonGroup class="px-2">
 		<Button
-			variant="outline"
 			onclick={() => {
 				const scroll = createChaosScroll($state.snapshot(option));
 				if (randomizeEmptyValues) {
-					selectScroll(
-						scroll,
-						() => {
-							gear.applyScroll(createEmptyOptionRandomizedChaosScroll(scroll, 0, 6));
-						},
-						() => getRandomChaosScrollOptionStrings(scroll.option)
-					);
+					gear.applyScroll(createEmptyOptionRandomizedChaosScroll(scroll, 0, 6));
 				} else {
-					selectScroll(scroll);
+					gear.applyScroll(scroll);
 				}
 			}}
+			disabled={!gear.canApplyScroll}
 		>
-			선택
+			혼돈의 주문서 사용하기
+		</Button>
+		<Button
+			variant="outline"
+			onclick={() => {
+				const count = gear.scrollUpgradeableCount;
+				for (let i = 0; i < count; i++) {
+					const scroll = createChaosScroll($state.snapshot(option));
+					if (randomizeEmptyValues) {
+						gear.applyScroll(createEmptyOptionRandomizedChaosScroll(scroll, 0, 6));
+					} else {
+						gear.applyScroll(scroll);
+					}
+				}
+			}}
+			disabled={!gear.canApplyScroll}
+		>
+			{gear.scrollUpgradeableCount}회 사용
 		</Button>
 		<Button
 			variant="outline"
