@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ButtonGroup } from '$lib/shared/ui';
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
+	import { Button, buttonVariants } from '$lib/shared/shadcn/components/ui/button';
 	import { Input } from '$lib/shared/shadcn/components/ui/input';
 	import { Label } from '$lib/shared/shadcn/components/ui/label';
 	import { RadioGroup, RadioGroupItem } from '$lib/shared/shadcn/components/ui/radio-group';
@@ -14,6 +14,19 @@
 	} from '../model/cuttable';
 	import { reqLevelIncreases } from '../model/req';
 	import { tradeTypes } from '../model/trade';
+	import { isShapeChangeableGear } from '../model/anvil';
+	import {
+		Dialog,
+		DialogContent,
+		DialogHeader,
+		DialogTitle,
+		DialogTrigger
+	} from '$lib/shared/shadcn/components/ui/dialog';
+	import DialogDescription from '$lib/shared/shadcn/components/ui/dialog/dialog-description.svelte';
+	import { SelectList } from '$lib/entities/select-list';
+	import AnvilDialog from './AnvilDialog.svelte';
+	import { toast } from 'svelte-sonner';
+	import { ItemRawIcon } from '$lib/entities/item-icon';
 
 	let { gear }: { gear: Gear } = $props();
 
@@ -120,6 +133,25 @@
 						{reqLevelIncrease.label}
 					</Button>
 				{/each}
+			</ButtonGroup>
+		</div>
+	{/if}
+
+	{#if isShapeChangeableGear(gear)}
+		<div class="flex flex-col gap-2">
+			<h4 class="text-lg font-semibold">신비의 모루</h4>
+			<ButtonGroup>
+				<AnvilDialog {gear} />
+				<Button
+					variant="destructive"
+					onclick={() => {
+						gear.shape = undefined;
+						toast.success('외형을 초기화했어요.', {
+							position: 'top-center',
+							duration: 2000
+						});
+					}}>외형 초기화</Button
+				>
 			</ButtonGroup>
 		</div>
 	{/if}

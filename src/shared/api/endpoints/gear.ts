@@ -2,16 +2,20 @@ import { apiBaseUrl } from '$lib/shared/config';
 import type { GearData } from '@malib/gear';
 import ky from 'ky';
 
-export function getGearSearchUrl(name: string) {
-	return new URL(`/gears/search?query=${name}`, apiBaseUrl);
+export function getGearSearchUrl(name: string, type?: number) {
+	if (type) {
+		return new URL(`/gears/search?query=${name}&type=${type}`, apiBaseUrl);
+	} else {
+		return new URL(`/gears/search?query=${name}`, apiBaseUrl);
+	}
 }
 
-export async function getGearSearch(name: string) {
+export async function getGearSearch(name: string, type?: number) {
 	name = name.trim();
 	if (!name) {
 		return [];
 	}
-	return await ky.get(getGearSearchUrl(name)).json<SearchGearSummary[]>();
+	return await ky.get(getGearSearchUrl(name, type)).json<SearchGearSummary[]>();
 }
 
 export function getGearDataUrl(id: number) {
