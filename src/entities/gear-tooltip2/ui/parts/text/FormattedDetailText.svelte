@@ -31,8 +31,9 @@
 			[...text].map((char) => ({ char, color: getColorValue(color ?? 'white') }))
 		)
 	);
+	const style = $derived(items[0].char.match(/[a-zA-Z]/) ? 'padding-left: 1px;' : '');
 </script>
 
-<div class={className}>
+<div class={className} {style}>
 	<InternalTextRenderer {items} {fontRender} lineHeight={16} {maxWidth} />
 </div>
