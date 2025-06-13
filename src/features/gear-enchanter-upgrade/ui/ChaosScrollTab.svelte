@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { BalancedGrid } from '$lib/entities/balanced-grid';
-	import { getSingleGearOptionStrings } from '$lib/entities/item-string';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { Checkbox } from '$lib/shared/shadcn/components/ui/checkbox';
 	import { Input } from '$lib/shared/shadcn/components/ui/input';
@@ -12,30 +11,23 @@
 		createChaosScroll,
 		createEmptyOptionRandomizedChaosScroll
 	} from '../model/chaosScroll';
-	import type { SelectScrollFunction } from '../model/types';
 
 	let {
-		gear,
-		selectScroll
+		gear
 	}: {
 		gear: Gear;
-		selectScroll: SelectScrollFunction;
 	} = $props();
 
 	let option = $state<Partial<GearUpgradeOption>>({});
 	let randomizeEmptyValues = $state(false);
 
-	function getRandomChaosScrollOptionStrings(option: Record<string, number>) {
-		const strings: [string, string][] = [];
-		for (const stat of chaosOptionTypes) {
-			if (option[stat.value] === undefined || option[stat.value] === null) {
-				strings.push([stat.label, '0 ~ +6']);
-			} else {
-				const singleStrings = getSingleGearOptionStrings(stat.value, option[stat.value], true);
-				strings.push(singleStrings);
-			}
+	function applyChaosScroll() {
+		const scroll = createChaosScroll(option);
+		if (randomizeEmptyValues) {
+			gear.applyScroll(createEmptyOptionRandomizedChaosScroll(scroll, gear));
+		} else {
+			gear.applyScroll(scroll);
 		}
-		return strings;
 	}
 </script>
 
@@ -55,24 +47,20 @@
 	</div>
 
 	<ButtonGroup class="px-2">
+		<Button onclick={() => applyChaosScroll()} disabled={!gear.canApplyScroll}>
+			혼돈의 주문서 사용하기
+		</Button>
 		<Button
 			variant="outline"
 			onclick={() => {
-				const scroll = createChaosScroll($state.snapshot(option));
-				if (randomizeEmptyValues) {
-					selectScroll(
-						scroll,
-						() => {
-							gear.applyScroll(createEmptyOptionRandomizedChaosScroll(scroll, 0, 6));
-						},
-						() => getRandomChaosScrollOptionStrings(scroll.option)
-					);
-				} else {
-					selectScroll(scroll);
+				const count = gear.scrollUpgradeableCount;
+				for (let i = 0; i < count; i++) {
+					applyChaosScroll();
 				}
 			}}
+			disabled={!gear.canApplyScroll}
 		>
-			선택
+			{gear.scrollUpgradeableCount}회 사용
 		</Button>
 		<Button
 			variant="outline"

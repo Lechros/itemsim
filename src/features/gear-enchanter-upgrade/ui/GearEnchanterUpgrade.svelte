@@ -40,6 +40,7 @@
 	const activeTabs = $derived(tabs.filter((tab) => tab.show?.(gear)));
 
 	let initialTab = $derived(activeTabs[0].value);
+	let currentTab = $state('');
 </script>
 
 <div class="flex flex-col gap-y-4">
@@ -53,7 +54,7 @@
 		</Card>
 	</div>
 
-	<Tabs value={initialTab} class="gap-y-4">
+	<Tabs value={initialTab} class="gap-y-4" onValueChange={(value) => (currentTab = value)}>
 		{#if activeTabs.length > 1}
 			<TabsList
 				class={cn(
@@ -77,58 +78,60 @@
 			<SpellTraceTab {gear} {selectedScroll} {selectScroll} />
 		</TabsContent>
 		<TabsContent value="chaos">
-			<ChaosScrollTab {gear} {selectScroll} />
+			<ChaosScrollTab {gear} />
 		</TabsContent>
 		<TabsContent value="etc">
 			<EtcScrollTab {gear} {selectedScroll} {selectScroll} />
 		</TabsContent>
 	</Tabs>
 
-	<ItemCard
-		item={selectedScroll}
-		clearable
-		onClear={() => selectScroll(null)}
-		placeholder="주문서를 선택해 주세요."
-	>
-		<ItemCardContent>
-			{@const optionStrings = getOptionStrings?.()}
-			{#if optionStrings}
-				<BalancedGrid items={optionStrings} size={6} class="sm:h-30">
-					{#snippet itemRenderer(strings: [string, string])}
-						<div class="text-sm">
-							<span>{strings[0]}</span>
-							<span class="font-semibold">{strings[1]}</span>
-						</div>
-					{/snippet}
-				</BalancedGrid>
-			{:else}
-				<div class="sm:h-30"></div>
-			{/if}
-		</ItemCardContent>
-		<ItemCardFooter>
-			{#if selectedScroll}
-				<ButtonGroup>
-					<Button onclick={() => apply?.()} disabled={!apply || !gear.canApplyScroll}>
-						{selectedScroll?.name} 사용하기
-					</Button>
-					<Button
-						variant="outline"
-						onclick={() => {
-							const count = gear.scrollUpgradeableCount;
-							for (let i = 0; i < count; i++) {
-								apply?.();
-							}
-						}}
-						disabled={!gear.canApplyScroll || !apply}
-					>
-						{gear.scrollUpgradeableCount}회 사용
-					</Button>
-				</ButtonGroup>
-			{:else}
-				<div class="sm:h-9"></div>
-			{/if}
-		</ItemCardFooter>
-	</ItemCard>
+	{#if currentTab !== 'chaos'}
+		<ItemCard
+			item={selectedScroll}
+			clearable
+			onClear={() => selectScroll(null)}
+			placeholder="주문서를 선택해 주세요."
+		>
+			<ItemCardContent>
+				{@const optionStrings = getOptionStrings?.()}
+				{#if optionStrings}
+					<BalancedGrid items={optionStrings} size={6} class="sm:h-30">
+						{#snippet itemRenderer(strings: [string, string])}
+							<div class="text-sm">
+								<span>{strings[0]}</span>
+								<span class="font-semibold">{strings[1]}</span>
+							</div>
+						{/snippet}
+					</BalancedGrid>
+				{:else}
+					<div class="sm:h-30"></div>
+				{/if}
+			</ItemCardContent>
+			<ItemCardFooter>
+				{#if selectedScroll}
+					<ButtonGroup>
+						<Button onclick={() => apply?.()} disabled={!apply || !gear.canApplyScroll}>
+							{selectedScroll?.name} 사용하기
+						</Button>
+						<Button
+							variant="outline"
+							onclick={() => {
+								const count = gear.scrollUpgradeableCount;
+								for (let i = 0; i < count; i++) {
+									apply?.();
+								}
+							}}
+							disabled={!gear.canApplyScroll || !apply}
+						>
+							{gear.scrollUpgradeableCount}회 사용
+						</Button>
+					</ButtonGroup>
+				{:else}
+					<div class="sm:h-9"></div>
+				{/if}
+			</ItemCardFooter>
+		</ItemCard>
+	{/if}
 
 	<Separator />
 

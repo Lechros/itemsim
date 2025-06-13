@@ -1,4 +1,4 @@
-import type { GearUpgradeOption, Scroll } from '@malib/gear';
+import type { Gear, GearUpgradeOption, Scroll } from '@malib/gear';
 import { indexChoice } from '$lib/shared/utils';
 
 export function createChaosScroll(option: Partial<GearUpgradeOption>) {
@@ -9,11 +9,13 @@ export function createChaosScroll(option: Partial<GearUpgradeOption>) {
 	};
 }
 
-export function createEmptyOptionRandomizedChaosScroll(scroll: Scroll, min: number, max: number) {
+export function createEmptyOptionRandomizedChaosScroll(scroll: Scroll, gear: Gear) {
 	const option = { ...scroll.option };
 	for (const stat of chaosOptionTypes) {
 		if (option[stat.value] === undefined || option[stat.value] === null) {
-			option[stat.value] = chaosOptionValues[indexChoice(chaosOptionWeights)];
+			if (gear.baseOption[stat.value] || gear.addOption[stat.value]) {
+				option[stat.value] = chaosOptionValues[indexChoice(chaosOptionWeights)];
+			}
 		}
 	}
 	return createChaosScroll(option);
