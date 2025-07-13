@@ -9,7 +9,7 @@
 	<UIImage2 image="iconBase">
 		<UIImage2 image="iconShade">
 			<div class="flex h-20 w-20 items-center justify-center">
-				<GearIcon {icon} scale={2} />
+				<GearIcon {icon} scale={2} batch={false} />
 			</div>
 		</UIImage2>
 	</UIImage2>
