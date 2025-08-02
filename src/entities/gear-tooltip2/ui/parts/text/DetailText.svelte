@@ -19,7 +19,7 @@
 
 	const colorValue = $derived(getColorValue(color));
 	const items = $derived(value ? [...value].map((char) => ({ char, color: colorValue })) : []);
-	const style = $derived(items[0].char.match(/[a-zA-Z]/) ? 'padding-left: 1px;' : '');
+	const style = $derived(items?.[0]?.char.match(/[a-zA-Z]/) ? 'padding-left: 1px;' : '');
 </script>
 
 <div class={[className]} {style}>
