@@ -1,12 +1,15 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { GearTooltip } from '$lib/entities/gear-tooltip2';
 	import {
+		GearDialog,
 		GearInventoryGrid,
 		GearInventoryGridDeleteItem,
 		GearInventoryGridItem,
 		GearInventoryGridItemContent
 	} from '$lib/features/gear-inventory';
 	import { ScrollTopButton } from '$lib/features/scroll-top-button';
+	import { createPointerDetection } from '$lib/shared/lib/device-detection.svelte';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { ScrollArea } from '$lib/shared/shadcn/components/ui/scroll-area';
 	import { FollowCursor } from '$lib/shared/ui';
@@ -29,6 +32,7 @@
 	const gearQuery = createGearLiveQuery();
 	const countQuery = createGearCountLiveQuery();
 	const deleter = createDeleter();
+	const pointerDetection = createPointerDetection();
 
 	let mode = $state<'default' | 'delete'>('default');
 
@@ -38,11 +42,28 @@
 	let scrollY = $state(0);
 
 	let hoverGearData = $state<GearData | null>(null);
+	let popupGearData = $state<GearData | null>(null);
+	let popupSeq = $state<number | null>(null);
+	let showPopup = $state(false);
 
 	$effect(() => {
 		gearQuery.value;
 		hoverGearData = null;
 	});
+
+	function handleItemClick(seq: number, gearData: GearData) {
+		if (!pointerDetection.isPointerFine) {
+			popupGearData = gearData;
+			popupSeq = seq;
+			showPopup = true;
+		}
+	}
+
+	function handleItemHover(gearData: GearData | null) {
+		if (pointerDetection.isPointerFine) {
+			hoverGearData = gearData;
+		}
+	}
 
 	function onModeChange(mode: 'default' | 'delete') {
 		if (mode === 'delete') {
@@ -98,16 +119,19 @@
 						selected={deleter.has(item.seq)}
 						onclick={() =>
 							deleter.has(item.seq) ? deleter.delete(item.seq) : deleter.add(item.seq)}
-						onmouseenter={() => (hoverGearData = item.gear)}
-						onmouseleave={() => (hoverGearData = null)}
+						onmouseenter={() => handleItemHover(item.gear)}
+						onmouseleave={() => handleItemHover(null)}
 					>
 						<GearInventoryGridItemContent gearData={item.gear} scale={2} />
 					</GearInventoryGridDeleteItem>
 				{:else}
 					<GearInventoryGridItem
-						href="/gear/{item.seq}"
-						onmouseenter={() => (hoverGearData = item.gear)}
-						onmouseleave={() => (hoverGearData = null)}
+						href={pointerDetection.isPointerFine ? `/gear/${item.seq}` : undefined}
+						onmouseenter={() => handleItemHover(item.gear)}
+						onmouseleave={() => handleItemHover(null)}
+						onclick={!pointerDetection.isPointerFine
+							? () => handleItemClick(item.seq, item.gear)
+							: undefined}
 					>
 						<GearInventoryGridItemContent gearData={item.gear} scale={2} />
 					</GearInventoryGridItem>
@@ -133,7 +157,8 @@
 	<ScrollTopButton scrollRef={viewportRef ?? undefined} />
 {/if}
 
-{#if hoverGearData}
+<!-- Pointer fine 장치에서만 호버 툴팁 표시 -->
+{#if hoverGearData && pointerDetection.isPointerFine}
 	<FollowCursor paddingRight={9}>
 		<GearTooltip
 			gear={new ReadonlyGear(hoverGearData)}
@@ -142,4 +167,14 @@
 			loadExclusiveEquips={() => []}
 		/>
 	</FollowCursor>
+{/if}
+
+<!-- 터치 장치에서는 클릭 팝업 표시 -->
+{#if popupGearData && popupSeq && !pointerDetection.isPointerFine}
+	<GearDialog
+		gear={new ReadonlyGear(popupGearData)}
+		bind:open={showPopup}
+		onAccept={() => goto(`/gear/${popupSeq}`)}
+		onClose={() => (showPopup = false)}
+	/>
 {/if}
