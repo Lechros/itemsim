@@ -23,7 +23,7 @@
 </script>
 
 <Dialog bind:open>
-	<DialogContent class="w-fit max-w-none">
+	<DialogContent class="w-fit max-w-none max-h-[calc(100%-2rem)] overflow-y-auto">
 		<DialogHeader />
 
 		<div class="flex justify-center">
