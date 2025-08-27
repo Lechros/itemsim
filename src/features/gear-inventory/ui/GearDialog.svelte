@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GearTooltip } from '$lib/entities/gear-tooltip2';
+	import { GearTooltip } from '$lib/components/gear-tooltip2';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import {
 		Dialog,

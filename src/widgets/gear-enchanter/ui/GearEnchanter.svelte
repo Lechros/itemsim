@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GearTooltip } from '$lib/entities/gear-tooltip2';
+	import { GearTooltip } from '$lib/components/gear-tooltip2';
 	import { GearEnchanterAddOption } from '$lib/features/gear-enchanter-addoption';
 	import { GearEnchanterAttributes } from '$lib/features/gear-enchanter-attributes';
 	import { GearEnchanterExceptional } from '$lib/features/gear-enchanter-exceptional';
