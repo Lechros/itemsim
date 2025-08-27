@@ -1,5 +1,8 @@
-import { apiBaseUrl } from '$lib/shared/config';
+import { apiBaseUrl, imageBaseUrl } from '../backend';
 
+export function getItemRawIconUrl(iconId: string) {
+	return new URL(`/items/iconRaw/${iconId}.png`, imageBaseUrl).toString();
+}
 export function getItemRawIconOriginUrl(iconId: string) {
 	return new URL(`/items/${iconId}/raw-icon/origin`, apiBaseUrl).toString();
 }

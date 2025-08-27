@@ -1,6 +1,6 @@
 <script lang="ts">
 	import GearIcon from '$lib/components/icons/GearIcon.svelte';
-	import type { SearchGearSummary } from '$lib/shared/api';
+	import type { SearchGearSummary } from '$lib/api';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { ScrollArea } from '$lib/shared/shadcn/components/ui/scroll-area';
 	import { X } from 'lucide-svelte';

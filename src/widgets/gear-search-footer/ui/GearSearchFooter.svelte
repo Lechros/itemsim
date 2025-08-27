@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { addGearData } from '$lib/features/gear-inventory';
-	import { getGearDatas, type SearchGearSummary } from '$lib/shared/api';
+	import { getGearDatas, type SearchGearSummary } from '$lib/api';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { cn } from '$lib/shared/shadcn/utils';
 	import { josa } from 'es-hangul';

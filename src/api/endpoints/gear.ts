@@ -1,4 +1,4 @@
-import { apiBaseUrl } from '$lib/shared/config';
+import { apiBaseUrl, imageBaseUrl } from '../backend';
 import type { GearData } from '@malib/gear';
 import ky from 'ky';
 
@@ -42,4 +42,17 @@ export interface SearchGearSummary {
 	name: string;
 	icon: string;
 	highlight: string;
+}
+export function getGearIconUrl(iconId: string) {
+	return new URL(`/gears/icon/${iconId}.png`, imageBaseUrl).toString();
+}
+
+export function getGearIconOriginUrl(iconId: string) {
+	return new URL(`/gears/${iconId}/icon/origin`, apiBaseUrl).toString();
+}
+
+export async function getGearIconOrigin(iconId: string) {
+	const url = getGearIconOriginUrl(iconId);
+	const response = await fetch(url, { cache: 'force-cache' });
+	return (await response.json()) as [number, number];
 }

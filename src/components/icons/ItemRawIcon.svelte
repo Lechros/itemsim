@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getItemRawIconOrigin, getItemRawIconUrl } from '$lib/shared/api';
+	import { getItemRawIconOrigin, getItemRawIconUrl } from '$lib/api';
 	import OriginIcon from './OriginIcon.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 

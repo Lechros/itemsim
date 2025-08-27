@@ -2,7 +2,7 @@
 	import { GearIcon } from '$lib/components/icons';
 	import { Highlight } from '$lib/entities/highlight';
 	import { SelectList, SelectListItem } from '$lib/entities/select-list';
-	import { getGearSearch, type SearchGearSummary } from '$lib/shared/api';
+	import { getGearSearch, type SearchGearSummary } from '$lib/api';
 	import { Button, buttonVariants } from '$lib/shared/shadcn/components/ui/button';
 	import {
 		Dialog,
