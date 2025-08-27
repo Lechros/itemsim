@@ -26,7 +26,7 @@
 	import { SelectList } from '$lib/entities/select-list';
 	import AnvilDialog from './AnvilDialog.svelte';
 	import { toast } from 'svelte-sonner';
-	import { ItemRawIcon } from '$lib/entities/item-icon';
+	import { ItemRawIcon } from '$lib/components/icons';
 
 	let { gear }: { gear: Gear } = $props();
 

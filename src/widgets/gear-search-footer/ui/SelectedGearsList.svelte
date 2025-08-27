@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GearIcon from '$lib/entities/gear-icon/ui/GearIcon.svelte';
+	import GearIcon from '$lib/components/icons/GearIcon.svelte';
 	import type { SearchGearSummary } from '$lib/shared/api';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { ScrollArea } from '$lib/shared/shadcn/components/ui/scroll-area';

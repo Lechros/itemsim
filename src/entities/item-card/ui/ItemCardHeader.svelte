@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ItemRawIcon } from '$lib/entities/item-icon';
+	import { ItemRawIcon } from '$lib/components/icons';
 	import { Button } from '$lib/shared/shadcn/components/ui/button';
 	import { CardHeader } from '$lib/shared/shadcn/components/ui/card';
 	import { X } from 'lucide-svelte';

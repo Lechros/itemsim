@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GearIcon from '$lib/entities/gear-icon/ui/GearIcon.svelte';
+	import GearIcon from '$lib/components/icons/GearIcon.svelte';
 	import Highlight from '$lib/entities/highlight/ui/Highlight.svelte';
 	import { SelectListItem } from '$lib/entities/select-list';
 	import SelectListVirtualizer from '$lib/entities/select-list/ui/SelectListVirtualizer.svelte';

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getGearIconOrigin, getGearIconUrl } from '$lib/shared/api';
-	import { OriginIcon } from '$lib/shared/ui';
+	import OriginIcon from './OriginIcon.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 
 	let {

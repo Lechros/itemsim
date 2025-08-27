@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GearIcon } from '$lib/entities/gear-icon';
+	import { GearIcon } from '$lib/components/icons';
 	import { Highlight } from '$lib/entities/highlight';
 	import { SelectList, SelectListItem } from '$lib/entities/select-list';
 	import { getGearSearch, type SearchGearSummary } from '$lib/shared/api';

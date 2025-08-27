@@ -1,19 +1,12 @@
 <script lang="ts">
-	import { getGearIconOrigin, getGearIconOriginUrl, getGearIconUrl } from '$lib/shared/api';
 	import { UIImage } from '$lib/shared/ui';
-	import OriginIcon from '$lib/shared/ui/OriginIcon.svelte';
+	import { GearIcon } from '$lib/components/icons';
 	import { PotentialGrade } from '@malib/gear';
 
 	let { icon, grade, newBonus }: { icon: string; grade: PotentialGrade; newBonus?: boolean } =
 		$props();
 
 	let iconBorder: ReturnType<typeof getIconBorder> = $derived(getIconBorder(grade));
-
-	let origin = $state<[number, number]>();
-
-	$effect(() => {
-		getGearIconOrigin(icon).then((data) => (origin = data));
-	});
 
 	function getIconBorder(grade: PotentialGrade) {
 		switch (grade) {
@@ -35,7 +28,7 @@
 	{/if}
 	<UIImage image="iconBase">
 		<div class="flex h-20 w-20 items-center justify-center">
-			<OriginIcon src={getGearIconUrl(icon)} alt="아이콘" {origin} scale={2} />
+			<GearIcon icon={icon} scale={2} />
 		</div>
 	</UIImage>
 	<UIImage

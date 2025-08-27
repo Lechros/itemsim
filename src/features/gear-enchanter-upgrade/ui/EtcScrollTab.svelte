@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ItemRawIcon } from '$lib/entities/item-icon';
+	import { ItemRawIcon } from '$lib/components/icons';
 	import { SelectList, SelectListItem } from '$lib/entities/select-list';
 	import { type Gear, type Scroll } from '@malib/gear';
 	import { getEtcScrolls } from '../model/etcScroll';
