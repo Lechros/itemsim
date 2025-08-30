@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Tab, TabStore } from '$lib/features/tab-selector/model/TabStore.svelte.js';
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
-	import { Drawer, DrawerContent, DrawerTrigger } from '$lib/shared/shadcn/components/ui/drawer';
+	import { Button } from '$lib/components/ui/button';
+	import { Drawer, DrawerContent, DrawerTrigger } from '$lib/components/ui/drawer';
 	import { Check, ChevronDown } from 'lucide-svelte';
 
 	let {

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { ButtonGroup } from '$lib/shared/ui';
-	import { Button, buttonVariants } from '$lib/shared/shadcn/components/ui/button';
-	import { Input } from '$lib/shared/shadcn/components/ui/input';
-	import { Label } from '$lib/shared/shadcn/components/ui/label';
-	import { RadioGroup, RadioGroupItem } from '$lib/shared/shadcn/components/ui/radio-group';
+	import { Button, buttonVariants } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import { RadioGroup, RadioGroupItem } from '$lib/components/ui/radio-group';
 	import { Gear } from '@malib/gear';
 	import {
 		cuttableTypes,
@@ -21,8 +21,8 @@
 		DialogHeader,
 		DialogTitle,
 		DialogTrigger
-	} from '$lib/shared/shadcn/components/ui/dialog';
-	import DialogDescription from '$lib/shared/shadcn/components/ui/dialog/dialog-description.svelte';
+	} from '$lib/components/ui/dialog';
+	import DialogDescription from '$lib/components/ui/dialog/dialog-description.svelte';
 	import { SelectList } from '$lib/entities/select-list';
 	import AnvilDialog from './AnvilDialog.svelte';
 	import { toast } from 'svelte-sonner';

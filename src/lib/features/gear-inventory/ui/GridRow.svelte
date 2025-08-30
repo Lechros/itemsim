@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { GearRow } from '$lib/shared/lib';
-	import { cn } from '$lib/shared/shadcn/utils';
+	import { cn } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 	import GridItemSkeleton from './GridItemSkeleton.svelte';
 

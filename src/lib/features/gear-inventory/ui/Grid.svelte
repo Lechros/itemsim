@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { GearRow } from '$lib/shared/lib';
 	import { Virtualizer } from '$lib/shared/ui/virtua-custom/svelte';
-	import { chunk } from '$lib/shared/utils';
+	import { chunk } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 	import GridRow from './GridRow.svelte';
 	let {

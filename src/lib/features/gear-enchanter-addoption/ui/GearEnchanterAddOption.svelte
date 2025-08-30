@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
-	import { Label } from '$lib/shared/shadcn/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
+	import { Label } from '$lib/components/ui/label';
 	import {
 		Select,
 		SelectContent,
 		SelectItem,
 		SelectTrigger
-	} from '$lib/shared/shadcn/components/ui/select';
-	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
+	} from '$lib/components/ui/select';
+	import { Separator } from '$lib/components/ui/separator';
 	import { ButtonGroup } from '$lib/shared/ui';
-	import { padRight } from '$lib/shared/utils';
+	import { padRight } from '$lib/utils';
 	import { AddOptionType, type AddOptionGrade, type Gear } from '@malib/gear';
 	import { untrack } from 'svelte';
 	import { toast } from 'svelte-sonner';

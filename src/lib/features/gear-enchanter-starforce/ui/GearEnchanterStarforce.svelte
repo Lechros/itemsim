@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { ButtonGroup } from '$lib/shared/ui';
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
-	import { Card } from '$lib/shared/shadcn/components/ui/card';
-	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
-	import { Tabs, TabsContent, TabsList, TabsTrigger } from '$lib/shared/shadcn/components/ui/tabs';
+	import { Button } from '$lib/components/ui/button';
+	import { Card } from '$lib/components/ui/card';
+	import { Separator } from '$lib/components/ui/separator';
+	import { Tabs, TabsContent, TabsList, TabsTrigger } from '$lib/components/ui/tabs';
 	import { Gear } from '@malib/gear';
 	import { getDisplayMaxStar } from '../model/star';
 	import { showStarScrollTab } from '../model/starScroll';

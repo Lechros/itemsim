@@ -3,7 +3,7 @@
 	import { Highlight } from '$lib/entities/highlight';
 	import { SelectList, SelectListItem } from '$lib/entities/select-list';
 	import { getGearSearch, type SearchGearSummary } from '$lib/api';
-	import { Button, buttonVariants } from '$lib/shared/shadcn/components/ui/button';
+	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import {
 		Dialog,
 		DialogClose,
@@ -13,9 +13,9 @@
 		DialogHeader,
 		DialogTitle,
 		DialogTrigger
-	} from '$lib/shared/shadcn/components/ui/dialog';
-	import { Input } from '$lib/shared/shadcn/components/ui/input';
-	import { cn } from '$lib/shared/shadcn/utils';
+	} from '$lib/components/ui/dialog';
+	import { Input } from '$lib/components/ui/input';
+	import { cn } from '$lib/utils';
 	import { ButtonGroup } from '$lib/shared/ui';
 	import type { Gear } from '@malib/gear';
 	import { createQuery } from '@tanstack/svelte-query';

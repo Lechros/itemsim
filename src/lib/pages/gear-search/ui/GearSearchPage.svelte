@@ -5,7 +5,7 @@
 	import SelectListVirtualizer from '$lib/entities/select-list/ui/SelectListVirtualizer.svelte';
 	import SearchNavbar from '$lib/features/search-navbar/ui/SearchNavbar.svelte';
 	import { getGearSearch, type SearchGearSummary } from '$lib/api';
-	import { ScrollArea } from '$lib/shared/shadcn/components/ui/scroll-area';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { GearSearchFooter } from '$lib/widgets/gear-search-footer';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { SvelteMap, SvelteSet } from 'svelte/reactivity';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Skeleton } from '$lib/shared/shadcn/components/ui/skeleton';
+	import { Skeleton } from '$lib/components/ui/skeleton';
 
 	let { count }: { count?: number } = $props();
 </script>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ItemRawIcon } from '$lib/components/icons';
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
-	import { CardHeader } from '$lib/shared/shadcn/components/ui/card';
+	import { Button } from '$lib/components/ui/button';
+	import { CardHeader } from '$lib/components/ui/card';
 	import { X } from 'lucide-svelte';
 
 	let {

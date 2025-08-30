@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { buttonVariants } from '$lib/shared/shadcn/components/ui/button';
+	import { buttonVariants } from '$lib/components/ui/button';
 	import {
 		DropdownMenu,
 		DropdownMenuContent,
@@ -7,7 +7,7 @@
 		DropdownMenuRadioGroup,
 		DropdownMenuRadioItem,
 		DropdownMenuTrigger
-	} from '$lib/shared/shadcn/components/ui/dropdown-menu';
+	} from '$lib/components/ui/dropdown-menu';
 	import { ChevronDown } from 'lucide-svelte';
 
 	let {

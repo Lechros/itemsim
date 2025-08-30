@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Tab, TabStore } from '$lib/features/tab-selector/model/TabStore.svelte.js';
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
+	import { Button } from '$lib/components/ui/button';
 	import { Check } from 'lucide-svelte';
 
 	let {

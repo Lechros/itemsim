@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { FontRenderProvider } from '$lib/components/gear-tooltip2';
-	import { Toaster } from '$lib/shared/shadcn/components/ui/sonner';
+	import { Toaster } from '$lib/components/ui/sonner';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
 	import { ModeWatcher } from 'mode-watcher';
 	import '../app.css';

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
-	import { Input } from '$lib/shared/shadcn/components/ui/input';
-	import { cn } from '$lib/shared/shadcn/utils';
+	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
+	import { cn } from '$lib/utils';
 	import { ArrowLeft, Search, X } from 'lucide-svelte';
 
 	let {

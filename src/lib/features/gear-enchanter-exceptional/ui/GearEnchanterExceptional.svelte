@@ -2,9 +2,9 @@
 	import { BalancedGrid } from '$lib/entities/balanced-grid';
 	import { ItemCard, ItemCardContent, ItemCardFooter } from '$lib/entities/item-card';
 	import { getGearOptionGroupedStrings } from '$lib/entities/item-string';
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
-	import { Card } from '$lib/shared/shadcn/components/ui/card';
-	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
+	import { Button } from '$lib/components/ui/button';
+	import { Card } from '$lib/components/ui/card';
+	import { Separator } from '$lib/components/ui/separator';
 	import { ButtonGroup } from '$lib/shared/ui';
 	import { Gear } from '@malib/gear';
 	import { getExceptionalHammer } from '../model/exceptional';

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { DetailNavbar } from '$lib/features/detail-navbar';
 	import { getGearData, updateGearData } from '$lib/features/gear-inventory';
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
-	import { ScrollArea } from '$lib/shared/shadcn/components/ui/scroll-area';
+	import { Button } from '$lib/components/ui/button';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { GearEnchanter } from '$lib/widgets/gear-enchanter';
 	import { Gear, type GearData } from '@malib/gear';
 	import { Loader2 } from 'lucide-svelte';

@@ -2,14 +2,14 @@
 	import { ItemCard, ItemCardContent, ItemCardFooter } from '$lib/entities/item-card';
 	import { ItemRawIcon } from '$lib/components/icons';
 	import { SelectList, SelectListItem } from '$lib/entities/select-list';
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
-	import { Input } from '$lib/shared/shadcn/components/ui/input';
+	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
 	import {
 		Select,
 		SelectContent,
 		SelectItem,
 		SelectTrigger
-	} from '$lib/shared/shadcn/components/ui/select';
+	} from '$lib/components/ui/select';
 	import { ButtonGroup } from '$lib/shared/ui';
 	import { Gear, type SoulData } from '@malib/gear';
 	import { toast } from 'svelte-sonner';

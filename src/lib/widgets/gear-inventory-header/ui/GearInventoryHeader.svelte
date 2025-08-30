@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Alert, AlertTitle } from '$lib/shared/shadcn/components/ui/alert';
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
-	import { cn } from '$lib/shared/shadcn/utils';
+	import { Alert, AlertTitle } from '$lib/components/ui/alert';
+	import { Button } from '$lib/components/ui/button';
+	import { cn } from '$lib/utils';
 	import { Trash2 } from 'lucide-svelte';
 	import type { Deleter } from '../model/Deleter.svelte.js';
 	import type { GearCountLiveQuery } from '../model/GearCountLiveQuery.svelte.js';

@@ -1,7 +1,7 @@
 <script lang="ts" generics="T">
-	import { Separator } from '$lib/shared/shadcn/components/ui/separator';
-	import { cn } from '$lib/shared/shadcn/utils';
-	import { splitHalf } from '$lib/shared/utils';
+	import { Separator } from '$lib/components/ui/separator';
+	import { cn } from '$lib/utils';
+	import { splitHalf } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 
 	let {

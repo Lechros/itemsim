@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { GearTooltip } from '$lib/components/gear-tooltip2';
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
+	import { Button } from '$lib/components/ui/button';
 	import {
 		Dialog,
 		DialogContent,
 		DialogFooter,
 		DialogHeader
-	} from '$lib/shared/shadcn/components/ui/dialog';
+	} from '$lib/components/ui/dialog';
 	import { ReadonlyGear } from '@malib/gear';
 
 	let {

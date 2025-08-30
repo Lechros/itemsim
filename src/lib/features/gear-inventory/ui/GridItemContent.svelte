@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { GearIcon } from '$lib/components/icons';
 	import PotentialTitle from '$lib/features/gear-enchanter-potential/ui/PotentialTitle.svelte';
-	import { Badge } from '$lib/shared/shadcn/components/ui/badge';
+	import { Badge } from '$lib/components/ui/badge';
 	import { UIImage2 } from '$lib/shared/ui';
 	import { GearCapability, ReadonlyGear, type GearData } from '@malib/gear';
 

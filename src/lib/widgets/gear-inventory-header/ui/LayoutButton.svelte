@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { buttonVariants } from '$lib/shared/shadcn/components/ui/button';
+	import { buttonVariants } from '$lib/components/ui/button';
 	import {
 		DropdownMenu,
 		DropdownMenuContent,
@@ -8,7 +8,7 @@
 		DropdownMenuRadioItem,
 		DropdownMenuSeparator,
 		DropdownMenuTrigger
-	} from '$lib/shared/shadcn/components/ui/dropdown-menu';
+	} from '$lib/components/ui/dropdown-menu';
 	import type { LayoutStore } from '$lib/widgets/gear-inventory-header/model/LayoutStore.svelte.js';
 	import { LayoutGrid, LayoutList } from 'lucide-svelte';
 

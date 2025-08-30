@@ -2,8 +2,8 @@
 	import { goto } from '$app/navigation';
 	import { addGearData } from '$lib/features/gear-inventory';
 	import { getGearDatas, type SearchGearSummary } from '$lib/api';
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
-	import { cn } from '$lib/shared/shadcn/utils';
+	import { Button } from '$lib/components/ui/button';
+	import { cn } from '$lib/utils';
 	import { josa } from 'es-hangul';
 	import { ChevronDown, ChevronUp } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';

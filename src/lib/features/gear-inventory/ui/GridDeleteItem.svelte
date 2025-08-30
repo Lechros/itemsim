@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { itemClasses } from './item';
-	import { cn } from '$lib/shared/shadcn/utils';
+	import { cn } from '$lib/utils';
 	import { Check, Trash2 } from 'lucide-svelte';
 	import { fade } from 'svelte/transition';
 

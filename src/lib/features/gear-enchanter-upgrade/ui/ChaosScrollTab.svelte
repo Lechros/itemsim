@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { BalancedGrid } from '$lib/entities/balanced-grid';
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
-	import { Checkbox } from '$lib/shared/shadcn/components/ui/checkbox';
-	import { Input } from '$lib/shared/shadcn/components/ui/input';
-	import { Label } from '$lib/shared/shadcn/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
 	import { ButtonGroup } from '$lib/shared/ui';
 	import type { Gear, GearUpgradeOption } from '@malib/gear';
 	import {

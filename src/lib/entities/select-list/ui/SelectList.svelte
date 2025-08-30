@@ -1,5 +1,5 @@
 <script lang="ts" generics="T">
-	import ScrollArea from '$lib/shared/shadcn/components/ui/scroll-area/scroll-area.svelte';
+	import ScrollArea from '$lib/components/ui/scroll-area/scroll-area.svelte';
 	import { type Snippet } from 'svelte';
 	import { SvelteSet } from 'svelte/reactivity';
 	import SelectListVirtualizer from './SelectListVirtualizer.svelte';

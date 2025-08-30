@@ -1,6 +1,6 @@
 <script>
-	import { Button } from '$lib/shared/shadcn/components/ui/button/index.js';
-	import { cn } from '$lib/shared/shadcn/utils.js';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import { cn } from '$lib/utils';
 	import { MoonIcon, SunIcon } from 'lucide-svelte';
 	import { toggleMode, mode } from 'mode-watcher';
 

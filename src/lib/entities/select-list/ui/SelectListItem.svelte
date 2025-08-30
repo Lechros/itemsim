@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Toggle } from '$lib/shared/shadcn/components/ui/toggle';
+	import { Toggle } from '$lib/components/ui/toggle';
 	import { Check } from 'lucide-svelte';
 	import { getContext, type Snippet } from 'svelte';
 	import type { SelectListContextType } from '../model/types';

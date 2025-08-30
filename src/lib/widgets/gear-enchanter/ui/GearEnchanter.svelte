@@ -12,7 +12,7 @@
 	import { GearEnchanterUpgrade } from '$lib/features/gear-enchanter-upgrade';
 	import { TabSelectorDrawer, createTabStore } from '$lib/features/tab-selector';
 	import TabSelectorList from '$lib/features/tab-selector/ui/TabSelectorList.svelte';
-	import { Tabs, TabsContent } from '$lib/shared/shadcn/components/ui/tabs';
+	import { Tabs, TabsContent } from '$lib/components/ui/tabs';
 	import type { Gear } from '@malib/gear';
 	import { tabs } from '../model/tabs';
 	import GearTooltipButton from './GearTooltipButton.svelte';

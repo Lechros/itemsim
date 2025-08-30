@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CardContent } from '$lib/shared/shadcn/components/ui/card';
+	import { CardContent } from '$lib/components/ui/card';
 	import type { Snippet } from 'svelte';
 
 	let {

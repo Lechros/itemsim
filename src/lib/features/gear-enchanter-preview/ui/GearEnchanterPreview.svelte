@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { GearIcon } from '$lib/components/icons';
 	import { GearTooltip } from '$lib/components/gear-tooltip2';
-	import { Card } from '$lib/shared/shadcn/components/ui/card';
+	import { Card } from '$lib/components/ui/card';
 	import { FollowCursor } from '$lib/shared/ui';
 	import type { Gear } from '@malib/gear';
 

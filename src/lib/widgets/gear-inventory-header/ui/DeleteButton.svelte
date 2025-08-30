@@ -9,8 +9,8 @@
 		AlertDialogHeader,
 		AlertDialogTitle,
 		AlertDialogTrigger
-	} from '$lib/shared/shadcn/components/ui/alert-dialog';
-	import { buttonVariants } from '$lib/shared/shadcn/components/ui/button';
+	} from '$lib/components/ui/alert-dialog';
+	import { buttonVariants } from '$lib/components/ui/button';
 	import { toast } from 'svelte-sonner';
 	import type { Deleter } from '../model/Deleter.svelte.js';
 

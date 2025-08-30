@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Card } from '$lib/shared/shadcn/components/ui/card';
+	import { Card } from '$lib/components/ui/card';
 	import type { Snippet } from 'svelte';
 	import ItemCardHeader from './ItemCardHeader.svelte';
 

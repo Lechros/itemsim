@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from '$lib/shared/shadcn/components/ui/button';
+	import { Button } from '$lib/components/ui/button';
 	import DarkModeButton from './DarkModeButton.svelte';
 	import Logo from './logo.png';
 </script>

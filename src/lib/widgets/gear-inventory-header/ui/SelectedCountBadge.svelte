@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Badge } from '$lib/shared/shadcn/components/ui/badge';
-	import { cn } from '$lib/shared/shadcn/utils';
+	import { Badge } from '$lib/components/ui/badge';
+	import { cn } from '$lib/utils';
 
 	let {
 		count,
