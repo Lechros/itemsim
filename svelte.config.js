@@ -10,10 +10,10 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		files: {
-			routes: 'src/app/routes',
-			lib: 'src',
-			appTemplate: 'src/app/index.html',
-			assets: 'public'
+			routes: 'src/routes',
+			lib: 'src/lib',
+			appTemplate: 'src/app.html',
+			assets: 'static'
 		}
 	}
 };
