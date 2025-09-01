@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ItemCard, ItemCardContent, ItemCardFooter } from '$lib/entities/item-card';
 	import { ItemRawIcon } from '$lib/components/icons';
-	import { SelectList, SelectListItem } from '$lib/entities/select-list';
+	import { SelectList, SelectListItem } from '$lib/components/select-list';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import {

@@ -1,8 +1,8 @@
 <script lang="ts" generics="T">
-	import ScrollArea from '$lib/components/ui/scroll-area/scroll-area.svelte';
 	import { type Snippet } from 'svelte';
 	import { SvelteSet } from 'svelte/reactivity';
-	import SelectListVirtualizer from './SelectListVirtualizer.svelte';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
+	import { SelectListVirtualizer } from '$lib/components/select-list';
 
 	let {
 		items,
@@ -30,14 +30,16 @@
 </script>
 
 <ScrollArea bind:viewportRef style={wrapperStyle}>
-	<SelectListVirtualizer
-		{items}
-		{children}
-		{getKey}
-		scrollRef={viewportRef}
-		{multiple}
-		{selected}
-		{selectedSet}
-		{allowDeselect}
-	/>
+	{#if viewportRef}
+		<SelectListVirtualizer
+			{items}
+			{children}
+			{getKey}
+			scrollRef={viewportRef}
+			{multiple}
+			{selected}
+			{selectedSet}
+			{allowDeselect}
+		/>
+	{/if}
 </ScrollArea>

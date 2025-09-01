@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ItemRawIcon } from '$lib/components/icons';
-	import { SelectList, SelectListItem } from '$lib/entities/select-list';
+	import { SelectList, SelectListItem } from '$lib/components/select-list';
 	import { type Gear, type Scroll } from '@malib/gear';
 	import { getEtcScrolls } from '../model/etcScroll';
 	import type { SelectScrollFunction } from '../model/types';

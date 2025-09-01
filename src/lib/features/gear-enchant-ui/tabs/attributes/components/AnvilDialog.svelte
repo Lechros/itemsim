@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { GearIcon } from '$lib/components/icons';
 	import { Highlight } from '$lib/entities/highlight';
-	import { SelectList, SelectListItem } from '$lib/entities/select-list';
+	import { SelectList, SelectListItem } from '$lib/components/select-list';
 	import { getGearSearch, type SearchGearSummary } from '$lib/api';
 	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import {

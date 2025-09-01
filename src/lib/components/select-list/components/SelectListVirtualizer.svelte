@@ -1,8 +1,8 @@
 <script lang="ts" generics="T">
-	import { Virtualizer } from '$lib/shared/ui/virtua-custom/svelte';
 	import { setContext, type Snippet } from 'svelte';
-	import type { SelectListContextType } from '../model/types';
+	import type { SelectListContextType } from '../types';
 	import { SvelteSet } from 'svelte/reactivity';
+	import { Virtualizer } from 'virtua/lib/svelte';
 
 	let {
 		items,
@@ -19,7 +19,7 @@
 		children: Snippet<[item: T, index: number]>;
 		getKey?: (item: T) => string;
 		startMargin?: number;
-		scrollRef: HTMLElement | null;
+		scrollRef: HTMLElement;
 		multiple?: boolean;
 		selected?: string | null;
 		selectedSet?: Set<string>;
@@ -57,4 +57,4 @@
 	}
 </script>
 
-<Virtualizer data={items} {getKey} {startMargin} scrollRef={scrollRef ?? undefined} {children} />
+<Virtualizer data={items} {getKey} {startMargin} scrollRef={scrollRef} {children} />
