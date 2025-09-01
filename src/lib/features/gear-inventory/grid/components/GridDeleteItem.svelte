@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { itemClasses } from './item';
 	import { cn } from '$lib/utils';
-	import { Check, Trash2 } from 'lucide-svelte';
+	import { Check } from 'lucide-svelte';
 	import { fade } from 'svelte/transition';
 
 	let {
@@ -22,7 +21,7 @@
 
 <button
 	class={cn(
-		itemClasses,
+		'bg-card focus-visible:border-ring focus-visible:ring-ring/50 hover:bg-accent relative flex aspect-square items-center justify-center gap-6 rounded-lg border py-6 shadow-sm transition-all hover:shadow-md',
 		'transition-all duration-100',
 		selected && 'ring-destructive/60 bg-destructive/10 hover:bg-destructive/20 ring-2'
 	)}

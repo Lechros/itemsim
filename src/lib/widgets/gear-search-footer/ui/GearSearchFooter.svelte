@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { addGearData } from '$lib/features/gear-inventory';
+	import { addGearData } from '$lib/stores/gear-inventory';
 	import { getGearDatas, type SearchGearSummary } from '$lib/api';
 	import { Button } from '$lib/components/ui/button';
 	import { cn } from '$lib/utils';

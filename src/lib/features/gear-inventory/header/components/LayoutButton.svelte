@@ -9,7 +9,7 @@
 		DropdownMenuSeparator,
 		DropdownMenuTrigger
 	} from '$lib/components/ui/dropdown-menu';
-	import type { LayoutStore } from '$lib/widgets/gear-inventory-header/model/LayoutStore.svelte.js';
+	import type { LayoutStore } from '$lib/features/gear-inventory/header/model/LayoutStore.svelte.js';
 	import { LayoutGrid, LayoutList } from 'lucide-svelte';
 
 	let {

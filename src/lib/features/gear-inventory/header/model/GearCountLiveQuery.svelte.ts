@@ -1,4 +1,4 @@
-import { useGearDataCount } from '$lib/features/gear-inventory';
+import { useGearDataCount } from '$lib/stores/gear-inventory';
 import { AbstractLiveQuery } from './AbstractLiveQuery.svelte.js';
 
 export class GearCountLiveQuery extends AbstractLiveQuery<number> {

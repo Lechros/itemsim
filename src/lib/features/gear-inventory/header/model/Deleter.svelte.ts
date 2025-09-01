@@ -1,4 +1,4 @@
-import { deleteGearData } from '$lib/features/gear-inventory/model/inventory-store';
+import { deleteGearData } from '$lib/stores/gear-inventory';
 import { SvelteSet } from 'svelte/reactivity';
 
 export class Deleter {

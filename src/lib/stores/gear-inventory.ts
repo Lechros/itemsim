@@ -5,7 +5,7 @@ import { getRegExp } from 'korean-regexp';
 
 /**
  * DB에 장비 정보를 추가합니다.
- * @param gear 추가할 장비 정보
+ * @param gears 추가할 장비 정보
  * @returns 추가된 장비의 seq. 여러 장비를 추가할 경우 마지막 장비의 seq를 반환합니다.
  */
 export async function addGearData(...gears: GearData[]) {
@@ -28,7 +28,7 @@ export async function updateGearData(seq: number, gear: GearData) {
 
 /**
  * DB에서 장비 정보를 삭제합니다.
- * @param seq 삭제할 장비 정보의 seq
+ * @param seqs 삭제할 장비 정보의 seq
  */
 export async function deleteGearData(...seqs: number[]) {
 	return await db.inventory.bulkDelete(seqs);

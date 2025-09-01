@@ -3,7 +3,7 @@
 	import PotentialTitle from '$lib/features/gear-enchant-ui/tabs/potential/components/PotentialTitle.svelte';
 	import { Badge } from '$lib/components/ui/badge';
 	import { UIImage2 } from '$lib/shared/ui';
-	import { GearCapability, ReadonlyGear, type GearData } from '@malib/gear';
+	import { GearCapability, type GearData, ReadonlyGear } from '@malib/gear';
 
 	let {
 		gearData,

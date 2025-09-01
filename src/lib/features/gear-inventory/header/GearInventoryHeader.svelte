@@ -3,17 +3,17 @@
 	import { Button } from '$lib/components/ui/button';
 	import { cn } from '$lib/utils';
 	import { Trash2 } from 'lucide-svelte';
-	import type { Deleter } from '../model/Deleter.svelte.js';
-	import type { GearCountLiveQuery } from '../model/GearCountLiveQuery.svelte.js';
-	import type { GearLiveQuery } from '../model/GearLiveQuery.svelte.js';
-	import AddButton from './AddButton.svelte';
-	import DeleteButton from './DeleteButton.svelte';
-	import FilterInput from './FilterInput.svelte';
-	import GearCountDisplay from './GearCountDisplay.svelte';
-	import LayoutButton from './LayoutButton.svelte';
-	import SelectedCountBadge from './SelectedCountBadge.svelte';
-	import SortButton from './SortButton.svelte';
-	import type { LayoutStore } from '../model/LayoutStore.svelte.js';
+	import AddButton from './components/AddButton.svelte';
+	import DeleteButton from './components/DeleteButton.svelte';
+	import FilterInput from './components/FilterInput.svelte';
+	import GearCountDisplay from './components/GearCountDisplay.svelte';
+	import LayoutButton from './components/LayoutButton.svelte';
+	import SelectedCountBadge from './components/SelectedCountBadge.svelte';
+	import SortButton from './components/SortButton.svelte';
+	import type { Deleter } from './model/Deleter.svelte';
+	import type { GearCountLiveQuery } from './model/GearCountLiveQuery.svelte';
+	import type { GearLiveQuery } from './model/GearLiveQuery.svelte';
+	import type { LayoutStore } from './model/LayoutStore.svelte.js';
 
 	type Mode = 'default' | 'delete';
 

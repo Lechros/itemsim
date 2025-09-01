@@ -4,6 +4,7 @@
 	import { chunk } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 	import GridRow from './GridRow.svelte';
+
 	let {
 		items,
 		children: itemChildren,
@@ -72,9 +73,9 @@
 <Virtualizer
 	data={rows}
 	getKey={(row) => `${row[0].seq}-${row[row.length - 1].seq}`}
-	{startMargin}
 	overscan={1}
 	scrollRef={scrollRef ?? undefined}
+	{startMargin}
 >
 	{#snippet children(row, index)}
 		<GridRow
