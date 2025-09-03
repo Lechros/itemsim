@@ -7,7 +7,7 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 	import { GearIcon } from '$lib/components/icons';
-	import { Highlight } from '$lib/entities/highlight';
+	import { Highlight } from '$lib/components/highlight';
 
 	let searchQuery = $state('');
 	let selectedItems = $state<Map<number, SearchGearSummary>>(new SvelteMap());

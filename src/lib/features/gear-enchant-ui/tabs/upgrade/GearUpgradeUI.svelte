@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { BalancedGrid } from '$lib/entities/balanced-grid';
 	import { ItemCard, ItemCardContent, ItemCardFooter } from '$lib/entities/item-card';
-	import { getGearOptionStrings } from '$lib/entities/item-string';
 	import { Button } from '$lib/components/ui/button';
 	import { Card } from '$lib/components/ui/card';
 	import { Separator } from '$lib/components/ui/separator';
 	import { Tabs, TabsContent, TabsList, TabsTrigger } from '$lib/components/ui/tabs';
-	import { cn } from '$lib/utils';
+	import { cn, getGearOptionStrings } from '$lib/utils';
 	import { ButtonGroup } from '$lib/shared/ui';
 	import { Gear, type Scroll } from '@malib/gear';
 	import { toast } from 'svelte-sonner';

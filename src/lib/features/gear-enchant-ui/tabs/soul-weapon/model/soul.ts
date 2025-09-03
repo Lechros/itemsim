@@ -1,6 +1,6 @@
-import { getGearOptionGroupedStrings } from '$lib/entities/item-string';
 import type { SoulData, SoulOption } from '@malib/gear';
 import soulData from './soul-data.json';
+import { getGearOptionGroupedStrings } from '$lib/utils';
 
 const souls: Record<number, SoulRawData> = soulData;
 
