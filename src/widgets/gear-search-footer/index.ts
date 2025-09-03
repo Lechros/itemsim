@@ -1,1 +1,0 @@
-export { default as GearSearchFooter} from './ui/GearSearchFooter.svelte'
