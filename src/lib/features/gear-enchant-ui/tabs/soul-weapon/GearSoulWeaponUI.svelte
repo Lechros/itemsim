@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ItemCard, ItemCardContent, ItemCardFooter } from '$lib/entities/item-card';
+	import { ItemCard, ItemCardContent, ItemCardFooter } from '$lib/features/gear-enchant-ui/item-card';
 	import { ItemRawIcon } from '$lib/components/icons';
 	import { SelectList, SelectListItem } from '$lib/components/select-list';
 	import { Button } from '$lib/components/ui/button';

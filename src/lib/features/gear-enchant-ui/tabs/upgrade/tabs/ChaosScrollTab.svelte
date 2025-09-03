@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { BalancedGrid } from '$lib/entities/balanced-grid';
+	import { BalancedGrid } from '$lib/features/gear-enchant-ui/balanced-grid';
 	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Input } from '$lib/components/ui/input';

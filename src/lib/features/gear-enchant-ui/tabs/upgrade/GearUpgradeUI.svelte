@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { BalancedGrid } from '$lib/entities/balanced-grid';
-	import { ItemCard, ItemCardContent, ItemCardFooter } from '$lib/entities/item-card';
+	import { BalancedGrid } from '$lib/features/gear-enchant-ui/balanced-grid';
+	import { ItemCard, ItemCardContent, ItemCardFooter } from '$lib/features/gear-enchant-ui/item-card';
 	import { Button } from '$lib/components/ui/button';
 	import { Card } from '$lib/components/ui/card';
 	import { Separator } from '$lib/components/ui/separator';
