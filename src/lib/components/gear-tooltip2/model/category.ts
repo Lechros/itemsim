@@ -262,6 +262,11 @@ export function getGearTypeString(type: GearType) {
 			return '차크람';
 		case GearType.hexSeeker:
 			return '헥스시커';
+
+		case GearType.longSword2:
+			return '장검';
+		case GearType.sacredJewel:
+			return '여의보주';
 	}
 }
 
