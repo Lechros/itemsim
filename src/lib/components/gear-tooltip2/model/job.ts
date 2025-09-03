@@ -140,6 +140,10 @@ export function getExtraJobReqString(type: GearType) {
 		case GearType.chakram:
 		case GearType.hexSeeker:
 			return getExtraJobReqStringByJob(154);
+
+		case GearType.longSword2:
+		case GearType.sacredJewel:
+			return getExtraJobReqStringByJob(161);
 	}
 }
 
@@ -185,6 +189,8 @@ function getExtraJobReqStringByJob(specJob: number) {
 			return '칼리';
 		case 155:
 			return '아크';
+		case 161:
+			return '렌';
 		case 162:
 			return '라라';
 		case 164:
