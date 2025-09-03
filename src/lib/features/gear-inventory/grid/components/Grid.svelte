@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { GearRow } from '$lib/shared/lib';
+	import type { GearRow } from '$lib/stores/gear-inventory';
 	import { chunk } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 	import GridRow from './GridRow.svelte';

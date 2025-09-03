@@ -1,7 +1,21 @@
-import { db, type GearRow } from '$lib/shared/lib';
 import type { GearData } from '@malib/gear';
-import { liveQuery } from 'dexie';
+import Dexie, { type EntityTable, liveQuery } from 'dexie';
 import { getRegExp } from 'korean-regexp';
+
+export interface GearRow {
+	seq: number;
+	gear: GearData;
+	createdAt: Date;
+	updatedAt: Date;
+}
+
+const db = new Dexie('itemsim') as Dexie & {
+	inventory: EntityTable<GearRow, 'seq'>;
+};
+
+db.version(1).stores({
+	inventory: '++seq, gear.name, gear.meta.id, gear.meta.version, createdAt, updatedAt'
+});
 
 /**
  * DB에 장비 정보를 추가합니다.

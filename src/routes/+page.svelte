@@ -8,7 +8,7 @@
 		GearInventoryGridItemContent
 	} from '$lib/features/gear-inventory/grid';
 	import { ScrollTopButton } from '$lib/features/scroll-top-button';
-	import { createPointerDetection } from '$lib/shared/lib/device-detection.svelte.js';
+	import { createPointerDetection } from '$lib/utils';
 	import { Button } from '$lib/components/ui/button';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { FollowCursor } from '$lib/components/follow-cursor';

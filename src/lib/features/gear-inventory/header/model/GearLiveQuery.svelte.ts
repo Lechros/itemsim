@@ -1,5 +1,5 @@
 import { useGearQuery, type GearQuerySortTypes } from '$lib/stores/gear-inventory';
-import type { GearRow } from '$lib/shared/lib';
+import type { GearRow } from '$lib/stores/gear-inventory';
 import { AbstractLiveQuery } from './AbstractLiveQuery.svelte.js';
 
 export class GearLiveQuery extends AbstractLiveQuery<GearRow[]> {
