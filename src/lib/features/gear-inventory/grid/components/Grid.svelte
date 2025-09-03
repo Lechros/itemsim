@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { GearRow } from '$lib/shared/lib';
-	import { Virtualizer } from '$lib/shared/ui/virtua-custom/svelte';
 	import { chunk } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 	import GridRow from './GridRow.svelte';
+	import { Virtualizer } from 'virtua/lib/svelte';
 
 	let {
 		items,
@@ -16,7 +16,7 @@
 		children: Snippet<[item: GearRow, index: number]>;
 		maxColumns?: number;
 		startMargin?: number;
-		scrollRef: HTMLElement | null;
+		scrollRef: HTMLElement;
 	} = $props();
 
 	const ITEM_WIDTH = 128;

@@ -107,37 +107,39 @@
 			<div>아이템을 불러오는 중 오류가 발생했어요.</div>
 		</div>
 	{:else if gearQuery.isLoadedAndNotEmpty && gearQuery.value}
-		<GearInventoryGrid
-			items={gearQuery.value}
-			startMargin={NAVBAR_HEIGHT + FLOATING_HEIGHT}
-			scrollRef={viewportRef}
-			maxColumns={layoutStore.columns === 'auto' ? undefined : layoutStore.columns}
-		>
-			{#snippet children(item)}
-				{#if mode === 'delete'}
-					<GearInventoryGridDeleteItem
-						selected={deleter.has(item.seq)}
-						onclick={() =>
+		{#if viewportRef}
+			<GearInventoryGrid
+				items={gearQuery.value}
+				startMargin={NAVBAR_HEIGHT + FLOATING_HEIGHT}
+				scrollRef={viewportRef}
+				maxColumns={layoutStore.columns === 'auto' ? undefined : layoutStore.columns}
+			>
+				{#snippet children(item)}
+					{#if mode === 'delete'}
+						<GearInventoryGridDeleteItem
+							selected={deleter.has(item.seq)}
+							onclick={() =>
 							deleter.has(item.seq) ? deleter.delete(item.seq) : deleter.add(item.seq)}
-						onmouseenter={() => handleItemHover(item.gear)}
-						onmouseleave={() => handleItemHover(null)}
-					>
-						<GearInventoryGridItemContent gearData={item.gear} scale={2} />
-					</GearInventoryGridDeleteItem>
-				{:else}
-					<GearInventoryGridItem
-						href={pointerDetection.isPointerFine ? `/gear/${item.seq}` : undefined}
-						onmouseenter={() => handleItemHover(item.gear)}
-						onmouseleave={() => handleItemHover(null)}
-						onclick={!pointerDetection.isPointerFine
+							onmouseenter={() => handleItemHover(item.gear)}
+							onmouseleave={() => handleItemHover(null)}
+						>
+							<GearInventoryGridItemContent gearData={item.gear} scale={2} />
+						</GearInventoryGridDeleteItem>
+					{:else}
+						<GearInventoryGridItem
+							href={pointerDetection.isPointerFine ? `/gear/${item.seq}` : undefined}
+							onmouseenter={() => handleItemHover(item.gear)}
+							onmouseleave={() => handleItemHover(null)}
+							onclick={!pointerDetection.isPointerFine
 							? () => handleItemClick(item.seq, item.gear)
 							: undefined}
-					>
-						<GearInventoryGridItemContent gearData={item.gear} scale={2} />
-					</GearInventoryGridItem>
-				{/if}
-			{/snippet}
-		</GearInventoryGrid>
+						>
+							<GearInventoryGridItemContent gearData={item.gear} scale={2} />
+						</GearInventoryGridItem>
+					{/if}
+				{/snippet}
+			</GearInventoryGrid>
+		{/if}
 	{:else if gearQuery.search}
 		<div class="flex h-32 flex-col items-center justify-center gap-y-2">
 			<div>필터에 해당하는 결과가 없어요.</div>
