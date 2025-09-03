@@ -4,7 +4,7 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
-	import { ButtonGroup } from '$lib/shared/ui';
+	import { ButtonGroup } from '$lib/components/button-group';
 	import type { Gear, GearUpgradeOption } from '@malib/gear';
 	import {
 		chaosOptionTypes,

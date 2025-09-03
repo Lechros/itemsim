@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ButtonGroup } from '$lib/shared/ui';
+	import { ButtonGroup } from '$lib/components/button-group';
 	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
 	import { Switch } from '$lib/components/ui/switch';

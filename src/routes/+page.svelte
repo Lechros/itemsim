@@ -11,7 +11,7 @@
 	import { createPointerDetection } from '$lib/shared/lib/device-detection.svelte.js';
 	import { Button } from '$lib/components/ui/button';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import { FollowCursor } from '$lib/shared/ui';
+	import { FollowCursor } from '$lib/components/follow-cursor';
 	import {
 		createDeleter,
 		createGearCountLiveQuery,

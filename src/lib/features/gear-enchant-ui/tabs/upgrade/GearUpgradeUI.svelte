@@ -6,7 +6,7 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { Tabs, TabsContent, TabsList, TabsTrigger } from '$lib/components/ui/tabs';
 	import { cn, getGearOptionStrings } from '$lib/utils';
-	import { ButtonGroup } from '$lib/shared/ui';
+	import { ButtonGroup } from '$lib/components/button-group';
 	import { Gear, type Scroll } from '@malib/gear';
 	import { toast } from 'svelte-sonner';
 	import { tabs } from './model/tabs';

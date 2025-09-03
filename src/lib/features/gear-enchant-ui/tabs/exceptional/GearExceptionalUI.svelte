@@ -4,7 +4,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Card } from '$lib/components/ui/card';
 	import { Separator } from '$lib/components/ui/separator';
-	import { ButtonGroup } from '$lib/shared/ui';
+	import { ButtonGroup } from '$lib/components/button-group';
 	import { Gear } from '@malib/gear';
 	import { getExceptionalHammer } from './model/exceptional';
 	import { getGearOptionGroupedStrings } from '$lib/utils';

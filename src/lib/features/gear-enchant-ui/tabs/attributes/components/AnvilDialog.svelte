@@ -16,7 +16,7 @@
 	} from '$lib/components/ui/dialog';
 	import { Input } from '$lib/components/ui/input';
 	import { cn } from '$lib/utils';
-	import { ButtonGroup } from '$lib/shared/ui';
+	import { ButtonGroup } from '$lib/components/button-group';
 	import type { Gear } from '@malib/gear';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { Search, X } from 'lucide-svelte';

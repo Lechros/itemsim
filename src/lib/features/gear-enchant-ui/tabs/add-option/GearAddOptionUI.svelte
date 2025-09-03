@@ -8,7 +8,7 @@
 		SelectTrigger
 	} from '$lib/components/ui/select';
 	import { Separator } from '$lib/components/ui/separator';
-	import { ButtonGroup } from '$lib/shared/ui';
+	import { ButtonGroup } from '$lib/components/button-group';
 	import { padRight } from '$lib/utils';
 	import { AddOptionType, type AddOptionGrade, type Gear } from '@malib/gear';
 	import { untrack } from 'svelte';

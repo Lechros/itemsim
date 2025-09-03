@@ -10,7 +10,7 @@
 		SelectItem,
 		SelectTrigger
 	} from '$lib/components/ui/select';
-	import { ButtonGroup } from '$lib/shared/ui';
+	import { ButtonGroup } from '$lib/components/button-group';
 	import { Gear, type SoulData } from '@malib/gear';
 	import { toast } from 'svelte-sonner';
 	import {

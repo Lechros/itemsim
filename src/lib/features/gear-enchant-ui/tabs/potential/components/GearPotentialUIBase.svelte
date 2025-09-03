@@ -6,7 +6,7 @@
 		SelectItem,
 		SelectTrigger
 	} from '$lib/components/ui/select';
-	import { ButtonGroup } from '$lib/shared/ui';
+	import { ButtonGroup } from '$lib/components/button-group';
 	import { PotentialGrade, type PotentialData } from '@malib/gear';
 	import { grades } from '../model/grades';
 	import PotentialSummary from './PotentialSummary.svelte';
