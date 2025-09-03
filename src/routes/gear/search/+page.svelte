@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { SelectListItem, SelectListVirtualizer } from '$lib/components/select-list';
-	import GearSearchNavbar from '$lib/features/search/components/GearSearchNavbar.svelte';
+	import GearSearchNavbar from '$lib/features/search/GearSearchNavbar.svelte';
 	import { getGearSearch, type SearchGearSummary } from '$lib/api';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { GearSearchFooter } from '$lib/widgets/gear-search-footer';

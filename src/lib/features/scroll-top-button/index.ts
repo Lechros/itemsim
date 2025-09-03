@@ -1,1 +1,1 @@
-export { default as ScrollTopButton } from './ui/ScrollTopButton.svelte';
+export { default as ScrollTopButton } from './ScrollTopButton.svelte';

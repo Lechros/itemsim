@@ -2,7 +2,7 @@
 	import { type Snippet } from 'svelte';
 	import { SvelteSet } from 'svelte/reactivity';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import { SelectListVirtualizer } from '$lib/components/select-list';
+	import { SelectListVirtualizer } from '$lib/components/select-list/index';
 
 	let {
 		items,

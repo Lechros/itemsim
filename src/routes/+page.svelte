@@ -19,7 +19,7 @@
 		GearInventoryHeader
 	} from '$lib/features/gear-inventory/header';
 	import { createLayoutStore } from '$lib/features/gear-inventory/header/model/LayoutStore.svelte.js';
-	import { MainNavbar } from '$lib/widgets/main-navbar';
+	import { MainNavbar } from '$lib/features/navigation/main-navbar';
 	import { type GearData, ReadonlyGear } from '@malib/gear';
 	import { Loader2, Plus } from 'lucide-svelte';
 	import { GearDialog } from '$lib/features/gear-inventory/dialog';

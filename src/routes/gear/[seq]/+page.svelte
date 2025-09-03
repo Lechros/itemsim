@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import { DetailNavbar } from '$lib/features/detail-navbar';
+	import { DetailNavbar } from '$lib/features/navigation/detail-navbar';
 	import { GearEnchantUI } from '$lib/features/gear-enchant-ui';
 	import { getGearData, updateGearData } from '$lib/stores/gear-inventory';
 	import { Gear, type GearData } from '@malib/gear';

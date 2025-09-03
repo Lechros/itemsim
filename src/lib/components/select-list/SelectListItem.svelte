@@ -2,7 +2,7 @@
 	import { Toggle } from '$lib/components/ui/toggle';
 	import { Check } from 'lucide-svelte';
 	import { getContext, type Snippet } from 'svelte';
-	import type { SelectListContextType } from '../types';
+	import type { SelectListContextType } from './types';
 
 	let {
 		value,

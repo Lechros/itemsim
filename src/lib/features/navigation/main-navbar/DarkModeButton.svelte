@@ -1,6 +1,6 @@
 <script>
-	import { Button } from '$lib/components/ui/button/index.js';
-	import { cn } from '$lib/utils';
+	import { Button } from '$lib/components/ui/button/index.ts';
+	import { cn } from '$lib/utils/index.ts';
 	import { MoonIcon, SunIcon } from 'lucide-svelte';
 	import { toggleMode, mode } from 'mode-watcher';
 
