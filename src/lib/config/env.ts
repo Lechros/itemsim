@@ -11,10 +11,8 @@ function createEnv() {
 		}
 	}
 	if (errors.length > 0) {
-		throw new Error(`Missing or invalid environment variables:
-		${Object.entries(errors)
-			.map(([key, value]) => `- ${key}: ${value}`)
-			.join('\n')}`);
+		const items = errors.map(([key, value]) => ` - ${key}: ${value}`);
+		throw new Error(`Missing or invalid environment variables:\n${items.join('\n')}`);
 	}
 
 	return envVars;
