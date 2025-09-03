@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { UIImage } from '$lib/shared/ui';
+	import UIImage from '../UIImage.svelte';
 
 	let { label, diff, small = false }: { label: string; diff: number; small?: boolean } = $props();
 

@@ -1,1 +1,1 @@
-export { default as GearTooltip } from './ui/GearTooltip.svelte';
+export { default as GearTooltip } from './GearTooltip.svelte';

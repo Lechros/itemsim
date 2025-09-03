@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { UIImage2 } from '$lib/shared/ui';
+	import { UIImage2 } from '$lib/components/ui-image';
 	import { PotentialGrade } from '@malib/gear';
 
 	let { grade }: { grade: PotentialGrade } = $props();

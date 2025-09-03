@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { UIImage2 } from '$lib/shared/ui';
+	import { UIImage2 } from '$lib/components/ui-image';
 	import { AddOptionType, GearCapability, type AddOptionData } from '@malib/gear';
 	import DetailText from '../text/DetailText.svelte';
 

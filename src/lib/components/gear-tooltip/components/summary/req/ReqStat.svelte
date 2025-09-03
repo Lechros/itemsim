@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { UIImage } from '$lib/shared/ui';
 	import Digit from '../Digit.svelte';
+	import UIImage from '../../UIImage.svelte';
 
 	let {
 		type,

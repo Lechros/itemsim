@@ -2,7 +2,7 @@
 	import { setContext, type Snippet } from 'svelte';
 	import type { SelectListContextType } from './types';
 	import { SvelteSet } from 'svelte/reactivity';
-	import { Virtualizer } from 'virtua/lib/svelte';
+	import { Virtualizer } from 'virtua/svelte';
 
 	let {
 		items,

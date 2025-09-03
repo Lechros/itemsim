@@ -3,11 +3,11 @@
 	import GearSearchNavbar from '$lib/features/search/GearSearchNavbar.svelte';
 	import { getGearSearch, type SearchGearSummary } from '$lib/api';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import { GearSearchFooter } from '$lib/widgets/gear-search-footer';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 	import { GearIcon } from '$lib/components/icons';
 	import { Highlight } from '$lib/components/highlight';
+	import { GearSearchFooter } from '$lib/features/search';
 
 	let searchQuery = $state('');
 	let selectedItems = $state<Map<number, SearchGearSummary>>(new SvelteMap());

@@ -6,7 +6,7 @@
 		type GearStarforceOption,
 		type GearUpgradeOption
 	} from '@malib/gear';
-	import { getDescriptions, getExtraJobReqString, getTags } from '../model/strings';
+	import { getDescriptions, getExtraJobReqString, getTags } from './model/strings';
 	import Attributes from './components/Attributes.svelte';
 	import Description from './components/description/Description.svelte';
 	import DescriptionsWrapper from './components/description/DescriptionsWrapper.svelte';

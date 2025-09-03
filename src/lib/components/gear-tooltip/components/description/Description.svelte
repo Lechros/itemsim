@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { parseColorString } from '../../parser';
+	import { parseColorString } from '../../model/parser';
 
 	let { description }: { description: string } = $props();
 </script>

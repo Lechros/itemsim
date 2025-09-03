@@ -3,7 +3,7 @@
 	import { chunk } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 	import GridRow from './GridRow.svelte';
-	import { Virtualizer } from 'virtua/lib/svelte';
+	import { Virtualizer } from 'virtua/svelte';
 
 	let {
 		items,

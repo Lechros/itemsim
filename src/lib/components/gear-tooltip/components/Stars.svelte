@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { UIImage } from '$lib/shared/ui';
+	import UIImage from './UIImage.svelte';
 
 	let { star, maxStar, color }: { star: number; maxStar: number; color: 'yellow' | 'blue' } =
 		$props();

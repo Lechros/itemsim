@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { tooltip2Images } from '$lib/shared/assets';
-	import { UIImage2 } from '$lib/shared/ui';
+	import { UIImage2 } from '$lib/components/ui-image';
+	import { tooltip2Images } from '$lib/assets/tooltip2-images';
 	import { splitKoreanNumber } from '../../model/digit';
 
 	let { incline }: { incline: number } = $props();

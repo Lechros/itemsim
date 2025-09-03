@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { UIImage } from '$lib/shared/ui';
 	import Spacer from '../../Spacer.svelte';
 	import Digit from '../Digit.svelte';
+	import UIImage from '../../UIImage.svelte';
 
 	let {
 		value,

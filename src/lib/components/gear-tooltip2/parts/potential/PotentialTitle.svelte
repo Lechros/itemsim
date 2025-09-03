@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { UIImage2 } from '$lib/shared/ui';
+	import { UIImage2 } from '$lib/components/ui-image';
 	import { GearCapability, PotentialGrade } from '@malib/gear';
 	import Spacer from '../Spacer.svelte';
 	import DetailText from '../text/DetailText.svelte';

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { UIImage2 } from '$lib/shared/ui';
+	import { UIImage2 } from '$lib/components/ui-image';
 
 	let {
 		star,

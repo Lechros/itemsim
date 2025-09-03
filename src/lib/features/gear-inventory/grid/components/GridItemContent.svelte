@@ -2,7 +2,7 @@
 	import { GearIcon } from '$lib/components/icons';
 	import PotentialTitle from '$lib/features/gear-enchant-ui/tabs/potential/components/PotentialTitle.svelte';
 	import { Badge } from '$lib/components/ui/badge';
-	import { UIImage2 } from '$lib/shared/ui';
+	import { UIImage2 } from '$lib/components/ui-image';
 	import { GearCapability, type GearData, ReadonlyGear } from '@malib/gear';
 
 	let {

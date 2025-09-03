@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { UIImage } from '$lib/shared/ui';
 	import { GearIcon } from '$lib/components/icons';
 	import { PotentialGrade } from '@malib/gear';
+	import UIImage from '../../UIImage.svelte';
 
 	let { icon, grade, newBonus }: { icon: string; grade: PotentialGrade; newBonus?: boolean } =
 		$props();
