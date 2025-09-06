@@ -14,6 +14,7 @@
 	import GearUpgradeUI from '$lib/features/gear-enchant-ui/tabs/upgrade/GearUpgradeUI.svelte';
 	import GearTooltipButton from '$lib/features/gear-enchant-ui/tooltip/GearTooltipButton.svelte';
 	import type { Gear } from '@malib/gear';
+	import GearManageUI from './tabs/manage/GearManageUI.svelte';
 	import { tabs } from './tabs/tabs';
 
 	let {
@@ -55,7 +56,9 @@
 					</div>
 				</div>
 				<Tabs value={tabStore.currentTab.value}>
-					<TabsContent value="default">관리 탭</TabsContent>
+					<TabsContent value="default">
+						<GearManageUI {gear} />
+					</TabsContent>
 					<TabsContent value="props">
 						<GearAttributeUI {gear} />
 					</TabsContent>
