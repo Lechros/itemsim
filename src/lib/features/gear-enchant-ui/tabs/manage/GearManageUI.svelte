@@ -18,7 +18,7 @@
 				{#each patches as patch}
 					<div class="hover:bg-accent py-4 ps-2 pe-4 transition-colors">
 						<div class="flex items-center justify-between gap-2">
-							<div class="flex flex-col gap-1.5">
+							<div class="flex flex-col gap-1">
 								<h5 class="text-sm font-medium">{patch.name}</h5>
 								<p class="text-muted-foreground text-sm">{patch.desc}</p>
 							</div>
