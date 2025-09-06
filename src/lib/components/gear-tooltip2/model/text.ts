@@ -23,7 +23,7 @@ export function getColorValue(color: string) {
 		case 'darkGray':
 			return '#85919f';
 		case 'red':
-			return '#ff6633';
+			return '#ff8a18';
 		case 'emphasis':
 			return '#ffcc00';
 		case 'starforce':
@@ -37,7 +37,7 @@ export function getColorValue(color: string) {
 		case 'potentialRare':
 			return '#66ffff';
 		case 'potentialEpic':
-			return '#bb77ff';
+			return '#bb81ff';
 		case 'potentialUnique':
 			return '#ffcc00';
 		case 'potentialLegendary':
