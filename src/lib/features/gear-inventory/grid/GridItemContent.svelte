@@ -4,6 +4,7 @@
 	import { Badge } from '$lib/components/ui/badge';
 	import { UIImage2 } from '$lib/components/ui-image';
 	import { GearCapability, type GearData, ReadonlyGear } from '@malib/gear';
+	import { Separator } from '$lib/components/ui/separator';
 
 	let {
 		gearData,
@@ -19,18 +20,23 @@
 <GearIcon icon={gear.shapeIcon} {scale} />
 {#if gear.star || gear.scrollUpgradeCount}
 	<div class="absolute top-1.5 left-1.5 flex gap-1">
-		{#if gear.star}
-			<Badge variant="outline" class="bg-background/60 backdrop-blur">
-				<UIImage2 image={gear.starScroll ? 'blueStar' : 'star'} />
-				{gear.star}
-			</Badge>
-		{/if}
-		{#if gear.scrollUpgradeCount}
-			<Badge variant="outline" class="bg-background/60 backdrop-blur">
-				<UIImage2 image="scrollEnhanced" />
-				{gear.scrollUpgradeCount}
-			</Badge>
-		{/if}
+		<Badge variant="outline" class="bg-background/60 backdrop-blur">
+			{#if gear.star}
+				<div class="flex items-center gap-1">
+					<UIImage2 image={gear.starScroll ? 'blueStar' : 'star'} />
+					{gear.star}
+				</div>
+			{/if}
+			{#if gear.star && gear.scrollUpgradeCount}
+				<Separator orientation="vertical" class="mx-1" />
+			{/if}
+			{#if gear.scrollUpgradeCount}
+				<div class="flex items-center gap-1">
+					<UIImage2 image="scrollEnhanced" />
+					{gear.scrollUpgradeCount}
+				</div>
+			{/if}
+		</Badge>
 	</div>
 {/if}
 {#if gear.attributes.canPotential !== GearCapability.Cannot}
