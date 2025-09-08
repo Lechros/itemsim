@@ -73,6 +73,9 @@ export function applyPatch(gear: Gear, patch: Patch) {
 	}
 }
 
+/**
+ * @param gear gear.data는 structuredClone이 가능한 순수 JS 객체여야 합니다.
+ */
 export function isPatchSatisfied(gear: ReadonlyGear, patch: Patch): boolean {
 	if (patch.can?.star !== undefined && gear.data.attributes.canStarforce !== patch.can.star) {
 		return false;
@@ -102,17 +105,16 @@ export function isPatchSatisfied(gear: ReadonlyGear, patch: Patch): boolean {
 		if (gear.scrollUpgradeCount !== patch.scroll.reduce((acc, cur) => acc + cur[0], 0)) {
 			return false;
 		}
-		const option = toGearOption({});
+		const tempGear = new Gear(structuredClone(gear.data));
+		tempGear.data.attributes.canScroll = GearCapability.Can;
+		tempGear.resetUpgrade();		
 		for (const [count, type, rate] of patch.scroll) {
 			for (let i = 0; i < count; i++) {
-				const scroll = getSpellTraceScroll(gear, type, rate);
-				for (const [stat, value] of Object.entries(scroll.option)) {
-					option[stat as keyof GearUpgradeOption] += value;
-				}
+				tempGear.applySpellTrace(type, rate);
 			}
 		}
-		// Check gear.upgradeOption == option
-		for (const [stat, value] of Object.entries(option)) {
+		// Check gear.upgradeOption == tempGear.upgradeOption
+		for (const [stat, value] of Object.entries(tempGear.upgradeOption)) {
 			if (gear.upgradeOption[stat as keyof GearUpgradeOption] !== value) {
 				return false;
 			}

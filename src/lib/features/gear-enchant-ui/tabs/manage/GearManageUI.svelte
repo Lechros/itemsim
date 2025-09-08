@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import { Gear } from '@malib/gear';
+	import { Gear, ReadonlyGear } from '@malib/gear';
 	import { toast } from 'svelte-sonner';
 	import { applyPatch, isPatchSatisfied } from './model/patch';
 	import { getSpecialPatches } from './model/patches';
@@ -30,7 +30,7 @@
 										position: 'top-center'
 									});
 								}}
-								disabled={isPatchSatisfied(gear, patch)}
+								disabled={isPatchSatisfied(new ReadonlyGear($state.snapshot(gear.data)), patch)}
 							>
 								적용
 							</Button>
