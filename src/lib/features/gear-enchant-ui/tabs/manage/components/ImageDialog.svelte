@@ -31,6 +31,7 @@
 		if (container && open) {
 			untrack(() => {
 				const expectedWidth = container!.clientWidth;
+				container?.querySelectorAll('img').forEach((img) => (img.crossOrigin = 'anonymous'));
 				toPng(container!, { cacheBust: true }).then((url) => {
 					dataUrl = url;
 					const newImg = document.createElement('img');
