@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { ButtonGroup } from '$lib/components/button-group';
 	import { Button } from '$lib/components/ui/button';
 	import { Gear, ReadonlyGear } from '@malib/gear';
 	import { toast } from 'svelte-sonner';
+	import ImageDialog from './components/ImageDialog.svelte';
 	import { applyPatch, isPatchSatisfied } from './model/patch';
 	import { getSpecialPatches } from './model/patches';
 
@@ -11,6 +13,13 @@
 </script>
 
 <div class="flex flex-col gap-y-4">
+	<div class="flex flex-col gap-2">
+		<h4 class="text-lg font-semibold">아이템 이미지</h4>
+		<ButtonGroup>
+			<ImageDialog {gear} />
+		</ButtonGroup>
+	</div>
+
 	{#if patches.length > 0}
 		<div class="flex flex-col gap-2">
 			<h4 class="text-lg font-semibold">아이템 프리셋</h4>
