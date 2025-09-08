@@ -13,7 +13,7 @@
 <div class="flex flex-col gap-y-4">
 	{#if patches.length > 0}
 		<div class="flex flex-col gap-2">
-			<h4 class="text-lg font-semibold">장비 프리셋</h4>
+			<h4 class="text-lg font-semibold">아이템 프리셋</h4>
 			<div class="flex flex-col divide-y">
 				{#each patches as patch}
 					<div class="hover:bg-accent py-4 ps-2 pe-4 transition-colors">
