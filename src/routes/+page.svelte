@@ -85,6 +85,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>아이템 시뮬레이터</title>
+</svelte:head>
+
 <ScrollArea class="h-dvh" bind:viewportRef {onscroll}>
 	<MainNavbar />
 	<GearInventoryHeader

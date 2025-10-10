@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import { DetailNavbar } from '$lib/features/navigation/detail-navbar';
 	import { GearEnchantUI } from '$lib/features/gear-enchant-ui';
+	import { DetailNavbar } from '$lib/features/navigation/detail-navbar';
 	import { getGearData, updateGearData } from '$lib/stores/gear-inventory';
 	import { Gear, type GearData } from '@malib/gear';
 	import { Loader2 } from 'lucide-svelte';
@@ -46,6 +46,12 @@
 		}
 	});
 </script>
+
+<svelte:head>
+	{#if gear}
+		<title>{gear.name} - 아이템 시뮬레이터</title>
+	{/if}
+</svelte:head>
 
 <ScrollArea class="h-dvh">
 	<DetailNavbar title="아이템 강화" backHref="/" />
