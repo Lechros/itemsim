@@ -68,7 +68,7 @@
 
 <Dialog bind:open {onOpenChangeComplete}>
 	<DialogTrigger class={buttonVariants()}>열기</DialogTrigger>
-	<DialogContent class="max-h-full w-fit max-w-none p-4 pt-4">
+	<DialogContent class="max-h-full w-fit max-w-none p-4 sm:p-6">
 		<DialogHeader>
 			<DialogTitle class="text-base">아이템 이미지</DialogTitle>
 		</DialogHeader>

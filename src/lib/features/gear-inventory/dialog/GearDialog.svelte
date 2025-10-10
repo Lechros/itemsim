@@ -25,7 +25,7 @@
 </script>
 
 <Dialog bind:open>
-	<DialogContent class="max-h-full w-fit max-w-none p-4 pt-6">
+	<DialogContent class="max-h-full w-fit max-w-none p-4 pt-6 sm:p-6">
 		<DialogHeader>
 			<DialogTitle />
 		</DialogHeader>
