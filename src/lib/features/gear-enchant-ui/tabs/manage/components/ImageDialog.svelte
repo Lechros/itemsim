@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { GearTooltip } from '$lib/components/gear-tooltip2';
 	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import {
 		Dialog,
@@ -9,12 +8,12 @@
 		DialogTrigger
 	} from '$lib/components/ui/dialog';
 	import { Skeleton } from '$lib/components/ui/skeleton';
+	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
 	import { ReadonlyGear } from '@malib/gear';
 	import { toPng } from 'html-to-image';
 	import { Loader2 } from 'lucide-svelte';
 	import { untrack } from 'svelte';
 	import { devicePixelRatio } from 'svelte/reactivity/window';
-
 	let {
 		gear
 	}: {
@@ -78,11 +77,9 @@
 		{:else}
 			<div class="relative">
 				<div bind:this={container}>
-					<GearTooltip
+					<GearTooltipRenderer
 						{gear}
 						incline={{ combat: 0 }}
-						loadSetItemName={() => '보스 장신구 세트'}
-						loadExclusiveEquips={() => []}
 					/>
 				</div>
 				<Skeleton class="absolute inset-0" />

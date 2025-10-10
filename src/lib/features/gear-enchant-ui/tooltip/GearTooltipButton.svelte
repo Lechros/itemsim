@@ -1,12 +1,8 @@
 <script lang="ts">
 	import { GearIcon } from '$lib/components/icons';
-	import { GearTooltip } from '$lib/components/gear-tooltip2';
+	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
 	import { buttonVariants } from '$lib/components/ui/button';
-	import {
-		Popover,
-		PopoverContent,
-		PopoverTrigger
-	} from '$lib/components/ui/popover';
+	import { Popover, PopoverContent, PopoverTrigger } from '$lib/components/ui/popover';
 	import { cn } from '$lib/utils';
 	import type { Gear } from '@malib/gear';
 
@@ -26,11 +22,6 @@
 		class="w-min p-2"
 		onclick={() => (open = false)}
 	>
-		<GearTooltip
-			{gear}
-			incline={{ combat: 0 }}
-			loadSetItemName={() => ''}
-			loadExclusiveEquips={() => []}
-		/>
+		<GearTooltipRenderer {gear} incline={{ combat: 0 }} />
 	</PopoverContent>
 </Popover>

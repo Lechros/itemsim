@@ -1,12 +1,7 @@
 <script lang="ts">
-	import { GearTooltip } from '$lib/components/gear-tooltip2';
+	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
 	import { Button } from '$lib/components/ui/button';
-	import {
-		Dialog,
-		DialogContent,
-		DialogFooter,
-		DialogHeader
-	} from '$lib/components/ui/dialog';
+	import { Dialog, DialogContent, DialogFooter, DialogHeader } from '$lib/components/ui/dialog';
 	import { ReadonlyGear } from '@malib/gear';
 
 	let {
@@ -23,16 +18,11 @@
 </script>
 
 <Dialog bind:open>
-	<DialogContent class="w-fit max-w-none max-h-[calc(100%-2rem)] overflow-y-auto">
+	<DialogContent class="max-h-[calc(100%-2rem)] w-fit max-w-none overflow-y-auto">
 		<DialogHeader />
 
 		<div class="flex justify-center">
-			<GearTooltip
-				{gear}
-				incline={{ combat: 0 }}
-				loadSetItemName={() => '보스 장신구 세트'}
-				loadExclusiveEquips={() => []}
-			/>
+			<GearTooltipRenderer {gear} incline={{ combat: 0 }} />
 		</div>
 
 		<DialogFooter>
