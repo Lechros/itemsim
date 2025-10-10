@@ -23,6 +23,10 @@
 	import { type GearData, ReadonlyGear } from '@malib/gear';
 	import { Loader2, Plus } from 'lucide-svelte';
 	import { GearDialog } from '$lib/features/gear-inventory/dialog';
+	import { useSetItems } from '$lib/hooks/set-item';
+	import { useExclusiveEquips } from '$lib/hooks/exclusive-equip';
+	import { createSetItemNameLoader } from '$lib/stores/set-item.svelte';
+	import { createExclusiveEquipsLoader } from '$lib/stores/exclusive-equip.svelte';
 
 	const NAVBAR_HEIGHT = 56;
 	const FLOATING_HEIGHT = 136;
@@ -33,6 +37,9 @@
 	const countQuery = createGearCountLiveQuery();
 	const deleter = createDeleter();
 	const pointerDetection = createPointerDetection();
+
+	const setItems = useSetItems();
+	const exclusiveEquips = useExclusiveEquips();
 
 	let mode = $state<'default' | 'delete'>('default');
 
@@ -165,8 +172,8 @@
 		<GearTooltip
 			gear={new ReadonlyGear(hoverGearData)}
 			incline={{ combat: 0 }}
-			loadSetItemName={() => '보스 장신구 세트'}
-			loadExclusiveEquips={() => []}
+			loadSetItemName={createSetItemNameLoader(setItems.data)}
+			loadExclusiveEquips={createExclusiveEquipsLoader(exclusiveEquips.data)}
 		/>
 	</FollowCursor>
 {/if}

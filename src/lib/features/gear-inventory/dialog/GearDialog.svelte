@@ -8,6 +8,10 @@
 		DialogHeader
 	} from '$lib/components/ui/dialog';
 	import { ReadonlyGear } from '@malib/gear';
+	import { useSetItems } from '$lib/hooks/set-item';
+	import { useExclusiveEquips } from '$lib/hooks/exclusive-equip';
+	import { createSetItemNameLoader } from '$lib/stores/set-item.svelte';
+	import { createExclusiveEquipsLoader } from '$lib/stores/exclusive-equip.svelte';
 
 	let {
 		gear,
@@ -20,6 +24,10 @@
 		onAccept: () => void;
 		onClose: () => void;
 	} = $props();
+
+	// Load set item and exclusive equip data
+	const setItems = useSetItems();
+	const exclusiveEquips = useExclusiveEquips();
 </script>
 
 <Dialog bind:open>
@@ -30,8 +38,8 @@
 			<GearTooltip
 				{gear}
 				incline={{ combat: 0 }}
-				loadSetItemName={() => '보스 장신구 세트'}
-				loadExclusiveEquips={() => []}
+				loadSetItemName={createSetItemNameLoader(setItems.data)}
+				loadExclusiveEquips={createExclusiveEquipsLoader(exclusiveEquips.data)}
 			/>
 		</div>
 

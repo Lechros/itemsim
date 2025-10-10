@@ -16,6 +16,10 @@
 	import type { Gear } from '@malib/gear';
 	import GearManageUI from './tabs/manage/GearManageUI.svelte';
 	import { tabs } from './tabs/tabs';
+	import { useSetItems } from '$lib/hooks/set-item';
+	import { useExclusiveEquips } from '$lib/hooks/exclusive-equip';
+	import { createSetItemNameLoader } from '$lib/stores/set-item.svelte';
+	import { createExclusiveEquipsLoader } from '$lib/stores/exclusive-equip.svelte';
 
 	let {
 		gear,
@@ -31,6 +35,10 @@
 			initialTab
 		)
 	);
+
+	// Load set item and exclusive equip data
+	const setItems = useSetItems();
+	const exclusiveEquips = useExclusiveEquips();
 </script>
 
 <div class="mx-auto flex w-full px-2">
@@ -94,8 +102,8 @@
 				{gear}
 				incline={{ combat: 0 }}
 				expand
-				loadSetItemName={() => '여명의 보스 세트'}
-				loadExclusiveEquips={() => []}
+				loadSetItemName={createSetItemNameLoader(setItems.data)}
+				loadExclusiveEquips={createExclusiveEquipsLoader(exclusiveEquips.data)}
 			/>
 		</div>
 	</div>

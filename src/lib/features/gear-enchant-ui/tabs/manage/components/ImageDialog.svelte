@@ -14,6 +14,10 @@
 	import { Loader2 } from 'lucide-svelte';
 	import { untrack } from 'svelte';
 	import { devicePixelRatio } from 'svelte/reactivity/window';
+	import { useSetItems } from '$lib/hooks/set-item';
+	import { useExclusiveEquips } from '$lib/hooks/exclusive-equip';
+	import { createSetItemNameLoader } from '$lib/stores/set-item.svelte';
+	import { createExclusiveEquipsLoader } from '$lib/stores/exclusive-equip.svelte';
 
 	let {
 		gear
@@ -22,6 +26,10 @@
 	} = $props();
 
 	let open = $state(false);
+
+	// Load set item and exclusive equip data
+	const setItems = useSetItems();
+	const exclusiveEquips = useExclusiveEquips();
 
 	let container: HTMLDivElement | null = $state(null);
 	let dataUrl: string | null = $state(null);
@@ -81,8 +89,8 @@
 					<GearTooltip
 						{gear}
 						incline={{ combat: 0 }}
-						loadSetItemName={() => '보스 장신구 세트'}
-						loadExclusiveEquips={() => []}
+						loadSetItemName={createSetItemNameLoader(setItems.data)}
+						loadExclusiveEquips={createExclusiveEquipsLoader(exclusiveEquips.data)}
 					/>
 				</div>
 				<Skeleton class="absolute inset-0" />
