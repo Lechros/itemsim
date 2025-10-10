@@ -1,17 +1,15 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { GearTooltip } from '$lib/components/gear-tooltip2';
+	import { FollowCursor } from '$lib/components/follow-cursor';
+	import { Button } from '$lib/components/ui/button';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
+	import { GearDialog } from '$lib/features/gear-inventory/dialog';
 	import {
 		GearInventoryGrid,
 		GearInventoryGridDeleteItem,
 		GearInventoryGridItem,
 		GearInventoryGridItemContent
 	} from '$lib/features/gear-inventory/grid';
-	import { ScrollTopButton } from '$lib/features/scroll-top-button';
-	import { createPointerDetection } from '$lib/utils';
-	import { Button } from '$lib/components/ui/button';
-	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import { FollowCursor } from '$lib/components/follow-cursor';
 	import {
 		createDeleter,
 		createGearCountLiveQuery,
@@ -19,14 +17,12 @@
 		GearInventoryHeader
 	} from '$lib/features/gear-inventory/header';
 	import { createLayoutStore } from '$lib/features/gear-inventory/header/model/LayoutStore.svelte.js';
+	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
 	import { MainNavbar } from '$lib/features/navigation/main-navbar';
+	import { ScrollTopButton } from '$lib/features/scroll-top-button';
+	import { createPointerDetection } from '$lib/utils';
 	import { type GearData, ReadonlyGear } from '@malib/gear';
 	import { Loader2, Plus } from 'lucide-svelte';
-	import { GearDialog } from '$lib/features/gear-inventory/dialog';
-	import { useSetItems } from '$lib/hooks/set-item';
-	import { useExclusiveEquips } from '$lib/hooks/exclusive-equip';
-	import { createSetItemNameLoader } from '$lib/stores/set-item.svelte';
-	import { createExclusiveEquipsLoader } from '$lib/stores/exclusive-equip.svelte';
 
 	const NAVBAR_HEIGHT = 56;
 	const FLOATING_HEIGHT = 136;
@@ -37,9 +33,6 @@
 	const countQuery = createGearCountLiveQuery();
 	const deleter = createDeleter();
 	const pointerDetection = createPointerDetection();
-
-	const setItems = useSetItems();
-	const exclusiveEquips = useExclusiveEquips();
 
 	let mode = $state<'default' | 'delete'>('default');
 
@@ -126,7 +119,7 @@
 						<GearInventoryGridDeleteItem
 							selected={deleter.has(item.seq)}
 							onclick={() =>
-							deleter.has(item.seq) ? deleter.delete(item.seq) : deleter.add(item.seq)}
+								deleter.has(item.seq) ? deleter.delete(item.seq) : deleter.add(item.seq)}
 							onmouseenter={() => handleItemHover(item.gear)}
 							onmouseleave={() => handleItemHover(null)}
 						>
@@ -138,8 +131,8 @@
 							onmouseenter={() => handleItemHover(item.gear)}
 							onmouseleave={() => handleItemHover(null)}
 							onclick={!pointerDetection.isPointerFine
-							? () => handleItemClick(item.seq, item.gear)
-							: undefined}
+								? () => handleItemClick(item.seq, item.gear)
+								: undefined}
 						>
 							<GearInventoryGridItemContent gearData={item.gear} scale={2} />
 						</GearInventoryGridItem>
@@ -169,12 +162,7 @@
 <!-- Pointer fine 장치에서만 호버 툴팁 표시 -->
 {#if hoverGearData && pointerDetection.isPointerFine}
 	<FollowCursor paddingRight={9}>
-		<GearTooltip
-			gear={new ReadonlyGear(hoverGearData)}
-			incline={{ combat: 0 }}
-			loadSetItemName={createSetItemNameLoader(setItems.data)}
-			loadExclusiveEquips={createExclusiveEquipsLoader(exclusiveEquips.data)}
-		/>
+		<GearTooltipRenderer gear={new ReadonlyGear(hoverGearData)} incline={{ combat: 0 }} />
 	</FollowCursor>
 {/if}
 

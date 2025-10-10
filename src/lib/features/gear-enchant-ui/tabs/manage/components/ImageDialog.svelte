@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { GearTooltip } from '$lib/components/gear-tooltip2';
 	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import {
 		Dialog,
@@ -9,16 +8,12 @@
 		DialogTrigger
 	} from '$lib/components/ui/dialog';
 	import { Skeleton } from '$lib/components/ui/skeleton';
+	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
 	import { ReadonlyGear } from '@malib/gear';
 	import { toPng } from 'html-to-image';
 	import { Loader2 } from 'lucide-svelte';
 	import { untrack } from 'svelte';
 	import { devicePixelRatio } from 'svelte/reactivity/window';
-	import { useSetItems } from '$lib/hooks/set-item';
-	import { useExclusiveEquips } from '$lib/hooks/exclusive-equip';
-	import { createSetItemNameLoader } from '$lib/stores/set-item.svelte';
-	import { createExclusiveEquipsLoader } from '$lib/stores/exclusive-equip.svelte';
-
 	let {
 		gear
 	}: {
@@ -26,10 +21,6 @@
 	} = $props();
 
 	let open = $state(false);
-
-	// Load set item and exclusive equip data
-	const setItems = useSetItems();
-	const exclusiveEquips = useExclusiveEquips();
 
 	let container: HTMLDivElement | null = $state(null);
 	let dataUrl: string | null = $state(null);
@@ -86,11 +77,9 @@
 		{:else}
 			<div class="relative">
 				<div bind:this={container}>
-					<GearTooltip
+					<GearTooltipRenderer
 						{gear}
 						incline={{ combat: 0 }}
-						loadSetItemName={createSetItemNameLoader(setItems.data)}
-						loadExclusiveEquips={createExclusiveEquipsLoader(exclusiveEquips.data)}
 					/>
 				</div>
 				<Skeleton class="absolute inset-0" />

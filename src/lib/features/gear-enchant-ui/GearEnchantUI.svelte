@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { GearTooltip } from '$lib/components/gear-tooltip2';
 	import { Tabs, TabsContent } from '$lib/components/ui/tabs';
 	import TabSelectorDrawer from '$lib/features/gear-enchant-ui/tab-selector/TabSelectorDrawer.svelte';
 	import TabSelectorList from '$lib/features/gear-enchant-ui/tab-selector/TabSelectorList.svelte';
@@ -13,14 +12,10 @@
 	import GearStarforceUI from '$lib/features/gear-enchant-ui/tabs/starforce/GearStarforceUI.svelte';
 	import GearUpgradeUI from '$lib/features/gear-enchant-ui/tabs/upgrade/GearUpgradeUI.svelte';
 	import GearTooltipButton from '$lib/features/gear-enchant-ui/tooltip/GearTooltipButton.svelte';
+	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
 	import type { Gear } from '@malib/gear';
 	import GearManageUI from './tabs/manage/GearManageUI.svelte';
 	import { tabs } from './tabs/tabs';
-	import { useSetItems } from '$lib/hooks/set-item';
-	import { useExclusiveEquips } from '$lib/hooks/exclusive-equip';
-	import { createSetItemNameLoader } from '$lib/stores/set-item.svelte';
-	import { createExclusiveEquipsLoader } from '$lib/stores/exclusive-equip.svelte';
-
 	let {
 		gear,
 		initialTab
@@ -35,10 +30,6 @@
 			initialTab
 		)
 	);
-
-	// Load set item and exclusive equip data
-	const setItems = useSetItems();
-	const exclusiveEquips = useExclusiveEquips();
 </script>
 
 <div class="mx-auto flex w-full px-2">
@@ -98,13 +89,7 @@
 
 	<div class="sticky top-14 hidden h-[calc(100svh-56px)] md:flex">
 		<div class="overflow-y-auto px-2 py-6" style="scrollbar-width: none">
-			<GearTooltip
-				{gear}
-				incline={{ combat: 0 }}
-				expand
-				loadSetItemName={createSetItemNameLoader(setItems.data)}
-				loadExclusiveEquips={createExclusiveEquipsLoader(exclusiveEquips.data)}
-			/>
+			<GearTooltipRenderer {gear} incline={{ combat: 0 }} expand />
 		</div>
 	</div>
 </div>
