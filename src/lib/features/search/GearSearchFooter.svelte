@@ -1,22 +1,20 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { addGearData } from '$lib/stores/gear-inventory';
-	import { getGearDatas, type SearchGearSummary } from '$lib/api';
+	import { getGearDatas } from '$lib/api';
 	import { Button } from '$lib/components/ui/button';
+	import { addGearData } from '$lib/stores/gear-inventory';
 	import { cn } from '$lib/utils';
 	import { josa } from 'es-hangul';
 	import { ChevronDown, ChevronUp } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
 	import { slide } from 'svelte/transition';
-	import ActionButtons from './ActionButtons.svelte';
 	import SelectedGearsList from './SelectedGearsList.svelte';
+	import type { SearchSelectState } from './select-state.svelte';
 
 	let {
-		selectedGears,
-		onDeselect
+		selected
 	}: {
-		selectedGears: SearchGearSummary[];
-		onDeselect: (gear: SearchGearSummary) => void;
+		selected: SearchSelectState;
 	} = $props();
 
 	let open = $state(false);
@@ -25,8 +23,9 @@
 	async function handleAdd() {
 		isAdding = true;
 		try {
-			const gears = await getGearDatas(selectedGears.map((gear) => gear.id));
+			const gears = await getGearDatas(selected.gears.map((gear) => gear.id));
 			const seq = await addGearData(...gears);
+			selected.clear();
 			if (gears.length === 1) {
 				toast.success(`${josa(gears[0].name, '을/를')} 추가했어요.`, {
 					position: 'top-center',
@@ -68,7 +67,7 @@
 				>
 					<ChevronDown class="text-muted-foreground size-4" />
 				</button>
-				<SelectedGearsList {selectedGears} {onDeselect} />
+				<SelectedGearsList selectedGears={selected.gears} onDeselect={(gear) => selected.delete(gear)} />
 			</div>
 		</div>
 	{/if}
@@ -76,15 +75,21 @@
 		<div class="mx-auto flex max-w-screen-md flex-col gap-4 p-4">
 			<Button variant="ghost" size="sm" onclick={() => (open = !open)}>
 				<div>
-					선택된 아이템 <span class="text-base font-semibold">{selectedGears.length}</span>개
+					선택된 아이템 <span class="text-base font-semibold">{selected.count}</span>개
 				</div>
 				<ChevronUp class={cn('transition-transform', open ? 'rotate-180' : '')} />
 			</Button>
 
-			<ActionButtons
-				handleSubmit={handleAdd}
-				disabledSubmit={selectedGears.length === 0 || isAdding}
-			/>
+			<div class="flex justify-end gap-2">
+				<Button variant="outline" class="flex-1/3 sm:flex-none" href="/">돌아가기</Button>
+				<Button
+					class="flex-2/3 sm:flex-none"
+					disabled={selected.count === 0 || isAdding}
+					onclick={handleAdd}
+				>
+					아이템 추가
+				</Button>
+			</div>
 		</div>
 	</div>
 </div>

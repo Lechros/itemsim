@@ -1,23 +1,23 @@
 <script lang="ts">
-	import GearIcon from '../../components/icons/GearIcon.svelte';
 	import type { SearchGearSummary } from '$lib/api';
+	import { GearIcon } from '$lib/components/icons';
 	import { Button } from '$lib/components/ui/button';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { X } from 'lucide-svelte';
 
 	let {
-		selectedGears: selectedItems,
+		selectedGears,
 		onDeselect
 	}: {
-		selectedGears: SearchGearSummary[];
+		selectedGears: ReadonlyArray<SearchGearSummary>;
 		onDeselect: (gear: SearchGearSummary) => void;
 	} = $props();
 
-	const count = $derived(Math.max(1, Math.min(6, selectedItems.length)));
+	const count = $derived(Math.max(1, Math.min(6, selectedGears.length)));
 </script>
 
 <ScrollArea type="auto" class="flex flex-col" style="height: {count * 48}px;">
-	{#each selectedItems as item (item.id)}
+	{#each selectedGears as item (item.id)}
 		<div class="flex h-12 items-center not-last:border-b">
 			<div class="flex items-center gap-3">
 				<GearIcon icon={item.icon} />

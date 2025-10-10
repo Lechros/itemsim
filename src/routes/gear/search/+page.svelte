@@ -1,29 +1,25 @@
 <script lang="ts">
-	import { SelectListItem, SelectListVirtualizer } from '$lib/components/select-list';
-	import GearSearchNavbar from '$lib/features/search/GearSearchNavbar.svelte';
-	import { getGearSearch, type SearchGearSummary } from '$lib/api';
-	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import { createQuery } from '@tanstack/svelte-query';
-	import { SvelteMap, SvelteSet } from 'svelte/reactivity';
-	import { GearIcon } from '$lib/components/icons';
+	import { getGearSearch } from '$lib/api';
 	import { Highlight } from '$lib/components/highlight';
-	import { GearSearchFooter } from '$lib/features/search';
+	import { GearIcon } from '$lib/components/icons';
+	import { SelectListItem, SelectListVirtualizer } from '$lib/components/select-list';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
+	import {
+		GearSearchFooter,
+		GearSearchNavbar,
+		createSearchSelectState
+	} from '$lib/features/search';
+	import { createQuery } from '@tanstack/svelte-query';
 
 	let searchQuery = $state('');
-	let selectedItems = $state<Map<number, SearchGearSummary>>(new SvelteMap());
-	const selectedIds = $state(new SvelteSet<string>());
-	const selectedGears = $derived([...selectedItems.values()]);
 
 	const query = createQuery(() => ({
 		queryKey: ['gear-search', searchQuery],
 		queryFn: () => getGearSearch(searchQuery),
-		staleTime: 5000 // 5 seconds
+		staleTime: 60 * 60 * 1000 // 1 hour
 	}));
 
 	let results = $state(query.data);
-
-	let scrollTop = $state(0);
-	let viewportRef = $state<HTMLDivElement | null>(null);
 
 	$effect(() => {
 		if (query.data) {
@@ -31,15 +27,10 @@
 		}
 	});
 
-	function selectItem(item: SearchGearSummary) {
-		selectedItems.set(item.id, item);
-		selectedIds.add(String(item.id));
-	}
+	const selected = createSearchSelectState();
 
-	function deselectItem(item: SearchGearSummary) {
-		selectedItems.delete(item.id);
-		selectedIds.delete(String(item.id));
-	}
+	let scrollTop = $state(0);
+	let viewportRef = $state<HTMLDivElement | null>(null);
 
 	function onscroll(event: Event) {
 		scrollTop = (event.target as HTMLElement).scrollTop;
@@ -68,7 +59,7 @@
 				<SelectListVirtualizer
 					multiple
 					allowDeselect
-					selectedSet={selectedIds}
+					selectedSet={selected.ids}
 					items={results}
 					getKey={(item) => String(item.id)}
 					startMargin={102}
@@ -77,8 +68,8 @@
 					{#snippet children(item)}
 						<SelectListItem
 							value={String(item.id)}
-							onSelect={() => selectItem(item)}
-							onDeselect={() => deselectItem(item)}
+							onSelect={() => selected.add(item)}
+							onDeselect={() => selected.delete(item)}
 						>
 							<div class="flex items-center gap-3">
 								<GearIcon icon={item.icon} />
@@ -96,5 +87,5 @@
 	</div>
 
 	<!-- Bottom Section -->
-	<GearSearchFooter {selectedGears} onDeselect={(gear) => deselectItem(gear)} />
+	<GearSearchFooter {selected} />
 </ScrollArea>
