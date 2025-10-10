@@ -303,7 +303,7 @@
 		<FrameMiddle class="px-[15px]">
 			<Spacer height={4} />
 			{#each attributeStrings as html}
-				<FormattedDetailText value={html} />
+				<FormattedDetailText value={html} maxWidth={294} />
 			{/each}
 		</FrameMiddle>
 	{/if}
