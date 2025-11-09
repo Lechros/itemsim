@@ -1,11 +1,6 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import {
-		Select,
-		SelectContent,
-		SelectItem,
-		SelectTrigger
-	} from '$lib/components/ui/select';
+	import * as Select from '$lib/components/ui/select';
 	import { ButtonGroup } from '$lib/components/button-group';
 	import { PotentialGrade, type PotentialData } from '@malib/gear';
 	import { grades } from '../model/grades';
@@ -72,7 +67,7 @@
 		<h4 class="text-lg font-semibold">{optionLabel}</h4>
 		{#each potentials as potential, index}
 			{@const options = index === 0 ? gradePotentials : concatPotentials}
-			<Select
+			<Select.Root
 				type="single"
 				bind:value={
 					() => potential?.summary ?? defaultValue,
@@ -80,22 +75,22 @@
 				}
 				disabled={grade === PotentialGrade.Normal}
 			>
-				<SelectTrigger class="w-full max-w-sm">
+				<Select.Trigger class="w-full max-w-sm">
 					{#if potential}
 						<PotentialSummary {potential} />
 					{:else}
 						{defaultLabel}
 					{/if}
-				</SelectTrigger>
-				<SelectContent avoidCollisions={false}>
-					<SelectItem value={defaultValue}>{defaultLabel}</SelectItem>
+				</Select.Trigger>
+				<Select.Content avoidCollisions={false}>
+					<Select.Item value={defaultValue}>{defaultLabel}</Select.Item>
 					{#each options as option}
-						<SelectItem value={option.summary}>
+						<Select.Item value={option.summary}>
 							<PotentialSummary potential={option} />
-						</SelectItem>
+						</Select.Item>
 					{/each}
-				</SelectContent>
-			</Select>
+				</Select.Content>
+			</Select.Root>
 		{/each}
 	</div>
 </div>

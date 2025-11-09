@@ -4,12 +4,7 @@
 	import { SelectList, SelectListItem } from '$lib/components/select-list';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
-	import {
-		Select,
-		SelectContent,
-		SelectItem,
-		SelectTrigger
-	} from '$lib/components/ui/select';
+	import * as Select from '$lib/components/ui/select';
 	import { ButtonGroup } from '$lib/components/button-group';
 	import { Gear, type SoulData } from '@malib/gear';
 	import { toast } from 'svelte-sonner';
@@ -96,7 +91,7 @@
 		<ItemCardContent>
 			{#if selectedItem}
 				{#if selectedItem.type === 'magnificent'}
-					<Select
+					<Select.Root
 						type="single"
 						bind:value={
 							() => String((selectedItem as { index: number }).index),
@@ -106,17 +101,17 @@
 							}
 						}
 					>
-						<SelectTrigger class="w-full max-w-sm">
+						<Select.Trigger class="w-full max-w-sm">
 							{getSoulOptionString(selectedItem.souls[selectedItem.index].option)}
-						</SelectTrigger>
-						<SelectContent>
+						</Select.Trigger>
+						<Select.Content>
 							{#each selectedItem.souls as soul, index}
-								<SelectItem value={String(index)}>
+								<Select.Item value={String(index)}>
 									{getSoulOptionString(soul.option)}
-								</SelectItem>
+								</Select.Item>
 							{/each}
-						</SelectContent>
-					</Select>
+						</Select.Content>
+					</Select.Root>
 				{:else}
 					<div class="flex h-9 items-center">
 						<div class="text-sm">

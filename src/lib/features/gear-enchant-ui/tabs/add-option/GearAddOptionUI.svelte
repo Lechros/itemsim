@@ -1,12 +1,7 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
-	import {
-		Select,
-		SelectContent,
-		SelectItem,
-		SelectTrigger
-	} from '$lib/components/ui/select';
+	import * as Select from '$lib/components/ui/select';
 	import { Separator } from '$lib/components/ui/separator';
 	import { ButtonGroup } from '$lib/components/button-group';
 	import { padRight } from '$lib/utils';
@@ -52,7 +47,7 @@
 		</div>
 		<div class="grid grid-cols-2 gap-x-4 gap-y-2">
 			{#each selectedOptions as option}
-				<Select
+				<Select.Root
 					type="single"
 					bind:value={
 						() => option.type,
@@ -64,41 +59,41 @@
 						}
 					}
 				>
-					<SelectTrigger class="w-full">
+					<Select.Trigger class="w-full">
 						{types.find((type) => type.value === option.type)?.label}
-					</SelectTrigger>
-					<SelectContent>
+					</Select.Trigger>
+					<Select.Content>
 						{#each types as type}
-							<SelectItem value={type.value}>{type.label}</SelectItem>
+							<Select.Item value={type.value}>{type.label}</Select.Item>
 						{/each}
-					</SelectContent>
-				</Select>
+					</Select.Content>
+				</Select.Root>
 
-				<Select
+				<Select.Root
 					type="single"
 					bind:value={
 						() => String(option.grade), (v) => (option.grade = Number(v) as AddOptionGradeOrEmpty)
 					}
 					disabled={!option.type}
 				>
-					<SelectTrigger class="w-full">
+					<Select.Trigger class="w-full">
 						{#if option.type && option.grade}
 							<GradeItem {gear} type={option.type} grade={option.grade} />
 						{:else}
 							-
 						{/if}
-					</SelectTrigger>
-					<SelectContent>
-						<SelectItem value={'0'}>-</SelectItem>
+					</Select.Trigger>
+					<Select.Content>
+						<Select.Item value={'0'}>-</Select.Item>
 						{#if option.type}
 							{#each getAvailableGrades(gear, option.type) as grade}
-								<SelectItem value={String(grade)}>
+								<Select.Item value={String(grade)}>
 									<GradeItem {gear} type={option.type} {grade} />
-								</SelectItem>
+								</Select.Item>
 							{/each}
 						{/if}
-					</SelectContent>
-				</Select>
+					</Select.Content>
+				</Select.Root>
 			{/each}
 		</div>
 	</div>

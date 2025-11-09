@@ -4,15 +4,7 @@
 	import { GearIcon } from '$lib/components/icons';
 	import { SelectList, SelectListItem } from '$lib/components/select-list';
 	import { Button, buttonVariants } from '$lib/components/ui/button';
-	import {
-		Dialog,
-		DialogClose,
-		DialogContent,
-		DialogFooter,
-		DialogHeader,
-		DialogTitle,
-		DialogTrigger
-	} from '$lib/components/ui/dialog';
+	import * as Dialog from '$lib/components/ui/dialog';
 	import { Input } from '$lib/components/ui/input';
 	import { cn } from '$lib/utils';
 	import type { Gear } from '@malib/gear';
@@ -41,12 +33,12 @@
 	let selected = $state<SearchGearSummary | null>(null);
 </script>
 
-<Dialog>
-	<DialogTrigger class={buttonVariants({ variant: 'outline' })}>외형 설정하기</DialogTrigger>
-	<DialogContent class="p-4 sm:p-6">
-		<DialogHeader>
-			<DialogTitle class="text-base">외형 설정하기</DialogTitle>
-		</DialogHeader>
+<Dialog.Root>
+	<Dialog.Trigger class={buttonVariants({ variant: 'outline' })}>외형 설정하기</Dialog.Trigger>
+	<Dialog.Content class="p-4 sm:p-6">
+		<Dialog.Header>
+			<Dialog.Title class="text-base">외형 설정하기</Dialog.Title>
+		</Dialog.Header>
 		<div class="flex flex-col gap-4">
 			<div class="relative w-full">
 				<Input class="pr-8.5 pl-9" placeholder="아이템 이름" bind:value={search} autofocus />
@@ -94,9 +86,9 @@
 				<div class="h-108">아이템 이름을 입력해 주세요.</div>
 			{/if}
 		</div>
-		<DialogFooter class="flex-row justify-end">
-			<DialogClose class={[buttonVariants({ variant: 'outline' }), 'flex-1/3 sm:flex-none']}
-				>닫기</DialogClose
+		<Dialog.Footer class="flex-row justify-end">
+			<Dialog.Close class={[buttonVariants({ variant: 'outline' }), 'flex-1/3 sm:flex-none']}
+				>닫기</Dialog.Close
 			>
 			<Button
 				class="flex-2/3 sm:flex-none"
@@ -119,6 +111,6 @@
 					외형 설정
 				{/if}
 			</Button>
-		</DialogFooter>
-	</DialogContent>
-</Dialog>
+		</Dialog.Footer>
+	</Dialog.Content>
+</Dialog.Root>

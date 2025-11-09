@@ -1,15 +1,5 @@
 <script lang="ts">
-	import {
-		AlertDialog,
-		AlertDialogAction,
-		AlertDialogCancel,
-		AlertDialogContent,
-		AlertDialogDescription,
-		AlertDialogFooter,
-		AlertDialogHeader,
-		AlertDialogTitle,
-		AlertDialogTrigger
-	} from '$lib/components/ui/alert-dialog';
+	import * as AlertDialog from '$lib/components/ui/alert-dialog';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { toast } from 'svelte-sonner';
 	import type { Deleter } from '../model/Deleter.svelte.js';
@@ -45,18 +35,18 @@
 	}
 </script>
 
-<AlertDialog bind:open>
-	<AlertDialogTrigger class={buttonVariants({ variant: 'destructive' })} disabled={deleter.isEmpty}>
+<AlertDialog.Root bind:open>
+	<AlertDialog.Trigger class={buttonVariants({ variant: 'destructive' })} disabled={deleter.isEmpty}>
 		아이템 삭제
-	</AlertDialogTrigger>
-	<AlertDialogContent>
-		<AlertDialogHeader>
-			<AlertDialogTitle>아이템 {deleter.count}개 삭제하기</AlertDialogTitle>
-			<AlertDialogDescription>삭제한 아이템은 복구할 수 없어요.</AlertDialogDescription>
-		</AlertDialogHeader>
-		<AlertDialogFooter>
-			<AlertDialogCancel>취소</AlertDialogCancel>
-			<AlertDialogAction onclick={handleDelete}>삭제하기</AlertDialogAction>
-		</AlertDialogFooter>
-	</AlertDialogContent>
-</AlertDialog>
+	</AlertDialog.Trigger>
+	<AlertDialog.Content>
+		<AlertDialog.Header>
+			<AlertDialog.Title>아이템 {deleter.count}개 삭제하기</AlertDialog.Title>
+			<AlertDialog.Description>삭제한 아이템은 복구할 수 없어요.</AlertDialog.Description>
+		</AlertDialog.Header>
+		<AlertDialog.Footer>
+			<AlertDialog.Cancel>취소</AlertDialog.Cancel>
+			<AlertDialog.Action onclick={handleDelete}>삭제하기</AlertDialog.Action>
+		</AlertDialog.Footer>
+	</AlertDialog.Content>
+</AlertDialog.Root>

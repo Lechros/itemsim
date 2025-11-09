@@ -1,14 +1,7 @@
 <script lang="ts">
-	import { Alert, AlertDescription, AlertTitle } from '$lib/components/ui/alert';
+	import * as Alert from '$lib/components/ui/alert';
 	import { Button, buttonVariants } from '$lib/components/ui/button';
-	import {
-		Dialog,
-		DialogContent,
-		DialogFooter,
-		DialogHeader,
-		DialogTitle,
-		DialogTrigger
-	} from '$lib/components/ui/dialog';
+	import * as Dialog from '$lib/components/ui/dialog';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
 	import { ReadonlyGear } from '@malib/gear';
@@ -66,22 +59,22 @@
 	};
 </script>
 
-<Dialog bind:open {onOpenChangeComplete}>
-	<DialogTrigger class={buttonVariants()}>열기</DialogTrigger>
-	<DialogContent class="max-h-full w-fit max-w-none p-4 sm:p-6">
-		<DialogHeader>
-			<DialogTitle class="text-base">아이템 이미지</DialogTitle>
-		</DialogHeader>
+<Dialog.Root bind:open {onOpenChangeComplete}>
+	<Dialog.Trigger class={buttonVariants()}>열기</Dialog.Trigger>
+	<Dialog.Content class="max-h-full w-fit max-w-none p-4 sm:p-6">
+		<Dialog.Header>
+			<Dialog.Title class="text-base">아이템 이미지</Dialog.Title>
+		</Dialog.Header>
 
 		{#if dataUrl}
 			<div class="flex flex-col gap-2">
 				<img src={dataUrl} alt={gear.name} class="max-w-none" style="width: 324px" />
 				{#if maybeInvalidImage}
-					<Alert variant="destructive">
+					<Alert.Root variant="destructive">
 						<AlertCircle />
-						<AlertTitle>이미지가 정확하지 않을 수 있어요.</AlertTitle>
-						<AlertDescription>PC와 브라우저의 배율이 100%인지 확인해 주세요.</AlertDescription>
-					</Alert>
+						<Alert.Title>이미지가 정확하지 않을 수 있어요.</Alert.Title>
+						<Alert.Description>PC와 브라우저의 배율이 100%인지 확인해 주세요.</Alert.Description>
+					</Alert.Root>
 				{/if}
 			</div>
 		{:else}
@@ -92,7 +85,7 @@
 				<Skeleton class="absolute inset-0" />
 			</div>
 		{/if}
-		<DialogFooter class="flex-row justify-end">
+		<Dialog.Footer class="flex-row justify-end">
 			<Button variant="outline" class="flex-1/3 sm:flex-none" onclick={close}>닫기</Button>
 			<Button class="flex-2/3 sm:flex-none" disabled={!dataUrl} onclick={download}>
 				{#if !dataUrl}
@@ -100,6 +93,6 @@
 				{/if}
 				이미지 저장
 			</Button>
-		</DialogFooter>
-	</DialogContent>
-</Dialog>
+		</Dialog.Footer>
+	</Dialog.Content>
+</Dialog.Root>

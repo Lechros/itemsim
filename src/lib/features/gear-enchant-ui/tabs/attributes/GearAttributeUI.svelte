@@ -3,7 +3,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
-	import { RadioGroup, RadioGroupItem } from '$lib/components/ui/radio-group';
+	import * as RadioGroup from '$lib/components/ui/radio-group';
 	import { Gear } from '@malib/gear';
 	import {
 		cuttableTypes,
@@ -31,7 +31,7 @@
 <div class="flex flex-col gap-8">
 	<div class="flex flex-col gap-2">
 		<h4 class="text-lg font-semibold">교환 가능 여부</h4>
-		<RadioGroup
+		<RadioGroup.Root
 			bind:value={
 				() => String(gear.attributes.trade),
 				(v) => {
@@ -41,16 +41,16 @@
 		>
 			{#each tradeTypes as tradeType}
 				<div class="flex items-center gap-2">
-					<RadioGroupItem value={String(tradeType.value)} id={`GearTrade.${tradeType.value}`} />
+					<RadioGroup.Item value={String(tradeType.value)} id={`GearTrade.${tradeType.value}`} />
 					<Label for={`GearTrade.${tradeType.value}`}>{tradeType.label}</Label>
 				</div>
 			{/each}
-		</RadioGroup>
+		</RadioGroup.Root>
 	</div>
 
 	<div class="flex flex-col gap-2">
 		<h4 class="text-lg font-semibold">카르마의 가위</h4>
-		<RadioGroup
+		<RadioGroup.Root
 			bind:value={
 				() => String(gear.attributes.cuttable),
 				(v) => {
@@ -60,14 +60,14 @@
 		>
 			{#each cuttableTypes as cuttableType}
 				<div class="flex items-center gap-2">
-					<RadioGroupItem
+					<RadioGroup.Item
 						value={String(cuttableType.value)}
 						id={`GearCuttable.${cuttableType.value}`}
 					/>
 					<Label for={`GearCuttable.${cuttableType.value}`}>{cuttableType.label}</Label>
 				</div>
 			{/each}
-		</RadioGroup>
+		</RadioGroup.Root>
 		<div class="flex flex-col gap-1">
 			<h5 class="mt-2 text-sm font-medium">최대 가위 사용 횟수</h5>
 			<ButtonGroup>
