@@ -2,7 +2,7 @@
 	import { GearIcon } from '$lib/components/icons';
 	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
 	import { buttonVariants } from '$lib/components/ui/button';
-	import { Popover, PopoverContent, PopoverTrigger } from '$lib/components/ui/popover';
+	import * as Popover from '$lib/components/ui/popover';
 	import { cn } from '$lib/utils';
 	import type { Gear } from '@malib/gear';
 
@@ -11,11 +11,11 @@
 	let open = $state(false);
 </script>
 
-<Popover bind:open>
-	<PopoverTrigger class={cn(buttonVariants({ variant: 'outline', size: 'icon' }), 'size-14')}>
+<Popover.Root bind:open>
+	<Popover.Trigger class={cn(buttonVariants({ variant: 'outline', size: 'icon' }), 'size-14')}>
 		<GearIcon icon={gear.shapeIcon} />
-	</PopoverTrigger>
-	<PopoverContent
+	</Popover.Trigger>
+	<Popover.Content
 		side="bottom"
 		sideOffset={-56}
 		align="end"
@@ -23,5 +23,5 @@
 		onclick={() => (open = false)}
 	>
 		<GearTooltipRenderer {gear} incline={{ combat: 0 }} />
-	</PopoverContent>
-</Popover>
+	</Popover.Content>
+</Popover.Root>

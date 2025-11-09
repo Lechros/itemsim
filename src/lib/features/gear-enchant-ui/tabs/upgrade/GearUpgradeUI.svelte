@@ -1,10 +1,14 @@
 <script lang="ts">
 	import { BalancedGrid } from '$lib/features/gear-enchant-ui/balanced-grid';
-	import { ItemCard, ItemCardContent, ItemCardFooter } from '$lib/features/gear-enchant-ui/item-card';
+	import {
+		ItemCard,
+		ItemCardContent,
+		ItemCardFooter
+	} from '$lib/features/gear-enchant-ui/item-card';
 	import { Button } from '$lib/components/ui/button';
 	import { Card } from '$lib/components/ui/card';
 	import { Separator } from '$lib/components/ui/separator';
-	import { Tabs, TabsContent, TabsList, TabsTrigger } from '$lib/components/ui/tabs';
+	import * as Tabs from '$lib/components/ui/tabs';
 	import { cn, getGearOptionStrings } from '$lib/utils';
 	import { ButtonGroup } from '$lib/components/button-group';
 	import { Gear, type Scroll } from '@malib/gear';
@@ -53,9 +57,9 @@
 		</Card>
 	</div>
 
-	<Tabs value={initialTab} class="gap-y-4" onValueChange={(value) => (currentTab = value)}>
+	<Tabs.Root value={initialTab} class="gap-y-4" onValueChange={(value) => (currentTab = value)}>
 		{#if activeTabs.length > 1}
-			<TabsList
+			<Tabs.List
 				class={cn(
 					'grid w-full',
 					activeTabs.length === 2 && 'grid-cols-2',
@@ -63,9 +67,9 @@
 				)}
 			>
 				{#each activeTabs as tab}
-					<TabsTrigger value={tab.value}>{tab.label}</TabsTrigger>
+					<Tabs.Trigger value={tab.value}>{tab.label}</Tabs.Trigger>
 				{/each}
-			</TabsList>
+			</Tabs.List>
 		{:else if activeTabs.length === 1}
 			<div class="px-2">
 				<h4 class="text-lg font-semibold">
@@ -73,16 +77,16 @@
 				</h4>
 			</div>
 		{/if}
-		<TabsContent value="spellTrace">
+		<Tabs.Content value="spellTrace">
 			<SpellTraceTab {gear} {selectedScroll} {selectScroll} />
-		</TabsContent>
-		<TabsContent value="chaos">
+		</Tabs.Content>
+		<Tabs.Content value="chaos">
 			<ChaosScrollTab {gear} />
-		</TabsContent>
-		<TabsContent value="etc">
+		</Tabs.Content>
+		<Tabs.Content value="etc">
 			<EtcScrollTab {gear} {selectedScroll} {selectScroll} />
-		</TabsContent>
-	</Tabs>
+		</Tabs.Content>
+	</Tabs.Root>
 
 	{#if currentTab !== 'chaos'}
 		<ItemCard

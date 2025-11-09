@@ -3,7 +3,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Card } from '$lib/components/ui/card';
 	import { Separator } from '$lib/components/ui/separator';
-	import { Tabs, TabsContent, TabsList, TabsTrigger } from '$lib/components/ui/tabs';
+	import * as Tabs from '$lib/components/ui/tabs';
 	import { Gear } from '@malib/gear';
 	import { getDisplayMaxStar } from './model/star';
 	import { showStarScrollTab } from './model/starScroll';
@@ -36,20 +36,20 @@
 		</Card>
 	</div>
 
-	<Tabs value="starforce" class="gap-y-4">
+	<Tabs.Root value="starforce" class="gap-y-4">
 		{#if showStarScrollTab(gear)}
-			<TabsList class="grid w-full grid-cols-2">
-				<TabsTrigger value="starforce">스타포스</TabsTrigger>
-				<TabsTrigger value="starScroll">놀장강</TabsTrigger>
-			</TabsList>
+			<Tabs.List class="grid w-full grid-cols-2">
+				<Tabs.Trigger value="starforce">스타포스</Tabs.Trigger>
+				<Tabs.Trigger value="starScroll">놀장강</Tabs.Trigger>
+			</Tabs.List>
 		{/if}
-		<TabsContent value="starforce" class="flex flex-col gap-y-4">
+		<Tabs.Content value="starforce" class="flex flex-col gap-y-4">
 			<StarforceTab {gear} bind:ignoreMaxStar />
-		</TabsContent>
-		<TabsContent value="starScroll" class="flex flex-col gap-y-4">
+		</Tabs.Content>
+		<Tabs.Content value="starScroll" class="flex flex-col gap-y-4">
 			<StarScrollTab {gear} bind:ignoreMaxStar />
-		</TabsContent>
-	</Tabs>
+		</Tabs.Content>
+	</Tabs.Root>
 
 	<Separator />
 

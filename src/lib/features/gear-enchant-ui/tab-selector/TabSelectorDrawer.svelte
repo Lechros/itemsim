@@ -1,7 +1,10 @@
 <script lang="ts">
-	import type { Tab, TabStore } from '$lib/features/gear-enchant-ui/tab-selector/TabStore.svelte.js';
+	import type {
+		Tab,
+		TabStore
+	} from '$lib/features/gear-enchant-ui/tab-selector/TabStore.svelte.js';
 	import { Button } from '$lib/components/ui/button';
-	import { Drawer, DrawerContent, DrawerTrigger } from '$lib/components/ui/drawer';
+	import * as Drawer from '$lib/components/ui/drawer';
 	import { Check, ChevronDown } from 'lucide-svelte';
 
 	let {
@@ -23,14 +26,14 @@
 	}
 </script>
 
-<Drawer bind:open>
-	<DrawerTrigger>
+<Drawer.Root bind:open>
+	<Drawer.Trigger>
 		<Button variant="ghost" size="lg" class="flex items-center gap-2">
 			<h1 class="text-2xl font-semibold">{tabStore.currentTab.label}</h1>
 			<ChevronDown />
 		</Button>
-	</DrawerTrigger>
-	<DrawerContent>
+	</Drawer.Trigger>
+	<Drawer.Content>
 		<div class="mx-auto flex w-full max-w-screen-md flex-col p-4">
 			{#each tabStore.tabs as tab}
 				{@const isCurrent = tab.value === tabStore.currentTab.value}
@@ -48,5 +51,5 @@
 				</Button>
 			{/each}
 		</div>
-	</DrawerContent>
-</Drawer>
+	</Drawer.Content>
+</Drawer.Root>

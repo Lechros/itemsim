@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Alert, AlertTitle } from '$lib/components/ui/alert';
+	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { cn } from '$lib/utils';
 	import { Trash2 } from 'lucide-svelte';
@@ -92,10 +92,10 @@
 			</div>
 		</div>
 		{#if mode === 'delete'}
-			<Alert variant="destructive">
+			<Alert.Root variant="destructive">
 				<Trash2 />
-				<AlertTitle>삭제할 아이템을 선택해 주세요.</AlertTitle>
-			</Alert>
+				<Alert.Title>삭제할 아이템을 선택해 주세요.</Alert.Title>
+			</Alert.Root>
 		{/if}
 	</div>
 </div>

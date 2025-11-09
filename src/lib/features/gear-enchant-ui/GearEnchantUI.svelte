@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Tabs, TabsContent } from '$lib/components/ui/tabs';
+	import * as Tabs from '$lib/components/ui/tabs';
 	import TabSelectorDrawer from '$lib/features/gear-enchant-ui/tab-selector/TabSelectorDrawer.svelte';
 	import TabSelectorList from '$lib/features/gear-enchant-ui/tab-selector/TabSelectorList.svelte';
 	import { createTabStore } from '$lib/features/gear-enchant-ui/tab-selector/TabStore.svelte';
@@ -54,35 +54,35 @@
 						<GearTooltipButton {gear} />
 					</div>
 				</div>
-				<Tabs value={tabStore.currentTab.value}>
-					<TabsContent value="default">
+				<Tabs.Root value={tabStore.currentTab.value}>
+					<Tabs.Content value="default">
 						<GearManageUI {gear} />
-					</TabsContent>
-					<TabsContent value="props">
+					</Tabs.Content>
+					<Tabs.Content value="props">
 						<GearAttributeUI {gear} />
-					</TabsContent>
-					<TabsContent value="starforce">
+					</Tabs.Content>
+					<Tabs.Content value="starforce">
 						<GearStarforceUI {gear} />
-					</TabsContent>
-					<TabsContent value="scroll">
+					</Tabs.Content>
+					<Tabs.Content value="scroll">
 						<GearUpgradeUI {gear} />
-					</TabsContent>
-					<TabsContent value="bonus">
+					</Tabs.Content>
+					<Tabs.Content value="bonus">
 						<GearAddOptionUI {gear} />
-					</TabsContent>
-					<TabsContent value="pot">
+					</Tabs.Content>
+					<Tabs.Content value="pot">
 						<GearPotentialUI {gear} />
-					</TabsContent>
-					<TabsContent value="addiPot">
+					</Tabs.Content>
+					<Tabs.Content value="addiPot">
 						<GearAdditionalPotentialUI {gear} />
-					</TabsContent>
-					<TabsContent value="exceptional">
+					</Tabs.Content>
+					<Tabs.Content value="exceptional">
 						<GearExceptionalUI {gear} />
-					</TabsContent>
-					<TabsContent value="soul">
+					</Tabs.Content>
+					<Tabs.Content value="soul">
 						<GearSoulWeaponUI {gear} />
-					</TabsContent>
-				</Tabs>
+					</Tabs.Content>
+				</Tabs.Root>
 			</div>
 		</div>
 	</div>

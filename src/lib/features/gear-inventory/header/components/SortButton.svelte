@@ -1,13 +1,6 @@
 <script lang="ts">
 	import { buttonVariants } from '$lib/components/ui/button';
-	import {
-		DropdownMenu,
-		DropdownMenuContent,
-		DropdownMenuLabel,
-		DropdownMenuRadioGroup,
-		DropdownMenuRadioItem,
-		DropdownMenuTrigger
-	} from '$lib/components/ui/dropdown-menu';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { ChevronDown } from 'lucide-svelte';
 
 	let {
@@ -30,23 +23,23 @@
 	const sortItem = $derived(sortItems.find((item) => item.value === sort));
 </script>
 
-<DropdownMenu>
-	<DropdownMenuTrigger class={buttonVariants({ variant: 'outline' })}>
+<DropdownMenu.Root>
+	<DropdownMenu.Trigger class={buttonVariants({ variant: 'outline' })}>
 		{#if sortItem}
 			{sortItem.label}
 		{:else}
 			정렬
 		{/if}
 		<ChevronDown />
-	</DropdownMenuTrigger>
-	<DropdownMenuContent>
-		<DropdownMenuLabel>아이템 정렬</DropdownMenuLabel>
-		<DropdownMenuRadioGroup bind:value={sort}>
+	</DropdownMenu.Trigger>
+	<DropdownMenu.Content>
+		<DropdownMenu.Label>아이템 정렬</DropdownMenu.Label>
+		<DropdownMenu.RadioGroup bind:value={sort}>
 			{#each sortItems as item}
-				<DropdownMenuRadioItem value={item.value}>
+				<DropdownMenu.RadioItem value={item.value}>
 					{item.label}
-				</DropdownMenuRadioItem>
+				</DropdownMenu.RadioItem>
 			{/each}
-		</DropdownMenuRadioGroup>
-	</DropdownMenuContent>
-</DropdownMenu>
+		</DropdownMenu.RadioGroup>
+	</DropdownMenu.Content>
+</DropdownMenu.Root>
