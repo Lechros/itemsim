@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { FollowCursor } from '$lib/components/follow-cursor';
 	import { Button } from '$lib/components/ui/button';
+	import * as Empty from '$lib/components/ui/empty';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { GearDialog } from '$lib/features/gear-inventory/dialog';
 	import {
@@ -22,7 +23,7 @@
 	import { ScrollTopButton } from '$lib/features/scroll-top-button';
 	import { createPointerDetection } from '$lib/utils';
 	import { type GearData, ReadonlyGear } from '@malib/gear';
-	import { Loader2, Plus } from 'lucide-svelte';
+	import { Folder, Loader2 } from 'lucide-svelte';
 
 	const NAVBAR_HEIGHT = 56;
 	const FLOATING_HEIGHT = 136;
@@ -149,13 +150,23 @@
 			<div>필터에 해당하는 결과가 없어요.</div>
 		</div>
 	{:else if countQuery.value === 0}
-		<div class="flex h-32 flex-col items-center justify-center gap-y-2">
-			<div>인벤토리에 아이템을 추가해 보세요.</div>
-			<Button variant="outline" size="lg" href="/gear/search">
-				<Plus />
-				아이템 추가
-			</Button>
-		</div>
+		<Empty.Root>
+			<Empty.Header>
+				<Empty.Media variant="icon">
+					<Folder />
+				</Empty.Media>
+				<Empty.Title>인벤토리가 비어있어요</Empty.Title>
+				<Empty.Description>
+					아이템을 검색하여 추가할 수 있어요. <br /> 불러오기 기능은 아직 준비 중이에요.
+				</Empty.Description>
+			</Empty.Header>
+			<Empty.Content>
+				<div class="flex gap-2">
+					<Button href="/gear/search">아이템 추가</Button>
+					<Button variant="outline" disabled>불러오기</Button>
+				</div>
+			</Empty.Content>
+		</Empty.Root>
 	{/if}
 </ScrollArea>
 
