@@ -1,6 +1,7 @@
-import type { GearData } from '@malib/gear';
+import { migrate, type GearData } from '@malib/gear';
 import ky from 'ky';
 import { env } from '$lib/config/env';
+import { GEAR_VERSION } from '$lib/config/constant';
 
 export function getGearSearchUrl(name: string, type?: number) {
 	if (type) {
@@ -23,7 +24,7 @@ export function getGearDataUrl(id: number) {
 }
 
 export function getGearData(id: number) {
-	return ky.get(getGearDataUrl(id)).json<GearData>();
+	return ky.get(getGearDataUrl(id)).json<object>().then(data => migrate(data, GEAR_VERSION) as GearData);
 }
 
 export function getGearDatasUrl(ids: number[]) {
@@ -34,7 +35,7 @@ export async function getGearDatas(ids: number[]) {
 	if (ids.length === 0) {
 		return [];
 	}
-	return await ky.get(getGearDatasUrl(ids)).json<GearData[]>();
+	return (await ky.get(getGearDatasUrl(ids)).json<object[]>()).map(data => migrate(data, GEAR_VERSION) as GearData);
 }
 
 export interface SearchGearSummary {

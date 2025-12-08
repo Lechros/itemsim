@@ -21,6 +21,7 @@
 	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
 	import { MainNavbar } from '$lib/features/navigation/main-navbar';
 	import { ScrollTopButton } from '$lib/features/scroll-top-button';
+	import { extractGearData } from '$lib/stores/gear-inventory';
 	import { createPointerDetection } from '$lib/utils';
 	import { type GearData, ReadonlyGear } from '@malib/gear';
 	import { Folder, Loader2 } from 'lucide-svelte';
@@ -125,21 +126,21 @@
 							selected={deleter.has(item.seq)}
 							onclick={() =>
 								deleter.has(item.seq) ? deleter.delete(item.seq) : deleter.add(item.seq)}
-							onmouseenter={() => handleItemHover(item.gear)}
+							onmouseenter={() => handleItemHover(extractGearData(item))}
 							onmouseleave={() => handleItemHover(null)}
 						>
-							<GearInventoryGridItemContent gearData={item.gear} scale={2} />
+							<GearInventoryGridItemContent gearData={extractGearData(item)} scale={2} />
 						</GearInventoryGridDeleteItem>
 					{:else}
 						<GearInventoryGridItem
 							href={pointerDetection.isPointerFine ? `/gear/${item.seq}` : undefined}
-							onmouseenter={() => handleItemHover(item.gear)}
+							onmouseenter={() => handleItemHover(extractGearData(item))}
 							onmouseleave={() => handleItemHover(null)}
 							onclick={!pointerDetection.isPointerFine
-								? () => handleItemClick(item.seq, item.gear)
+								? () => handleItemClick(item.seq, extractGearData(item))
 								: undefined}
 						>
-							<GearInventoryGridItemContent gearData={item.gear} scale={2} />
+							<GearInventoryGridItemContent gearData={extractGearData(item)} scale={2} />
 						</GearInventoryGridItem>
 					{/if}
 				{/snippet}
