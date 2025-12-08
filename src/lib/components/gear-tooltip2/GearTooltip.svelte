@@ -54,7 +54,7 @@
 
 	const topAttributeStrings = $derived(getTopAttributeHtmlStrings(gear.attributes));
 	const attributeStrings = $derived(
-		getAttributeHtmlStrings(gear.attributes, loadExclusiveEquips(gear.meta.id))
+		getAttributeHtmlStrings(gear.attributes, loadExclusiveEquips(gear.id))
 	);
 	const gender = $derived(
 		gear.req.gender === GearGender.Male

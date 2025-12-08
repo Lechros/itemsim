@@ -14,7 +14,7 @@ export function showEtcScrollTab(gear: ReadonlyGear) {
 }
 
 export function getEtcScrolls(gear: ReadonlyGear) {
-	switch (gear.meta.id) {
+	switch (gear.id) {
 		case 1123007:
 		case 1123008:
 		case 1123009:
@@ -74,7 +74,7 @@ export function getEtcScrolls(gear: ReadonlyGear) {
 			return [scrollData['어웨이크 링 전용 강화 주문서']];
 	}
 	const scrolls: Scroll[] = [];
-	switch (gear.meta.id) {
+	switch (gear.id) {
 		case 1122000:
 		case 1122076:
 		case 1122278:

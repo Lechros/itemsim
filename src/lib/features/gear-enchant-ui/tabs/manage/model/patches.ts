@@ -9,7 +9,7 @@ export function getSpecialPatches(gear: ReadonlyGear): Patch[] {
 			return getStatsFromWeaponType(gear.type).map(getGenesisPatch);
 		}
 	}
-	switch (gear.meta.id) {
+	switch (gear.id) {
 		case 1152155: // 스칼렛 숄더
 			return [
 				{

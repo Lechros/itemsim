@@ -1,10 +1,11 @@
-import type { GearData } from '@malib/gear';
+import { GEAR_VERSION } from '$lib/config/constant';
+import { migrate, type GearData } from '@malib/gear';
 import Dexie, { type EntityTable, liveQuery } from 'dexie';
 import { getRegExp } from 'korean-regexp';
 
 export interface GearRow {
 	seq: number;
-	gear: GearData;
+	gear: { name: string; };
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -54,7 +55,10 @@ export async function deleteGearData(...seqs: number[]) {
  * @returns 조회된 장비 정보 Promise
  */
 export function getGearData(seq: number) {
-	return db.inventory.get(seq).then((row) => row?.gear);
+	return db.inventory.get(seq).then((row) => {
+		if (!row) return undefined;
+		return extractGearData(row);
+	});
 }
 
 /**
@@ -77,6 +81,15 @@ export function useGearQuery({ filter, sort = 'createdAtDesc' }: GearQueryOption
 			.toArray()
 			.then((arr) => arr.sort(compareFn))
 	);
+}
+
+/**
+ * GearRow에서 GearData를 추출합니다.
+ * @param row GearRow
+ * @returns GearData
+ */
+export function extractGearData(row: GearRow) {
+	return migrate(row.gear, GEAR_VERSION) as GearData;
 }
 
 export interface GearQueryOptions {
@@ -114,13 +127,9 @@ function chainFilter(...filters: ((row: GearRow) => boolean)[]) {
 function getComparer(sort: NonNullable<GearQueryOptions['sort']>) {
 	switch (sort) {
 		case 'nameAsc':
-			return chainCompare(nameCompare, idCompare, seqCompare);
+			return chainCompare(nameCompare, seqCompare);
 		case 'nameDesc':
-			return chainCompare(nameCompare, idCompare, seqCompare).reversed();
-		case 'idAsc':
-			return chainCompare(idCompare, seqCompare);
-		case 'idDesc':
-			return chainCompare(idCompare, seqCompare).reversed();
+			return chainCompare(nameCompare, seqCompare).reversed();
 		case 'createdAtAsc':
 			return chainCompare(createdAtCompare, seqCompare);
 		case 'createdAtDesc':
@@ -134,10 +143,6 @@ function getComparer(sort: NonNullable<GearQueryOptions['sort']>) {
 
 function nameCompare(a: GearRow, b: GearRow) {
 	return a.gear.name.localeCompare(b.gear.name, 'ko', { sensitivity: 'accent', numeric: true });
-}
-
-function idCompare(a: GearRow, b: GearRow) {
-	return a.gear.meta.id - b.gear.meta.id;
 }
 
 function createdAtCompare(a: GearRow, b: GearRow) {
