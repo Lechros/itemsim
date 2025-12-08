@@ -109,8 +109,8 @@
 			<UIImage2 image="particleStar" class="absolute top-px left-0" />
 		{/if}
 		<Spacer height={8} />
-		{#if false}
-			<DetailText color="gray" class="mt-[1px] self-center" value="의" />
+		{#if gear.itemTag}
+			<DetailText color="gray" class="mt-[1px] self-center" value="{gear.itemTag}의" />
 		{/if}
 		<ItemNameText
 			class="self-center pl-[3px]"

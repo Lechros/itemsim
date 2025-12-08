@@ -5,6 +5,9 @@
 	import { Label } from '$lib/components/ui/label';
 	import * as RadioGroup from '$lib/components/ui/radio-group';
 	import { Gear } from '@malib/gear';
+	import { toast } from 'svelte-sonner';
+	import AnvilDialog from './components/AnvilDialog.svelte';
+	import { isShapeChangeableGear } from './model/anvil';
 	import {
 		cuttableTypes,
 		setCuttableCount,
@@ -12,16 +15,17 @@
 		totalCuttableCounts,
 		validateCuttableCount
 	} from './model/cuttable';
+	import { validateItemTag } from './model/itemtag';
 	import { reqLevelIncreases } from './model/req';
 	import { tradeTypes } from './model/trade';
-	import { isShapeChangeableGear } from './model/anvil';
-	import AnvilDialog from './components/AnvilDialog.svelte';
-	import { toast } from 'svelte-sonner';
 
 	let { gear }: { gear: Gear } = $props();
 
 	let cuttableCount = $state(gear.data.attributes.cuttableCount);
 	let cuttableCountError = $derived(validateCuttableCount(gear, cuttableCount));
+
+	let itemTag = $state(gear.itemTag);
+	let itemTagError = $state<string | undefined>(undefined);
 
 	$effect(() => {
 		setCuttableCount(gear, cuttableCount);
@@ -127,6 +131,54 @@
 		</div>
 	{/if}
 
+	<div class="flex flex-col gap-2">
+		<h4 class="text-lg font-semibold">이름 새기기</h4>
+		<Input
+			type="text"
+			bind:value={itemTag}
+			aria-invalid={itemTagError !== undefined}
+			oninput={() => (itemTagError = undefined)}
+		/>
+		{#if itemTagError}
+			<p class="text-destructive text-sm">{itemTagError}</p>
+		{/if}
+		<ButtonGroup>
+			<Button
+				variant="outline"
+				disabled={!itemTag}
+				onclick={() => {
+					if (!itemTag) return;
+					itemTagError = validateItemTag(itemTag);
+					if (itemTagError === undefined) {
+						gear.itemTag = itemTag;
+						toast.success('이름 새기기를 적용했어요.', {
+							description: itemTag,
+							position: 'top-center',
+							duration: 2000
+						});
+					}
+				}}
+			>
+				적용
+			</Button>
+			<Button
+				variant="outline"
+				onclick={() => {
+					itemTagError = undefined;
+					if (gear.itemTag !== undefined) {
+						gear.itemTag = undefined;
+						toast.success('새겨진 이름을 제거했어요.', {
+							position: 'top-center',
+							duration: 2000
+						});
+					}
+				}}
+			>
+				초기화
+			</Button>
+		</ButtonGroup>
+	</div>
+
 	{#if isShapeChangeableGear(gear)}
 		<div class="flex flex-col gap-2">
 			<h4 class="text-lg font-semibold">신비의 모루</h4>
@@ -140,9 +192,9 @@
 							position: 'top-center',
 							duration: 2000
 						});
-					}}>외형 초기화
-				</Button
-				>
+					}}
+					>외형 초기화
+				</Button>
 			</ButtonGroup>
 		</div>
 	{/if}
