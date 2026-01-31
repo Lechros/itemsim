@@ -2,12 +2,13 @@ import { migrate, type GearData } from '@malib/gear';
 import ky from 'ky';
 import { env } from '$lib/config/env';
 import { GEAR_VERSION } from '$lib/config/constant';
+import { join } from '$lib/api/url';
 
 export function getGearSearchUrl(name: string, type?: number) {
 	if (type) {
-		return new URL(`/gears/search?query=${name}&type=${type}`, env.API_URL);
+		return join(env.API_URL, `/gears/search?query=${encodeURIComponent(name)}&type=${type}`);
 	} else {
-		return new URL(`/gears/search?query=${name}`, env.API_URL);
+		return join(env.API_URL, `/gears/search?query=${encodeURIComponent(name)}`);
 	}
 }
 
@@ -20,7 +21,7 @@ export async function getGearSearch(name: string, type?: number) {
 }
 
 export function getGearDataUrl(id: number) {
-	return new URL(`/gears/${id}`, env.API_URL);
+	return join(env.API_URL, `/gears/${id}`);
 }
 
 export function getGearData(id: number) {
@@ -28,7 +29,7 @@ export function getGearData(id: number) {
 }
 
 export function getGearDatasUrl(ids: number[]) {
-	return new URL(`/gears?id=${ids.join(',')}`, env.API_URL);
+	return join(env.API_URL, `/gears?id=${ids.join(',')}`);
 }
 
 export async function getGearDatas(ids: number[]) {
@@ -45,11 +46,11 @@ export interface SearchGearSummary {
 	highlight: string;
 }
 export function getGearIconUrl(iconId: string) {
-	return new URL(`/gears/icon/${iconId}.png`, env.IMAGE_URL).toString();
+	return join(env.IMAGE_URL, `/gears/icon/${iconId}.png`);
 }
 
 export function getGearIconOriginUrl(iconId: string) {
-	return new URL(`/gears/${iconId}/icon/origin`, env.API_URL).toString();
+	return join(env.API_URL, `/gears/${iconId}/icon/origin`);
 }
 
 export async function getGearIconOrigin(iconId: string) {

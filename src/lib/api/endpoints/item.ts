@@ -1,10 +1,11 @@
 import { env } from '$lib/config/env';
+import { join } from '$lib/api/url';
 
 export function getItemRawIconUrl(iconId: string) {
-	return new URL(`/items/iconRaw/${iconId}.png`, env.IMAGE_URL).toString();
+	return join(env.IMAGE_URL, `/items/iconRaw/${iconId}.png`);
 }
 export function getItemRawIconOriginUrl(iconId: string) {
-	return new URL(`/items/${iconId}/raw-icon/origin`, env.API_URL).toString();
+	return join(env.API_URL, `/items/${iconId}/raw-icon/origin`);
 }
 
 export async function getItemRawIconOrigin(iconId: string) {
