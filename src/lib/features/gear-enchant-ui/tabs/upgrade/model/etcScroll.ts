@@ -72,6 +72,30 @@ export function getEtcScrolls(gear: ReadonlyGear) {
 			return [scrollData['테네브리스 원정대 반지 강화 주문서']];
 		case 1114318:
 			return [scrollData['어웨이크 링 전용 강화 주문서']];
+		case 1092123: // 아스트라 세이크리드 이지스
+		case 1092124:
+		case 1092125:
+		case 1092132: // 아스트라 토파즈 이지스
+		case 1092133:
+		case 1092134:
+			return [scrollData['아스트라 이지스 전용 공격력 주문서']];
+		case 1092126: // 아스트라 아케인 실드
+		case 1092127:
+		case 1092128:
+		case 1092135: // 아스트라 루비 실드
+		case 1092136:
+		case 1092137:
+		case 1092138: // 아스트라 프로미넌트 실드
+		case 1092139:
+		case 1092140:
+		case 1092141: // 아스트라 엄브럴 실드
+		case 1092142:
+		case 1092143:
+			return [scrollData['아스트라 실드 전용 마력 주문서']];
+		case 1092129: // 아스트라 베인 실드
+		case 1092130:
+		case 1092131:
+			return [scrollData['아스트라 베인 실드 전용 공격력 주문서']];
 	}
 	const scrolls: Scroll[] = [];
 	switch (gear.id) {
@@ -88,6 +112,11 @@ export function getEtcScrolls(gear: ReadonlyGear) {
 		case 1122376:
 		case 1122377:
 			scrolls.push(scrollData['비틀린 시간의 파편']);
+			break;
+		case 1342121:
+		case 1342122:
+		case 1342123:
+			scrolls.push(scrollData['아스트라 블레이드 전용 공격력 주문서']);
 			break;
 	}
 	if (gear.type === GearType.earrings) {

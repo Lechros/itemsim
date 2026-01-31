@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@malib/gear':
-        specifier: 1.0.0-next.11
-        version: 1.0.0-next.11
+        specifier: 1.0.0-next.13
+        version: 1.0.0-next.13
       '@tanstack/svelte-query':
         specifier: https://pkg.pr.new/@tanstack/svelte-query@746b9c5
         version: https://pkg.pr.new/@tanstack/svelte-query@746b9c5(svelte@5.33.1)
@@ -618,8 +618,8 @@ packages:
     peerDependencies:
       svelte: ^5
 
-  '@malib/gear@1.0.0-next.11':
-    resolution: {integrity: sha512-PTu5nTU91DX+woKViMdWHZwyv3i5zorNc5T999UtMzJrDAZVLFG1paSmfj2+OhQCbM73WyOCZuvutOabgclpJQ==}
+  '@malib/gear@1.0.0-next.13':
+    resolution: {integrity: sha512-FsNSKRHKw4ICeUpXy1Han3UDsXwoC4M5O2JWJEBx9Nn33bxxDFc/cWi8CIEDR1CJWhw+lYzOBXa+kLPsas7LGA==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -2710,7 +2710,7 @@ snapshots:
     dependencies:
       svelte: 5.33.1
 
-  '@malib/gear@1.0.0-next.11': {}
+  '@malib/gear@1.0.0-next.13': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
