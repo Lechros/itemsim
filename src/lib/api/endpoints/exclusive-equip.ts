@@ -1,5 +1,6 @@
 import ky from 'ky';
 import { env } from '$lib/config/env';
+import { join } from '$lib/api/url';
 
 export interface ExclusiveEquipData {
 	[id: number]: ExclusiveEquip;
@@ -12,5 +13,5 @@ export interface ExclusiveEquip {
 
 
 export async function getExclusiveEquips(): Promise<ExclusiveEquipData> {
-	return await ky.get(new URL('/exclusive-equips', env.API_URL)).json<ExclusiveEquipData>();
+	return await ky.get(join(env.API_URL, '/exclusive-equips')).json<ExclusiveEquipData>();
 }

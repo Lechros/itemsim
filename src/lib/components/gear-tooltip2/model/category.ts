@@ -267,6 +267,9 @@ export function getGearTypeString(type: GearType) {
 			return '장검';
 		case GearType.sacredJewel:
 			return '여의보주';
+		
+		case GearType.hourGlass:
+			return '모래시계';
 	}
 }
 

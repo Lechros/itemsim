@@ -498,5 +498,41 @@ export const scrollData = {
 			attackPower: 5,
 			magicPower: 5
 		}
+	},
+	'아스트라 이지스 전용 공격력 주문서': {
+		name: '아스트라 이지스 전용 공격력 주문서',
+		icon: '2040958',
+		option: {
+			str: 30,
+			dex: 10,
+			attackPower: 10
+		}
+	},
+	'아스트라 실드 전용 마력 주문서': {
+		name: '아스트라 실드 전용 마력 주문서',
+		icon: '2040959',
+		option: {
+			int: 30,
+			luk: 10,
+			magicPower: 10
+		}
+	},
+	'아스트라 베인 실드 전용 공격력 주문서': {
+		name: '아스트라 베인 실드 전용 공격력 주문서',
+		icon: '2040960',
+		option: {
+			luk: 30,
+			dex: 10,
+			attackPower: 10
+		}
+	},
+	'아스트라 블레이드 전용 공격력 주문서': {
+		name: '아스트라 블레이드 전용 공격력 주문서',
+		icon: '2043414',
+		option: {
+			luk: 15,
+			dex: 15,
+			attackPower: 9
+		}
 	}
 } as const satisfies Record<string, Scroll>;

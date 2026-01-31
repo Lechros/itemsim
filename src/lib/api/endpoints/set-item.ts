@@ -1,5 +1,6 @@
 import ky from 'ky';
 import { env } from '$lib/config/env';
+import { join } from '$lib/api/url';
 import type { GearOption } from '@malib/gear';
 
 export interface SetItemData {
@@ -16,5 +17,5 @@ export interface SetItem {
 
 
 export async function getSetItems(): Promise<SetItemData> {
-	return await ky.get(new URL('/set-items', env.API_URL)).json<SetItemData>();
+	return await ky.get(join(env.API_URL, '/set-items')).json<SetItemData>();
 }
