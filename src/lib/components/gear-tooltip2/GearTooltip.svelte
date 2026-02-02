@@ -224,7 +224,7 @@
 			<DetailText value="아이템 강화 성공시 더욱 높은 효과를 받을 수 있습니다." />
 		{/if}
 	</FrameMiddle>
-	{#if isEnhanceable(gear.type)}
+	{#if isEnhanceable(gear)}
 		<FrameMiddle class="px-[15px]">
 			<Spacer height={4} />
 			{#if expand}
@@ -261,7 +261,7 @@
 		</FrameMiddle>
 		<FrameLine />
 		<FrameMiddle class="px-[15px]">
-			{#if isEnhanceable(gear.type)}
+			{#if isEnhanceable(gear)}
 				<Spacer height={1} />
 				<PotentialTitle
 					can={gear.attributes.canPotential}

@@ -1,11 +1,13 @@
 import {
+	GearCapability,
 	GearType,
 	isAccessory,
 	isArmor,
 	isDoubleHandWeapon,
 	isLeftWeapon,
 	isSubWeapon,
-	isWeapon
+	isWeapon,
+	ReadonlyGear
 } from '@malib/gear';
 
 export function getCategories(type: GearType): string[] {
@@ -267,14 +269,21 @@ export function getGearTypeString(type: GearType) {
 			return '장검';
 		case GearType.sacredJewel:
 			return '여의보주';
-		
+
 		case GearType.hourGlass:
 			return '모래시계';
 	}
 }
 
-export function isEnhanceable(type: GearType) {
-	switch (type) {
+export function isEnhanceable(gear: ReadonlyGear) {
+	if (
+		gear.attributes.canScroll !== GearCapability.Cannot ||
+		gear.attributes.canStarforce !== GearCapability.Cannot ||
+		gear.attributes.canAddOption !== GearCapability.Cannot
+	) {
+		return true;
+	}
+	switch (gear.type) {
 		case GearType.medal:
 		case GearType.android:
 		case GearType.shovel:
