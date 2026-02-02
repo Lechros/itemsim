@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { getGearDatas } from '$lib/api';
+	import { getGearDatas, getGearHashes } from '$lib/api';
 	import { Button } from '$lib/components/ui/button';
 	import { addGearData } from '$lib/stores/gear-inventory';
 	import { cn } from '$lib/utils';
@@ -21,10 +21,15 @@
 	let isAdding = $state(false);
 
 	async function handleAdd() {
+		const ids = selected.gears.map((gear) => gear.id);
+		if (ids.length === 0) return;
 		isAdding = true;
 		try {
-			const gears = await getGearDatas(selected.gears.map((gear) => gear.id));
-			const seq = await addGearData(...gears);
+			const [gears, hashes] = await Promise.all([
+				getGearDatas(ids),
+				getGearHashes(ids)
+			]);
+			const seq = await addGearData(gears, hashes);
 			selected.clear();
 			if (gears.length === 1) {
 				toast.success(`${josa(gears[0].name, '을/를')} 추가했어요.`, {

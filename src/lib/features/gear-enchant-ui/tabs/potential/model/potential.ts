@@ -45,16 +45,21 @@ export function getPotentialDatasByCodes(
 			if (itemOption.reqLevel) {
 				if (gearReqLevel < itemOption.reqLevel) return null;
 			}
-			const level = getPotentialLevel(gearReqLevel);
-			const levelData = itemOption.level[level];
-			return {
-				id: code,
-				grade: Math.floor(code / 10000),
-				summary: levelData.string,
-				option: { ...levelData.option }
-			};
+			return getPotentialData(code, gearReqLevel);
 		})
 		.filter((potential) => potential !== null);
+}
+
+export function getPotentialData(code: number, gearReqLevel: number): PotentialData {
+	const itemOption = itemOptions[code];
+	const level = getPotentialLevel(gearReqLevel);
+	const levelData = itemOption.level[level];
+	return {
+		id: code,
+		grade: Math.floor(code / 10000),
+		summary: levelData.string,
+		option: { ...levelData.option }
+	};
 }
 
 function getPotentialLevel(gearReqLevel: number) {

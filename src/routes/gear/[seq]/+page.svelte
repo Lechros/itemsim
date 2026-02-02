@@ -17,6 +17,7 @@
 	let isLoading = $state(true);
 	let gearData = $state<GearData | undefined>(undefined);
 	let lastGearData = $state<GearData | undefined>(undefined);
+	let pendingBaseHash = $state<string | undefined>(undefined);
 	const gear = $derived(gearData ? new Gear(gearData) : undefined);
 
 	$effect(() => {
@@ -30,12 +31,18 @@
 			});
 	});
 
+	function onGearUpdated(newGear: GearData, newHash: string) {
+		gearData = newGear;
+		pendingBaseHash = newHash;
+	}
+
 	$effect(() => {
 		if (gearData && JSON.stringify(gearData) !== JSON.stringify(lastGearData)) {
 			const snapshot = $state.snapshot(gearData);
-			updateGearData(seq, snapshot)
+			updateGearData(seq, snapshot, pendingBaseHash ? { hash: pendingBaseHash } : undefined)
 				.then(() => {
 					lastGearData = snapshot;
+					pendingBaseHash = undefined;
 				})
 				.catch((e) => {
 					toast.error('아이템 저장에 실패했습니다.', {
@@ -66,6 +73,6 @@
 			<Button variant="outline" href="/">돌아가기</Button>
 		</div>
 	{:else}
-		<GearEnchantUI {gear} {initialTab} />
+		<GearEnchantUI {gear} {seq} {initialTab} {onGearUpdated} />
 	{/if}
 </ScrollArea>
