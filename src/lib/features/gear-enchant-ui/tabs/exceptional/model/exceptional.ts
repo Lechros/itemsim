@@ -13,6 +13,8 @@ export function getExceptionalHammer(gear: Gear) {
 			return exceptionalHammerData['익셉셔널 해머 (얼굴장식)'];
 		case GearType.eyeAccessory:
 			return exceptionalHammerData['익셉셔널 해머 (눈장식)'];
+		case GearType.medal:
+			return exceptionalHammerData['익셉셔널 해머 (훈장)'];
 		default:
 			return null;
 	}

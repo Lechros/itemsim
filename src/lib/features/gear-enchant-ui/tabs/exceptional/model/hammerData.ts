@@ -54,5 +54,19 @@ export const exceptionalHammerData = {
 			maxHp: 1000,
 			maxMp: 1000
 		}
+	},
+	'익셉셔널 해머 (훈장)': {
+		name: '익셉셔널 해머 (훈장)',
+		icon: '2644208',
+		option: {
+			str: 20,
+			dex: 20,
+			int: 20,
+			luk: 20,
+			attackPower: 15,
+			magicPower: 15,
+			maxHp: 1000,
+			maxMp: 1000
+		}
 	}
 };
