@@ -18,10 +18,14 @@
 	import { tabs } from './tabs/tabs';
 	let {
 		gear,
-		initialTab
+		seq,
+		initialTab,
+		onGearUpdated
 	}: {
 		gear: Gear;
+		seq: number;
 		initialTab?: string;
+		onGearUpdated?: (newGear: import('@malib/gear').GearData, newHash: string) => void | Promise<void>;
 	} = $props();
 
 	const tabStore = $derived(
@@ -56,7 +60,7 @@
 				</div>
 				<Tabs.Root value={tabStore.currentTab.value}>
 					<Tabs.Content value="default">
-						<GearManageUI {gear} />
+						<GearManageUI {gear} {seq} {onGearUpdated} />
 					</Tabs.Content>
 					<Tabs.Content value="props">
 						<GearAttributeUI {gear} />

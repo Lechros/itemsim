@@ -5,7 +5,8 @@ import { getRegExp } from 'korean-regexp';
 
 export interface GearRow {
 	seq: number;
-	gear: { name: string; };
+	gear: { name: string };
+	hash?: string;
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -18,27 +19,48 @@ db.version(1).stores({
 	inventory: '++seq, gear.name, gear.meta.id, gear.meta.version, createdAt, updatedAt'
 });
 
+db.version(2).stores({
+	inventory: '++seq, gear.name, gear.meta.id, gear.meta.version, createdAt, updatedAt'
+});
+
 /**
  * DB에 장비 정보를 추가합니다.
  * @param gears 추가할 장비 정보
+ * @param hashes 각 장비의 기본 정보 해시. gears와 동일한 순서여야 합니다.
  * @returns 추가된 장비의 seq. 여러 장비를 추가할 경우 마지막 장비의 seq를 반환합니다.
  */
-export async function addGearData(...gears: GearData[]) {
+export async function addGearData(gears: GearData[], hashes: string[]) {
+	if (gears.length !== hashes.length) {
+		throw new TypeError('gears와 hashes의 길이가 일치하지 않습니다.');
+	}
 	const now = new Date();
-	return await db.inventory.bulkAdd(
-		gears.map((gear) => ({ gear, createdAt: now, updatedAt: now }))
-	);
+	const rows: Omit<GearRow, 'seq'>[] = gears.map((gear, i) => ({
+		gear,
+		hash: hashes[i],
+		createdAt: now,
+		updatedAt: now
+	}));
+	return await db.inventory.bulkAdd(rows);
 }
 
 /**
  * DB에서 장비 정보를 수정합니다. 존재하지 않는 seq일 경우 추가되지 않습니다.
  * @param seq 수정할 장비 정보의 seq
  * @param gear 새로운 장비 정보
+ * @param options.hash 기본 정보 해시. 업데이트 반영 시 서버 해시로 갱신.
  * @returns 수정되었을 경우 1; 아닐 경우 0.
  */
-export async function updateGearData(seq: number, gear: GearData) {
+export async function updateGearData(
+	seq: number,
+	gear: GearData,
+	options?: { hash?: string }
+) {
 	const now = new Date();
-	return await db.inventory.update(seq, { gear, updatedAt: now });
+	const update: Partial<GearRow> = { gear, updatedAt: now };
+	if (options?.hash) {
+		update.hash = options.hash;
+	}
+	return await db.inventory.update(seq, update);
 }
 
 /**
@@ -50,9 +72,18 @@ export async function deleteGearData(...seqs: number[]) {
 }
 
 /**
+ * DB에서 장비 행을 조회합니다.
+ * @param seq 조회할 seq
+ * @returns `GearRow` 또는 `undefined`
+ */
+export function getGearRow(seq: number) {
+	return db.inventory.get(seq);
+}
+
+/**
  * DB에서 장비 정보를 조회합니다.
  * @param seq 조회할 장비 정보의 seq
- * @returns 조회된 장비 정보 Promise
+ * @returns 조회된 장비 정보 `Promise`
  */
 export function getGearData(seq: number) {
 	return db.inventory.get(seq).then((row) => {

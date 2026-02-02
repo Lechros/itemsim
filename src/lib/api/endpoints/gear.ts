@@ -4,6 +4,13 @@ import { env } from '$lib/config/env';
 import { GEAR_VERSION } from '$lib/config/constant';
 import { join } from '$lib/api/url';
 
+export interface SearchGearSummary {
+	id: number;
+	name: string;
+	icon: string;
+	highlight: string;
+}
+
 export function getGearSearchUrl(name: string, type?: number) {
 	if (type) {
 		return join(env.API_URL, `/gears/search?query=${encodeURIComponent(name)}&type=${type}`);
@@ -24,8 +31,11 @@ export function getGearDataUrl(id: number) {
 	return join(env.API_URL, `/gears/${id}`);
 }
 
-export function getGearData(id: number) {
-	return ky.get(getGearDataUrl(id)).json<object>().then(data => migrate(data, GEAR_VERSION) as GearData);
+export function getGearData(id: number, signal?: AbortSignal) {
+	return ky
+		.get(getGearDataUrl(id), { signal })
+		.json<object>()
+		.then((data) => migrate(data, GEAR_VERSION) as GearData);
 }
 
 export function getGearDatasUrl(ids: number[]) {
@@ -36,15 +46,31 @@ export async function getGearDatas(ids: number[]) {
 	if (ids.length === 0) {
 		return [];
 	}
-	return (await ky.get(getGearDatasUrl(ids)).json<object[]>()).map(data => migrate(data, GEAR_VERSION) as GearData);
+	return (await ky.get(getGearDatasUrl(ids)).json<object[]>()).map(
+		(data) => migrate(data, GEAR_VERSION) as GearData
+	);
 }
 
-export interface SearchGearSummary {
-	id: number;
-	name: string;
-	icon: string;
-	highlight: string;
+export function getGearHashUrl(id: number) {
+	return join(env.API_URL, `/gears/${id}/hash`);
 }
+
+export async function getGearHash(id: number, signal?: AbortSignal) {
+	const url = getGearHashUrl(id);
+	const response = await fetch(url, { signal });
+	return (await response.json()) as string;
+}
+
+export function getGearHashesUrl(ids: number[]) {
+	return join(env.API_URL, `/gears/hashes?id=${ids.join(',')}`);
+}
+
+export async function getGearHashes(ids: number[]) {
+	const url = getGearHashesUrl(ids);
+	const response = await fetch(url);
+	return (await response.json()) as string[];
+}
+
 export function getGearIconUrl(iconId: string) {
 	return join(env.IMAGE_URL, `/gears/icon/${iconId}.png`);
 }
