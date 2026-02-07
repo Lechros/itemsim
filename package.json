@@ -61,13 +61,13 @@
 	"packageManager": "pnpm@10.28.2",
 	"dependencies": {
 		"@malib/gear": "1.0.0-next.15",
-		"@tanstack/svelte-query": "https://pkg.pr.new/@tanstack/svelte-query@746b9c5",
+		"@tanstack/svelte-query": "^6.0.18",
 		"dexie": "^4.3.0",
 		"es-hangul": "^2.3.8",
 		"html-to-image": "^1.11.13",
 		"korean-regexp": "^1.0.13",
 		"ky": "^1.14.3",
 		"lucide-svelte": "^0.511.0",
-		"virtua": "^0.41.5"
+		"virtua": "^0.48.5"
 	}
 }

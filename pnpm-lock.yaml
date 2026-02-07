@@ -12,8 +12,8 @@ importers:
         specifier: 1.0.0-next.15
         version: 1.0.0-next.15
       '@tanstack/svelte-query':
-        specifier: https://pkg.pr.new/@tanstack/svelte-query@746b9c5
-        version: https://pkg.pr.new/@tanstack/svelte-query@746b9c5(svelte@5.50.0)
+        specifier: ^6.0.18
+        version: 6.0.18(svelte@5.50.0)
       dexie:
         specifier: ^4.3.0
         version: 4.3.0
@@ -33,8 +33,8 @@ importers:
         specifier: ^0.511.0
         version: 0.511.0(svelte@5.50.0)
       virtua:
-        specifier: ^0.41.5
-        version: 0.41.5(svelte@5.50.0)
+        specifier: ^0.48.5
+        version: 0.48.5(svelte@5.50.0)
     devDependencies:
       '@eslint/compat':
         specifier: ^1.4.1
@@ -1065,15 +1065,13 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
 
-  '@tanstack/query-core@https://pkg.pr.new/TanStack/query/@tanstack/query-core@746b9c5':
-    resolution: {tarball: https://pkg.pr.new/TanStack/query/@tanstack/query-core@746b9c5}
-    version: 5.75.7
+  '@tanstack/query-core@5.90.20':
+    resolution: {integrity: sha512-OMD2HLpNouXEfZJWcKeVKUgQ5n+n3A2JFmBaScpNDUqSrQSjiveC7dKMe53uJUg1nDG16ttFPz2xfilz6i2uVg==}
 
-  '@tanstack/svelte-query@https://pkg.pr.new/@tanstack/svelte-query@746b9c5':
-    resolution: {tarball: https://pkg.pr.new/@tanstack/svelte-query@746b9c5}
-    version: 5.75.7
+  '@tanstack/svelte-query@6.0.18':
+    resolution: {integrity: sha512-iGS8osfrIVUW5pkV4Ig6pspNIMtiNjGnVTNJKDas0m/QaNDFFIKbgg74rCzcjwrTIvO38tMpzb4VUKklvAmjxw==}
     peerDependencies:
-      svelte: ^5.7.0
+      svelte: ^5.25.0
 
   '@testing-library/dom@10.4.1':
     resolution: {integrity: sha512-o4PXJQidqJl82ckFaXUeoAW+XysPLauYI43Abki5hABd853iMhitooc6znOnczgbTYmEP6U6/y1ZyKAIsvMKGg==}
@@ -2319,8 +2317,8 @@ packages:
     peerDependencies:
       svelte: ^5.0.0
 
-  virtua@0.41.5:
-    resolution: {integrity: sha512-x1vsA9qIQNBFcCs1rzCjyYdMvDu/kT6o6zwwQnyqFOFdOyIzqyzU3WfR/hJC8WxUZXSCo2LkuoqapL8VDDMQPg==}
+  virtua@0.48.5:
+    resolution: {integrity: sha512-REjLvX8tGzNQYyJ+remkpK3a7CI0tXPyiyxvL419X+FbBUIa3Org7Bd1OWYXdC6jXqhuW5JFOtGD6qQrM2JnjQ==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
@@ -3152,11 +3150,11 @@ snapshots:
       tailwindcss: 4.1.18
       vite: 6.4.1(jiti@2.6.1)(lightningcss@1.30.2)
 
-  '@tanstack/query-core@https://pkg.pr.new/TanStack/query/@tanstack/query-core@746b9c5': {}
+  '@tanstack/query-core@5.90.20': {}
 
-  '@tanstack/svelte-query@https://pkg.pr.new/@tanstack/svelte-query@746b9c5(svelte@5.50.0)':
+  '@tanstack/svelte-query@6.0.18(svelte@5.50.0)':
     dependencies:
-      '@tanstack/query-core': https://pkg.pr.new/TanStack/query/@tanstack/query-core@746b9c5
+      '@tanstack/query-core': 5.90.20
       svelte: 5.50.0
 
   '@testing-library/dom@10.4.1':
@@ -4393,7 +4391,7 @@ snapshots:
       svelte: 5.50.0
       svelte-toolbelt: 0.7.1(svelte@5.50.0)
 
-  virtua@0.41.5(svelte@5.50.0):
+  virtua@0.48.5(svelte@5.50.0):
     optionalDependencies:
       svelte: 5.50.0
 
