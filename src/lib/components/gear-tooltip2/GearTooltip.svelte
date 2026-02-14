@@ -204,6 +204,12 @@
 				<DetailText color="gray" value={getSetItemLine(gear)} />
 			</div>
 		{/if}
+		{#if gear.attributes.skills.length > 0}
+			<div class="flex">
+				<DetailText color="gray" class="w-[85px]" value="사용 가능 스킬" />
+				<DetailText color="gray" value={gear.attributes.skills.join(', ')} />
+			</div>
+		{/if}
 		{#if gear.attributes.attackSpeed || isWeapon(gear.type) || gear.type === GearType.katara}
 			<div class="flex">
 				<DetailText color="gray" class="w-[85px]" value="공격 속도" />
