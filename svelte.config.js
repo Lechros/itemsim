@@ -8,14 +8,8 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
-		adapter: adapter(),
-		files: {
-			routes: 'src/routes',
-			lib: 'src/lib',
-			appTemplate: 'src/app.html',
-			assets: 'static'
-		}
-	}
+		adapter: adapter()
+	},
 };
 
 export default config;
