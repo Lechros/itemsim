@@ -73,7 +73,7 @@
 <Virtualizer
 	data={rows}
 	getKey={(row) => `${row[0].seq}-${row[row.length - 1].seq}`}
-	overscan={1}
+	bufferSize={150}
 	scrollRef={scrollRef ?? undefined}
 	{startMargin}
 >
