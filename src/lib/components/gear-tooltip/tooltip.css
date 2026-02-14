@@ -21,6 +21,14 @@
 	line-height: 16px;
 }
 
+.gt--tag {
+	font-family: 'Dotum';
+	font-weight: bold;
+	font-size: 11px;
+	line-height: 14px;
+	white-space: pre-wrap;
+}
+
 .gt--white {
 	color: rgb(255, 255, 255);
 }
