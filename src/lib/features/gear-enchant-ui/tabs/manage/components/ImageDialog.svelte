@@ -4,13 +4,15 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
+	import type { SettingsStore } from '$lib/stores/settings.svelte';
 	import { ReadonlyGear } from '@malib/gear';
 	import { toPng } from 'html-to-image';
 	import { AlertCircle, Loader2 } from 'lucide-svelte';
-	import { untrack } from 'svelte';
+	import { getContext, untrack } from 'svelte';
 	import { devicePixelRatio } from 'svelte/reactivity/window';
+
 	let {
-		gear
+		gear,
 	}: {
 		gear: ReadonlyGear;
 	} = $props();
@@ -20,6 +22,8 @@
 	let container: HTMLDivElement | null = $state(null);
 	let dataUrl: string | null = $state(null);
 	let maybeInvalidImage = $state(false);
+
+	const settingsStore = getContext<SettingsStore>('settingsStore');
 
 	$effect(() => {
 		if (container && open) {
@@ -68,7 +72,7 @@
 
 		{#if dataUrl}
 			<div class="flex flex-col gap-2">
-				<img src={dataUrl} alt={gear.name} class="max-w-none" style="width: 324px" />
+				<img src={dataUrl} alt={gear.name} class="max-w-none" style={settingsStore.tooltipVersion === '1' ? "width: 261px" : "width: 324px"} />
 				{#if maybeInvalidImage}
 					<Alert.Root variant="destructive">
 						<AlertCircle />
@@ -80,7 +84,12 @@
 		{:else}
 			<div class="relative">
 				<div bind:this={container}>
-					<GearTooltipRenderer {gear} incline={{ combat: 0 }} />
+					<GearTooltipRenderer
+						{gear}
+						tooltipVersion={settingsStore.tooltipVersion}
+						tooltip1Options={settingsStore.tooltip1Options}
+						tooltip2Options={settingsStore.tooltip2Options}
+					/>
 				</div>
 				<Skeleton class="absolute inset-0" />
 			</div>

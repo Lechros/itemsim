@@ -26,8 +26,14 @@
 	let {
 		gear,
 		tooltipVersion = '2',
-		...props
-	}: { gear: ReadonlyGear; tooltipVersion: '1' | '2' } & (Tooltip1Props | Tooltip2Props) = $props();
+		tooltip1Options,
+		tooltip2Options
+	}: {
+		gear: ReadonlyGear;
+		tooltipVersion: '1' | '2';
+		tooltip1Options: Tooltip1Props;
+		tooltip2Options: Tooltip2Props;
+	} = $props();
 
 	const setItems = useSetItems();
 	const exclusiveEquips = useExclusiveEquips();
@@ -37,7 +43,7 @@
 </script>
 
 {#if tooltipVersion === '1'}
-	<GearTooltip {gear} {loadExclusiveEquips} {...props as Tooltip1Props} />
+	<GearTooltip {gear} {loadExclusiveEquips} {...tooltip1Options} />
 {:else if tooltipVersion === '2'}
-	<GearTooltip2 {gear} {loadSetItemName} {loadExclusiveEquips} {...props as Tooltip2Props} />
+	<GearTooltip2 {gear} {loadSetItemName} {loadExclusiveEquips} {...tooltip2Options} />
 {/if}

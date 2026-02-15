@@ -13,9 +13,12 @@
 	import GearUpgradeUI from '$lib/features/gear-enchant-ui/tabs/upgrade/GearUpgradeUI.svelte';
 	import GearTooltipButton from '$lib/features/gear-enchant-ui/tooltip/GearTooltipButton.svelte';
 	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
+	import type { SettingsStore } from '$lib/stores/settings.svelte';
 	import type { Gear } from '@malib/gear';
+	import { getContext } from 'svelte';
 	import GearManageUI from './tabs/manage/GearManageUI.svelte';
 	import { tabs } from './tabs/tabs';
+
 	let {
 		gear,
 		seq,
@@ -25,7 +28,10 @@
 		gear: Gear;
 		seq: number;
 		initialTab?: string;
-		onGearUpdated?: (newGear: import('@malib/gear').GearData, newHash: string) => void | Promise<void>;
+		onGearUpdated?: (
+			newGear: import('@malib/gear').GearData,
+			newHash: string
+		) => void | Promise<void>;
 	} = $props();
 
 	const tabStore = $derived(
@@ -34,6 +40,8 @@
 			initialTab
 		)
 	);
+	
+	const settingsStore = getContext<SettingsStore>('settingsStore');
 </script>
 
 <div class="mx-auto flex w-full px-2">
@@ -93,7 +101,12 @@
 
 	<div class="sticky top-14 hidden h-[calc(100svh-56px)] md:flex">
 		<div class="overflow-y-auto px-2 py-6" style="scrollbar-width: none">
-			<GearTooltipRenderer {gear} incline={{ combat: 0 }} expand />
+			<GearTooltipRenderer
+				{gear}
+				tooltipVersion={settingsStore.tooltipVersion}
+				tooltip1Options={settingsStore.tooltip1Options}
+				tooltip2Options={settingsStore.tooltip2Options}
+			/>
 		</div>
 	</div>
 </div>

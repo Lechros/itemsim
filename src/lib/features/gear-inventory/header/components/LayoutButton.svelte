@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { buttonVariants } from '$lib/components/ui/button';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import type { LayoutStore } from '$lib/features/gear-inventory/header/model/LayoutStore.svelte.js';
 	import { LayoutGrid, LayoutList } from 'lucide-svelte';
+	import type { SettingsStore } from '$lib/stores/settings.svelte';
 
 	let {
-		layoutStore
+		settingsStore
 	}: {
-		layoutStore: LayoutStore;
+		settingsStore: SettingsStore;
 	} = $props();
 
 	const columnItems = [
@@ -20,7 +20,7 @@
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger class={buttonVariants({ variant: 'outline', size: 'icon' })}>
-		{#if layoutStore.layout === 'grid'}
+		{#if settingsStore.layout === 'grid'}
 			<LayoutGrid />
 		{:else}
 			<LayoutList />
@@ -28,7 +28,7 @@
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content>
 		<DropdownMenu.Label>보기</DropdownMenu.Label>
-		<DropdownMenu.RadioGroup bind:value={layoutStore.layout}>
+		<DropdownMenu.RadioGroup bind:value={settingsStore.layout}>
 			<DropdownMenu.RadioItem value="grid">
 				<LayoutGrid /> 바둑판
 			</DropdownMenu.RadioItem>
@@ -40,12 +40,12 @@
 		<DropdownMenu.Label>최대 열 개수</DropdownMenu.Label>
 		<DropdownMenu.RadioGroup
 			bind:value={
-				() => String(layoutStore.columns),
-				(v) => (layoutStore.columns = v === 'auto' ? 'auto' : Number(v))
+				() => String(settingsStore.columns),
+				(v) => (settingsStore.columns = v === 'auto' ? 'auto' : Number(v))
 			}
 		>
 			{#each columnItems as item}
-				<DropdownMenu.RadioItem value={String(item.value)} disabled={layoutStore.layout === 'list'}>
+				<DropdownMenu.RadioItem value={String(item.value)} disabled={settingsStore.layout === 'list'}>
 					{item.label}
 				</DropdownMenu.RadioItem>
 			{/each}
