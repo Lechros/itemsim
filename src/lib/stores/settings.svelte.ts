@@ -6,10 +6,11 @@ export interface Settings {
 	layout: 'grid' | 'list';
 	columns: 'auto' | number;
 	tooltipVersion: '1' | '2';
-	tooltip1Options: Omit<ComponentProps<typeof GearTooltip>, 'gear' | 'loadExclusiveEquips'>;
-	tooltip2Options: Omit<
-		ComponentProps<typeof GearTooltip2>,
-		'gear' | 'loadSetItemName' | 'loadExclusiveEquips'
+	tooltip1Options: Required<
+		Omit<ComponentProps<typeof GearTooltip>, 'gear' | 'loadExclusiveEquips'>
+	>;
+	tooltip2Options: Required<
+		Omit<ComponentProps<typeof GearTooltip2>, 'gear' | 'loadSetItemName' | 'loadExclusiveEquips'>
 	>;
 }
 
@@ -17,8 +18,12 @@ export class SettingsStore implements Settings {
 	layout = $state<Settings['layout']>('grid');
 	columns = $state<Settings['columns']>('auto');
 	tooltipVersion = $state<Settings['tooltipVersion']>('2');
-	tooltip1Options = $state<Settings['tooltip1Options']>({ incline: { combat: 0 } });
-	tooltip2Options = $state<Settings['tooltip2Options']>({ incline: { combat: 0 } });
+	tooltip1Options = $state<Settings['tooltip1Options']>({ cannot: {}, incline: { combat: 0 } });
+	tooltip2Options = $state<Settings['tooltip2Options']>({
+		cannot: {},
+		expand: false,
+		incline: { combat: 0 }
+	});
 
 	constructor() {
 		$effect.pre(() => {
