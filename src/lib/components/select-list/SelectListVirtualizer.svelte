@@ -6,7 +6,7 @@
 
 	let {
 		items,
-		children,
+		children: childrenProp,
 		getKey,
 		startMargin = 0,
 		scrollRef,
@@ -55,6 +55,24 @@
 			}
 		}
 	}
+
+	/**
+	 * Virtua 0.48.5에서 getKey에 undefined가 전달되는 경우가 있어,
+	 * 함수에 undefined가 전달될 경우 index로부터 임시 키를 반환하도록 한다.
+	 */
+	function createSafeGetKey<T>(
+		getKey: (item: T) => string
+	): (item: T | undefined, index: number) => string {
+		return (item, index) => (item === undefined ? `__temp_${index}` : getKey(item));
+	}
+
+	const safeGetKey = $derived(getKey ? createSafeGetKey(getKey) : undefined);
 </script>
 
-<Virtualizer data={items} {getKey} {startMargin} scrollRef={scrollRef} {children} />
+<Virtualizer data={items} getKey={safeGetKey} {startMargin} {scrollRef}>
+	{#snippet children(item, index)}
+		{#if item}
+			{@render childrenProp(item, index)}
+		{/if}
+	{/snippet}
+</Virtualizer>
