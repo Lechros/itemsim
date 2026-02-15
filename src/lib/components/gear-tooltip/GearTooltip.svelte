@@ -123,7 +123,7 @@
 
 <Frame>
 	{#if gear.itemTag}
-		<div class="flex -mt-px mb-[11px]">
+		<div class="flex -mt-[2px] mb-[11px]">
 			<div class="gt--tag gt--orange">{gear.itemTag}</div>
 			<div class="gt--tag gt--white">{' '}의</div>
 		</div>

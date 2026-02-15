@@ -6,5 +6,5 @@
 	opacity: 0 !important;
 }
 .gt-image-renderer.gt--hidden-except-text * {
-	background: transparent !important;
+	background-image: none !important;
 }
