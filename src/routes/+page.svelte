@@ -17,11 +17,12 @@
 		createGearLiveQuery,
 		GearInventoryHeader
 	} from '$lib/features/gear-inventory/header';
-	import { createLayoutStore } from '$lib/features/gear-inventory/header/model/LayoutStore.svelte.js';
 	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
 	import { MainNavbar } from '$lib/features/navigation/main-navbar';
 	import { ScrollTopButton } from '$lib/features/scroll-top-button';
 	import { extractGearData } from '$lib/stores/gear-inventory';
+	import { getContext } from 'svelte';
+import type { SettingsStore } from '$lib/stores/settings.svelte';
 	import { createPointerDetection } from '$lib/utils';
 	import { type GearData, ReadonlyGear } from '@malib/gear';
 	import { Folder, Loader2 } from 'lucide-svelte';
@@ -38,7 +39,7 @@
 
 	let mode = $state<'default' | 'delete'>('default');
 
-	const layoutStore = createLayoutStore();
+	const settingsStore = getContext<SettingsStore>('settingsStore')!;
 
 	let viewportRef = $state<HTMLElement | null>(null);
 	let scrollY = $state(0);
@@ -99,7 +100,7 @@
 		{deleter}
 		{scrollY}
 		bind:mode
-		{layoutStore}
+		{settingsStore}
 		top={NAVBAR_HEIGHT}
 		{onModeChange}
 	/>
@@ -118,7 +119,7 @@
 				items={gearQuery.value}
 				startMargin={NAVBAR_HEIGHT + FLOATING_HEIGHT}
 				scrollRef={viewportRef}
-				maxColumns={layoutStore.columns === 'auto' ? undefined : layoutStore.columns}
+				maxColumns={settingsStore.columns === 'auto' ? undefined : settingsStore.columns}
 			>
 				{#snippet children(item)}
 					{#if mode === 'delete'}
@@ -178,7 +179,12 @@
 <!-- Pointer fine 장치에서만 호버 툴팁 표시 -->
 {#if hoverGearData && pointerDetection.isPointerFine}
 	<FollowCursor paddingRight={9}>
-		<GearTooltipRenderer gear={new ReadonlyGear(hoverGearData)} incline={{ combat: 0 }} />
+		<GearTooltipRenderer
+			gear={new ReadonlyGear(hoverGearData)}
+			tooltipVersion={settingsStore.tooltipVersion}
+			tooltip1Options={settingsStore.tooltip1Options}
+			tooltip2Options={settingsStore.tooltip2Options}
+		/>
 	</FollowCursor>
 {/if}
 

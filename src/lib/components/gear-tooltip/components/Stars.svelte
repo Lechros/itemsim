@@ -45,10 +45,10 @@
 
 {#snippet starIcon(color: 'yellow' | 'blue', isEmpty: boolean)}
 	{#if isEmpty}
-		<UIImage image="emptyStar" />
+		<UIImage image="emptyStar" class="-mr-px" />
 	{:else if color === 'yellow'}
-		<UIImage image="yellowStar" />
+		<UIImage image="yellowStar" class="-mr-px" />
 	{:else}
-		<UIImage image="blueStar" />
+		<UIImage image="blueStar" class="-mr-px" />
 	{/if}
 {/snippet}

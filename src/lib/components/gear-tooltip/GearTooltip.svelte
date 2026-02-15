@@ -1,12 +1,12 @@
 <script lang="ts">
 	import {
 		GearCapability,
-		type Gear,
+		ReadonlyGear,
 		type GearAddOption,
 		type GearStarforceOption,
 		type GearUpgradeOption
 	} from '@malib/gear';
-	import { getDescriptions, getExtraJobReqString, getTags } from './model/strings';
+	import { josa } from 'es-hangul';
 	import Attributes from './components/Attributes.svelte';
 	import Description from './components/description/Description.svelte';
 	import DescriptionsWrapper from './components/description/DescriptionsWrapper.svelte';
@@ -49,36 +49,30 @@
 	import Incline from './components/summary/Incline.svelte';
 	import ReqLevel from './components/summary/req/ReqLevel.svelte';
 	import ReqRow from './components/summary/req/ReqRow.svelte';
+	import ReqStat from './components/summary/req/ReqStat.svelte';
 	import ReqWrapper from './components/summary/req/ReqWrapper.svelte';
 	import SummaryDetailWrapper from './components/summary/SummaryDetailWrapper.svelte';
 	import SummaryWrapper from './components/summary/SummaryWrapper.svelte';
 	import NameTitle from './components/title/NameTitle.svelte';
 	import SoulTitle from './components/title/SoulTitle.svelte';
 	import TitleWrapper from './components/title/TitleWrapper.svelte';
+	import { getDescriptions, getExtraJobReqString, getTags } from './model/strings';
 	import './tooltip.css';
-	import ReqStat from './components/summary/req/ReqStat.svelte';
 
 	let {
 		gear,
-		incline,
 		cannot = {},
-		diff = { pdd: 0, bdr: 0, igpddr: 0 }
+		incline,
+		loadExclusiveEquips
 	}: {
-		gear: Gear;
-		incline: { attack: number } | { combat: number } | { attack: number; combat: number };
+		gear: ReadonlyGear;
 		cannot?: {
 			level?: boolean;
-			str?: boolean;
-			dex?: boolean;
-			int?: boolean;
-			luk?: boolean;
 			job?: boolean;
+			gender?: boolean;
 		};
-		diff?: {
-			pdd: number;
-			bdr: number;
-			igpddr: number;
-		};
+		incline: { combat: number } | { attack: number } | { attack: number; combat: number };
+		loadExclusiveEquips: (gearId: number) => string[];
 	} = $props();
 
 	const tags = $derived(
@@ -123,14 +117,23 @@
 			starScroll: gear.starScroll
 		})
 	);
+
+	const exclusiveEquips = $derived(loadExclusiveEquips(gear.id));
 </script>
 
 <Frame>
+	{#if gear.itemTag}
+		<div class="flex -mt-px mb-[11px]">
+			<div class="gt--tag gt--orange">{gear.itemTag}</div>
+			<div class="gt--tag gt--white">{' '}의</div>
+		</div>
+	{/if}
 	<Stars star={gear.star} maxStar={gear.maxStar} color={gear.starScroll ? 'blue' : 'yellow'} />
 	<TitleWrapper>
 		<SoulTitle soulName={gear.soul?.name} />
 		<NameTitle
 			name={gear.name}
+			gender={gear.req.gender}
 			scrollUpgradeCount={gear.scrollUpgradeCount}
 			color={gear.scrollUpgradeCount > 0 ? 'red' : 'white'}
 		/>
@@ -164,22 +167,22 @@
 				</ReqRow>
 				<Spacer height={9} />
 				<ReqRow>
-					<ReqStat type="str" value={0} can={!cannot.str} />
-					<ReqStat type="luk" value={0} can={!cannot.luk} />
+					<ReqStat type="str" value={0} can={true} />
+					<ReqStat type="luk" value={0} can={true} />
 				</ReqRow>
 				<Spacer height={3} />
 				<ReqRow>
-					<ReqStat type="dex" value={0} can={!cannot.dex} />
-					<ReqStat type="int" value={0} can={!cannot.int} />
+					<ReqStat type="dex" value={0} can={true} />
+					<ReqStat type="int" value={0} can={true} />
 				</ReqRow>
 			</ReqWrapper>
 		</SummaryDetailWrapper>
 	</SummaryWrapper>
 	<Spacer height={5} />
 	<DiffExtraWrapper>
-		<DiffExtra type="pdd" value={diff.pdd} />
-		<DiffExtra type="bdr" value={diff.bdr} percent />
-		<DiffExtra type="igpddr" value={diff.igpddr} percent />
+		<DiffExtra type="pdd" value={0} />
+		<DiffExtra type="bdr" value={0} percent />
+		<DiffExtra type="igpddr" value={0} percent />
 	</DiffExtraWrapper>
 	<Spacer height={3} />
 	<JobReq reqJob={gear.req.job} message={getExtraJobReqString(gear.type)} can={!cannot.job} />
@@ -207,9 +210,11 @@
 			cannotUpgrade={gear.attributes.canScroll !== GearCapability.Can}
 		/>
 		<DetailCuttableCount cuttableCount={gear.attributes.cuttableCount} />
-		<DetailCannotPotential cannotPotential={!gear.supportsPotential} />
+		<DetailCannotPotential
+			cannotPotential={gear.attributes.canPotential === GearCapability.Cannot}
+		/>
 		<DetailCannotAdditionalPotential
-			cannotAdditionalPotential={!gear.supportsAdditionalPotential}
+			cannotAdditionalPotential={gear.attributes.canAdditionalPotential === GearCapability.Cannot}
 		/>
 		<DetailSuperiorDesc superior={gear.attributes.superior} />
 	</DetailWrapper>
@@ -235,7 +240,7 @@
 		{/snippet}
 		<PotentialLabel grade={gear.additionalPotentialGrade} label="에디셔널 잠재옵션" />
 		<PotentialOptionsWrapper>
-			{#each gear.potentials as potential}
+			{#each gear.additionalPotentials as potential}
 				<PotentialOption summary="+ {potential.summary}" />
 			{/each}
 		</PotentialOptionsWrapper>
@@ -277,6 +282,16 @@
 			{#each descriptions as description}
 				<Description {description} />
 			{/each}
+		</DescriptionsWrapper>
+	{/if}
+	{#if exclusiveEquips.length > 0}
+		<Spacer height={descriptions.length > 0 ? 10 : 2} />
+		<DotLine />
+		<Spacer height={4} />
+		<DescriptionsWrapper>
+			<div class="gt--detail gt--orange">
+				{josa(exclusiveEquips.join(', '), '은/는')} 중복 착용이 불가능합니다.
+			</div>
 		</DescriptionsWrapper>
 	{/if}
 	<ShapeWrapper shape={gear.shape}>

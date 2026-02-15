@@ -64,7 +64,7 @@ export function getDescriptions({
 		);
 	}
 
-	if (incline) {
+	if (incline && Object.values(incline).some((value) => value > 0)) {
 		const traits = [
 			['카리스마', incline.charisma],
 			['통찰력', incline.insight],
@@ -486,6 +486,14 @@ export function getGearTypeString(type: GearType) {
 			return '차크람';
 		case GearType.hexSeeker:
 			return '헥스시커';
+
+		case GearType.longSword2:
+			return '장검';
+		case GearType.sacredJewel:
+			return '여의보주';
+
+		case GearType.hourGlass:
+			return '모래시계';
 	}
 }
 

@@ -3,12 +3,12 @@
 	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { Skeleton } from '$lib/components/ui/skeleton';
-	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
+	import GearTooltipImageRenderer from '$lib/features/gear-tooltip-image-renderer/GearTooltipImageRenderer.svelte';
+	import type { SettingsStore } from '$lib/stores/settings.svelte';
 	import { ReadonlyGear } from '@malib/gear';
-	import { toPng } from 'html-to-image';
 	import { AlertCircle, Loader2 } from 'lucide-svelte';
-	import { untrack } from 'svelte';
-	import { devicePixelRatio } from 'svelte/reactivity/window';
+	import { getContext } from 'svelte';
+
 	let {
 		gear
 	}: {
@@ -16,28 +16,12 @@
 	} = $props();
 
 	let open = $state(false);
-
-	let container: HTMLDivElement | null = $state(null);
-	let dataUrl: string | null = $state(null);
+	let dataUrl = $state<string | null>(null);
 	let maybeInvalidImage = $state(false);
 
-	$effect(() => {
-		if (container && open) {
-			untrack(() => {
-				const expectedWidth = container!.clientWidth;
-				toPng(container!, { cacheBust: true }).then((url) => {
-					dataUrl = url;
-					const newImg = document.createElement('img');
-					newImg.src = url;
-					newImg.onload = () => {
-						const imageWidth = newImg.width;
-						maybeInvalidImage = imageWidth !== expectedWidth || devicePixelRatio.current !== 1;
-						newImg.remove();
-					};
-				});
-			});
-		}
-	});
+	const settingsStore = getContext<SettingsStore>('settingsStore');
+
+	const tooltipVersion = $derived(settingsStore.tooltipVersion);
 
 	const onOpenChangeComplete = (open: boolean) => {
 		if (!open) {
@@ -68,7 +52,7 @@
 
 		{#if dataUrl}
 			<div class="flex flex-col gap-2">
-				<img src={dataUrl} alt={gear.name} class="max-w-none" style="width: 324px" />
+				<img src={dataUrl} alt={gear.name} class="max-w-none" />
 				{#if maybeInvalidImage}
 					<Alert.Root variant="destructive">
 						<AlertCircle />
@@ -79,9 +63,14 @@
 			</div>
 		{:else}
 			<div class="relative">
-				<div bind:this={container}>
-					<GearTooltipRenderer {gear} incline={{ combat: 0 }} />
-				</div>
+				<GearTooltipImageRenderer
+					{gear}
+					{tooltipVersion}
+					tooltip1Options={settingsStore.tooltip1Options}
+					tooltip2Options={settingsStore.tooltip2Options}
+					bind:dataUrl
+					bind:maybeInvalidImage
+				/>
 				<Skeleton class="absolute inset-0" />
 			</div>
 		{/if}

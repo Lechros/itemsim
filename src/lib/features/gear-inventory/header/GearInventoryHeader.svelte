@@ -13,7 +13,7 @@
 	import type { Deleter } from './model/Deleter.svelte';
 	import type { GearCountLiveQuery } from './model/GearCountLiveQuery.svelte';
 	import type { GearLiveQuery } from './model/GearLiveQuery.svelte';
-	import type { LayoutStore } from './model/LayoutStore.svelte.js';
+	import type { SettingsStore } from '$lib/stores/settings.svelte';
 
 	type Mode = 'default' | 'delete';
 
@@ -23,7 +23,7 @@
 		deleter,
 		scrollY,
 		mode = $bindable('default'),
-		layoutStore,
+		settingsStore,
 		top,
 		onModeChange
 	}: {
@@ -32,7 +32,7 @@
 		deleter: Deleter;
 		scrollY: number;
 		mode: Mode;
-		layoutStore: LayoutStore;
+		settingsStore: SettingsStore;
 		top: number;
 		onModeChange: (mode: Mode) => void;
 	} = $props();
@@ -88,7 +88,7 @@
 				<SortButton bind:sort={gearQuery.sort} />
 			</div>
 			<div>
-				<LayoutButton {layoutStore} />
+				<LayoutButton {settingsStore} />
 			</div>
 		</div>
 		{#if mode === 'delete'}
