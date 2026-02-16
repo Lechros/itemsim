@@ -49,19 +49,19 @@
 </script>
 
 {#if gear.starScroll}
-	<FormSection class="border-b-0 pb-0">
+	<FormSection class="border-b-0 px-5 pb-0">
 		<FormItem>
-			<Alert.Root variant="destructive">
+			<Alert.Root>
 				<CircleAlert />
-				<Alert.Title>놀라운 장비 강화 스크롤이 적용된 장비에요.</Alert.Title>
+				<Alert.Title>스타포스가 불가능한 상태에요.</Alert.Title>
 				<Alert.Description>
 					<p>
-						<button
-							class="cursor-pointer underline underline-offset-4"
+						스타포스를 적용하려면 <button
+							class="text-foreground hover:text-accent-foreground cursor-pointer underline underline-offset-4 transition-colors"
 							onclick={() => (currentTab = 'starScroll')}
 						>
 							장비 강화
-						</button> 탭에서 강화를 초기화한 이후에 스타포스를 적용할 수 있어요.
+						</button> 탭에서 놀라운 장비 강화를 초기화해주세요.
 					</p>
 				</Alert.Description>
 			</Alert.Root>

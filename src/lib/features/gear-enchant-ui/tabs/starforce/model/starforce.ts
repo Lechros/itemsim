@@ -21,7 +21,7 @@ export function getImplicitMaxStar(gear: Gear, ignoreMaxStar: boolean) {
 }
 
 export function canAddStarforce(gear: Gear, star: number, ignoreMaxStar: boolean) {
-	return !gear.starScroll && gear.star + star <= getImplicitMaxStar(gear, ignoreMaxStar);
+	return gear.star + star <= getImplicitMaxStar(gear, ignoreMaxStar);
 }
 
 export function addStarforce(gear: Gear, star: number, ignoreMaxStar: boolean) {
