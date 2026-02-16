@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Toggle } from '$lib/components/ui/toggle';
+	import { cn } from '$lib/utils';
 	import { Check } from 'lucide-svelte';
 	import { getContext, type Snippet } from 'svelte';
 	import type { SelectListContextType } from './types';
@@ -9,13 +10,15 @@
 		selected = $bindable(false),
 		onSelect,
 		onDeselect,
-		children
+		children,
+		class: className
 	}: {
 		value: string;
 		selected?: boolean;
 		onSelect?: () => void;
 		onDeselect?: () => void;
 		children?: Snippet;
+		class?: string;
 	} = $props();
 
 	const { toggle, isSelected } = getContext<SelectListContextType>('SelectList');
@@ -26,7 +29,7 @@
 </script>
 
 <Toggle
-	class="h-12 w-full justify-start"
+	class={cn('h-12 w-full justify-start', className)}
 	bind:pressed={() => isSelected(value), () => toggle(value)}
 	onPressedChange={(v) => (v ? onSelect?.() : onDeselect?.())}
 >
