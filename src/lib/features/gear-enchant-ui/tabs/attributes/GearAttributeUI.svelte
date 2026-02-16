@@ -1,12 +1,18 @@
 <script lang="ts">
-	import { ButtonGroup } from '$lib/components/button-group';
-	import { Button } from '$lib/components/ui/button';
+	import { Button, buttonVariants } from '$lib/components/ui/button';
+	import * as Dialog from '$lib/components/ui/dialog';
 	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
-	import * as RadioGroup from '$lib/components/ui/radio-group';
+	import * as InputGroup from '$lib/components/ui/input-group';
+	import * as Select from '$lib/components/ui/select';
+	import * as Tabs from '$lib/components/ui/tabs';
 	import { Gear } from '@malib/gear';
+	import { Minus, Plus } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
-	import AnvilDialog from './components/AnvilDialog.svelte';
+	import FormControl from '../../form/FormControl.svelte';
+	import FormItem from '../../form/FormItem.svelte';
+	import FormLabel from '../../form/FormLabel.svelte';
+	import FormSection from '../../form/FormSection.svelte';
+	import ShapeDialogContent from './components/ShapeDialogContent.svelte';
 	import { isShapeChangeableGear } from './model/anvil';
 	import {
 		cuttableTypes,
@@ -30,172 +36,296 @@
 	$effect(() => {
 		setCuttableCount(gear, cuttableCount);
 	});
+
+	const canIncreaseLevelIncrease = $derived(80 <= gear.req.level && gear.req.level <= 110);
+	const canShapeChange = $derived(isShapeChangeableGear(gear));
+
+	const selectedTradeLabel = $derived(
+		tradeTypes.find((t) => t.value === gear.attributes.trade)?.label ?? ''
+	);
+	const selectedCuttableLabel = $derived(
+		cuttableTypes.find((c) => c.value === gear.attributes.cuttable)?.label ?? ''
+	);
+
+	/** 한 항목: 왼쪽 제목·설명, 오른쪽 컨트롤 */
+	const groupClass = 'flex flex-col px-6 py-5 gap-6 border-t first:border-t-0';
+	const rowClass = 'flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3';
+	const labelWrapClass = 'flex min-w-0 flex-col';
+	const controlClass = 'shrink-0 sm:text-right';
+
+	let inputRef = $state<HTMLInputElement | null>(null);
 </script>
 
-<div class="flex flex-col gap-8">
-	<div class="flex flex-col gap-2">
-		<h4 class="text-lg font-semibold">교환 가능 여부</h4>
-		<RadioGroup.Root
-			bind:value={
-				() => String(gear.attributes.trade),
-				(v) => {
-					gear.data.attributes.trade = Number(v);
-				}
-			}
-		>
-			{#each tradeTypes as tradeType}
-				<div class="flex items-center gap-2">
-					<RadioGroup.Item value={String(tradeType.value)} id={`GearTrade.${tradeType.value}`} />
-					<Label for={`GearTrade.${tradeType.value}`}>{tradeType.label}</Label>
-				</div>
-			{/each}
-		</RadioGroup.Root>
-	</div>
+<div class="flex flex-col">
+	<!-- 교환 가능 여부 -->
+	<FormSection>
+		<FormItem>
+			<FormLabel title="교환 가능 여부" for="tradeType" />
+			<FormControl>
+				<Select.Root
+					type="single"
+					bind:value={
+						() => String(gear.attributes.trade),
+						(v) => {
+							gear.data.attributes.trade = Number(v);
+						}
+					}
+				>
+					<Select.Trigger id="tradeType" class="min-w-40">
+						{selectedTradeLabel}
+					</Select.Trigger>
+					<Select.Content>
+						{#each tradeTypes as tradeType}
+							<Select.Item value={String(tradeType.value)} label={tradeType.label}>
+								{tradeType.label}
+							</Select.Item>
+						{/each}
+					</Select.Content>
+				</Select.Root>
+			</FormControl>
+		</FormItem>
+	</FormSection>
 
-	<div class="flex flex-col gap-2">
-		<h4 class="text-lg font-semibold">카르마의 가위</h4>
-		<RadioGroup.Root
-			bind:value={
-				() => String(gear.attributes.cuttable),
-				(v) => {
-					gear.data.attributes.cuttable = Number(v);
-				}
-			}
-		>
-			{#each cuttableTypes as cuttableType}
-				<div class="flex items-center gap-2">
-					<RadioGroup.Item
-						value={String(cuttableType.value)}
-						id={`GearCuttable.${cuttableType.value}`}
-					/>
-					<Label for={`GearCuttable.${cuttableType.value}`}>{cuttableType.label}</Label>
-				</div>
-			{/each}
-		</RadioGroup.Root>
-		<div class="flex flex-col gap-1">
-			<h5 class="mt-2 text-sm font-medium">최대 가위 사용 횟수</h5>
-			<ButtonGroup>
-				{#each totalCuttableCounts as count}
-					<Button
-						variant={gear.attributes.totalCuttableCount === count.value ? 'default' : 'outline'}
-						class={[gear.attributes.totalCuttableCount === count.value && 'border-primary border']}
-						onclick={() => {
-							setTotalCuttableCount(gear, count.value);
-							cuttableCount = gear.data.attributes.cuttableCount;
-						}}
-						disabled={!gear.attributes.cuttable}
+	<!-- 카르마의 가위 -->
+	<FormSection>
+		<FormItem>
+			<FormLabel title="카르마의 가위" for="cuttableType" />
+			<FormControl>
+				<Select.Root
+					type="single"
+					bind:value={
+						() => String(gear.attributes.cuttable),
+						(v) => {
+							gear.data.attributes.cuttable = Number(v);
+						}
+					}
+				>
+					<Select.Trigger id="cuttableType" class="min-w-40">
+						{selectedCuttableLabel}
+					</Select.Trigger>
+					<Select.Content>
+						{#each cuttableTypes as cuttableType}
+							<Select.Item value={String(cuttableType.value)} label={cuttableType.label}>
+								{cuttableType.label}
+							</Select.Item>
+						{/each}
+					</Select.Content>
+				</Select.Root>
+			</FormControl>
+		</FormItem>
+		{#if gear.attributes.cuttable}
+			<FormItem>
+				<FormLabel title="최대 가위 사용 횟수" variant="nested" />
+				<FormControl>
+					<Tabs.Root
+						bind:value={
+							() =>
+								gear.attributes.totalCuttableCount === undefined
+									? 'none'
+									: String(gear.attributes.totalCuttableCount),
+							(v) => {
+								setTotalCuttableCount(gear, v === 'none' ? undefined : Number(v));
+								cuttableCount = gear.data.attributes.cuttableCount;
+							}
+						}
 					>
-						{count.label}
-					</Button>
-				{/each}
-			</ButtonGroup>
-		</div>
-		<div class="mt-2 flex flex-col gap-1">
-			<div class="flex flex-col gap-1.5">
-				<Label for="cuttableCount">가위 사용 잔여 횟수</Label>
-				<Input
-					type="number"
-					min={0}
-					max={gear.attributes.totalCuttableCount}
-					bind:value={cuttableCount}
-					disabled={gear.attributes.totalCuttableCount === undefined}
-					aria-invalid={cuttableCountError !== undefined}
-					id="cuttableCount"
-				/>
-				{#if cuttableCountError}
-					<p class="text-destructive text-sm">{cuttableCountError}</p>
-				{/if}
-			</div>
-		</div>
-	</div>
-
-	{#if 80 <= gear.req.level && gear.req.level <= 110}
-		<div class="flex flex-col gap-2">
-			<div>
-				<h4 class="text-lg font-semibold">착용 레벨 증가</h4>
-				<p class="text-muted-foreground text-sm">
-					잠재능력과 에디셔널 잠재능력 수치는 자동으로 업데이트되지 않아요.
-				</p>
-			</div>
-			<ButtonGroup>
-				{#each reqLevelIncreases as reqLevelIncrease}
-					<Button
-						variant={gear.req.levelIncrease === reqLevelIncrease.value ? 'default' : 'outline'}
-						class={[gear.req.levelIncrease === reqLevelIncrease.value && 'border-primary border']}
-						onclick={() => (gear.data.req.levelIncrease = reqLevelIncrease.value)}
-					>
-						{reqLevelIncrease.label}
-					</Button>
-				{/each}
-			</ButtonGroup>
-		</div>
-	{/if}
-
-	<div class="flex flex-col gap-2">
-		<h4 class="text-lg font-semibold">이름 새기기</h4>
-		<Input
-			type="text"
-			bind:value={itemTag}
-			aria-invalid={itemTagError !== undefined}
-			oninput={() => (itemTagError = undefined)}
-		/>
-		{#if itemTagError}
-			<p class="text-destructive text-sm">{itemTagError}</p>
+						<Tabs.List class="w-full sm:w-auto">
+							{#each totalCuttableCounts as count}
+								<Tabs.Trigger
+									value={count.value === undefined ? 'none' : String(count.value)}
+									class="px-3"
+								>
+									{count.label}
+								</Tabs.Trigger>
+							{/each}
+						</Tabs.List>
+					</Tabs.Root>
+				</FormControl>
+			</FormItem>
+			{#if gear.attributes.totalCuttableCount}
+				<FormItem>
+					<FormLabel title="가위 사용 잔여 횟수" variant="nested" />
+					<FormControl>
+						<InputGroup.Root class="w-full min-w-0 sm:w-28">
+							<InputGroup.Addon align="inline-start">
+								<InputGroup.Button
+									aria-label="가위 사용 잔여 횟수 감소"
+									title="가위 사용 잔여 횟수 감소"
+									size="icon-xs"
+									disabled={cuttableCount === undefined || cuttableCount === 0}
+									onclick={() => {
+										if (cuttableCount === undefined || cuttableCount === 0) return;
+										cuttableCount--;
+									}}
+								>
+									<Minus />
+								</InputGroup.Button>
+							</InputGroup.Addon>
+							<InputGroup.Input
+								min={0}
+								max={gear.attributes.totalCuttableCount}
+								bind:value={cuttableCount}
+								disabled={gear.attributes.totalCuttableCount === undefined}
+								aria-invalid={cuttableCountError !== undefined}
+								id="cuttableCount"
+								class="text-center"
+							/>
+							{#if cuttableCountError}
+								<p class="text-destructive w-full text-right text-sm">{cuttableCountError}</p>
+							{/if}
+							<InputGroup.Addon align="inline-end">
+								<InputGroup.Button
+									aria-label="가위 사용 잔여 횟수 증가"
+									title="가위 사용 잔여 횟수 증가"
+									size="icon-xs"
+									disabled={cuttableCount === undefined ||
+										cuttableCount === gear.attributes.totalCuttableCount}
+									onclick={() => {
+										if (
+											cuttableCount === undefined ||
+											cuttableCount === gear.attributes.totalCuttableCount
+										)
+											return;
+										cuttableCount++;
+									}}
+								>
+									<Plus />
+								</InputGroup.Button>
+							</InputGroup.Addon>
+						</InputGroup.Root>
+					</FormControl>
+				</FormItem>
+			{/if}
 		{/if}
-		<ButtonGroup>
-			<Button
-				variant="outline"
-				disabled={!itemTag}
-				onclick={() => {
-					if (!itemTag) return;
-					itemTagError = validateItemTag(itemTag);
-					if (itemTagError === undefined) {
-						gear.itemTag = itemTag;
-						toast.success('이름 새기기를 적용했어요.', {
-							description: itemTag,
-							position: 'top-center',
-							duration: 2000
-						});
-					}
-				}}
-			>
-				적용
-			</Button>
-			<Button
-				variant="outline"
-				onclick={() => {
-					itemTagError = undefined;
-					if (gear.itemTag !== undefined) {
-						gear.itemTag = undefined;
-						toast.success('새겨진 이름을 제거했어요.', {
-							position: 'top-center',
-							duration: 2000
-						});
-					}
-				}}
-			>
-				초기화
-			</Button>
-		</ButtonGroup>
-	</div>
+	</FormSection>
 
-	{#if isShapeChangeableGear(gear)}
-		<div class="flex flex-col gap-2">
-			<h4 class="text-lg font-semibold">신비의 모루</h4>
-			<ButtonGroup>
-				<AnvilDialog {gear} />
-				<Button
-					variant="destructive"
-					onclick={() => {
-						gear.shape = undefined;
-						toast.success('외형을 초기화했어요.', {
-							position: 'top-center',
-							duration: 2000
-						});
-					}}
-					>외형 초기화
-				</Button>
-			</ButtonGroup>
-		</div>
-	{/if}
+	<FormSection>
+		<FormItem>
+			<FormLabel
+				title="착용 레벨 증가"
+				description={canIncreaseLevelIncrease
+					? '잠재능력 수치는 변경되지 않아요.'
+					: '이 아이템에는 적용할 수 없어요.'}
+				disabled={!canIncreaseLevelIncrease}
+			/>
+			<FormControl>
+				<Tabs.Root
+					bind:value={
+						() => String(gear.req.levelIncrease), (v) => (gear.data.req.levelIncrease = Number(v))
+					}
+				>
+					<Tabs.List class="w-full sm:w-auto">
+						{#each reqLevelIncreases as reqLevelIncrease}
+							<Tabs.Trigger
+								value={String(reqLevelIncrease.value)}
+								disabled={!canIncreaseLevelIncrease}
+								class="px-3"
+							>
+								{reqLevelIncrease.label}
+							</Tabs.Trigger>
+						{/each}
+					</Tabs.List>
+				</Tabs.Root>
+			</FormControl>
+		</FormItem>
+	</FormSection>
+
+	<FormSection>
+		<FormItem>
+			<FormLabel title="이름 새기기" for="itemTag" />
+			<FormControl>
+				<div class="flex flex-col gap-2">
+					<div class="flex flex-col items-end gap-1">
+						<Input
+							type="text"
+							id="itemTag"
+							bind:ref={inputRef}
+							bind:value={itemTag}
+							aria-invalid={itemTagError !== undefined}
+							oninput={() => (itemTagError = undefined)}
+							class="sm:w-48"
+						/>
+						{#if itemTagError}
+							<p class="text-destructive text-sm">{itemTagError}</p>
+						{/if}
+					</div>
+					<div class="flex flex-col justify-end gap-2 sm:flex-row sm:items-center">
+						<Button
+							variant="outline"
+							size="sm"
+							disabled={!itemTag}
+							onclick={() => {
+								if (!itemTag) return;
+								itemTagError = validateItemTag(itemTag);
+								if (itemTagError === undefined) {
+									gear.itemTag = itemTag;
+									toast.success('이름 새기기를 적용했어요.', {
+										description: itemTag,
+										position: 'top-center',
+										duration: 2000
+									});
+								} else {
+									inputRef?.focus();
+								}
+							}}
+						>
+							적용
+						</Button>
+						<Button
+							variant="danger"
+							size="sm"
+							disabled={!gear.itemTag}
+							onclick={() => {
+								itemTagError = undefined;
+								if (gear.itemTag !== undefined) {
+									gear.itemTag = undefined;
+									toast.success('이름 새기기를 제거했어요.', {
+										position: 'top-center',
+										duration: 2000
+									});
+								}
+							}}
+						>
+							지우기
+						</Button>
+					</div>
+				</div>
+			</FormControl>
+		</FormItem>
+	</FormSection>
+
+	<FormSection>
+		<FormItem>
+			<FormLabel
+				title="신비의 모루"
+				description={canShapeChange
+					? '아이템의 외형을 설정하거나 되돌릴 수 있어요.'
+					: '이 아이템의 외형은 변경할 수 없어요.'}
+			/>
+			<FormControl>
+				<div class="flex flex-col justify-end gap-2 sm:flex-row sm:items-center">
+					<Dialog.Root>
+						<Dialog.Trigger class={buttonVariants({ variant: 'outline', size: 'sm' })}>
+							외형 설정하기
+						</Dialog.Trigger>
+						<ShapeDialogContent {gear} />
+					</Dialog.Root>
+					<Button
+						variant="danger"
+						size="sm"
+						disabled={!canShapeChange || gear.shape === undefined}
+						onclick={() => {
+							gear.shape = undefined;
+							toast.success('외형을 초기화했어요.', {
+								position: 'top-center',
+								duration: 2000
+							});
+						}}
+					>
+						되돌리기
+					</Button>
+				</div>
+			</FormControl>
+		</FormItem>
+	</FormSection>
 </div>

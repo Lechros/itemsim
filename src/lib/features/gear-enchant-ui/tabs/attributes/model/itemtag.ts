@@ -1,7 +1,7 @@
 export function validateItemTag(itemTag: string): string | undefined {
     const length = getMapleLength(itemTag);
     if (length < 4 || length > 12) {
-        return '4자 이상, 12자 이하로 입력해주세요. 한글은 2자로 취급돼요.';
+        return '4자 이상 12자 이하로 입력해주세요. 한글은 2자로 계산되어요.';
     }
     const regex = /^[a-zA-Z0-9가-힣]+$/;
     if (!regex.test(itemTag)) {

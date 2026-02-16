@@ -3,7 +3,7 @@
 	import { GearIcon } from '$lib/components/icons';
 	import { UIImage2 } from '$lib/components/ui-image';
 	import { Badge } from '$lib/components/ui/badge';
-	import { Button } from '$lib/components/ui/button';
+	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import * as Drawer from '$lib/components/ui/drawer';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Tabs from '$lib/components/ui/tabs';
@@ -93,153 +93,157 @@
 
 	/**
 	 * Grid
-	 * - default: col=1, row1=back, row2=pill, row3=tooltip-button, row4=main
-	 * - md: col=2, row1=back, row2=pill, row3=main+tooltip
-	 * - lg: col=3, row1=back, row2=tabs+main+tooltip
+	 * - mobile: single column / row1: back button / row2: pill / row3:
+	 * - md: two columns / row1: back button / row2: pill / row3_col1: content / row3_col2: tooltip
+	 * - lg: three columns / col1: aside tabs / col2-3_row1: back button / col2_row2: content / col3_row2: tooltip
 	 */
 </script>
 
-<div class="mx-auto w-full max-w-6xl px-4 py-6">
-	<!-- Back button -->
-	<div class="-ml-2 lg:ml-[212px]">
-		<Button variant="ghost" size="sm" href="/" class="text-muted-foreground mb-4">
-			<ArrowLeft />
-			뒤로
-		</Button>
-	</div>
-
-	<!-- Pill tabs -->
-	<div class="relative -mx-4 mb-4 flex lg:hidden">
-		<div
-			bind:this={pillScrollEl}
-			class="flex gap-1.5 overflow-x-auto px-4"
-			style="scrollbar-width: none"
-		>
-			{#each tabStore.tabs as tab}
-				{@const isCurrent = tab.value === tabStore.currentTab.value}
-				<Button
-					size="sm"
-					variant={isCurrent ? 'default' : 'secondary'}
-					href={tab.disabled ? undefined : `${$page.url.pathname}?tab=${tab.value}`}
-					disabled={tab.disabled}
-					data-pill-tab={tab.value}
-					class={cn('shrink-0 rounded-full px-4')}
-				>
-					{tab.label}
-				</Button>
-			{/each}
-		</div>
-		{#if !scrollReachedLeft}
-			<div
-				class="from-background absolute inset-y-0 left-0 w-4 bg-linear-to-r to-transparent"
-			></div>
-		{/if}
-		{#if !scrollReachedRight}
-			<div
-				class="from-background absolute inset-y-0 right-0 w-4 bg-linear-to-l to-transparent"
-			></div>
-		{/if}
-	</div>
-
-	<!-- Main columns -->
-	<div
-		class="grid grid-cols-1 gap-2 sm:gap-6 md:grid-cols-[1fr_min-content] lg:grid-cols-[200px_1fr_min-content]"
+<div
+	class="mx-auto grid min-h-[calc(100dvh-3.5rem)] w-full max-w-6xl grid-cols-1 md:grid-cols-[minmax(0,1fr)_min-content] lg:grid-cols-[200px_minmax(0,1fr)_min-content]"
+>
+	<!-- Left: tab list (lg) -->
+	<aside
+		class="sticky hidden max-w-[200px] overflow-y-auto border-r px-3 pt-4 lg:col-start-1 lg:block"
 	>
-		<!-- Left: tab list-->
-		<aside class="sticky col-start-1 hidden overflow-y-auto lg:block" style="scrollbar-width: none">
-			<div class="p flex flex-col">
-				<TabSelectorList {tabStore} />
-			</div>
-		</aside>
+		<TabSelectorList {tabStore} />
+	</aside>
 
-		<!-- Center: enchant content -->
-		<main class="col-start-1 lg:col-start-2">
-			<div class="mx-auto flex max-w-2xl flex-col gap-4">
-				<Tabs.Root value={tabStore.currentTab.value}>
-					<Tabs.Content value="default">
-						<GearManageUI {gear} {seq} {onGearUpdated} />
-					</Tabs.Content>
-					<Tabs.Content value="props">
-						<GearAttributeUI {gear} />
-					</Tabs.Content>
-					<Tabs.Content value="starforce">
-						<GearStarforceUI {gear} />
-					</Tabs.Content>
-					<Tabs.Content value="scroll">
-						<GearUpgradeUI {gear} />
-					</Tabs.Content>
-					<Tabs.Content value="bonus">
-						<GearAddOptionUI {gear} />
-					</Tabs.Content>
-					<Tabs.Content value="pot">
-						<GearPotentialUI {gear} />
-					</Tabs.Content>
-					<Tabs.Content value="addiPot">
-						<GearAdditionalPotentialUI {gear} />
-					</Tabs.Content>
-					<Tabs.Content value="exceptional">
-						<GearExceptionalUI {gear} />
-					</Tabs.Content>
-					<Tabs.Content value="soul">
-						<GearSoulWeaponUI {gear} />
-					</Tabs.Content>
-				</Tabs.Root>
+	<!-- Main wrapper -->
+	<div class="col-start-1 flex flex-col lg:col-start-2">
+		<!-- 뒤로 가기 -->
+		<div class="border-b px-4 py-3">
+			<Button variant="ghost" size="sm" href="/" class="text-muted-foreground">
+				<ArrowLeft />
+				뒤로
+			</Button>
+		</div>
+
+		<!-- pill 탭 (md~lg) -->
+		<div class="relative flex border-b px-4 py-3 lg:hidden">
+			<div
+				bind:this={pillScrollEl}
+				class="flex gap-1.5 overflow-x-auto"
+				style="scrollbar-width: none"
+			>
+				{#each tabStore.tabs as tab}
+					{@const isCurrent = tab.value === tabStore.currentTab.value}
+					<Button
+						size="sm"
+						variant={isCurrent ? 'default' : 'secondary'}
+						href={tab.disabled ? undefined : `${$page.url.pathname}?tab=${tab.value}`}
+						disabled={tab.disabled}
+						data-pill-tab={tab.value}
+						class={cn('shrink-0 rounded-full px-4')}
+					>
+						{tab.label}
+					</Button>
+				{/each}
 			</div>
+			{#if !scrollReachedLeft}
+				<div
+					class="from-background absolute inset-y-0 left-4 w-4 bg-linear-to-r to-transparent"
+				></div>
+			{/if}
+			{#if !scrollReachedRight}
+				<div
+					class="from-background absolute inset-y-0 right-4 w-4 bg-linear-to-l to-transparent"
+				></div>
+			{/if}
+		</div>
+
+		<!-- Center: enchant content (직각 테두리·배경으로 Card와 구분) -->
+		<main>
+			<Tabs.Root value={tabStore.currentTab.value}>
+				<Tabs.Content value="default">
+					<GearManageUI {gear} {seq} {onGearUpdated} />
+				</Tabs.Content>
+				<Tabs.Content value="props">
+					<GearAttributeUI {gear} />
+				</Tabs.Content>
+				<Tabs.Content value="starforce">
+					<GearStarforceUI {gear} />
+				</Tabs.Content>
+				<Tabs.Content value="scroll">
+					<GearUpgradeUI {gear} />
+				</Tabs.Content>
+				<Tabs.Content value="bonus">
+					<GearAddOptionUI {gear} />
+				</Tabs.Content>
+				<Tabs.Content value="pot">
+					<GearPotentialUI {gear} />
+				</Tabs.Content>
+				<Tabs.Content value="addiPot">
+					<GearAdditionalPotentialUI {gear} />
+				</Tabs.Content>
+				<Tabs.Content value="exceptional">
+					<GearExceptionalUI {gear} />
+				</Tabs.Content>
+				<Tabs.Content value="soul">
+					<GearSoulWeaponUI {gear} />
+				</Tabs.Content>
+			</Tabs.Root>
 		</main>
-
-		<!-- Right: tooltip. md row3 col2 | xl row2 col3 -->
-		<aside class="sticky col-start-1 hidden overflow-y-auto md:col-start-2 md:block lg:col-start-3">
-			<div>
-				<GearTooltipRenderer
-					{gear}
-					tooltipVersion={settingsStore.tooltipVersion}
-					tooltip1Options={settingsStore.tooltip1Options}
-					tooltip2Options={settingsStore.tooltip2Options}
-				/>
-			</div>
-		</aside>
 	</div>
 
+	<!-- Right: tooltip -->
+	<aside
+		class="sticky hidden overflow-y-auto border-l px-3 pt-4 md:col-start-2 md:block lg:col-start-3"
+	>
+		<div>
+			<GearTooltipRenderer
+				{gear}
+				tooltipVersion={settingsStore.tooltipVersion}
+				tooltip1Options={settingsStore.tooltip1Options}
+				tooltip2Options={settingsStore.tooltip2Options}
+			/>
+		</div>
+	</aside>
+
+	<!-- Mobile: bottom spacer -->
+	<div class="h-28 md:hidden"></div>
 	<!-- Mobile: bottom bar -->
 	<Drawer.Root>
-		<Drawer.Trigger>
-			<Button variant="outline" class="fixed inset-x-3 bottom-3 h-auto justify-start p-3 md:hidden">
-				<div class="flex w-full gap-3">
-					<div class="bg-muted flex size-14 items-center justify-center rounded-lg">
-						<GearIcon icon={gear.shapeIcon} />
-					</div>
-					<div class="flex flex-col items-start">
-						<div class="text-lg font-medium">{gear.name}</div>
-						<div class="mt-auto flex gap-1">
-							{#if gear.star}
-								<Badge variant="outline">
-									<UIImage2 image={gear.starScroll ? 'blueStar' : 'star'} />
-									{gear.star}
-								</Badge>
-							{/if}
-							{#if gear.scrollUpgradeCount}
-								<Badge variant="outline">
-									<UIImage2 image="scrollEnhanced" />
-									{gear.scrollUpgradeCount}
-								</Badge>
-							{/if}
-							<Badge variant="outline" class="gap-2">
-								<UIImage2 image={getPotentialTitle(gear.potentialGrade)} />
-								<Separator orientation="vertical" />
-								<UIImage2 image={getPotentialTitle(gear.additionalPotentialGrade)} />
+		<Drawer.Trigger
+			class={cn(
+				buttonVariants({ variant: 'outline' }),
+				'bg-background/80 fixed inset-x-3 bottom-3 h-auto p-3 backdrop-blur md:hidden'
+			)}
+		>
+			<div class="flex w-full gap-3">
+				<div class="bg-muted flex size-14 items-center justify-center rounded-lg">
+					<GearIcon icon={gear.shapeIcon} />
+				</div>
+				<div class="flex flex-col items-start">
+					<h3 class="text-base leading-tight font-normal">{gear.name}</h3>
+					<div class="mt-auto flex gap-1">
+						<Badge variant="outline" class={cn(!gear.star && 'text-muted-foreground')}>
+							<UIImage2 image={gear.starScroll ? 'blueStar' : 'star'} />
+							{gear.star}
+						</Badge>
+						<Badge
+							variant="outline"
+							class={cn(!gear.scrollUpgradeCount && 'text-muted-foreground')}
+						>
+							<UIImage2 image="scrollEnhanced" />
+							{gear.scrollUpgradeCount}
+						</Badge>
+						<Badge variant="outline" class="gap-2">
+							<UIImage2 image={getPotentialTitle(gear.potentialGrade)} />
+							<Separator orientation="vertical" />
+							<UIImage2 image={getPotentialTitle(gear.additionalPotentialGrade)} />
+						</Badge>
+						{#if gear.exceptionalUpgradeCount > 0}
+							<Badge variant="outline">
+								<UIImage2 image="exceptionalNormal" />
 							</Badge>
-							{#if gear.exceptionalUpgradeCount > 0}
-								<Badge variant="outline">
-									<UIImage2 image="exceptionalNormal" />
-								</Badge>
-							{/if}
-						</div>
-					</div>
-					<div class="my-auto ml-auto h-full">
-						<ChevronUp class="size-5" />
+						{/if}
 					</div>
 				</div>
-			</Button>
+				<div class="my-auto ml-auto h-full">
+					<ChevronUp class="size-5" />
+				</div>
+			</div>
 		</Drawer.Trigger>
 		<Drawer.Content>
 			<div class="flex max-h-[calc(80dvh-3rem)] flex-col items-center overflow-y-auto py-4">

@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
+	import { Settings } from 'lucide-svelte';
 	import DarkModeButton from './DarkModeButton.svelte';
 	import Logo from './logo.png';
-	import { Settings } from 'lucide-svelte';
 </script>
 
-<header class="bg-background sticky top-0 z-50 h-14 w-full">
+<header class="bg-background sticky top-0 z-50 h-14 w-full border-b">
 	<div class="mx-auto flex h-full w-full px-2">
 		<div class="flex items-center gap-2">
 			<Button variant="ghost" href="/">
