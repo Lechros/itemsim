@@ -1,9 +1,10 @@
 <script lang="ts">
+	import { cn } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 
-	let { children }: { children?: Snippet } = $props();
+	let { children, class: className }: { children?: Snippet; class?: string } = $props();
 </script>
 
-<section class="flex flex-col gap-8 border-t p-5 pl-6 first:border-t-0">
+<section class={cn('flex flex-col gap-8 border-b p-5 pl-6 last:border-b-0', className)}>
 	{@render children?.()}
 </section>

@@ -4,12 +4,24 @@ export function showStarforceIgnoreMaxStar(gear: Gear) {
 	return gear.req.level + gear.req.levelIncrease < 140;
 }
 
-export function canAddStarforce(gear: Gear, star: number, ignoreMaxStar: boolean) {
+export function getImplicitMaxStar(gear: Gear, ignoreMaxStar: boolean) {
 	if (ignoreMaxStar) {
-		return gear.canApplyStarforceIgnoringMaxStar && gear.star + star <= 30;
-	} else {
-		return gear.canApplyStarforce && gear.star + star <= gear.maxStar;
+		const reqLevel = gear.req.level + gear.req.levelIncrease;
+		if (reqLevel >= 140) {
+			return 30;
+		} else if (reqLevel >= 111) {
+			return 29;
+		} else if (reqLevel >= 101) {
+			return 19;
+		} else {
+			return 15;
+		}
 	}
+	return gear.maxStar;
+}
+
+export function canAddStarforce(gear: Gear, star: number, ignoreMaxStar: boolean) {
+	return !gear.starScroll && gear.star + star <= getImplicitMaxStar(gear, ignoreMaxStar);
 }
 
 export function addStarforce(gear: Gear, star: number, ignoreMaxStar: boolean) {
@@ -46,13 +58,29 @@ export function removeStarforce(gear: Gear, star: number, ignoreMaxStar: boolean
 	}
 }
 
-export function canSetStarforce(gear: Gear, star: number) {
-	return !gear.starScroll && gear.canResetStarforce && star <= gear.maxStar;
+export function canSetStarforce(gear: Gear, star: number, ignoreMaxStar = false) {
+	if (!gear.canResetStarforce || gear.starScroll) {
+		return false;
+	}
+	return star >= 0 && star <= getImplicitMaxStar(gear, ignoreMaxStar);
 }
 
-export function setStarforce(gear: Gear, star: number) {
+export function setStarforce(gear: Gear, star: number, ignoreMaxStar = false) {
+	if (!canSetStarforce(gear, star, ignoreMaxStar)) {
+		return;
+	}
 	gear.resetStarforce();
-	for (let i = 0; i < star; i++) {
-		gear.applyStarforce();
+	if (ignoreMaxStar) {
+		for (let i = 0; i < star; i++) {
+			if (gear.canApplyStarforceIgnoringMaxStar) {
+				gear.applyStarforceIgnoringMaxStar();
+			}
+		}
+	} else {
+		for (let i = 0; i < star; i++) {
+			if (gear.canApplyStarforce) {
+				gear.applyStarforce();
+			}
+		}
 	}
 }

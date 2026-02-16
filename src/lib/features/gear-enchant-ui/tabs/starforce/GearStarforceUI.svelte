@@ -1,65 +1,55 @@
 <script lang="ts">
-	import { ButtonGroup } from '$lib/components/button-group';
-	import { Button } from '$lib/components/ui/button';
-	import { Card } from '$lib/components/ui/card';
-	import { Separator } from '$lib/components/ui/separator';
-	import * as Tabs from '$lib/components/ui/tabs';
+	import { UIImage2 } from '$lib/components/ui-image';
+	import { buttonVariants } from '$lib/components/ui/button';
+	import { cn } from '$lib/utils';
 	import { Gear } from '@malib/gear';
-	import { getDisplayMaxStar } from './model/star';
+	import { Tabs } from 'bits-ui';
+	import { getImplicitMaxStar } from './model/starforce';
 	import { showStarScrollTab } from './model/starScroll';
-	import StarDisplay from '$lib/features/gear-enchant-ui/tabs/starforce/components/StarDisplay.svelte';
-	import StarforceTab from '$lib/features/gear-enchant-ui/tabs/starforce/tabs/StarforceTab.svelte';
-	import StarScrollTab from '$lib/features/gear-enchant-ui/tabs/starforce/tabs/StarScrollTab.svelte';
-	import { toast } from 'svelte-sonner';
+	import StarforceTab from './tabs/StarforceTab.svelte';
+	import StarScrollTab from './tabs/StarScrollTab.svelte';
 
 	let { gear }: { gear: Gear } = $props();
 
-	let ignoreMaxStar = $state(false);
+	const SELECTED = [
+		buttonVariants({ variant: 'ghost', size: 'lg' }),
+		'rounded-none transition-none hover:bg-transparent'
+	];
+	const UNSELECTED = [
+		buttonVariants({ variant: 'secondary', size: 'lg' }),
+		'rounded-none border-b shadow-none transition-none'
+	];
 
-	function handleReset(gear: Gear) {
-		gear.resetStarforce();
-		toast.success('스타포스 강화를 초기화했어요.', {
-			position: 'top-center',
-			duration: 2000
-		});
-	}
+	let currentTab = $state('starforce');
+	let ignoreMaxStar = $state(gear.maxStar < getImplicitMaxStar(gear, true));
 </script>
 
-<div class="flex flex-col gap-y-4">
-	<div class="mx-auto w-full max-w-xs lg:hidden">
-		<Card class="p-4">
-			<StarDisplay
-				star={gear.star}
-				maxStar={getDisplayMaxStar(gear)}
-				color={gear.starScroll ? 'blue' : 'yellow'}
-			/>
-		</Card>
-	</div>
-
-	<Tabs.Root value="starforce" class="gap-y-4">
+<div class="flex flex-col">
+	<Tabs.Root bind:value={currentTab}>
 		{#if showStarScrollTab(gear)}
 			<Tabs.List class="grid w-full grid-cols-2">
-				<Tabs.Trigger value="starforce">스타포스</Tabs.Trigger>
-				<Tabs.Trigger value="starScroll">놀장강</Tabs.Trigger>
+				<Tabs.Trigger
+					value="starforce"
+					class={cn(currentTab === 'starforce' ? SELECTED : UNSELECTED, 'border-r')}
+				>
+					<UIImage2 image="star" />
+					스타포스
+				</Tabs.Trigger>
+				<Tabs.Trigger
+					value="starScroll"
+					class={cn(currentTab === 'starScroll' ? SELECTED : UNSELECTED)}
+					disabled={!showStarScrollTab(gear)}
+				>
+					<UIImage2 image="blueStar" />
+					장비 강화
+				</Tabs.Trigger>
 			</Tabs.List>
 		{/if}
-		<Tabs.Content value="starforce" class="flex flex-col gap-y-4">
-			<StarforceTab {gear} bind:ignoreMaxStar />
+		<Tabs.Content value="starforce" class="flex flex-col">
+			<StarforceTab {gear} bind:currentTab bind:ignoreMaxStar />
 		</Tabs.Content>
-		<Tabs.Content value="starScroll" class="flex flex-col gap-y-4">
+		<Tabs.Content value="starScroll" class="flex flex-col">
 			<StarScrollTab {gear} bind:ignoreMaxStar />
 		</Tabs.Content>
 	</Tabs.Root>
-
-	<Separator />
-
-	<ButtonGroup>
-		<Button
-			variant="destructive"
-			onclick={() => handleReset(gear)}
-			disabled={!gear.canResetStarforce}
-		>
-			스타포스 강화 초기화
-		</Button>
-	</ButtonGroup>
 </div>
