@@ -305,7 +305,7 @@
 			<FormControl>
 				<div class="flex flex-col justify-end gap-2 sm:flex-row sm:items-center">
 					<Dialog.Root>
-						<Dialog.Trigger class={buttonVariants({ variant: 'outline', size: 'sm' })}>
+						<Dialog.Trigger class={buttonVariants({ variant: 'outline', size: 'sm' })} disabled={!canShapeChange}>
 							외형 설정하기
 						</Dialog.Trigger>
 						<ShapeDialogContent {gear} />
