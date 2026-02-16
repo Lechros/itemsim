@@ -1,7 +1,11 @@
+import type { IconProps } from 'lucide-svelte';
+import type { Component, SvelteComponent } from 'svelte';
+
 export interface Tab {
 	label: string;
 	value: string;
 	disabled?: boolean;
+	icon?: Component<IconProps> | typeof SvelteComponent<IconProps>;
 }
 
 export class TabStore {

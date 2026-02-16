@@ -7,7 +7,6 @@
 	import * as Drawer from '$lib/components/ui/drawer';
 	import { Separator } from '$lib/components/ui/separator';
 	import * as Tabs from '$lib/components/ui/tabs';
-	import TabSelectorList from '$lib/features/gear-enchant-ui/tab-selector/TabSelectorList.svelte';
 	import { createTabStore } from '$lib/features/gear-enchant-ui/tab-selector/TabStore.svelte';
 	import GearAddOptionUI from '$lib/features/gear-enchant-ui/tabs/add-option/GearAddOptionUI.svelte';
 	import GearAttributeUI from '$lib/features/gear-enchant-ui/tabs/attributes/GearAttributeUI.svelte';
@@ -21,8 +20,9 @@
 	import type { SettingsStore } from '$lib/stores/settings.svelte';
 	import { cn } from '$lib/utils';
 	import { PotentialGrade, type Gear } from '@malib/gear';
-	import { ArrowLeft, ChevronUp } from 'lucide-svelte';
+	import { ArrowLeft, Check, ChevronUp } from 'lucide-svelte';
 	import { getContext } from 'svelte';
+	import { fade } from 'svelte/transition';
 	import GearManageUI from './tabs/manage/GearManageUI.svelte';
 	import { tabs } from './tabs/tabs';
 
@@ -100,13 +100,30 @@
 </script>
 
 <div
-	class="mx-auto grid min-h-[calc(100dvh-3.5rem)] w-full max-w-6xl grid-cols-1 md:grid-cols-[minmax(0,1fr)_min-content] lg:grid-cols-[200px_minmax(0,1fr)_min-content]"
+	class="mx-auto grid min-h-[calc(100dvh-3.5rem)] w-full max-w-6xl grid-cols-1 md:grid-cols-[minmax(0,1fr)_min-content] lg:grid-cols-[220px_minmax(0,1fr)_min-content]"
 >
 	<!-- Left: tab list (lg) -->
-	<aside
-		class="sticky hidden max-w-[200px] overflow-y-auto border-r px-3 pt-4 lg:col-start-1 lg:block"
-	>
-		<TabSelectorList {tabStore} />
+	<aside class="sticky hidden flex-col overflow-y-auto border-r px-3 pt-6 lg:col-start-1 lg:flex">
+		{#each tabStore.tabs as tab}
+			{@const isCurrent = tab.value === tabStore.currentTab.value}
+			<Button
+				variant={isCurrent ? 'default' : 'ghost'}
+				size="lg"
+				href={tab.disabled ? undefined : `${$page.url.pathname}?tab=${tab.value}`}
+				disabled={tab.disabled}
+				class={cn('relative justify-start text-sm font-medium', !isCurrent && 'text-foreground/80')}
+			>
+				{#if tab.icon}
+					<tab.icon />
+				{/if}
+				{tab.label}
+				{#if isCurrent}
+					<div transition:fade={{ duration: 100 }} class="ml-auto">
+						<Check />
+					</div>
+				{/if}
+			</Button>
+		{/each}
 	</aside>
 
 	<!-- Main wrapper -->
