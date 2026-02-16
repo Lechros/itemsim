@@ -2,7 +2,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { GearEnchantUI } from '$lib/features/gear-enchant-ui';
-	import { DetailNavbar } from '$lib/features/navigation/detail-navbar';
+	import { MainNavbar } from '$lib/features/navigation/main-navbar';
 	import { getGearData, updateGearData } from '$lib/stores/gear-inventory';
 	import { Gear, type GearData } from '@malib/gear';
 	import { Loader2 } from 'lucide-svelte';
@@ -61,7 +61,7 @@
 </svelte:head>
 
 <ScrollArea class="h-dvh">
-	<DetailNavbar title="아이템 강화" backHref="/" />
+	<MainNavbar />
 
 	{#if isLoading}
 		<div class="flex w-full items-center justify-center py-4">

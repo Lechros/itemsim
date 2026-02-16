@@ -3,7 +3,9 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
+	import type { SettingsStore } from '$lib/stores/settings.svelte';
 	import { ReadonlyGear } from '@malib/gear';
+	import { getContext } from 'svelte';
 
 	let {
 		gear,
@@ -16,6 +18,8 @@
 		onAccept: () => void;
 		onClose: () => void;
 	} = $props();
+
+	const settingsStore = getContext<SettingsStore>('settingsStore');
 </script>
 
 <Dialog.Root bind:open>
@@ -26,7 +30,12 @@
 
 		<div class="flex justify-center">
 			<ScrollArea class="max-h-[calc(100dvh-8rem)]">
-				<GearTooltipRenderer {gear} incline={{ combat: 0 }} />
+				<GearTooltipRenderer
+					{gear}
+					tooltipVersion={settingsStore.tooltipVersion}
+					tooltip1Options={settingsStore.tooltip1Options}
+					tooltip2Options={settingsStore.tooltip2Options}
+				/>
 			</ScrollArea>
 		</div>
 
