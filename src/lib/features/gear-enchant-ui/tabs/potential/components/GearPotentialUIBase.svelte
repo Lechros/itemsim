@@ -6,6 +6,11 @@
 	import { grades } from '../model/grades';
 	import PotentialSummary from './PotentialSummary.svelte';
 	import PotentialTitle from './PotentialTitle.svelte';
+	import FormSection from '$lib/features/gear-enchant-ui/form/FormSection.svelte';
+	import FormItem from '$lib/features/gear-enchant-ui/form/FormItem.svelte';
+	import FormLabel from '$lib/features/gear-enchant-ui/form/FormLabel.svelte';
+	import FormControl from '$lib/features/gear-enchant-ui/form/FormControl.svelte';
+	import * as Tabs from '$lib/components/ui/tabs';
 
 	let {
 		initialGrade,
@@ -46,25 +51,29 @@
 	}
 </script>
 
-<div class="flex flex-col gap-y-4">
-	<div class="flex flex-col gap-y-2">
-		<h4 class="text-lg font-semibold">{gradeLabel}</h4>
-		<ButtonGroup class="flex-wrap">
-			{#each grades as { label, value }}
-				<Button
-					variant={grade === value ? 'default' : 'outline'}
-					class={[grade === value && 'border-primary border']}
-					onclick={() => (grade = value)}
-				>
-					<PotentialTitle grade={value} />
-					{label}
-				</Button>
-			{/each}
-		</ButtonGroup>
-	</div>
+<FormSection>
+	<FormItem>
+		<FormLabel title={gradeLabel} />
+		<FormControl>
+			<Tabs.Root bind:value={() => String(grade), (v) => (grade = Number(v))}>
+				<Tabs.List>
+					{#each grades as { label, value }}
+						<Tabs.Trigger value={String(value)}>
+							<PotentialTitle grade={value} />
+							{label}
+						</Tabs.Trigger>
+					{/each}
+				</Tabs.List>
+			</Tabs.Root>
+		</FormControl>
+	</FormItem>
+</FormSection>
 
-	<div class="flex flex-col gap-y-2">
-		<h4 class="text-lg font-semibold">{optionLabel}</h4>
+<FormSection class="gap-3">
+	<FormItem>
+		<FormLabel title={optionLabel} />
+	</FormItem>
+	<div class="flex flex-col gap-y-3">
 		{#each potentials as potential, index}
 			{@const options = index === 0 ? gradePotentials : concatPotentials}
 			<Select.Root
@@ -75,7 +84,7 @@
 				}
 				disabled={grade === PotentialGrade.Normal}
 			>
-				<Select.Trigger class="w-full max-w-sm">
+				<Select.Trigger class="w-full" size="sm">
 					{#if potential}
 						<PotentialSummary {potential} />
 					{:else}
@@ -93,4 +102,4 @@
 			</Select.Root>
 		{/each}
 	</div>
-</div>
+</FormSection>
