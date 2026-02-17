@@ -7,17 +7,19 @@
 		description,
 		for: controlId,
 		variant = 'default',
-		disabled = false
+		disabled = false,
+		class: className
 	}: {
 		title: string;
 		description?: string;
 		for?: string;
 		variant?: 'default' | 'nested';
 		disabled?: boolean;
+		class?: string;
 	} = $props();
 </script>
 
-<div class="flex min-w-0 flex-col">
+<div class={cn('flex min-w-0 flex-col', className)}>
 	{#if variant === 'default'}
 		<Label for={controlId} class={cn('text-base font-medium', disabled && 'text-muted-foreground')}>
 			{title}
