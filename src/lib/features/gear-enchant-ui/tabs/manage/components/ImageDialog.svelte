@@ -53,7 +53,7 @@
 
 		{#if dataUrl}
 			<div class="flex flex-col gap-2">
-				<img src={dataUrl} alt={gear.name} class="max-w-none" />
+				<img src={dataUrl} alt={gear.name} />
 				{#if maybeInvalidImage}
 					<Alert.Root variant="destructive">
 						<CircleAlertIcon />

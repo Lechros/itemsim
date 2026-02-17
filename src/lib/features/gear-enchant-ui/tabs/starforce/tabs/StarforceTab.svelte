@@ -69,11 +69,11 @@
 	</FormSection>
 {/if}
 
-<FormSection>
+<FormSection class="gap-6">
 	<FormItem>
-		<FormLabel title="강화 단계 설정" disabled={gear.starScroll} />
+		<FormLabel title="스타포스 단계 설정" disabled={gear.starScroll} />
 		<FormControl>
-			<InputGroup.Root class="w-full min-w-0 sm:w-32">
+			<InputGroup.Root class="sm:w-28">
 				<InputGroup.Addon align="inline-start">
 					<InputGroup.Button
 						size="icon-xs"
@@ -108,7 +108,7 @@
 	<FormItem>
 		<Slider
 			type="single"
-			class="mb-2"
+			class="mb-1"
 			disabled={gear.starScroll}
 			bind:value={() => gear.star, (value) => setStarforce(gear, value, ignoreMaxStar)}
 			min={0}

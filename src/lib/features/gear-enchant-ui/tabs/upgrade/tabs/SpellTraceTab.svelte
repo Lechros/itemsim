@@ -11,6 +11,7 @@
 	import { XIcon } from 'lucide-svelte';
 	import SharedSections from '../components/SharedSections.svelte';
 	import { getSpellTraceScrolls } from '../model/spellTrace';
+	import FormControl from '$lib/features/gear-enchant-ui/form/FormControl.svelte';
 
 	let { gear }: { gear: Gear } = $props();
 
@@ -43,52 +44,52 @@
 
 {#if selectedScroll}
 	{@const optionStrings = getGearOptionStrings(selectedScroll?.option ?? {})}
-	<FormSection class={cn(!selectedScroll && 'bg-muted')}>
-		<div class="flex flex-col gap-5">
-			<!-- Title -->
-			<div class="flex h-9 items-center gap-2">
-				{#if selectedScroll.icon}
-					<ItemRawIcon icon={selectedScroll.icon} />
-				{/if}
-				<div class="text-sm font-medium">{selectedScroll.name}</div>
-				<Button variant="ghost" size="icon" class="ml-auto" onclick={() => (selectedScroll = null)}>
-					<XIcon />
-				</Button>
-			</div>
-
-			<BalancedGrid
-				items={optionStrings}
-				size={6}
-				class="gap-x-8 gap-y-0.5"
-				classes={{ column: 'gap-y-0.5' }}
-			>
-				{#snippet itemRenderer(strings: [string, string])}
-					<div class="text-sm">
-						<span>{strings[0]}</span>
-						<span class="font-semibold">{strings[1]}</span>
-					</div>
-				{/snippet}
-			</BalancedGrid>
-
-			<div class="flex flex-col justify-end gap-2 sm:flex-row">
-				<Button
-					onclick={() => applySpellTrace(gear, selectedScroll!)}
-					disabled={!gear.canApplyScroll}
-				>
-					{selectedScroll.name} 사용하기
-				</Button>
-				<Button
-					variant="outline"
-					onclick={() => applySpellTrace(gear, selectedScroll!, gear.scrollUpgradeableCount)}
-					disabled={!gear.canApplyScroll}
-				>
-					{gear.scrollUpgradeableCount}회 사용
-				</Button>
-			</div>
+	<FormSection class={cn("gap-3", !selectedScroll && 'bg-muted')}>
+		<!-- Title -->
+		<div class="flex h-9 items-center gap-2">
+			{#if selectedScroll.icon}
+				<ItemRawIcon icon={selectedScroll.icon} />
+			{/if}
+			<div class="text-sm font-medium">{selectedScroll.name}</div>
+			<Button variant="ghost" size="icon" class="ml-auto" onclick={() => (selectedScroll = null)}>
+				<XIcon />
+			</Button>
 		</div>
+
+		<BalancedGrid
+			items={optionStrings}
+			size={6}
+			class="gap-x-8 gap-y-0.5"
+			classes={{ column: 'gap-y-0.5' }}
+		>
+			{#snippet itemRenderer(strings: [string, string])}
+				<div class="text-sm">
+					<span>{strings[0]}</span>
+					<span class="font-semibold">{strings[1]}</span>
+				</div>
+			{/snippet}
+		</BalancedGrid>
+
+		<FormControl>
+			<Button
+				size="sm"
+				onclick={() => applySpellTrace(gear, selectedScroll!)}
+				disabled={!gear.canApplyScroll}
+			>
+				{selectedScroll.name} 사용하기
+			</Button>
+			<Button
+				variant="outline"
+				size="sm"
+				onclick={() => applySpellTrace(gear, selectedScroll!, gear.scrollUpgradeableCount)}
+				disabled={!gear.canApplyScroll}
+			>
+				{gear.scrollUpgradeableCount}회 사용
+			</Button>
+		</FormControl>
 	</FormSection>
 {:else}
-	<FormSection class="bg-muted/40">
+	<FormSection class="bg-muted/50">
 		<FormItem>
 			<p class="text-muted-foreground text-sm font-medium">주문서를 선택해 주세요.</p>
 		</FormItem>

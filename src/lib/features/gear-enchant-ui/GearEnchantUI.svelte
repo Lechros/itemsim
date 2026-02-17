@@ -137,7 +137,9 @@
 		</div>
 
 		<!-- pill 탭 (md~lg) -->
-		<div class="relative flex border-b px-4 py-3 lg:hidden">
+		<div
+			class="bg-background/80 sticky top-14 z-50 flex border-b px-4 py-3 backdrop-blur lg:hidden"
+		>
 			<div
 				bind:this={pillScrollEl}
 				class="flex gap-1.5 overflow-x-auto"

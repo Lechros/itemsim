@@ -31,19 +31,17 @@
 	<FormItem>
 		<FormLabel title="강화 적용" variant="nested" />
 		<FormControl>
-			<div class="flex w-full flex-col gap-1 sm:flex-row sm:items-center sm:justify-end">
-				{#each [1, 5] as star}
-					<Button
-						variant="outline"
-						size="sm"
-						class="text-amber-500 hover:text-amber-500/90"
-						disabled={gear.star >= 15 || !canAddStarforce(gear, star, ignoreMaxStar)}
-						onclick={() => addStarforce(gear, Math.min(15 - gear.star, star), ignoreMaxStar)}
-					>
-						+{star}
-					</Button>
-				{/each}
-			</div>
+			{#each [1, 5] as star}
+				<Button
+					variant="outline"
+					size="sm"
+					class="text-amber-500 hover:text-amber-500/90"
+					disabled={gear.star >= 15 || !canAddStarforce(gear, star, ignoreMaxStar)}
+					onclick={() => addStarforce(gear, Math.min(15 - gear.star, star), ignoreMaxStar)}
+				>
+					+{star}
+				</Button>
+			{/each}
 		</FormControl>
 	</FormItem>
 </FormSection>
@@ -61,20 +59,17 @@
 	<FormItem>
 		<FormLabel title="강화 적용" variant="nested" />
 		<FormControl>
-			<div class="flex w-full flex-col gap-1 sm:flex-row sm:items-center sm:justify-end">
-				{#each [1, 5] as star}
-					<Button
-						variant="outline"
-						size="sm"
-						class="text-sky-500 hover:text-sky-500/90"
-						disabled={gear.star >= 15 || !canAddStarScroll(gear, star, ignoreMaxStar)}
-						onclick={() =>
-							addStarScroll(gear, Math.min(15 - gear.star, star), bonus, ignoreMaxStar)}
-					>
-						+{star}
-					</Button>
-				{/each}
-			</div>
+			{#each [1, 5] as star}
+				<Button
+					variant="outline"
+					size="sm"
+					class="text-sky-500 hover:text-sky-500/90"
+					disabled={gear.star >= 15 || !canAddStarScroll(gear, star, ignoreMaxStar)}
+					onclick={() => addStarScroll(gear, Math.min(15 - gear.star, star), bonus, ignoreMaxStar)}
+				>
+					+{star}
+				</Button>
+			{/each}
 		</FormControl>
 	</FormItem>
 </FormSection>
@@ -99,16 +94,14 @@
 	<FormItem>
 		<FormLabel title="장비 강화 초기화" />
 		<FormControl>
-			<div class="flex w-full flex-col gap-1 sm:flex-row sm:items-center sm:justify-end">
-				<Button
-					variant="destructive"
-					size="sm"
-					disabled={!gear.canResetStarforce || gear.star === 0}
-					onclick={() => gear.resetStarforce()}
-				>
-					초기화
-				</Button>
-			</div>
+			<Button
+				variant="destructive"
+				size="sm"
+				disabled={!gear.canResetStarforce || gear.star === 0}
+				onclick={() => gear.resetStarforce()}
+			>
+				초기화
+			</Button>
 		</FormControl>
 	</FormItem>
 </FormSection>

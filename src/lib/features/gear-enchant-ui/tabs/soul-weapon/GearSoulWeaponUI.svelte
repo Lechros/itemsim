@@ -92,80 +92,78 @@
 <Separator />
 
 {#if selectedItem}
-	<FormSection>
-		<div class="flex flex-col gap-5">
-			<!-- Title -->
-			<div class="flex h-9 items-center gap-2">
-				{#if selectedItem.summary.id}
-					<ItemRawIcon icon={String(selectedItem.summary.id)} />
-				{/if}
-				<div class="text-sm font-medium">{selectedItem.summary.name}</div>
-				<Button variant="ghost" size="icon" class="ml-auto" onclick={() => (selectedItem = null)}>
-					<XIcon />
-				</Button>
-			</div>
-			{#if selectedItem.type === 'magnificent'}
-				<Select.Root
-					type="single"
-					bind:value={
-						() => String((selectedItem as { index: number }).index),
-						(v) => {
-							if (selectedItem?.type !== 'magnificent') return;
-							selectedItem.index = Number(v);
-						}
-					}
-				>
-					<Select.Trigger class="w-full sm:w-60" size="sm">
-						{getSoulOptionString(selectedItem.souls[selectedItem.index].option)}
-					</Select.Trigger>
-					<Select.Content>
-						{#each selectedItem.souls as soul, index}
-							<Select.Item value={String(index)}>
-								{getSoulOptionString(soul.option)}
-							</Select.Item>
-						{/each}
-					</Select.Content>
-				</Select.Root>
-			{:else}
-				<div class="flex h-8 items-center">
-					<div class="text-sm">
-						{getSoulOptionString(selectedItem.soul.option)}
-					</div>
-				</div>
+	<FormSection class="gap-3">
+		<!-- Title -->
+		<div class="flex h-9 items-center gap-2">
+			{#if selectedItem.summary.id}
+				<ItemRawIcon icon={String(selectedItem.summary.id)} />
 			{/if}
-
-			<div class="flex flex-col justify-end gap-2 sm:flex-row">
-				<Button
-					variant="default"
-					size="sm"
-					disabled={!selectedItem ||
-						(!selectedItem.summary.magnificent &&
-							gear.soul &&
-							gear.soul.name === selectedItem.summary.name)}
-					onclick={() => {
-						if (gear.canApplySoulEnchant) {
-							gear.applySoulEnchant();
-						}
-						if (selectedItem) {
-							const soul =
-								selectedItem.type === 'normal'
-									? selectedItem.soul
-									: selectedItem.souls[selectedItem.index];
-							gear.setSoul(soul);
-						}
-					}}
-				>
-					{#if !gear.soulEnchanted}
-						소울 인챈트 및 장착
-					{:else}
-						{selectedItem.summary.name} 장착
-					{/if}
-				</Button>
-			</div>
+			<div class="text-sm font-medium">{selectedItem.summary.name}</div>
+			<Button variant="ghost" size="icon" class="ml-auto" onclick={() => (selectedItem = null)}>
+				<XIcon />
+			</Button>
 		</div>
+		{#if selectedItem.type === 'magnificent'}
+			<Select.Root
+				type="single"
+				bind:value={
+					() => String((selectedItem as { index: number }).index),
+					(v) => {
+						if (selectedItem?.type !== 'magnificent') return;
+						selectedItem.index = Number(v);
+					}
+				}
+			>
+				<Select.Trigger class="w-full sm:w-60" size="sm">
+					{getSoulOptionString(selectedItem.souls[selectedItem.index].option)}
+				</Select.Trigger>
+				<Select.Content>
+					{#each selectedItem.souls as soul, index}
+						<Select.Item value={String(index)}>
+							{getSoulOptionString(soul.option)}
+						</Select.Item>
+					{/each}
+				</Select.Content>
+			</Select.Root>
+		{:else}
+			<div class="flex h-8 items-center">
+				<div class="text-sm">
+					{getSoulOptionString(selectedItem.soul.option)}
+				</div>
+			</div>
+		{/if}
+
+		<FormControl>
+			<Button
+				variant="default"
+				size="sm"
+				disabled={!selectedItem ||
+					(!selectedItem.summary.magnificent &&
+						gear.soul &&
+						gear.soul.name === selectedItem.summary.name)}
+				onclick={() => {
+					if (gear.canApplySoulEnchant) {
+						gear.applySoulEnchant();
+					}
+					if (selectedItem) {
+						const soul =
+							selectedItem.type === 'normal'
+								? selectedItem.soul
+								: selectedItem.souls[selectedItem.index];
+						gear.setSoul(soul);
+					}
+				}}
+			>
+				{#if !gear.soulEnchanted}
+					소울 인챈트 및 장착
+				{:else}
+					{selectedItem.summary.name} 장착
+				{/if}
+			</Button>
+		</FormControl>
 	</FormSection>
 {:else}
-	<FormSection class="bg-muted/40">
+	<FormSection class="bg-muted/50">
 		<FormItem>
 			<p class="text-muted-foreground text-sm font-medium">장착할 소울을 선택해 주세요.</p>
 		</FormItem>
@@ -176,27 +174,25 @@
 	<FormItem>
 		<FormLabel title="소울 웨폰 관리" />
 		<FormControl>
-			<div class="flex flex-col justify-end gap-2 sm:flex-row">
-				<Button
-					variant="outline"
-					size="sm"
-					onclick={() => gear.applySoulEnchant()}
-					disabled={gear.soulEnchanted}
-				>
-					소울 인챈트
-				</Button>
-				<Button
-					variant="danger"
-					size="sm"
-					onclick={() => {
-						gear.resetSoulEnchant();
-						gear.applySoulEnchant();
-					}}
-					disabled={!gear.soul}
-				>
-					소울 해제
-				</Button>
-			</div>
+			<Button
+				variant="outline"
+				size="sm"
+				onclick={() => gear.applySoulEnchant()}
+				disabled={gear.soulEnchanted}
+			>
+				소울 인챈트
+			</Button>
+			<Button
+				variant="danger"
+				size="sm"
+				onclick={() => {
+					gear.resetSoulEnchant();
+					gear.applySoulEnchant();
+				}}
+				disabled={!gear.soul}
+			>
+				소울 해제
+			</Button>
 		</FormControl>
 	</FormItem>
 </FormSection>

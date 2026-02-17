@@ -71,7 +71,7 @@
 						}
 					}
 				>
-					<Select.Trigger id="tradeType" class="min-w-40">
+					<Select.Trigger id="tradeType" class="w-full">
 						{selectedTradeLabel}
 					</Select.Trigger>
 					<Select.Content>
@@ -100,7 +100,7 @@
 						}
 					}
 				>
-					<Select.Trigger id="cuttableType" class="min-w-40">
+					<Select.Trigger id="cuttableType" class="w-full">
 						{selectedCuttableLabel}
 					</Select.Trigger>
 					<Select.Content>
@@ -129,7 +129,7 @@
 							}
 						}
 					>
-						<Tabs.List class="w-full sm:w-auto">
+						<Tabs.List class="w-full">
 							{#each totalCuttableCounts as count}
 								<Tabs.Trigger
 									value={count.value === undefined ? 'none' : String(count.value)}
@@ -146,7 +146,7 @@
 				<FormItem>
 					<FormLabel title="가위 사용 잔여 횟수" variant="nested" />
 					<FormControl>
-						<InputGroup.Root class="w-full min-w-0 sm:w-28">
+						<InputGroup.Root class="sm:w-28">
 							<InputGroup.Addon align="inline-start">
 								<InputGroup.Button
 									aria-label="가위 사용 잔여 횟수 감소"
@@ -214,7 +214,7 @@
 						() => String(gear.req.levelIncrease), (v) => (gear.data.req.levelIncrease = Number(v))
 					}
 				>
-					<Tabs.List class="w-full sm:w-auto">
+					<Tabs.List class="w-full">
 						{#each reqLevelIncreases as reqLevelIncrease}
 							<Tabs.Trigger
 								value={String(reqLevelIncrease.value)}
@@ -243,13 +243,14 @@
 							bind:value={itemTag}
 							aria-invalid={itemTagError !== undefined}
 							oninput={() => (itemTagError = undefined)}
+							placeholder="캐릭터 이름"
 							class="sm:w-48"
 						/>
 						{#if itemTagError}
 							<p class="text-destructive text-sm">{itemTagError}</p>
 						{/if}
 					</div>
-					<div class="flex flex-col justify-end gap-2 sm:flex-row sm:items-center">
+					<div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
 						<Button
 							variant="outline"
 							size="sm"
@@ -303,28 +304,29 @@
 					: '이 아이템의 외형은 변경할 수 없어요.'}
 			/>
 			<FormControl>
-				<div class="flex flex-col justify-end gap-2 sm:flex-row sm:items-center">
-					<Dialog.Root>
-						<Dialog.Trigger class={buttonVariants({ variant: 'outline', size: 'sm' })} disabled={!canShapeChange}>
-							외형 설정하기
-						</Dialog.Trigger>
-						<ShapeDialogContent {gear} />
-					</Dialog.Root>
-					<Button
-						variant="danger"
-						size="sm"
-						disabled={!canShapeChange || gear.shape === undefined}
-						onclick={() => {
-							gear.shape = undefined;
-							toast.success('외형을 초기화했어요.', {
-								position: 'top-center',
-								duration: 2000
-							});
-						}}
+				<Dialog.Root>
+					<Dialog.Trigger
+						class={buttonVariants({ variant: 'outline', size: 'sm' })}
+						disabled={!canShapeChange}
 					>
-						되돌리기
-					</Button>
-				</div>
+						외형 설정하기
+					</Dialog.Trigger>
+					<ShapeDialogContent {gear} />
+				</Dialog.Root>
+				<Button
+					variant="danger"
+					size="sm"
+					disabled={!canShapeChange || gear.shape === undefined}
+					onclick={() => {
+						gear.shape = undefined;
+						toast.success('외형을 초기화했어요.', {
+							position: 'top-center',
+							duration: 2000
+						});
+					}}
+				>
+					되돌리기
+				</Button>
 			</FormControl>
 		</FormItem>
 	</FormSection>

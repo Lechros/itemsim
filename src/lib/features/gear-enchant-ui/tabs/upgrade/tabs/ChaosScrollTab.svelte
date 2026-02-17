@@ -39,8 +39,8 @@
 	}
 </script>
 
-<FormSection>
-	<FormItem>
+<FormSection class="gap-5">
+	<FormItem class="flex-row items-center justify-between">
 		<FormLabel title="혼돈의 주문서 설정" description="주문서 1회 당 수치를 입력해주세요." />
 		<FormControl>
 			<Button variant="ghost" size="sm" onclick={() => (option = {})}>
@@ -48,13 +48,9 @@
 			</Button>
 		</FormControl>
 	</FormItem>
-	<BalancedGrid
-		items={chaosOptionTypes}
-		class="gap-x-8 gap-y-2"
-		classes={{ column: 'gap-y-2' }}
-	>
+	<BalancedGrid items={chaosOptionTypes} class="gap-x-8 gap-y-3" classes={{ column: 'gap-y-3' }}>
 		{#snippet itemRenderer(stat: (typeof chaosOptionTypes)[number])}
-			<FormItem>
+			<FormItem class="gap-y-1">
 				<FormLabel title={stat.label} variant="nested" for="chaos-scroll-{stat.value}" />
 				<FormControl>
 					<InputGroup.Root id="chaos-scroll-{stat.value}" class="w-full min-w-0 sm:w-30">
@@ -95,35 +91,31 @@
 		{/snippet}
 	</BalancedGrid>
 
-	<FormItem>
+	<FormItem class="flex-row items-center justify-between">
 		<FormLabel title="빈 스탯을 임의의 놀긍혼 수치로 적용" variant="nested" />
 		<FormControl>
 			<Switch bind:checked={randomizeEmptyValues} />
 		</FormControl>
 	</FormItem>
 
-	<FormItem>
-		<FormLabel title="" />
-		<FormControl>
-			<div class="flex w-full flex-col gap-1 sm:flex-row sm:items-center sm:justify-end">
-				<Button onclick={() => applyChaosScroll()} disabled={!gear.canApplyScroll}>
-					혼돈의 주문서 사용하기
-				</Button>
-				<Button
-					variant="outline"
-					onclick={() => {
-						const count = gear.scrollUpgradeableCount;
-						for (let i = 0; i < count; i++) {
-							applyChaosScroll();
-						}
-					}}
-					disabled={!gear.canApplyScroll}
-				>
-					{gear.scrollUpgradeableCount}회 사용
-				</Button>
-			</div>
-		</FormControl>
-	</FormItem>
+	<FormControl>
+		<Button size="sm" onclick={() => applyChaosScroll()} disabled={!gear.canApplyScroll}>
+			혼돈의 주문서 사용하기
+		</Button>
+		<Button
+			variant="outline"
+			size="sm"
+			onclick={() => {
+				const count = gear.scrollUpgradeableCount;
+				for (let i = 0; i < count; i++) {
+					applyChaosScroll();
+				}
+			}}
+			disabled={!gear.canApplyScroll}
+		>
+			{gear.scrollUpgradeableCount}회 사용
+		</Button>
+	</FormControl>
 </FormSection>
 
 <SharedSections {gear} />

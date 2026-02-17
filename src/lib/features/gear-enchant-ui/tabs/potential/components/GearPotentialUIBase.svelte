@@ -1,16 +1,14 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
 	import * as Select from '$lib/components/ui/select';
-	import { ButtonGroup } from '$lib/components/button-group';
+	import * as Tabs from '$lib/components/ui/tabs';
+	import FormControl from '$lib/features/gear-enchant-ui/form/FormControl.svelte';
+	import FormItem from '$lib/features/gear-enchant-ui/form/FormItem.svelte';
+	import FormLabel from '$lib/features/gear-enchant-ui/form/FormLabel.svelte';
+	import FormSection from '$lib/features/gear-enchant-ui/form/FormSection.svelte';
 	import { PotentialGrade, type PotentialData } from '@malib/gear';
 	import { grades } from '../model/grades';
 	import PotentialSummary from './PotentialSummary.svelte';
 	import PotentialTitle from './PotentialTitle.svelte';
-	import FormSection from '$lib/features/gear-enchant-ui/form/FormSection.svelte';
-	import FormItem from '$lib/features/gear-enchant-ui/form/FormItem.svelte';
-	import FormLabel from '$lib/features/gear-enchant-ui/form/FormLabel.svelte';
-	import FormControl from '$lib/features/gear-enchant-ui/form/FormControl.svelte';
-	import * as Tabs from '$lib/components/ui/tabs';
 
 	let {
 		initialGrade,
@@ -56,7 +54,7 @@
 		<FormLabel title={gradeLabel} />
 		<FormControl>
 			<Tabs.Root bind:value={() => String(grade), (v) => (grade = Number(v))}>
-				<Tabs.List>
+				<Tabs.List class="w-full">
 					{#each grades as { label, value }}
 						<Tabs.Trigger value={String(value)}>
 							<PotentialTitle grade={value} />
