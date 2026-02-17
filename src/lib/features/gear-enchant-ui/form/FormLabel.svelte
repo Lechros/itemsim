@@ -23,7 +23,7 @@
 	{#if variant === 'default'}
 		<Label
 			for={controlId}
-			class={cn('text-base leading-snug font-medium', disabled && 'text-muted-foreground')}
+			class={cn('text-base leading-snug font-normal', disabled && 'text-muted-foreground')}
 		>
 			{title}
 		</Label>
@@ -37,5 +37,8 @@
 		>
 			{title}
 		</Label>
+		{#if description}
+			<p class="text-muted-foreground text-xs">{description}</p>
+		{/if}
 	{/if}
 </div>

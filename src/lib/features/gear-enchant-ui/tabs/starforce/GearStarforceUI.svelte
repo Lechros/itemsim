@@ -3,7 +3,6 @@
 	import { Gear } from '@malib/gear';
 	import { Tabs } from 'bits-ui';
 	import LineTabsTrigger from '../../tab/LineTabsTrigger.svelte';
-	import { getImplicitMaxStar } from './model/starforce';
 	import { showStarScrollTab } from './model/starScroll';
 	import StarforceTab from './tabs/StarforceTab.svelte';
 	import StarScrollTab from './tabs/StarScrollTab.svelte';
@@ -11,7 +10,7 @@
 	let { gear }: { gear: Gear } = $props();
 
 	let currentTab = $state('starforce');
-	let ignoreMaxStar = $state(gear.maxStar < getImplicitMaxStar(gear, true));
+	let ignoreMaxStar = $state(gear.star > gear.maxStar);
 </script>
 
 <div class="flex flex-col">

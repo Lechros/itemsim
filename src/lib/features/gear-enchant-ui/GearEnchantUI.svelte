@@ -132,7 +132,7 @@
 		<div class="border-b px-4 py-3">
 			<Button variant="ghost" size="sm" href="/" class="text-muted-foreground">
 				<ArrowLeft />
-				뒤로
+				인벤토리
 			</Button>
 		</div>
 
