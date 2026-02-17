@@ -9,6 +9,7 @@
 		children: childrenProp,
 		getKey,
 		startMargin = 0,
+		bufferSize = 0,
 		scrollRef,
 		multiple = false,
 		selected = $bindable(null),
@@ -19,6 +20,7 @@
 		children: Snippet<[item: T, index: number]>;
 		getKey?: (item: T) => string;
 		startMargin?: number;
+		bufferSize?: number;
 		scrollRef: HTMLElement;
 		multiple?: boolean;
 		selected?: string | null;
@@ -69,7 +71,7 @@
 	const safeGetKey = $derived(getKey ? createSafeGetKey(getKey) : undefined);
 </script>
 
-<Virtualizer data={items} getKey={safeGetKey} {startMargin} {scrollRef}>
+<Virtualizer data={items} getKey={safeGetKey} {startMargin} {bufferSize} {scrollRef}>
 	{#snippet children(item, index)}
 		{#if item}
 			{@render childrenProp(item, index)}

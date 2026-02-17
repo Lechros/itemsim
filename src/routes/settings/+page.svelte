@@ -27,7 +27,7 @@
 <ScrollArea class="h-dvh">
 	<MainNavbar />
 
-	<main class="mx-auto min-h-[calc(100%-3.5rem)] max-w-xl border-x">
+	<main class="mx-auto min-h-[calc(100%-3.5rem)] max-w-screen-sm sm:border-x">
 		<div class="px-4 py-3">
 			<Button
 				variant="ghost"
