@@ -47,6 +47,7 @@
 		</FormControl>
 	</FormItem>
 </FormSection>
+
 <FormSection class="gap-4">
 	<FormItem>
 		<FormLabel title="놀라운 장비 강화" />
@@ -77,6 +78,23 @@
 		</FormControl>
 	</FormItem>
 </FormSection>
+
+<FormSection>
+	<FormItem>
+		<FormLabel
+			title="최대 강화 단계 초과"
+			description={canIgnoreMaxStarScroll
+				? `설정하면 15성까지 강화할 수 있어요.`
+				: '장비 강화는 15성까지만 가능해요.'}
+			disabled={!canIgnoreMaxStarScroll}
+			for="ignoreMaxStar"
+		/>
+		<FormControl>
+			<Switch bind:checked={ignoreMaxStar} id="ignoreMaxStar" disabled={!canIgnoreMaxStarScroll} />
+		</FormControl>
+	</FormItem>
+</FormSection>
+
 <FormSection>
 	<FormItem>
 		<FormLabel title="장비 강화 초기화" />
@@ -91,21 +109,6 @@
 					초기화
 				</Button>
 			</div>
-		</FormControl>
-	</FormItem>
-</FormSection>
-<FormSection>
-	<FormItem>
-		<FormLabel
-			title="최대 강화 단계 초과"
-			description={canIgnoreMaxStarScroll
-				? `설정하면 15성까지 강화할 수 있어요.`
-				: '장비 강화는 15성까지만 가능해요.'}
-			disabled={!canIgnoreMaxStarScroll}
-			for="ignoreMaxStar"
-		/>
-		<FormControl>
-			<Switch bind:checked={ignoreMaxStar} id="ignoreMaxStar" disabled={!canIgnoreMaxStarScroll} />
 		</FormControl>
 	</FormItem>
 </FormSection>
