@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import { Button } from '$lib/components/ui/button';
 	import { cn } from '$lib/utils';
-	import { Check } from 'lucide-svelte';
-	import { fade } from 'svelte/transition';
+	import { CheckIcon } from 'lucide-svelte';
+	import type { Snippet } from 'svelte';
 
 	let {
 		children,
@@ -19,11 +19,12 @@
 	} = $props();
 </script>
 
-<button
+<Button
+	variant="ghost"
+	size="icon"
 	class={cn(
-		'bg-card focus-visible:border-ring focus-visible:ring-ring/50 hover:bg-accent relative flex aspect-square items-center justify-center gap-6 rounded-lg border py-6 shadow-sm transition-all hover:shadow-md',
-		'transition-all duration-100',
-		selected && 'ring-destructive/60 bg-destructive/10 hover:bg-destructive/20 ring-2'
+		'relative aspect-square size-full rounded-none border-r',
+		selected && 'bg-background hover:bg-background/80'
 	)}
 	draggable="false"
 	{onclick}
@@ -31,12 +32,19 @@
 	{onmouseleave}
 >
 	{@render children()}
+	<!-- Overlay -->
+	<div
+		class={cn(
+			'bg-muted absolute inset-0 transition-opacity',
+			selected ? 'opacity-0' : 'opacity-20'
+		)}
+	></div>
+	<!-- Check -->
 	{#if selected}
 		<div
-			class="bg-destructive absolute top-2 right-2 flex size-6 items-center justify-center rounded-full text-white"
-			transition:fade={{ duration: 100 }}
+			class="text-primary-foreground bg-primary absolute top-2.5 right-2.5 flex size-6 items-center justify-center rounded-full"
 		>
-			<Check class="size-4" />
+			<CheckIcon />
 		</div>
 	{/if}
-</button>
+</Button>

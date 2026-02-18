@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type { GearRow } from '$lib/stores/gear-inventory';
-	import { chunk } from '$lib/utils';
+	import { chunk, cn } from '$lib/utils';
 	import type { Snippet } from 'svelte';
-	import GridRow from './GridRow.svelte';
 	import { Virtualizer } from 'virtua/svelte';
 
 	let {
@@ -20,9 +19,8 @@
 	} = $props();
 
 	const ITEM_WIDTH = 128;
-	const MIN_COLUMN_COUNT = 2;
-	const GAP = 16;
-	const PADDING = 16;
+	const GAP = 0;
+	const PADDING = 0;
 
 	let width = $state<number | null>(null);
 	const { columnCount, maxWidth } = $derived(getGridProps(width, maxColumns));
@@ -47,9 +45,9 @@
 		columnCount: number;
 		maxWidth: number | undefined;
 	} {
-		if (!width || width < 380) {
+		if (!width || width < 320) {
 			return { columnCount: 2, maxWidth: undefined };
-		} else if (width < 450) {
+		} else if (width < 384) {
 			return { columnCount: 3, maxWidth: undefined };
 		} else {
 			const columnCount = getColumnCount(width, maxColumns);
@@ -70,21 +68,43 @@
 	}
 </script>
 
-<Virtualizer
-	data={rows}
-	getKey={(row) => `${row[0].seq}-${row[row.length - 1].seq}`}
-	bufferSize={150}
-	scrollRef={scrollRef ?? undefined}
-	{startMargin}
->
-	{#snippet children(row, index)}
-		<GridRow
-			items={row}
-			columns={columnCount}
-			children={itemChildren}
-			rowIndex={index}
-			{maxWidth}
-			class="mx-auto mb-4 gap-4 px-4"
-		/>
-	{/snippet}
-</Virtualizer>
+<div class="flex h-[calc(100%-110px-56px)] flex-col">
+	<Virtualizer
+		data={rows}
+		getKey={(row) => `${row[0].seq}-${row[row.length - 1].seq}`}
+		bufferSize={150}
+		scrollRef={scrollRef ?? undefined}
+		{startMargin}
+	>
+		{#snippet children(row, rowIndex)}
+			<div class="border-b">
+				<div
+					class={cn('mx-auto box-content grid', width && width >= 384 && 'border-l')}
+					style:grid-template-columns={`repeat(${columnCount}, 1fr)`}
+					style:max-width={maxWidth ? `${maxWidth}px` : undefined}
+				>
+					{#each row as item, index}
+						{@render itemChildren(item, rowIndex * columnCount + index)}
+					{/each}
+					{#if row.length < columnCount}
+						{#each Array(columnCount - row.length) as _}
+							<div class="border-r"></div>
+						{/each}
+					{/if}
+				</div>
+			</div>
+		{/snippet}
+	</Virtualizer>
+	<div
+		class={cn(
+			'mx-auto box-content grid h-full min-h-32 w-full',
+			width && width >= 384 && 'border-l'
+		)}
+		style:grid-template-columns={`repeat(${columnCount}, 1fr)`}
+		style:max-width={maxWidth ? `${maxWidth}px` : undefined}
+	>
+		{#each Array(columnCount) as _}
+			<div class="border-r"></div>
+		{/each}
+	</div>
+</div>
