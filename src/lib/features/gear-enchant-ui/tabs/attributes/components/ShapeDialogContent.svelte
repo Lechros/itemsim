@@ -5,11 +5,10 @@
 	import { SelectList, SelectListItem } from '$lib/components/select-list';
 	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog';
-	import { Input } from '$lib/components/ui/input';
-	import { cn } from '$lib/utils';
+	import * as InputGroup from '$lib/components/ui/input-group';
 	import type { Gear } from '@malib/gear';
 	import { createQuery } from '@tanstack/svelte-query';
-	import { Search, X } from 'lucide-svelte';
+	import { SearchIcon, XIcon } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
 
 	const { gear }: { gear: Gear } = $props();
@@ -33,34 +32,30 @@
 	let selected = $state<SearchGearSummary | null>(null);
 </script>
 
-<Dialog.Content class="p-4 sm:p-6">
+<Dialog.Content>
 	<Dialog.Header>
-		<Dialog.Title class="text-base">외형 설정하기</Dialog.Title>
+		<Dialog.Title>외형 설정하기</Dialog.Title>
 	</Dialog.Header>
 	<div class="flex flex-col gap-4">
-		<div class="relative w-full">
-			<Input class="pr-8.5 pl-9" placeholder="아이템 이름" bind:value={search} autofocus />
-			<Search
-				class={cn(
-					'text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2'
-				)}
-			/>
-			{#if search}
-				<Button
-					class="absolute top-px right-px bottom-px size-[34px]"
-					variant="ghost"
-					size="icon"
-					onclick={() => (search = '')}
-				>
-					<X class="text-muted-foreground" />
-				</Button>
-			{/if}
-		</div>
+		<InputGroup.Root>
+			<InputGroup.Addon align="inline-start">
+				<SearchIcon />
+			</InputGroup.Addon>
+			<InputGroup.Input placeholder="아이템 이름" bind:value={search} autofocus />
+			<InputGroup.Addon align="inline-end">
+				{#if search}
+					<InputGroup.Button variant="ghost" size="icon-xs" onclick={() => (search = '')}>
+						<XIcon />
+					</InputGroup.Button>
+				{/if}
+			</InputGroup.Addon>
+		</InputGroup.Root>
+
 		{#if results && results.length > 0}
 			<SelectList
 				items={results ?? []}
 				getKey={(item) => String(item.id)}
-				size={9}
+				size={6}
 				selected={selected ? String(selected.id) : null}
 			>
 				{#snippet children(item)}
@@ -79,9 +74,9 @@
 				{/snippet}
 			</SelectList>
 		{:else if search}
-			<div class="h-108">검색된 아이템이 없어요.</div>
+			<div class="text-muted-foreground h-72 text-sm">검색된 아이템이 없어요.</div>
 		{:else}
-			<div class="h-108">아이템 이름을 입력해 주세요.</div>
+			<div class="text-muted-foreground h-72 text-sm">아이템 이름을 입력해 주세요.</div>
 		{/if}
 	</div>
 	<Dialog.Footer>

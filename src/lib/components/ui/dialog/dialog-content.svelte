@@ -20,14 +20,14 @@
 <Dialog.Portal {...portalProps}>
 	<Dialog.Overlay />
 	<div
-		class="pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4 *:pointer-events-auto"
-		aria-hidden="true"
+		data-slot="dialog-content-wrapper"
+		class="pointer-events-none fixed inset-0 z-50 flex min-h-full flex-col items-center overflow-y-auto p-4 *:pointer-events-auto"
 	>
 		<DialogPrimitive.Content
 			bind:ref
 			data-slot="dialog-content"
 			class={cn(
-				'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 grid w-full max-w-[calc(100%-2rem)] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg',
+				'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 my-auto grid w-full max-w-full gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg',
 				className
 			)}
 			{...restProps}
