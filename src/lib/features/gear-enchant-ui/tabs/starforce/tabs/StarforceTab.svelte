@@ -43,7 +43,9 @@
 			if (step > maxStar) break;
 			presets.push(step);
 		}
-		presets.push(maxStar);
+		if (!presets.includes(maxStar)) {
+			presets.push(maxStar);
+		}
 		return presets;
 	}
 </script>

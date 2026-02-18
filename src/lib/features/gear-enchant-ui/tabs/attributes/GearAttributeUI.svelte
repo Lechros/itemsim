@@ -47,12 +47,6 @@
 		cuttableTypes.find((c) => c.value === gear.attributes.cuttable)?.label ?? ''
 	);
 
-	/** 한 항목: 왼쪽 제목·설명, 오른쪽 컨트롤 */
-	const groupClass = 'flex flex-col px-6 py-5 gap-6 border-t first:border-t-0';
-	const rowClass = 'flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3';
-	const labelWrapClass = 'flex min-w-0 flex-col';
-	const controlClass = 'shrink-0 sm:text-right';
-
 	let inputRef = $state<HTMLInputElement | null>(null);
 </script>
 

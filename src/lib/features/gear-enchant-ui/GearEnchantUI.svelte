@@ -103,7 +103,9 @@
 	class="mx-auto grid min-h-[calc(100dvh-3.5rem)] w-full max-w-6xl grid-cols-1 md:grid-cols-[minmax(0,1fr)_min-content] lg:grid-cols-[220px_minmax(0,1fr)_min-content]"
 >
 	<!-- Left: tab list (lg) -->
-	<aside class="sticky hidden flex-col overflow-y-auto border-r px-3 pt-6 lg:col-start-1 lg:flex">
+	<aside
+		class="sticky top-14 hidden h-[calc(100dvh-3.5rem)] flex-col overflow-y-auto border-r px-3 py-6 lg:col-start-1 lg:flex"
+	>
 		{#each tabStore.tabs as tab}
 			{@const isCurrent = tab.value === tabStore.currentTab.value}
 			<Button
@@ -207,7 +209,7 @@
 
 	<!-- Right: tooltip -->
 	<aside
-		class="sticky hidden overflow-y-auto border-l px-3 pt-4 md:col-start-2 md:block lg:col-start-3"
+		class="sticky top-14 hidden h-[calc(100dvh-3.5rem)] overflow-y-auto border-l px-3 py-6 md:col-start-2 md:block lg:col-start-3"
 	>
 		<div>
 			<GearTooltipRenderer
