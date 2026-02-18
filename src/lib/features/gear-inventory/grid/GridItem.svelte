@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { Button, buttonVariants } from '$lib/components/ui/button';
+	import { cn } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 
 	let {
@@ -23,12 +25,15 @@
 	}
 </script>
 
-<a
-	class="bg-card focus-visible:border-ring focus-visible:ring-ring/50 hover:bg-accent relative flex aspect-square items-center justify-center gap-6 rounded-lg border py-6 shadow-sm transition-all hover:shadow-md"
+<Button
+	variant="ghost"
+	size="icon"
+	class="bg-background relative aspect-square size-full rounded-none border-r"
+	draggable="false"
 	{href}
 	onclick={handleClick}
 	{onmouseenter}
 	{onmouseleave}
 >
 	{@render children()}
-</a>
+</Button>

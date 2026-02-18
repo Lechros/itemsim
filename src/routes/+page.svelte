@@ -2,8 +2,12 @@
 	import { goto } from '$app/navigation';
 	import { FollowCursor } from '$lib/components/follow-cursor';
 	import { Button } from '$lib/components/ui/button';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Empty from '$lib/components/ui/empty';
+	import * as InputGroup from '$lib/components/ui/input-group';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
+	import { Skeleton } from '$lib/components/ui/skeleton';
+	import { Spinner } from '$lib/components/ui/spinner';
 	import { GearDialog } from '$lib/features/gear-inventory/dialog';
 	import {
 		GearInventoryGrid,
@@ -14,23 +18,19 @@
 	import {
 		createDeleter,
 		createGearCountLiveQuery,
-		createGearLiveQuery,
-		GearInventoryHeader
+		createGearLiveQuery
 	} from '$lib/features/gear-inventory/header';
+	import DeleteButton from '$lib/features/gear-inventory/header/components/DeleteButton.svelte';
+	import SortButton from '$lib/features/gear-inventory/header/components/SortButton.svelte';
 	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
 	import { MainNavbar } from '$lib/features/navigation/main-navbar';
 	import { ScrollTopButton } from '$lib/features/scroll-top-button';
 	import { extractGearData } from '$lib/stores/gear-inventory';
-	import { getContext } from 'svelte';
-import type { SettingsStore } from '$lib/stores/settings.svelte';
-	import { createPointerDetection } from '$lib/utils';
+	import type { SettingsStore } from '$lib/stores/settings.svelte';
+	import { cn, createPointerDetection } from '$lib/utils';
 	import { type GearData, ReadonlyGear } from '@malib/gear';
-	import { Folder, Loader2 } from 'lucide-svelte';
-
-	const NAVBAR_HEIGHT = 56;
-	const FLOATING_HEIGHT = 136;
-	const DELETE_MODE_DIFF = 62;
-	const SCROLL_THRESHOLD = 8;
+	import { EllipsisIcon, Folder, SearchIcon, XIcon } from 'lucide-svelte';
+	import { getContext } from 'svelte';
 
 	const gearQuery = createGearLiveQuery();
 	const countQuery = createGearCountLiveQuery();
@@ -54,6 +54,11 @@ import type { SettingsStore } from '$lib/stores/settings.svelte';
 		hoverGearData = null;
 	});
 
+	function toggleDeleteMode() {
+		mode = mode === 'delete' ? 'default' : 'delete';
+		deleter.clear();
+	}
+
 	function handleItemClick(seq: number, gearData: GearData) {
 		if (!pointerDetection.isPointerFine) {
 			popupGearData = gearData;
@@ -68,46 +73,134 @@ import type { SettingsStore } from '$lib/stores/settings.svelte';
 		}
 	}
 
-	function onModeChange(mode: 'default' | 'delete') {
-		if (mode === 'delete') {
-			if (scrollY > SCROLL_THRESHOLD) {
-				if (viewportRef) {
-					viewportRef.scrollTop += DELETE_MODE_DIFF;
-				}
-			}
-		} else {
-			if (viewportRef) {
-				viewportRef.scrollTop -= DELETE_MODE_DIFF;
-			}
-		}
-	}
-
 	function onscroll(event: Event) {
 		const target = event.target as HTMLElement;
 		scrollY = target.scrollTop;
 	}
+
+	const columnItems = [
+		{ value: 4, label: '4' },
+		{ value: 5, label: '5' },
+		{ value: 8, label: '8' }
+	];
 </script>
 
 <svelte:head>
 	<title>아이템 시뮬레이터</title>
 </svelte:head>
 
-<ScrollArea class="h-dvh" bind:viewportRef {onscroll}>
+<ScrollArea class={cn('h-dvh', mode === 'delete' && 'bg-muted')} bind:viewportRef {onscroll}>
 	<MainNavbar />
-	<GearInventoryHeader
-		{gearQuery}
-		{countQuery}
-		{deleter}
-		{scrollY}
-		bind:mode
-		{settingsStore}
-		top={NAVBAR_HEIGHT}
-		{onModeChange}
-	/>
+
+	<!-- Inventory Header -->
+	<div class="bg-background sticky top-14 z-50 border-b">
+		<div class="mx-auto box-content max-w-screen-sm sm:border-l">
+			<nav class="flex flex-col gap-3 px-4 py-3 sm:border-r">
+				<!-- Top Row -->
+				<div class="flex items-center justify-between gap-x-2">
+					<!-- Count Display -->
+					<div class="flex items-center gap-x-2">
+						{#if countQuery.isLoading}
+							<Skeleton class="h-5 w-20" />
+						{:else if mode === 'delete'}
+							<div>
+								선택된 아이템 <span
+									class={cn('font-semibold', deleter.count === 0 && 'text-muted-foreground')}
+									>{deleter.count}</span
+								>/{countQuery.value}개
+							</div>
+						{:else if countQuery.value}
+							<div>아이템 <span class="font-semibold">{countQuery.value}</span>개</div>
+						{:else}
+							<div class="text-muted-foreground">아이템 없음</div>
+						{/if}
+					</div>
+					<!-- Manage Buttons -->
+					<div class="flex items-center gap-x-2">
+						{#if mode === 'default'}
+							<Button href="/gear/search">아이템 추가</Button>
+							<DropdownMenu.Root>
+								<DropdownMenu.Trigger>
+									{#snippet child({ props })}
+										<Button {...props} variant="ghost" size="icon">
+											<EllipsisIcon />
+										</Button>
+									{/snippet}
+								</DropdownMenu.Trigger>
+								<DropdownMenu.Content align="end">
+									<DropdownMenu.Label>아이템 관리</DropdownMenu.Label>
+									<DropdownMenu.Group>
+										<DropdownMenu.Item onclick={toggleDeleteMode}>삭제하기</DropdownMenu.Item>
+									</DropdownMenu.Group>
+									<DropdownMenu.Separator />
+									<DropdownMenu.Group>
+										<DropdownMenu.GroupHeading>보기 설정</DropdownMenu.GroupHeading>
+										{#if settingsStore.layout === 'grid'}
+											<DropdownMenu.Sub>
+												<DropdownMenu.SubTrigger>열 개수</DropdownMenu.SubTrigger>
+												<DropdownMenu.SubContent>
+													<DropdownMenu.RadioGroup
+														bind:value={
+															() => String(settingsStore.columns),
+															(v) => (settingsStore.columns = v === 'auto' ? 'auto' : Number(v))
+														}
+													>
+														{#each columnItems as item}
+															<DropdownMenu.RadioItem value={String(item.value)}>
+																{item.label}
+															</DropdownMenu.RadioItem>
+														{/each}
+														<DropdownMenu.Separator />
+														<DropdownMenu.RadioItem value="auto">최대</DropdownMenu.RadioItem>
+													</DropdownMenu.RadioGroup>
+												</DropdownMenu.SubContent>
+											</DropdownMenu.Sub>
+										{/if}
+									</DropdownMenu.Group>
+								</DropdownMenu.Content>
+							</DropdownMenu.Root>
+						{:else}
+							<DeleteButton {deleter} postDelete={() => (mode = 'default')} />
+							<Button
+								variant="outline"
+								onclick={toggleDeleteMode}
+								disabled={gearQuery.isLoadedAndEmpty}
+							>
+								취소
+							</Button>
+						{/if}
+					</div>
+				</div>
+				<!-- Bottom Row -->
+				<div class="flex items-center justify-between gap-x-2">
+					<div class="flex items-center gap-x-2">
+						<InputGroup.Root class="max-w-60">
+							<InputGroup.Addon align="inline-start">
+								<SearchIcon />
+							</InputGroup.Addon>
+							<InputGroup.Input placeholder="아이템 이름" bind:value={gearQuery.search} />
+							<InputGroup.Addon align="inline-end">
+								{#if gearQuery.search}
+									<InputGroup.Button
+										variant="ghost"
+										size="icon-xs"
+										onclick={() => (gearQuery.search = '')}
+									>
+										<XIcon />
+									</InputGroup.Button>
+								{/if}
+							</InputGroup.Addon>
+						</InputGroup.Root>
+						<SortButton bind:sort={gearQuery.sort} />
+					</div>
+				</div>
+			</nav>
+		</div>
+	</div>
 
 	{#if gearQuery.isLoading}
 		<div class="flex h-32 items-center justify-center">
-			<Loader2 class="size-8 animate-spin" />
+			<Spinner class="size-8" />
 		</div>
 	{:else if gearQuery.error}
 		<div class="flex h-32 items-center justify-center">
@@ -117,7 +210,7 @@ import type { SettingsStore } from '$lib/stores/settings.svelte';
 		{#if viewportRef}
 			<GearInventoryGrid
 				items={gearQuery.value}
-				startMargin={NAVBAR_HEIGHT + FLOATING_HEIGHT}
+				startMargin={56 + 110}
 				scrollRef={viewportRef}
 				maxColumns={settingsStore.columns === 'auto' ? undefined : settingsStore.columns}
 			>
@@ -149,7 +242,7 @@ import type { SettingsStore } from '$lib/stores/settings.svelte';
 		{/if}
 	{:else if gearQuery.search}
 		<div class="flex h-32 flex-col items-center justify-center gap-y-2">
-			<div>필터에 해당하는 결과가 없어요.</div>
+			<div class="text-muted-foreground text-sm">필터에 해당하는 결과가 없어요.</div>
 		</div>
 	{:else if countQuery.value === 0}
 		<Empty.Root>
@@ -172,7 +265,7 @@ import type { SettingsStore } from '$lib/stores/settings.svelte';
 	{/if}
 </ScrollArea>
 
-{#if scrollY > SCROLL_THRESHOLD}
+{#if scrollY > 8}
 	<ScrollTopButton scrollRef={viewportRef ?? undefined} />
 {/if}
 
@@ -194,6 +287,5 @@ import type { SettingsStore } from '$lib/stores/settings.svelte';
 		gear={new ReadonlyGear(popupGearData)}
 		bind:open={showPopup}
 		onAccept={() => goto(`/gear/${popupSeq}`)}
-		onClose={() => (showPopup = false)}
 	/>
 {/if}

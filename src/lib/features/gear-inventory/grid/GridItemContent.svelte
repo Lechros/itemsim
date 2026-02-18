@@ -19,7 +19,7 @@
 
 <GearIcon icon={gear.shapeIcon} {scale} />
 {#if gear.star || gear.scrollUpgradeCount}
-	<div class="absolute top-1.5 left-1.5 flex gap-1">
+	<div class="absolute top-2 left-2 flex gap-1">
 		<Badge variant="outline" class="bg-background/60 backdrop-blur">
 			{#if gear.star}
 				<div class="flex items-center gap-1">
@@ -40,13 +40,13 @@
 	</div>
 {/if}
 {#if gear.attributes.canPotential !== GearCapability.Cannot}
-	<div class="absolute right-2 bottom-2 flex flex-col gap-1">
+	<div class="absolute right-2.5 bottom-2.5 flex flex-col gap-1">
 		<PotentialTitle grade={gear.potentialGrade} />
 		<PotentialTitle grade={gear.additionalPotentialGrade} />
 	</div>
 {/if}
 {#if gear.exceptionalTotalUpgradeableCount > 0}
-	<div class="absolute bottom-2 left-2 flex flex-col gap-1">
+	<div class="absolute bottom-2.5 left-2.5 flex flex-col gap-1">
 		{#if gear.exceptionalUpgradeCount > 0}
 			<UIImage2 image="exceptionalNormal" />
 		{:else}

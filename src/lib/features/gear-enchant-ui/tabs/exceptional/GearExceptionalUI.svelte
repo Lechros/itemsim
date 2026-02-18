@@ -1,74 +1,90 @@
 <script lang="ts">
-	import { BalancedGrid } from '$lib/features/gear-enchant-ui/balanced-grid';
-	import { ItemCard, ItemCardContent, ItemCardFooter } from '$lib/features/gear-enchant-ui/item-card';
+	import { ItemRawIcon } from '$lib/components/icons';
 	import { Button } from '$lib/components/ui/button';
-	import { Card } from '$lib/components/ui/card';
-	import { Separator } from '$lib/components/ui/separator';
-	import { ButtonGroup } from '$lib/components/button-group';
-	import { Gear } from '@malib/gear';
-	import { getExceptionalHammer } from './model/exceptional';
+	import { BalancedGrid } from '$lib/features/gear-enchant-ui/balanced-grid';
 	import { getGearOptionGroupedStrings } from '$lib/utils';
+	import { Gear } from '@malib/gear';
+	import FormControl from '../../form/FormControl.svelte';
+	import FormItem from '../../form/FormItem.svelte';
+	import FormLabel from '../../form/FormLabel.svelte';
+	import FormSection from '../../form/FormSection.svelte';
+	import { getExceptionalHammer } from './model/exceptional';
 
 	let { gear }: { gear: Gear } = $props();
 
 	const exceptionalHammer = $derived(getExceptionalHammer(gear));
 </script>
 
-<div class="flex flex-col gap-y-4">
-	<div class="mx-auto w-full max-w-xs lg:hidden">
-		<Card class="flex flex-col gap-y-4 p-4">
-			<div class="text-center">
-				익셉셔널 강화 <span class="font-semibold">{gear.exceptionalUpgradeCount}</span>회 (최대
-				<span class="font-semibold">{gear.exceptionalTotalUpgradeableCount}</span>회)
-			</div>
-		</Card>
-	</div>
-
-	<ItemCard item={exceptionalHammer} placeholder="장비에 사용할 수 있는 익셉셔널 해머가 없어요.">
-		<ItemCardContent>
-			{#if exceptionalHammer}
-				{@const optionStrings = getGearOptionGroupedStrings(exceptionalHammer?.option)}
-				<BalancedGrid items={optionStrings} size={6} class="sm:h-30">
-					{#snippet itemRenderer(strings: [string, string])}
-						<div class="text-sm">
-							<span>{strings[0]}</span>
-							<span class="font-semibold">{strings[1]}</span>
-						</div>
-					{/snippet}
-				</BalancedGrid>
-			{:else}
-				<div class="sm:h-30"></div>
+{#if exceptionalHammer}
+	{@const optionStrings = getGearOptionGroupedStrings(exceptionalHammer.option)}
+	<FormSection class="gap-3">
+		<!-- Title -->
+		<div class="flex h-9 items-center gap-2">
+			{#if exceptionalHammer.icon}
+				<ItemRawIcon icon={exceptionalHammer.icon} />
 			{/if}
-		</ItemCardContent>
-		<ItemCardFooter>
-			{#if exceptionalHammer}
-				<ButtonGroup>
-					<Button
-						onclick={() => {
-							if (exceptionalHammer) {
-								gear.applyExceptional(exceptionalHammer);
-							}
-						}}
-						disabled={!exceptionalHammer || !gear.canApplyExceptional}
-					>
-						사용하기
-					</Button>
-				</ButtonGroup>
-			{:else}
-				<div class="sm:h-9"></div>
-			{/if}
-		</ItemCardFooter>
-	</ItemCard>
+			<div class="text-sm font-medium">{exceptionalHammer.name}</div>
+		</div>
 
-	<Separator />
-
-	<ButtonGroup>
-		<Button
-			variant="destructive"
-			onclick={() => gear.resetExceptional()}
-			disabled={!gear.canResetExceptional}
+		<BalancedGrid
+			items={optionStrings}
+			size={6}
+			class="gap-x-8 gap-y-0.5"
+			classes={{ column: 'gap-y-0.5' }}
 		>
-			익셉셔널 강화 초기화
-		</Button>
-	</ButtonGroup>
-</div>
+			{#snippet itemRenderer(strings: [string, string])}
+				<div class="text-sm">
+					<span>{strings[0]}</span>
+					<span class="font-semibold">{strings[1]}</span>
+				</div>
+			{/snippet}
+		</BalancedGrid>
+
+		<FormControl>
+			<Button
+				size="sm"
+				onclick={() => gear.applyExceptional(exceptionalHammer)}
+				disabled={!gear.canApplyExceptional}
+			>
+				{exceptionalHammer.name} 사용하기
+			</Button>
+			<Button
+				variant="outline"
+				size="sm"
+				onclick={() => {
+					const count = gear.exceptionalUpgradeableCount;
+					for (let i = 0; i < count; i++) {
+						gear.applyExceptional(exceptionalHammer);
+					}
+				}}
+				disabled={!gear.canApplyExceptional}
+			>
+				{gear.exceptionalUpgradeableCount}회 사용
+			</Button>
+		</FormControl>
+	</FormSection>
+{:else}
+	<FormSection class="bg-muted/50">
+		<FormItem>
+			<p class="text-muted-foreground text-sm font-medium">
+				사용할 수 있는 익셉셔널 해머가 없어요.
+			</p>
+		</FormItem>
+	</FormSection>
+{/if}
+
+<FormSection>
+	<FormItem>
+		<FormLabel title="익셉셔널 강화 초기화" />
+		<FormControl>
+			<Button
+				variant="destructive"
+				size="sm"
+				onclick={() => gear.resetExceptional()}
+				disabled={!gear.canResetExceptional}
+			>
+				초기화
+			</Button>
+		</FormControl>
+	</FormItem>
+</FormSection>

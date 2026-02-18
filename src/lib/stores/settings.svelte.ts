@@ -16,7 +16,7 @@ export interface Settings {
 
 export class SettingsStore implements Settings {
 	layout = $state<Settings['layout']>('grid');
-	columns = $state<Settings['columns']>('auto');
+	columns = $state<Settings['columns']>(5);
 	tooltipVersion = $state<Settings['tooltipVersion']>('2');
 	tooltip1Options = $state<Settings['tooltip1Options']>({ cannot: {}, incline: { combat: 0 } });
 	tooltip2Options = $state<Settings['tooltip2Options']>({
@@ -53,9 +53,25 @@ export class SettingsStore implements Settings {
 		$effect(() => {
 			if (typeof localStorage !== 'undefined') {
 				localStorage.setItem('gear-inventory-layout', this.layout);
+			}
+		});
+		$effect(() => {
+			if (typeof localStorage !== 'undefined') {
 				localStorage.setItem('gear-inventory-columns', this.columns.toString());
+			}
+		});
+		$effect(() => {
+			if (typeof localStorage !== 'undefined') {
 				localStorage.setItem('tooltip-version', this.tooltipVersion);
+			}
+		});
+		$effect(() => {
+			if (typeof localStorage !== 'undefined') {
 				localStorage.setItem('tooltip1-options', JSON.stringify(this.tooltip1Options));
+			}
+		});
+		$effect(() => {
+			if (typeof localStorage !== 'undefined') {
 				localStorage.setItem('tooltip2-options', JSON.stringify(this.tooltip2Options));
 			}
 		});

@@ -37,7 +37,7 @@
 
 <AlertDialog.Root bind:open>
 	<AlertDialog.Trigger class={buttonVariants({ variant: 'destructive' })} disabled={deleter.isEmpty}>
-		아이템 삭제
+		삭제하기
 	</AlertDialog.Trigger>
 	<AlertDialog.Content>
 		<AlertDialog.Header>

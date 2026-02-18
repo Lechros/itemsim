@@ -13,7 +13,12 @@ export function showEtcScrollTab(gear: ReadonlyGear) {
 	return getEtcScrolls(gear).length > 0;
 }
 
-export function getEtcScrolls(gear: ReadonlyGear) {
+/**
+ * 전용 주문서가 있는 경우 반환합니다.
+ * @param gear 대상 장비.
+ * @returns 전용 주문서 배열; 없을 경우 빈 배열.
+ */
+export function getOnlyScrolls(gear: ReadonlyGear) {
 	switch (gear.id) {
 		case 1123007:
 		case 1123008:
@@ -92,11 +97,24 @@ export function getEtcScrolls(gear: ReadonlyGear) {
 		case 1092142:
 		case 1092143:
 			return [scrollData['아스트라 실드 전용 마력 주문서']];
+		case 1342121: // 아스트라 블레이드
+		case 1342122:
+		case 1342123:
+			return [scrollData['아스트라 블레이드 전용 공격력 주문서']];
 		case 1092129: // 아스트라 베인 실드
 		case 1092130:
 		case 1092131:
 			return [scrollData['아스트라 베인 실드 전용 공격력 주문서']];
 	}
+	return [];
+}
+
+/**
+ * 장비에 적용 가능한 기타 주문서를 반환합니다.
+ * @param gear 대상 장비.
+ * @returns 기타 주문서 배열; 없을 경우 빈 배열.
+ */
+export function getEtcScrolls(gear: ReadonlyGear) {
 	const scrolls: Scroll[] = [];
 	switch (gear.id) {
 		case 1122000:
@@ -112,11 +130,6 @@ export function getEtcScrolls(gear: ReadonlyGear) {
 		case 1122376:
 		case 1122377:
 			scrolls.push(scrollData['비틀린 시간의 파편']);
-			break;
-		case 1342121:
-		case 1342122:
-		case 1342123:
-			scrolls.push(scrollData['아스트라 블레이드 전용 공격력 주문서']);
 			break;
 	}
 	if (gear.type === GearType.earrings) {

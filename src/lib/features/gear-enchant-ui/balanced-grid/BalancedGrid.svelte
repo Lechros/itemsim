@@ -1,7 +1,5 @@
 <script lang="ts" generics="T">
-	import { Separator } from '$lib/components/ui/separator';
-	import { cn } from '$lib/utils';
-	import { splitHalf } from '$lib/utils';
+	import { cn, splitHalf } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 
 	let {
@@ -19,30 +17,14 @@
 		};
 		itemRenderer: Snippet<[T]>;
 	} = $props();
-
-	const [leftItems, rightItems] = $derived(splitHalf(items));
-
-	const columnClass = $derived(cn('flex flex-col px-4', classes?.column));
 </script>
 
-<div
-	class={cn(
-		'-mx-4 grid auto-rows-min',
-		items.length > size && 'sm:grid-cols-[1fr_1px_1fr]',
-		className
-	)}
->
-	<div class={columnClass}>
-		{#each leftItems as item}
-			{@render itemRenderer(item)}
-		{/each}
-	</div>
-	{#if items.length > size}
-		<Separator orientation="vertical" class="hidden sm:block" />
-	{/if}
-	<div class={columnClass}>
-		{#each rightItems as item}
-			{@render itemRenderer(item)}
-		{/each}
-	</div>
+<div class={cn('auto-rows-1 grid', items.length > size && 'sm:grid-cols-2', className)}>
+	{#each splitHalf(items) as columnItems}
+		<div class={cn('flex flex-col', classes?.column)}>
+			{#each columnItems as item}
+				{@render itemRenderer(item)}
+			{/each}
+		</div>
+	{/each}
 </div>

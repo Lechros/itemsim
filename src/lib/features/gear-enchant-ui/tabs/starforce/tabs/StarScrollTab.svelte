@@ -4,69 +4,104 @@
 	import { Label } from '$lib/components/ui/label';
 	import { Switch } from '$lib/components/ui/switch';
 	import type { Gear } from '@malib/gear';
-	import {
-		addStarScroll,
-		canAddStarScroll,
-		canSetStarScroll,
-		setStarScroll,
-		showStarScrollIgnoreMaxStar
-	} from '../model/starScroll';
+	import FormControl from '../../../form/FormControl.svelte';
+	import FormItem from '../../../form/FormItem.svelte';
+	import FormLabel from '../../../form/FormLabel.svelte';
+	import FormSection from '../../../form/FormSection.svelte';
+	import { addStarScroll, canAddStarScroll } from '../model/starScroll';
+	import { addStarforce, canAddStarforce } from '../model/starforce';
 
 	let {
 		gear,
-		ignoreMaxStar = $bindable(false)
+		ignoreMaxStar = $bindable()
 	}: {
 		gear: Gear;
-		ignoreMaxStar?: boolean;
+		ignoreMaxStar: boolean;
 	} = $props();
+
+	const canIgnoreMaxStarScroll = $derived(gear.maxStar < 15);
 
 	let bonus = $state(false);
 </script>
 
-<div class="flex flex-col gap-y-4">
-	{#if showStarScrollIgnoreMaxStar(gear)}
-		<div class="flex items-center gap-x-2">
-			<Switch bind:checked={ignoreMaxStar} id="ignoreMaxStar" />
-			<Label for="ignoreMaxStar">최대 강화 단계 초과</Label>
-		</div>
-	{/if}
-
-	<div class="flex flex-col gap-y-2">
-		<h4 class="text-lg font-semibold">놀라운 장비 강화</h4>
-		<div class="flex items-center gap-x-2">
-			<Checkbox id="add-bonus" bind:checked={bonus} aria-labelledby="add-bonus-label" />
-			<Label id="add-bonus-label" for="add-bonus">보너스 스탯 적용</Label>
-		</div>
-		<div class="flex gap-x-2">
+<FormSection class="gap-4">
+	<FormItem>
+		<FormLabel title="일반 장비 강화" />
+	</FormItem>
+	<FormItem>
+		<FormLabel title="강화 적용" variant="nested" />
+		<FormControl>
 			{#each [1, 5] as star}
 				<Button
 					variant="outline"
-					class="text-blue-500 hover:text-blue-500/90"
-					onclick={() => addStarScroll(gear, star, bonus, ignoreMaxStar)}
-					disabled={!canAddStarScroll(gear, star, ignoreMaxStar)}
+					size="sm"
+					class="text-amber-500 hover:text-amber-500/90"
+					disabled={gear.star >= 15 || !canAddStarforce(gear, star, ignoreMaxStar)}
+					onclick={() => addStarforce(gear, Math.min(15 - gear.star, star), ignoreMaxStar)}
 				>
-					+{star}성
+					+{star}
 				</Button>
 			{/each}
-		</div>
-	</div>
-	<div class="flex flex-col gap-y-2">
-		<h4 class="text-lg font-semibold">일괄 강화</h4>
-		<div class="flex items-center gap-x-2">
-			<Checkbox id="set-bonus" bind:checked={bonus} aria-labelledby="set-bonus-label" />
-			<Label id="set-bonus-label" for="set-bonus">보너스 스탯 적용</Label>
-		</div>
-		<div class="flex gap-x-2">
-			{#each [12] as star}
+		</FormControl>
+	</FormItem>
+</FormSection>
+
+<FormSection class="gap-4">
+	<FormItem>
+		<FormLabel title="놀라운 장비 강화" />
+		<FormControl>
+			<div class="flex items-center gap-x-2">
+				<Checkbox bind:checked={bonus} id="bonus" />
+				<Label for="bonus">보너스 스탯</Label>
+			</div>
+		</FormControl>
+	</FormItem>
+	<FormItem>
+		<FormLabel title="강화 적용" variant="nested" />
+		<FormControl>
+			{#each [1, 5] as star}
 				<Button
 					variant="outline"
-					class="text-blue-500 hover:text-blue-500/90"
-					onclick={() => setStarScroll(gear, star, bonus, ignoreMaxStar)}
-					disabled={!canSetStarScroll(gear, star, ignoreMaxStar)}
+					size="sm"
+					class="text-sky-500 hover:text-sky-500/90"
+					disabled={gear.star >= 15 || !canAddStarScroll(gear, star, ignoreMaxStar)}
+					onclick={() => addStarScroll(gear, Math.min(15 - gear.star, star), bonus, ignoreMaxStar)}
 				>
-					{star}성
+					+{star}
 				</Button>
 			{/each}
-		</div>
-	</div>
-</div>
+		</FormControl>
+	</FormItem>
+</FormSection>
+
+<FormSection>
+	<FormItem>
+		<FormLabel
+			title="최대 강화 단계 초과"
+			description={canIgnoreMaxStarScroll
+				? `설정하면 15성까지 강화할 수 있어요.`
+				: '장비 강화는 15성까지만 가능해요.'}
+			disabled={!canIgnoreMaxStarScroll}
+			for="ignoreMaxStar"
+		/>
+		<FormControl>
+			<Switch bind:checked={ignoreMaxStar} id="ignoreMaxStar" disabled={!canIgnoreMaxStarScroll} />
+		</FormControl>
+	</FormItem>
+</FormSection>
+
+<FormSection>
+	<FormItem>
+		<FormLabel title="장비 강화 초기화" />
+		<FormControl>
+			<Button
+				variant="destructive"
+				size="sm"
+				disabled={!gear.canResetStarforce || gear.star === 0}
+				onclick={() => gear.resetStarforce()}
+			>
+				초기화
+			</Button>
+		</FormControl>
+	</FormItem>
+</FormSection>
