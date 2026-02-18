@@ -167,82 +167,74 @@
 		<!-- Bottom Footer -->
 		<footer class="fixed inset-x-0 bottom-0">
 			<div class="bg-background mx-auto flex max-w-screen-sm flex-col border-t sm:border-x">
-				<div class="px-4 py-3">
-					<div class="flex items-center justify-between gap-4">
-						{#if selected.count > 0}
-							<div class="text-sm">
-								선택된 아이템 <span class="font-semibold">{selected.count}</span>개
-							</div>
-						{:else}
-							<div class="text-muted-foreground text-sm">선택된 아이템 없음</div>
-						{/if}
-						<div class="flex items-center gap-2">
-							<Drawer.Root bind:open>
-								<Drawer.Trigger class={cn(buttonVariants({ variant: 'outline' }), 'group')}>
-									확인하기
-								</Drawer.Trigger>
-								<Drawer.Content>
-									<div class="mx-auto w-full max-w-screen-sm">
-										<Drawer.Header>
-											<Drawer.Title>선택된 아이템</Drawer.Title>
-											<Drawer.Description>
-												{#if selected.count > 0}
-													아이템을 제외하거나 추가할 수 있어요.
-												{:else}
-													선택된 아이템이 없어요.
-												{/if}
-											</Drawer.Description>
-										</Drawer.Header>
-										<ScrollArea
-											class="flex flex-col px-4"
-											style="height: calc(min(calc(80vh - 242px), {selected.count * 48}px));"
-										>
-											{#each selected.gears as gear (gear.id)}
-												<div
-													class="flex h-12 items-center justify-between border-b px-1 last:border-b-0"
-												>
-													<div class="flex items-center gap-3">
-														<GearIcon icon={gear.icon} />
-														<span class="text-sm font-medium">{gear.name}</span>
-													</div>
-													<Button
-														variant="ghost"
-														size="icon"
-														class="text-muted-foreground"
-														onclick={() => selected.delete(gear)}
-													>
-														<TrashIcon />
-													</Button>
-												</div>
-											{/each}
-										</ScrollArea>
-										<Drawer.Footer>
-											{#if selected.count > 0}
-												<Button disabled={isAdding} onclick={handleAdd}>
-													{#if isAdding}
-														<Spinner />
-													{/if}
-													{selected.count}개 추가
-												</Button>
-											{/if}
-											<Drawer.Close class={buttonVariants({ variant: 'outline' })}>
-												닫기
-											</Drawer.Close>
-										</Drawer.Footer>
-									</div>
-								</Drawer.Content>
-							</Drawer.Root>
-							<Button
-								class="flex-2/3 sm:flex-none"
-								disabled={selected.count === 0 || isAdding}
-								onclick={handleAdd}
-							>
-								{#if isAdding}
-									<Spinner />
-								{/if}
-								{selected.count}개 추가
-							</Button>
+				<div class="flex flex-col justify-between gap-4 px-4 py-3 sm:flex-row sm:items-center">
+					{#if selected.count > 0}
+						<div class="text-sm">
+							선택된 아이템 <span class="font-semibold">{selected.count}</span>개
 						</div>
+					{:else}
+						<div class="text-muted-foreground text-sm">선택된 아이템 없음</div>
+					{/if}
+					<div class="flex items-center gap-2">
+						<Drawer.Root bind:open>
+							<Drawer.Trigger class={cn(buttonVariants({ variant: 'outline' }), 'group flex-1')}>
+								확인하기
+							</Drawer.Trigger>
+							<Drawer.Content>
+								<div class="mx-auto w-full max-w-screen-sm">
+									<Drawer.Header>
+										<Drawer.Title>선택된 아이템</Drawer.Title>
+										<Drawer.Description>
+											{#if selected.count > 0}
+												아이템을 제외하거나 추가할 수 있어요.
+											{:else}
+												선택된 아이템이 없어요.
+											{/if}
+										</Drawer.Description>
+									</Drawer.Header>
+									<ScrollArea
+										class="flex flex-col px-4"
+										style="height: calc(min(calc(80vh - 242px), {selected.count * 48}px));"
+									>
+										{#each selected.gears as gear (gear.id)}
+											<div
+												class="flex h-12 items-center justify-between border-b px-1 last:border-b-0"
+											>
+												<div class="flex items-center gap-3">
+													<GearIcon icon={gear.icon} />
+													<span class="text-sm font-medium">{gear.name}</span>
+												</div>
+												<Button
+													variant="ghost"
+													size="icon"
+													class="text-muted-foreground"
+													onclick={() => selected.delete(gear)}
+												>
+													<TrashIcon />
+												</Button>
+											</div>
+										{/each}
+									</ScrollArea>
+									<Drawer.Footer>
+										{#if selected.count > 0}
+											<Button disabled={isAdding} onclick={handleAdd}>
+												{#if isAdding}
+													<Spinner />
+												{/if}
+												{selected.count}개 추가
+											</Button>
+										{/if}
+										<Drawer.Close class={buttonVariants({ variant: 'outline' })}>닫기</Drawer.Close>
+									</Drawer.Footer>
+								</div>
+							</Drawer.Content>
+						</Drawer.Root>
+						<Button class="flex-1" disabled={selected.count === 0 || isAdding} onclick={handleAdd}>
+							{#if isAdding}
+								<Spinner />
+							{/if}
+							{selected.count}개 추가
+						</Button>
 					</div>
 				</div>
 			</div>

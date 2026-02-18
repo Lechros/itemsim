@@ -89,7 +89,7 @@
 	<title>아이템 시뮬레이터</title>
 </svelte:head>
 
-<ScrollArea class={cn("h-dvh", mode === 'delete' && 'bg-muted')} bind:viewportRef {onscroll}>
+<ScrollArea class={cn('h-dvh', mode === 'delete' && 'bg-muted')} bind:viewportRef {onscroll}>
 	<MainNavbar />
 
 	<!-- Inventory Header -->
@@ -287,6 +287,5 @@
 		gear={new ReadonlyGear(popupGearData)}
 		bind:open={showPopup}
 		onAccept={() => goto(`/gear/${popupSeq}`)}
-		onClose={() => (showPopup = false)}
 	/>
 {/if}

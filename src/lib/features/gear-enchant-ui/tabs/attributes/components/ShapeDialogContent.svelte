@@ -84,12 +84,9 @@
 			<div class="h-108">아이템 이름을 입력해 주세요.</div>
 		{/if}
 	</div>
-	<Dialog.Footer class="flex-row justify-end">
-		<Dialog.Close class={[buttonVariants({ variant: 'outline' }), 'flex-1/3 sm:flex-none']}
-			>닫기</Dialog.Close
-		>
+	<Dialog.Footer>
+		<Dialog.Close class={buttonVariants({ variant: 'outline' })}>닫기</Dialog.Close>
 		<Button
-			class="flex-2/3 sm:flex-none"
 			disabled={!selected}
 			onclick={() => {
 				gear.shape = {

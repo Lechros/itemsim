@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
+	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
@@ -10,13 +10,11 @@
 	let {
 		gear,
 		open = $bindable(false),
-		onAccept,
-		onClose
+		onAccept
 	}: {
 		gear: ReadonlyGear;
 		open?: boolean;
 		onAccept: () => void;
-		onClose: () => void;
 	} = $props();
 
 	const settingsStore = getContext<SettingsStore>('settingsStore');
@@ -39,9 +37,9 @@
 			</ScrollArea>
 		</div>
 
-		<Dialog.Footer class="flex-row justify-end">
-			<Button variant="outline" class="flex-1/3 sm:flex-none" onclick={onClose}>닫기</Button>
-			<Button class="flex-2/3 sm:flex-none" onclick={onAccept}>강화하기</Button>
+		<Dialog.Footer>
+			<Dialog.Close class={buttonVariants({ variant: 'outline' })}>닫기</Dialog.Close>
+			<Button onclick={onAccept}>강화하기</Button>
 		</Dialog.Footer>
 	</Dialog.Content>
 </Dialog.Root>

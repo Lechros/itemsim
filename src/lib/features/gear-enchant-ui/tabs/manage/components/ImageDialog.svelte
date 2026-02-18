@@ -75,9 +75,9 @@
 				<Skeleton class="absolute inset-0" />
 			</div>
 		{/if}
-		<Dialog.Footer class="flex-row justify-end">
-			<Button variant="outline" class="flex-1/3 sm:flex-none" onclick={close}>닫기</Button>
-			<Button class="flex-2/3 sm:flex-none" disabled={!dataUrl} onclick={download}>
+		<Dialog.Footer>
+			<Dialog.Close class={buttonVariants({ variant: 'outline' })}>닫기</Dialog.Close>
+			<Button disabled={!dataUrl} onclick={download}>
 				{#if !dataUrl}
 					<Spinner />
 				{/if}
