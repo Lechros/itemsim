@@ -7,7 +7,7 @@
 	import GearTooltipImageRenderer from '$lib/features/gear-tooltip-image-renderer/GearTooltipImageRenderer.svelte';
 	import type { SettingsStore } from '$lib/stores/settings.svelte';
 	import { ReadonlyGear } from '@malib/gear';
-	import { CircleAlertIcon } from 'lucide-svelte';
+	import { CircleAlertIcon, ImageIcon } from 'lucide-svelte';
 	import { getContext } from 'svelte';
 
 	let {
@@ -45,10 +45,13 @@
 </script>
 
 <Dialog.Root bind:open {onOpenChangeComplete}>
-	<Dialog.Trigger class={buttonVariants({ variant: 'outline', size: 'sm' })}>열기</Dialog.Trigger>
-	<Dialog.Content class="max-h-full w-fit max-w-none p-4 sm:p-6">
+	<Dialog.Trigger class={buttonVariants({ variant: 'outline', size: 'sm' })}>
+		<ImageIcon />
+		열기
+	</Dialog.Trigger>
+	<Dialog.Content class="w-fit">
 		<Dialog.Header>
-			<Dialog.Title class="text-base">아이템 이미지</Dialog.Title>
+			<Dialog.Title>아이템 이미지</Dialog.Title>
 		</Dialog.Header>
 
 		{#if dataUrl}

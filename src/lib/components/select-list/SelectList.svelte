@@ -1,8 +1,8 @@
 <script lang="ts" generics="T">
+	import { SelectListVirtualizer } from '$lib/components/select-list/index';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { type Snippet } from 'svelte';
 	import { SvelteSet } from 'svelte/reactivity';
-	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import { SelectListVirtualizer } from '$lib/components/select-list/index';
 
 	let {
 		items,
@@ -36,6 +36,7 @@
 			{children}
 			{getKey}
 			scrollRef={viewportRef}
+			bufferSize={size ? 48 * size : undefined}
 			{multiple}
 			{selected}
 			{selectedSet}

@@ -29,7 +29,7 @@
 	import type { SettingsStore } from '$lib/stores/settings.svelte';
 	import { cn, createPointerDetection } from '$lib/utils';
 	import { type GearData, ReadonlyGear } from '@malib/gear';
-	import { EllipsisIcon, Folder, SearchIcon, XIcon } from 'lucide-svelte';
+	import { EllipsisVerticalIcon, Folder, SearchIcon, XIcon } from 'lucide-svelte';
 	import { getContext } from 'svelte';
 
 	const gearQuery = createGearLiveQuery();
@@ -123,7 +123,7 @@
 								<DropdownMenu.Trigger>
 									{#snippet child({ props })}
 										<Button {...props} variant="ghost" size="icon">
-											<EllipsisIcon />
+											<EllipsisVerticalIcon />
 										</Button>
 									{/snippet}
 								</DropdownMenu.Trigger>
