@@ -73,7 +73,7 @@
 		<FormLabel
 			title="아이템 업데이트"
 			description={hasBaseUpdate
-				? '아이템 버전 업데이트할 수 있어요.'
+				? '아이템 버전을 업데이트할 수 있어요.'
 				: '이미 최신 버전의 아이템이에요.'}
 			disabled={!hasBaseUpdate}
 		/>
