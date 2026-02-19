@@ -1,6 +1,6 @@
 import { GEAR_VERSION } from '$lib/config/constant';
 import { migrate, type GearData } from '@malib/gear';
-import Dexie, { type EntityTable, liveQuery } from 'dexie';
+import Dexie, { liveQuery, type EntityTable } from 'dexie';
 import { getRegExp } from 'korean-regexp';
 
 export interface GearRow {
@@ -11,7 +11,7 @@ export interface GearRow {
 	updatedAt: Date;
 }
 
-const db = new Dexie('itemsim') as Dexie & {
+export const db = new Dexie('itemsim') as Dexie & {
 	inventory: EntityTable<GearRow, 'seq'>;
 };
 
@@ -44,17 +44,22 @@ export async function addGearData(gears: GearData[], hashes: string[]) {
 }
 
 /**
+ * DB에 장비 행을 추가합니다.
+ * @param rows 추가할 장비 행
+ * @returns 추가된 장비 행의 seq. 여러 장비 행을 추가할 경우 마지막 장비 행의 seq를 반환합니다.
+ */
+export async function addGearRows(rows: Omit<GearRow, 'seq'>[]) {
+	return await db.inventory.bulkAdd(rows);
+}
+
+/**
  * DB에서 장비 정보를 수정합니다. 존재하지 않는 seq일 경우 추가되지 않습니다.
  * @param seq 수정할 장비 정보의 seq
  * @param gear 새로운 장비 정보
  * @param options.hash 기본 정보 해시. 업데이트 반영 시 서버 해시로 갱신.
  * @returns 수정되었을 경우 1; 아닐 경우 0.
  */
-export async function updateGearData(
-	seq: number,
-	gear: GearData,
-	options?: { hash?: string }
-) {
+export async function updateGearData(seq: number, gear: GearData, options?: { hash?: string }) {
 	const now = new Date();
 	const update: Partial<GearRow> = { gear, updatedAt: now };
 	if (options?.hash) {
@@ -72,12 +77,28 @@ export async function deleteGearData(...seqs: number[]) {
 }
 
 /**
+ * DB에서 모든 장비 정보를 삭제합니다.
+ * @returns 삭제된 장비 정보의 개수
+ */
+export function deleteAllGearData() {
+	return db.inventory.clear();
+}
+
+/**
  * DB에서 장비 행을 조회합니다.
  * @param seq 조회할 seq
  * @returns `GearRow` 또는 `undefined`
  */
-export function getGearRow(seq: number) {
-	return db.inventory.get(seq);
+export function getGearRow(...seqs: number[]) {
+	return db.inventory.bulkGet(seqs);
+}
+
+/**
+ * DB에서 모든 장비 행을 조회합니다.
+ * @returns 모든 장비 행
+ */
+export function getAllGearRows() {
+	return db.inventory.toArray();
 }
 
 /**
