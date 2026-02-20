@@ -2,11 +2,13 @@
 	import { goto } from '$app/navigation';
 	import { FollowCursor } from '$lib/components/follow-cursor';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog';
-	import { Button } from '$lib/components/ui/button';
+	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import * as ButtonGroup from '$lib/components/ui/button-group';
+	import * as Dialog from '$lib/components/ui/dialog';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Empty from '$lib/components/ui/empty';
 	import * as InputGroup from '$lib/components/ui/input-group';
+	import * as Item from '$lib/components/ui/item';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import { Spinner } from '$lib/components/ui/spinner';
@@ -27,18 +29,26 @@
 	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
 	import { MainNavbar } from '$lib/features/navigation/main-navbar';
 	import { ScrollTopButton } from '$lib/features/scroll-top-button';
-	import { exportGears } from '$lib/gear/export-helper';
+	import { exportGears, importGears } from '$lib/gear/export-helper';
+	import { parseExportPayload } from '$lib/gear/export/parse';
 	import { extractGearData, getGearRows, type GearRow } from '$lib/stores/gear-inventory';
 	import type { SettingsStore } from '$lib/stores/settings.svelte';
 	import { buildDownloadFilename, cn, createPointerDetection } from '$lib/utils';
 	import { ReadonlyGear, type GearData } from '@malib/gear';
 	import {
 		ChevronDownIcon,
+		Columns3CogIcon,
 		DownloadIcon,
 		EllipsisVerticalIcon,
 		Folder,
+		FolderSyncIcon,
+		FolderUpIcon,
+		ImportIcon,
+		PlusIcon,
 		SearchIcon,
+		SquareDashedMousePointerIcon,
 		Trash2Icon,
+		UploadIcon,
 		XIcon
 	} from 'lucide-svelte';
 	import { getContext } from 'svelte';
@@ -63,6 +73,12 @@
 
 	let openBackupDialog = $state(false);
 	let deleteConfirmOpen = $state(false);
+	let openImportDialog = $state(false);
+	let importFileInputRef = $state<HTMLInputElement | null>(null);
+	let importFileBytes = $state<Uint8Array | null>(null);
+	let importFilename = $state<string | null>(null);
+	let importCount = $state(0);
+	let isImporting = $state(false);
 
 	$effect(() => {
 		gearQuery.value;
@@ -191,8 +207,16 @@
 								<DropdownMenu.Content align="end">
 									<DropdownMenu.Label>아이템 관리</DropdownMenu.Label>
 									<DropdownMenu.Group>
-										<DropdownMenu.Item onclick={toggleSelectMode}>일괄 작업</DropdownMenu.Item>
+										<DropdownMenu.Item onclick={toggleSelectMode}>
+											<SquareDashedMousePointerIcon />
+											일괄 작업
+										</DropdownMenu.Item>
+										<DropdownMenu.Item onclick={() => (openImportDialog = true)}>
+											<ImportIcon />
+											불러오기
+										</DropdownMenu.Item>
 										<DropdownMenu.Item onclick={() => (openBackupDialog = true)}>
+											<FolderSyncIcon />
 											아이템 백업
 										</DropdownMenu.Item>
 									</DropdownMenu.Group>
@@ -201,7 +225,10 @@
 										<DropdownMenu.GroupHeading>보기 설정</DropdownMenu.GroupHeading>
 										{#if settingsStore.layout === 'grid'}
 											<DropdownMenu.Sub>
-												<DropdownMenu.SubTrigger>열 개수</DropdownMenu.SubTrigger>
+												<DropdownMenu.SubTrigger>
+													<Columns3CogIcon />
+													열 개수
+												</DropdownMenu.SubTrigger>
 												<DropdownMenu.SubContent>
 													<DropdownMenu.RadioGroup
 														bind:value={
@@ -412,5 +439,116 @@
 		</AlertDialog.Footer>
 	</AlertDialog.Content>
 </AlertDialog.Root>
+
+<Dialog.Root
+	bind:open={openImportDialog}
+	onOpenChangeComplete={(open) => {
+		if (!open) {
+			importFileBytes = null;
+			importFilename = null;
+			importCount = 0;
+		}
+	}}
+>
+	<Dialog.Content>
+		<Dialog.Header>
+			<Dialog.Title>아이템 불러오기</Dialog.Title>
+			<Dialog.Description>내보내기한 아이템을 다시 불러올 수 있어요.</Dialog.Description>
+		</Dialog.Header>
+
+		<Item.Root variant="outline">
+			<Item.Content>
+				<Item.Title>불러오기</Item.Title>
+				<Item.Description
+					>내보내기 파일(.simexport)의 아이템을 인벤토리에 추가해요.</Item.Description
+				>
+				<div class="mt-2 flex flex-col gap-4">
+					{#if importFileBytes && importFilename}
+						<Item.Root variant="muted">
+							<Item.Media>
+								<FolderUpIcon />
+							</Item.Media>
+							<Item.Content>
+								<Item.Title>{importFilename}</Item.Title>
+								<Item.Description>
+									아이템 {importCount}개
+								</Item.Description>
+							</Item.Content>
+							<Item.Actions>
+								<Button
+									disabled={isImporting}
+									onclick={async () => {
+										if (!importFileBytes) return;
+										isImporting = true;
+										try {
+											await importGears(importFileBytes as Uint8Array<ArrayBuffer>);
+											toast.success('아이템 불러오기가 완료되었어요.', {
+												position: 'top-center'
+											});
+											openImportDialog = false;
+										} catch (error) {
+											toast.error('아이템 불러오기에 실패했어요.', {
+												description: error instanceof Error ? error.message : String(error),
+												position: 'top-center'
+											});
+										} finally {
+											isImporting = false;
+										}
+									}}
+								>
+									{#if isImporting}
+										<Spinner />
+									{/if}
+									<PlusIcon />
+									추가하기
+								</Button>
+							</Item.Actions>
+						</Item.Root>
+					{/if}
+					<Button variant="outline" onclick={() => importFileInputRef?.click()}>
+						<UploadIcon />
+						파일 선택
+					</Button>
+				</div>
+			</Item.Content>
+		</Item.Root>
+
+		<Dialog.Footer>
+			<Dialog.Close class={buttonVariants({ variant: 'outline' })}>닫기</Dialog.Close>
+		</Dialog.Footer>
+	</Dialog.Content>
+</Dialog.Root>
+
+<input
+	bind:this={importFileInputRef}
+	type="file"
+	accept=".simexport"
+	class="hidden"
+	onchange={async (event) => {
+		const input = event.target as HTMLInputElement;
+		const file = input.files?.[0];
+		if (!file) return;
+		try {
+			const arrayBuffer = await file.arrayBuffer();
+			const bytes = new Uint8Array(arrayBuffer);
+			const payload = parseExportPayload(bytes);
+			if (payload.type !== 'export') {
+				toast.error('내보내기 파일만 불러올 수 있어요.', { position: 'top-center' });
+				input.value = '';
+				return;
+			}
+			importFileBytes = bytes;
+			importFilename = file.name;
+			importCount = payload.items.length;
+		} catch (error) {
+			toast.error('파일을 읽을 수 없어요.', {
+				description: error instanceof Error ? error.message : String(error),
+				position: 'top-center'
+			});
+		} finally {
+			input.value = '';
+		}
+	}}
+/>
 
 <BackupDialogContent bind:open={openBackupDialog} />

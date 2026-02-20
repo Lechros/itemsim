@@ -11,7 +11,7 @@
 	import { buildDownloadFilename } from '$lib/utils';
 	import { parseExportPayload } from '$lib/gear/export/parse';
 	import type { ExportPayload } from '$lib/gear/export/types';
-	import { DownloadIcon, FolderDownIcon, FolderUpIcon, UploadIcon } from 'lucide-svelte';
+	import { CircleXIcon, CopyXIcon, DownloadIcon, FolderDownIcon, FolderUpIcon, PlusIcon, UploadIcon } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
 
 	let {
@@ -87,7 +87,7 @@
 								</Item.Description>
 							</Item.Content>
 							<Item.Actions>
-								<Button variant="outline" onclick={() => downloadRef?.click()}>
+								<Button  onclick={() => downloadRef?.click()}>
 									<DownloadIcon />
 									다운로드
 								</Button>
@@ -95,6 +95,7 @@
 						</Item.Root>
 					{/if}
 					<Button
+					variant="outline"
 						onclick={async () => {
 							isBackuping = true;
 							try {
@@ -129,7 +130,7 @@
 		<Item.Root variant="outline">
 			<Item.Content>
 				<Item.Title>복구</Item.Title>
-				<Item.Description>백업 파일을 불러와 인벤토리에 추가해요.</Item.Description>
+				<Item.Description>백업 파일(.simbackup)을 불러와 인벤토리에 추가해요.</Item.Description>
 				<div class="mt-2 flex flex-col gap-4">
 					{#if restorePayload && restoreFilename}
 						<div class="flex items-center gap-2">
@@ -149,9 +150,15 @@
 							<Item.Actions>
 								<AlertDialog.Root bind:open={restoreAlertOpen}>
 									<AlertDialog.Trigger
-										class={buttonVariants({ variant: overwrite ? 'destructive' : 'outline' })}
+										class={buttonVariants({ variant: overwrite ? 'destructive' : 'default' })}
 									>
-										{overwrite ? '덮어쓰기' : '추가하기'}
+									{#if overwrite}
+									<CopyXIcon/>
+									덮어쓰기
+									{:else}
+									<PlusIcon/>
+									추가하기
+									{/if}
 									</AlertDialog.Trigger>
 									<AlertDialog.Content>
 										<AlertDialog.Header>
@@ -204,7 +211,7 @@
 					{/if}
 					<Button variant="outline" onclick={() => fileInputRef?.click()}>
 						<UploadIcon />
-						백업 파일 불러오기
+						파일 선택
 					</Button>
 				</div>
 			</Item.Content>
