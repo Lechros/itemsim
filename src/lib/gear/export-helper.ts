@@ -1,10 +1,10 @@
 import { GEAR_VERSION } from '$lib/config/constant';
 import {
-    addGearRows,
-    db,
-    deleteAllGearData,
-    getAllGearRows,
-    type GearRow
+	addGearRows,
+	db,
+	deleteAllGearData,
+	getAllGearRows,
+	type GearRow
 } from '$lib/stores/gear-inventory';
 import { migrate, type GearData } from '@malib/gear';
 import typia from 'typia';
@@ -12,7 +12,7 @@ import { parseExportPayload } from './export/parse';
 import { buildExportPayload, serializeExportPayload } from './export/serialize';
 import { type ExportPayload } from './export/types';
 
-export async function backupInventory(): Promise<string> {
+export async function backupInventory(): Promise<Uint8Array<ArrayBuffer>> {
 	try {
 		const rows = await getAllGearRows();
 		const payload = buildExportPayload(rows, 'backup');
@@ -23,14 +23,7 @@ export async function backupInventory(): Promise<string> {
 	}
 }
 
-export async function restoreInventory(payloadStr: string, clear: boolean = false) {
-	let payload: ExportPayload;
-	try {
-		payload = parseExportPayload(payloadStr);
-	} catch (error) {
-		console.error(error);
-		throw new Error('인벤토리 복원에 실패했어요. 올바른 파일인지 확인해주세요.');
-	}
+export async function restoreInventory(payload: ExportPayload, clear: boolean = false) {
 	if (payload.type !== 'backup') {
 		throw new Error('인벤토리 복원에 실패했어요. 올바른 파일인지 확인해주세요.');
 	}
@@ -59,7 +52,7 @@ export async function restoreInventory(payloadStr: string, clear: boolean = fals
 		});
 }
 
-export function exportGears(rows: GearRow[]): string {
+export function exportGears(rows: GearRow[]): Uint8Array<ArrayBuffer> {
 	try {
 		const payload = buildExportPayload(rows, 'export');
 		return serializeExportPayload(payload);
@@ -69,12 +62,12 @@ export function exportGears(rows: GearRow[]): string {
 	}
 }
 
-export async function importGears(payloadStr: string) {
+export async function importGears(payloadStr: Uint8Array<ArrayBuffer>) {
 	let payload: ExportPayload;
 	try {
 		payload = parseExportPayload(payloadStr);
 	} catch (error) {
-        console.error(error);
+		console.error(error);
 		throw new Error('아이템 가져오기에 실패했어요. 올바른 파일인지 확인해주세요.');
 	}
 	if (payload.type !== 'export') {

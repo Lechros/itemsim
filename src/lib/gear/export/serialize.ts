@@ -2,8 +2,9 @@ import type { GearRow } from '$lib/stores/gear-inventory';
 import lzs from 'lz-string';
 import type { ExportPayload } from './types';
 
-export function serializeExportPayload(payload: ExportPayload): string {
-	return lzs.compress(JSON.stringify(payload));
+export function serializeExportPayload(payload: ExportPayload): Uint8Array<ArrayBuffer> {
+	const serialized = JSON.stringify(payload);
+	return lzs.compressToUint8Array(serialized) as Uint8Array<ArrayBuffer>;
 }
 
 export function buildExportPayload(rows: GearRow[], type: 'backup' | 'export'): ExportPayload {

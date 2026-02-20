@@ -8,6 +8,7 @@
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import { Spinner } from '$lib/components/ui/spinner';
+	import BackupDialogContent from '$lib/features/backup-ui/BackupDialogContent.svelte';
 	import { GearDialog } from '$lib/features/gear-inventory/dialog';
 	import {
 		GearInventoryGrid,
@@ -48,6 +49,8 @@
 	let popupGearData = $state<GearData | null>(null);
 	let popupSeq = $state<number | null>(null);
 	let showPopup = $state(false);
+
+	let openBackupDialog = $state(false);
 
 	$effect(() => {
 		gearQuery.value;
@@ -131,6 +134,9 @@
 									<DropdownMenu.Label>아이템 관리</DropdownMenu.Label>
 									<DropdownMenu.Group>
 										<DropdownMenu.Item onclick={toggleDeleteMode}>삭제하기</DropdownMenu.Item>
+										<DropdownMenu.Item onclick={() => (openBackupDialog = true)}>
+											아이템 백업
+										</DropdownMenu.Item>
 									</DropdownMenu.Group>
 									<DropdownMenu.Separator />
 									<DropdownMenu.Group>
@@ -289,3 +295,5 @@
 		onAccept={() => goto(`/gear/${popupSeq}`)}
 	/>
 {/if}
+
+<BackupDialogContent bind:open={openBackupDialog} />
