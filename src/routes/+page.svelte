@@ -1,43 +1,74 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { FollowCursor } from '$lib/components/follow-cursor';
-	import { Button } from '$lib/components/ui/button';
+	import * as AlertDialog from '$lib/components/ui/alert-dialog';
+	import { Button, buttonVariants } from '$lib/components/ui/button';
+	import * as ButtonGroup from '$lib/components/ui/button-group';
+	import * as ContextMenu from '$lib/components/ui/context-menu';
+	import * as Dialog from '$lib/components/ui/dialog';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Empty from '$lib/components/ui/empty';
 	import * as InputGroup from '$lib/components/ui/input-group';
+	import * as Item from '$lib/components/ui/item';
 	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import { Spinner } from '$lib/components/ui/spinner';
+	import BackupDialogContent from '$lib/features/backup-ui/BackupDialogContent.svelte';
+	import ImageDialogContent from '$lib/features/gear-enchant-ui/tabs/manage/components/ImageDialogContent.svelte';
 	import { GearDialog } from '$lib/features/gear-inventory/dialog';
 	import {
 		GearInventoryGrid,
-		GearInventoryGridDeleteItem,
 		GearInventoryGridItem,
-		GearInventoryGridItemContent
+		GearInventoryGridItemContent,
+		GearInventoryGridSelectItem
 	} from '$lib/features/gear-inventory/grid';
 	import {
-		createDeleter,
 		createGearCountLiveQuery,
-		createGearLiveQuery
+		createGearLiveQuery,
+		createSelector
 	} from '$lib/features/gear-inventory/header';
-	import DeleteButton from '$lib/features/gear-inventory/header/components/DeleteButton.svelte';
 	import SortButton from '$lib/features/gear-inventory/header/components/SortButton.svelte';
 	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
 	import { MainNavbar } from '$lib/features/navigation/main-navbar';
 	import { ScrollTopButton } from '$lib/features/scroll-top-button';
-	import { extractGearData } from '$lib/stores/gear-inventory';
+	import { exportGears, importGears } from '$lib/gear/export-helper';
+	import { parseExportPayload } from '$lib/gear/export/parse';
+	import {
+		deleteGearData,
+		extractGearData,
+		getGearRows,
+		type GearRow
+	} from '$lib/stores/gear-inventory';
 	import type { SettingsStore } from '$lib/stores/settings.svelte';
-	import { cn, createPointerDetection } from '$lib/utils';
-	import { type GearData, ReadonlyGear } from '@malib/gear';
-	import { EllipsisVerticalIcon, Folder, SearchIcon, XIcon } from 'lucide-svelte';
+	import { buildDownloadFilename, cn, createPointerDetection } from '$lib/utils';
+	import { ReadonlyGear, type GearData } from '@malib/gear';
+	import { josa } from 'es-hangul';
+	import {
+		ChevronDownIcon,
+		CloudBackupIcon,
+		Columns3CogIcon,
+		DownloadIcon,
+		EllipsisVerticalIcon,
+		ExternalLinkIcon,
+		Folder,
+		FolderUpIcon,
+		ImageIcon,
+		PlusIcon,
+		SearchIcon,
+		SquareDashedMousePointerIcon,
+		Trash2Icon,
+		UploadIcon,
+		XIcon
+	} from 'lucide-svelte';
 	import { getContext } from 'svelte';
+	import { toast } from 'svelte-sonner';
 
 	const gearQuery = createGearLiveQuery();
 	const countQuery = createGearCountLiveQuery();
-	const deleter = createDeleter();
+	const selector = createSelector();
 	const pointerDetection = createPointerDetection();
 
-	let mode = $state<'default' | 'delete'>('default');
+	let mode = $state<'default' | 'select'>('default');
 
 	const settingsStore = getContext<SettingsStore>('settingsStore')!;
 
@@ -49,14 +80,76 @@
 	let popupSeq = $state<number | null>(null);
 	let showPopup = $state(false);
 
+	let openBackupDialog = $state(false);
+	let deleteConfirmOpen = $state(false);
+	let deleteSingleConfirmOpen = $state(false);
+	let deleteSingleSeq = $state<number | null>(null);
+	let deleteSingleName = $state<string | null>(null);
+	let isDeletingSingle = $state(false);
+	let contextMenuOpen = $state(false);
+	let imageDialogOpen = $state(false);
+	let imageDialogGear = $state<ReadonlyGear | null>(null);
+	let openImportDialog = $state(false);
+	let importFileInputRef = $state<HTMLInputElement | null>(null);
+	let importFileBytes = $state<Uint8Array | null>(null);
+	let importFilename = $state<string | null>(null);
+	let importCount = $state(0);
+	let isImporting = $state(false);
+
 	$effect(() => {
 		gearQuery.value;
 		hoverGearData = null;
 	});
 
-	function toggleDeleteMode() {
-		mode = mode === 'delete' ? 'default' : 'delete';
-		deleter.clear();
+	function toggleSelectMode() {
+		mode = mode === 'select' ? 'default' : 'select';
+		selector.clear();
+	}
+
+	function runBatchAction() {
+		if (selector.isEmpty) {
+			toast.info('아이템을 선택해주세요.', { position: 'top-center' });
+			return;
+		}
+		if (settingsStore.batchAction === 'export') handleExportSelected();
+		else if (settingsStore.batchAction === 'delete') deleteConfirmOpen = true;
+	}
+
+	async function handleExportSelected() {
+		if (selector.isEmpty) return;
+		try {
+			const seqs = Array.from(selector.seqs);
+			const results = await getGearRows(seqs);
+			const rows = results.filter((r): r is GearRow => r != null);
+			if (rows.length === 0) return;
+			const bytes = exportGears(rows);
+			const blob = new Blob([bytes], { type: 'application/octet-stream' });
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = await buildDownloadFilename(bytes, 'simexport');
+			a.click();
+			URL.revokeObjectURL(url);
+			toast.success(`아이템 ${rows.length}개를 내보냈어요.`, { position: 'top-center' });
+		} catch (e) {
+			toast.error('내보내기에 실패했어요.', {
+				description: e instanceof Error ? e.message : String(e),
+				position: 'top-center'
+			});
+		}
+	}
+
+	async function handleDeleteSelected() {
+		try {
+			const count = await selector.deleteSelected();
+			toast.success(`아이템 ${count}개가 삭제되었어요.`, { position: 'top-center' });
+			deleteConfirmOpen = false;
+		} catch (e) {
+			toast.error('아이템 삭제에 실패했어요.', {
+				description: e instanceof Error ? e.message : String(e),
+				position: 'top-center'
+			});
+		}
 	}
 
 	function handleItemClick(seq: number, gearData: GearData) {
@@ -64,6 +157,39 @@
 			popupGearData = gearData;
 			popupSeq = seq;
 			showPopup = true;
+		}
+	}
+
+	async function handleExportSingleItem(row: GearRow) {
+		try {
+			const bytes = exportGears([row]);
+			const blob = new Blob([bytes], { type: 'application/octet-stream' });
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = await buildDownloadFilename(bytes, 'simexport');
+			a.click();
+			URL.revokeObjectURL(url);
+			toast.success(`${josa(row.gear.name, '을/를')} 내보냈어요.`, {
+				position: 'top-center'
+			});
+		} catch (e) {
+			toast.error('내보내기에 실패했어요.', {
+				description: e instanceof Error ? e.message : String(e),
+				position: 'top-center'
+			});
+		}
+	}
+
+	async function handleDeleteSingleItem(seq: number) {
+		try {
+			await deleteGearData(seq);
+			toast.success('아이템이 삭제되었어요.', { position: 'top-center' });
+		} catch (e) {
+			toast.error('아이템 삭제에 실패했어요.', {
+				description: e instanceof Error ? e.message : String(e),
+				position: 'top-center'
+			});
 		}
 	}
 
@@ -89,7 +215,7 @@
 	<title>아이템 시뮬레이터</title>
 </svelte:head>
 
-<ScrollArea class={cn('h-dvh', mode === 'delete' && 'bg-muted')} bind:viewportRef {onscroll}>
+<ScrollArea class={cn('h-dvh', mode === 'select' && 'bg-muted')} bind:viewportRef {onscroll}>
 	<MainNavbar />
 
 	<!-- Inventory Header -->
@@ -102,11 +228,11 @@
 					<div class="flex items-center gap-x-2">
 						{#if countQuery.isLoading}
 							<Skeleton class="h-5 w-20" />
-						{:else if mode === 'delete'}
+						{:else if mode === 'select'}
 							<div>
 								선택된 아이템 <span
-									class={cn('font-semibold', deleter.count === 0 && 'text-muted-foreground')}
-									>{deleter.count}</span
+									class={cn('font-semibold', selector.count === 0 && 'text-muted-foreground')}
+									>{selector.count}</span
 								>/{countQuery.value}개
 							</div>
 						{:else if countQuery.value}
@@ -122,7 +248,7 @@
 							<DropdownMenu.Root>
 								<DropdownMenu.Trigger>
 									{#snippet child({ props })}
-										<Button {...props} variant="ghost" size="icon">
+										<Button {...props} variant="outline" size="icon">
 											<EllipsisVerticalIcon />
 										</Button>
 									{/snippet}
@@ -130,14 +256,28 @@
 								<DropdownMenu.Content align="end">
 									<DropdownMenu.Label>아이템 관리</DropdownMenu.Label>
 									<DropdownMenu.Group>
-										<DropdownMenu.Item onclick={toggleDeleteMode}>삭제하기</DropdownMenu.Item>
+										<DropdownMenu.Item onclick={toggleSelectMode}>
+											<SquareDashedMousePointerIcon />
+											일괄 작업
+										</DropdownMenu.Item>
+										<DropdownMenu.Item onclick={() => (openImportDialog = true)}>
+											<UploadIcon />
+											불러오기
+										</DropdownMenu.Item>
+										<DropdownMenu.Item onclick={() => (openBackupDialog = true)}>
+											<CloudBackupIcon />
+											아이템 백업
+										</DropdownMenu.Item>
 									</DropdownMenu.Group>
 									<DropdownMenu.Separator />
 									<DropdownMenu.Group>
 										<DropdownMenu.GroupHeading>보기 설정</DropdownMenu.GroupHeading>
 										{#if settingsStore.layout === 'grid'}
 											<DropdownMenu.Sub>
-												<DropdownMenu.SubTrigger>열 개수</DropdownMenu.SubTrigger>
+												<DropdownMenu.SubTrigger>
+													<Columns3CogIcon />
+													열 개수
+												</DropdownMenu.SubTrigger>
 												<DropdownMenu.SubContent>
 													<DropdownMenu.RadioGroup
 														bind:value={
@@ -160,13 +300,59 @@
 								</DropdownMenu.Content>
 							</DropdownMenu.Root>
 						{:else}
-							<DeleteButton {deleter} postDelete={() => (mode = 'default')} />
+							<ButtonGroup.Root>
+								<Button
+									variant={settingsStore.batchAction === 'delete' ? 'destructive' : 'default'}
+									onclick={runBatchAction}
+								>
+									{#if settingsStore.batchAction === 'export'}
+										<DownloadIcon />
+										내보내기
+									{:else}
+										<Trash2Icon />
+										삭제하기
+									{/if}
+								</Button>
+								<DropdownMenu.Root>
+									<DropdownMenu.Trigger>
+										{#snippet child({ props })}
+											<Button
+												{...props}
+												variant={settingsStore.batchAction === 'delete' ? 'destructive' : 'default'}
+												aria-label="선택 항목 작업 더보기"
+											>
+												<ChevronDownIcon />
+											</Button>
+										{/snippet}
+									</DropdownMenu.Trigger>
+									<DropdownMenu.Content align="end">
+										<DropdownMenu.Group>
+											<DropdownMenu.Item onclick={() => (settingsStore.batchAction = 'export')}>
+												<DownloadIcon />
+												내보내기
+											</DropdownMenu.Item>
+										</DropdownMenu.Group>
+										<DropdownMenu.Separator />
+										<DropdownMenu.Group>
+											<DropdownMenu.Item
+												variant="destructive"
+												onclick={() => (settingsStore.batchAction = 'delete')}
+											>
+												<Trash2Icon />
+												삭제하기
+											</DropdownMenu.Item>
+										</DropdownMenu.Group>
+									</DropdownMenu.Content>
+								</DropdownMenu.Root>
+							</ButtonGroup.Root>
 							<Button
 								variant="outline"
-								onclick={toggleDeleteMode}
+								size="icon"
+								title="일괄 작업 종료"
+								onclick={toggleSelectMode}
 								disabled={gearQuery.isLoadedAndEmpty}
 							>
-								취소
+								<XIcon />
 							</Button>
 						{/if}
 					</div>
@@ -215,27 +401,70 @@
 				maxColumns={settingsStore.columns === 'auto' ? undefined : settingsStore.columns}
 			>
 				{#snippet children(item)}
-					{#if mode === 'delete'}
-						<GearInventoryGridDeleteItem
-							selected={deleter.has(item.seq)}
+					{#if mode === 'select'}
+						<GearInventoryGridSelectItem
+							selected={selector.has(item.seq)}
 							onclick={() =>
-								deleter.has(item.seq) ? deleter.delete(item.seq) : deleter.add(item.seq)}
+								selector.has(item.seq) ? selector.delete(item.seq) : selector.add(item.seq)}
 							onmouseenter={() => handleItemHover(extractGearData(item))}
 							onmouseleave={() => handleItemHover(null)}
 						>
 							<GearInventoryGridItemContent gearData={extractGearData(item)} scale={2} />
-						</GearInventoryGridDeleteItem>
+						</GearInventoryGridSelectItem>
 					{:else}
-						<GearInventoryGridItem
-							href={pointerDetection.isPointerFine ? `/gear/${item.seq}` : undefined}
-							onmouseenter={() => handleItemHover(extractGearData(item))}
-							onmouseleave={() => handleItemHover(null)}
-							onclick={!pointerDetection.isPointerFine
-								? () => handleItemClick(item.seq, extractGearData(item))
-								: undefined}
+						<ContextMenu.Root
+							onOpenChange={(open) => {
+								contextMenuOpen = open;
+							}}
 						>
-							<GearInventoryGridItemContent gearData={extractGearData(item)} scale={2} />
-						</GearInventoryGridItem>
+							<ContextMenu.Trigger class="contents">
+								<GearInventoryGridItem
+									href={pointerDetection.isPointerFine ? `/gear/${item.seq}` : undefined}
+									onmouseenter={() => handleItemHover(extractGearData(item))}
+									onmouseleave={() => handleItemHover(null)}
+									onclick={!pointerDetection.isPointerFine
+										? () => handleItemClick(item.seq, extractGearData(item))
+										: undefined}
+								>
+									<GearInventoryGridItemContent gearData={extractGearData(item)} scale={2} />
+								</GearInventoryGridItem>
+							</ContextMenu.Trigger>
+							<ContextMenu.Content>
+								<ContextMenu.Group>
+									<ContextMenu.Item onclick={() => goto(`/gear/${item.seq}`)}>
+										<ExternalLinkIcon />
+										열기
+									</ContextMenu.Item>
+									<ContextMenu.Item
+										onclick={() => {
+											imageDialogGear = new ReadonlyGear(extractGearData(item));
+											imageDialogOpen = true;
+										}}
+									>
+										<ImageIcon />
+										이미지 보기
+									</ContextMenu.Item>
+									<ContextMenu.Item onclick={() => handleExportSingleItem(item)}>
+										<DownloadIcon />
+										내보내기
+									</ContextMenu.Item>
+								</ContextMenu.Group>
+								<ContextMenu.Separator />
+								<ContextMenu.Group>
+									<ContextMenu.Item
+										variant="destructive"
+										onclick={() => {
+											deleteSingleSeq = item.seq;
+											deleteSingleName = item.gear.name;
+											deleteSingleConfirmOpen = true;
+										}}
+									>
+										<Trash2Icon />
+										삭제하기
+									</ContextMenu.Item>
+								</ContextMenu.Group>
+							</ContextMenu.Content>
+						</ContextMenu.Root>
 					{/if}
 				{/snippet}
 			</GearInventoryGrid>
@@ -270,7 +499,7 @@
 {/if}
 
 <!-- Pointer fine 장치에서만 호버 툴팁 표시 -->
-{#if hoverGearData && pointerDetection.isPointerFine}
+{#if hoverGearData && pointerDetection.isPointerFine && !contextMenuOpen}
 	<FollowCursor paddingRight={9}>
 		<GearTooltipRenderer
 			gear={new ReadonlyGear(hoverGearData)}
@@ -289,3 +518,181 @@
 		onAccept={() => goto(`/gear/${popupSeq}`)}
 	/>
 {/if}
+
+<AlertDialog.Root bind:open={deleteConfirmOpen}>
+	<AlertDialog.Content>
+		<AlertDialog.Header>
+			<AlertDialog.Title>아이템 {selector.count}개를 삭제할까요?</AlertDialog.Title>
+			<AlertDialog.Description>삭제된 아이템은 복구할 수 없어요.</AlertDialog.Description>
+		</AlertDialog.Header>
+		<AlertDialog.Footer>
+			<AlertDialog.Cancel>취소</AlertDialog.Cancel>
+			<AlertDialog.Action onclick={handleDeleteSelected}>삭제하기</AlertDialog.Action>
+		</AlertDialog.Footer>
+	</AlertDialog.Content>
+</AlertDialog.Root>
+
+<AlertDialog.Root
+	bind:open={deleteSingleConfirmOpen}
+	onOpenChangeComplete={(open) => {
+		if (!open) {
+			deleteSingleSeq = null;
+			deleteSingleName = null;
+		}
+	}}
+>
+	<AlertDialog.Content>
+		<AlertDialog.Header>
+			<AlertDialog.Title>
+				{deleteSingleName != null
+					? `${josa(deleteSingleName, '을/를')} 삭제할까요?`
+					: '이 아이템을 삭제할까요?'}
+			</AlertDialog.Title>
+			<AlertDialog.Description>삭제된 아이템은 복구할 수 없어요.</AlertDialog.Description>
+		</AlertDialog.Header>
+		<AlertDialog.Footer>
+			<AlertDialog.Cancel>취소</AlertDialog.Cancel>
+			<AlertDialog.Action
+				disabled={isDeletingSingle}
+				onclick={async () => {
+					if (deleteSingleSeq == null) return;
+					isDeletingSingle = true;
+					try {
+						await handleDeleteSingleItem(deleteSingleSeq);
+						deleteSingleConfirmOpen = false;
+						deleteSingleSeq = null;
+						deleteSingleName = null;
+					} finally {
+						isDeletingSingle = false;
+					}
+				}}
+			>
+				{#if isDeletingSingle}
+					<Spinner />
+				{/if}
+				삭제하기
+			</AlertDialog.Action>
+		</AlertDialog.Footer>
+	</AlertDialog.Content>
+</AlertDialog.Root>
+
+<Dialog.Root
+	bind:open={openImportDialog}
+	onOpenChangeComplete={(open) => {
+		if (!open) {
+			importFileBytes = null;
+			importFilename = null;
+			importCount = 0;
+		}
+	}}
+>
+	<Dialog.Content>
+		<Dialog.Header>
+			<Dialog.Title>아이템 불러오기</Dialog.Title>
+			<Dialog.Description>내보내기한 아이템을 다시 불러올 수 있어요.</Dialog.Description>
+		</Dialog.Header>
+
+		<Item.Root variant="outline">
+			<Item.Content>
+				<Item.Title>불러오기</Item.Title>
+				<Item.Description
+					>내보내기 파일(.simexport)의 아이템을 인벤토리에 추가해요.</Item.Description
+				>
+				<div class="mt-2 flex flex-col gap-4">
+					{#if importFileBytes && importFilename}
+						<Item.Root variant="muted">
+							<Item.Media>
+								<FolderUpIcon />
+							</Item.Media>
+							<Item.Content>
+								<Item.Title>{importFilename}</Item.Title>
+								<Item.Description>
+									아이템 {importCount}개
+								</Item.Description>
+							</Item.Content>
+							<Item.Actions>
+								<Button
+									disabled={isImporting}
+									onclick={async () => {
+										if (!importFileBytes) return;
+										isImporting = true;
+										try {
+											await importGears(importFileBytes as Uint8Array<ArrayBuffer>);
+											toast.success('아이템 불러오기가 완료되었어요.', {
+												position: 'top-center'
+											});
+											openImportDialog = false;
+										} catch (error) {
+											toast.error('아이템 불러오기에 실패했어요.', {
+												description: error instanceof Error ? error.message : String(error),
+												position: 'top-center'
+											});
+										} finally {
+											isImporting = false;
+										}
+									}}
+								>
+									{#if isImporting}
+										<Spinner />
+									{/if}
+									<PlusIcon />
+									추가하기
+								</Button>
+							</Item.Actions>
+						</Item.Root>
+					{/if}
+					<Button variant="outline" onclick={() => importFileInputRef?.click()}>
+						<UploadIcon />
+						파일 선택
+					</Button>
+				</div>
+			</Item.Content>
+		</Item.Root>
+
+		<Dialog.Footer>
+			<Dialog.Close class={buttonVariants({ variant: 'outline' })}>닫기</Dialog.Close>
+		</Dialog.Footer>
+	</Dialog.Content>
+</Dialog.Root>
+
+<input
+	bind:this={importFileInputRef}
+	type="file"
+	accept=".simexport"
+	class="hidden"
+	onchange={async (event) => {
+		const input = event.target as HTMLInputElement;
+		const file = input.files?.[0];
+		if (!file) return;
+		try {
+			const arrayBuffer = await file.arrayBuffer();
+			const bytes = new Uint8Array(arrayBuffer);
+			const payload = parseExportPayload(bytes);
+			if (payload.type !== 'export') {
+				toast.error('내보내기 파일만 불러올 수 있어요.', { position: 'top-center' });
+				input.value = '';
+				return;
+			}
+			importFileBytes = bytes;
+			importFilename = file.name;
+			importCount = payload.items.length;
+		} catch (error) {
+			toast.error('파일을 읽을 수 없어요.', {
+				description: error instanceof Error ? error.message : String(error),
+				position: 'top-center'
+			});
+		} finally {
+			input.value = '';
+		}
+	}}
+/>
+
+<Dialog.Root bind:open={imageDialogOpen}>
+	<Dialog.Content class="w-fit">
+		{#if imageDialogGear}
+			<ImageDialogContent gear={imageDialogGear} />
+		{/if}
+	</Dialog.Content>
+</Dialog.Root>
+
+<BackupDialogContent bind:open={openBackupDialog} />
