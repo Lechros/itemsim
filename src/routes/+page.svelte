@@ -14,8 +14,8 @@
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import { Spinner } from '$lib/components/ui/spinner';
 	import BackupDialogContent from '$lib/features/backup-ui/BackupDialogContent.svelte';
-	import { GearDialog } from '$lib/features/gear-inventory/dialog';
 	import ImageDialogContent from '$lib/features/gear-enchant-ui/tabs/manage/components/ImageDialogContent.svelte';
+	import { GearDialog } from '$lib/features/gear-inventory/dialog';
 	import {
 		GearInventoryGrid,
 		GearInventoryGridItem,
@@ -33,21 +33,26 @@
 	import { ScrollTopButton } from '$lib/features/scroll-top-button';
 	import { exportGears, importGears } from '$lib/gear/export-helper';
 	import { parseExportPayload } from '$lib/gear/export/parse';
-	import { deleteGearData, extractGearData, getGearRows, type GearRow } from '$lib/stores/gear-inventory';
+	import {
+		deleteGearData,
+		extractGearData,
+		getGearRows,
+		type GearRow
+	} from '$lib/stores/gear-inventory';
 	import type { SettingsStore } from '$lib/stores/settings.svelte';
 	import { buildDownloadFilename, cn, createPointerDetection } from '$lib/utils';
 	import { ReadonlyGear, type GearData } from '@malib/gear';
+	import { josa } from 'es-hangul';
 	import {
 		ChevronDownIcon,
+		CloudBackupIcon,
 		Columns3CogIcon,
 		DownloadIcon,
 		EllipsisVerticalIcon,
 		ExternalLinkIcon,
 		Folder,
-		ImageIcon,
-		FolderSyncIcon,
 		FolderUpIcon,
-		ImportIcon,
+		ImageIcon,
 		PlusIcon,
 		SearchIcon,
 		SquareDashedMousePointerIcon,
@@ -55,7 +60,6 @@
 		UploadIcon,
 		XIcon
 	} from 'lucide-svelte';
-	import { josa } from 'es-hangul';
 	import { getContext } from 'svelte';
 	import { toast } from 'svelte-sonner';
 
@@ -257,11 +261,11 @@
 											일괄 작업
 										</DropdownMenu.Item>
 										<DropdownMenu.Item onclick={() => (openImportDialog = true)}>
-											<ImportIcon />
+											<UploadIcon />
 											불러오기
 										</DropdownMenu.Item>
 										<DropdownMenu.Item onclick={() => (openBackupDialog = true)}>
-											<FolderSyncIcon />
+											<CloudBackupIcon />
 											아이템 백업
 										</DropdownMenu.Item>
 									</DropdownMenu.Group>
