@@ -2,12 +2,11 @@
 	import * as AlertDialog from '$lib/components/ui/alert-dialog';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { toast } from 'svelte-sonner';
-	import type { Deleter } from '../model/Deleter.svelte.js';
-
+	import type { Deleter } from '../model/Selector.svelte.js';
+Selector
 	let {
 		deleter,
-		postDelete
-	}: {
+		postDeleteSelector{
 		deleter: Deleter;
 		postDelete?: () => void;
 	} = $props();

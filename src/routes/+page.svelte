@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { FollowCursor } from '$lib/components/follow-cursor';
+	import * as AlertDialog from '$lib/components/ui/alert-dialog';
 	import { Button } from '$lib/components/ui/button';
+	import * as ButtonGroup from '$lib/components/ui/button-group';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import * as Empty from '$lib/components/ui/empty';
 	import * as InputGroup from '$lib/components/ui/input-group';
@@ -12,30 +14,39 @@
 	import { GearDialog } from '$lib/features/gear-inventory/dialog';
 	import {
 		GearInventoryGrid,
-		GearInventoryGridSelectItem,
 		GearInventoryGridItem,
-		GearInventoryGridItemContent
+		GearInventoryGridItemContent,
+		GearInventoryGridSelectItem
 	} from '$lib/features/gear-inventory/grid';
 	import {
-		createDeleter,
 		createGearCountLiveQuery,
-		createGearLiveQuery
+		createGearLiveQuery,
+		createSelector
 	} from '$lib/features/gear-inventory/header';
-	import DeleteButton from '$lib/features/gear-inventory/header/components/DeleteButton.svelte';
 	import SortButton from '$lib/features/gear-inventory/header/components/SortButton.svelte';
 	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
 	import { MainNavbar } from '$lib/features/navigation/main-navbar';
 	import { ScrollTopButton } from '$lib/features/scroll-top-button';
-	import { extractGearData } from '$lib/stores/gear-inventory';
+	import { exportGears } from '$lib/gear/export-helper';
+	import { extractGearData, getGearRows, type GearRow } from '$lib/stores/gear-inventory';
 	import type { SettingsStore } from '$lib/stores/settings.svelte';
-	import { cn, createPointerDetection } from '$lib/utils';
-	import { type GearData, ReadonlyGear } from '@malib/gear';
-	import { EllipsisVerticalIcon, Folder, SearchIcon, XIcon } from 'lucide-svelte';
+	import { buildDownloadFilename, cn, createPointerDetection } from '$lib/utils';
+	import { ReadonlyGear, type GearData } from '@malib/gear';
+	import {
+		ChevronDownIcon,
+		DownloadIcon,
+		EllipsisVerticalIcon,
+		Folder,
+		SearchIcon,
+		Trash2Icon,
+		XIcon
+	} from 'lucide-svelte';
 	import { getContext } from 'svelte';
+	import { toast } from 'svelte-sonner';
 
 	const gearQuery = createGearLiveQuery();
 	const countQuery = createGearCountLiveQuery();
-	const deleter = createDeleter();
+	const selector = createSelector();
 	const pointerDetection = createPointerDetection();
 
 	let mode = $state<'default' | 'select'>('default');
@@ -51,6 +62,7 @@
 	let showPopup = $state(false);
 
 	let openBackupDialog = $state(false);
+	let deleteConfirmOpen = $state(false);
 
 	$effect(() => {
 		gearQuery.value;
@@ -59,7 +71,53 @@
 
 	function toggleSelectMode() {
 		mode = mode === 'select' ? 'default' : 'select';
-		deleter.clear();
+		selector.clear();
+	}
+
+	function runBatchAction() {
+		if (selector.isEmpty) {
+			toast.info('아이템을 선택해주세요.', { position: 'top-center' });
+			return;
+		}
+		if (settingsStore.batchAction === 'export') handleExportSelected();
+		else if (settingsStore.batchAction === 'delete') deleteConfirmOpen = true;
+	}
+
+	async function handleExportSelected() {
+		if (selector.isEmpty) return;
+		try {
+			const seqs = Array.from(selector.seqs);
+			const results = await getGearRows(seqs);
+			const rows = results.filter((r): r is GearRow => r != null);
+			if (rows.length === 0) return;
+			const bytes = exportGears(rows);
+			const blob = new Blob([bytes], { type: 'application/octet-stream' });
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = await buildDownloadFilename(bytes, 'simexport');
+			a.click();
+			URL.revokeObjectURL(url);
+			toast.success(`아이템 ${rows.length}개를 내보냈어요.`, { position: 'top-center' });
+		} catch (e) {
+			toast.error('내보내기에 실패했어요.', {
+				description: e instanceof Error ? e.message : String(e),
+				position: 'top-center'
+			});
+		}
+	}
+
+	async function handleDeleteSelected() {
+		try {
+			const count = await selector.deleteSelected();
+			toast.success(`아이템 ${count}개가 삭제되었어요.`, { position: 'top-center' });
+			deleteConfirmOpen = false;
+		} catch (e) {
+			toast.error('아이템 삭제에 실패했어요.', {
+				description: e instanceof Error ? e.message : String(e),
+				position: 'top-center'
+			});
+		}
 	}
 
 	function handleItemClick(seq: number, gearData: GearData) {
@@ -108,8 +166,8 @@
 						{:else if mode === 'select'}
 							<div>
 								선택된 아이템 <span
-									class={cn('font-semibold', deleter.count === 0 && 'text-muted-foreground')}
-									>{deleter.count}</span
+									class={cn('font-semibold', selector.count === 0 && 'text-muted-foreground')}
+									>{selector.count}</span
 								>/{countQuery.value}개
 							</div>
 						{:else if countQuery.value}
@@ -125,7 +183,7 @@
 							<DropdownMenu.Root>
 								<DropdownMenu.Trigger>
 									{#snippet child({ props })}
-										<Button {...props} variant="ghost" size="icon">
+										<Button {...props} variant="outline" size="icon">
 											<EllipsisVerticalIcon />
 										</Button>
 									{/snippet}
@@ -133,7 +191,7 @@
 								<DropdownMenu.Content align="end">
 									<DropdownMenu.Label>아이템 관리</DropdownMenu.Label>
 									<DropdownMenu.Group>
-										<DropdownMenu.Item onclick={toggleSelectMode}>삭제하기</DropdownMenu.Item>
+										<DropdownMenu.Item onclick={toggleSelectMode}>일괄 작업</DropdownMenu.Item>
 										<DropdownMenu.Item onclick={() => (openBackupDialog = true)}>
 											아이템 백업
 										</DropdownMenu.Item>
@@ -166,13 +224,59 @@
 								</DropdownMenu.Content>
 							</DropdownMenu.Root>
 						{:else}
-							<DeleteButton {deleter} postDelete={() => (mode = 'default')} />
+							<ButtonGroup.Root>
+								<Button
+									variant={settingsStore.batchAction === 'delete' ? 'destructive' : 'default'}
+									onclick={runBatchAction}
+								>
+									{#if settingsStore.batchAction === 'export'}
+										<DownloadIcon />
+										내보내기
+									{:else}
+										<Trash2Icon />
+										삭제하기
+									{/if}
+								</Button>
+								<DropdownMenu.Root>
+									<DropdownMenu.Trigger>
+										{#snippet child({ props })}
+											<Button
+												{...props}
+												variant={settingsStore.batchAction === 'delete' ? 'destructive' : 'default'}
+												aria-label="선택 항목 작업 더보기"
+											>
+												<ChevronDownIcon />
+											</Button>
+										{/snippet}
+									</DropdownMenu.Trigger>
+									<DropdownMenu.Content align="end">
+										<DropdownMenu.Group>
+											<DropdownMenu.Item onclick={() => (settingsStore.batchAction = 'export')}>
+												<DownloadIcon />
+												내보내기
+											</DropdownMenu.Item>
+										</DropdownMenu.Group>
+										<DropdownMenu.Separator />
+										<DropdownMenu.Group>
+											<DropdownMenu.Item
+												variant="destructive"
+												onclick={() => (settingsStore.batchAction = 'delete')}
+											>
+												<Trash2Icon />
+												삭제하기
+											</DropdownMenu.Item>
+										</DropdownMenu.Group>
+									</DropdownMenu.Content>
+								</DropdownMenu.Root>
+							</ButtonGroup.Root>
 							<Button
 								variant="outline"
+								size="icon"
+								title="일괄 작업 종료"
 								onclick={toggleSelectMode}
 								disabled={gearQuery.isLoadedAndEmpty}
 							>
-								취소
+								<XIcon />
 							</Button>
 						{/if}
 					</div>
@@ -223,9 +327,9 @@
 				{#snippet children(item)}
 					{#if mode === 'select'}
 						<GearInventoryGridSelectItem
-							selected={deleter.has(item.seq)}
+							selected={selector.has(item.seq)}
 							onclick={() =>
-								deleter.has(item.seq) ? deleter.delete(item.seq) : deleter.add(item.seq)}
+								selector.has(item.seq) ? selector.delete(item.seq) : selector.add(item.seq)}
 							onmouseenter={() => handleItemHover(extractGearData(item))}
 							onmouseleave={() => handleItemHover(null)}
 						>
@@ -295,5 +399,18 @@
 		onAccept={() => goto(`/gear/${popupSeq}`)}
 	/>
 {/if}
+
+<AlertDialog.Root bind:open={deleteConfirmOpen}>
+	<AlertDialog.Content>
+		<AlertDialog.Header>
+			<AlertDialog.Title>아이템 {selector.count}개를 삭제할까요?</AlertDialog.Title>
+			<AlertDialog.Description>삭제된 아이템은 복구할 수 없어요.</AlertDialog.Description>
+		</AlertDialog.Header>
+		<AlertDialog.Footer>
+			<AlertDialog.Cancel>취소</AlertDialog.Cancel>
+			<AlertDialog.Action onclick={handleDeleteSelected}>삭제하기</AlertDialog.Action>
+		</AlertDialog.Footer>
+	</AlertDialog.Content>
+</AlertDialog.Root>
 
 <BackupDialogContent bind:open={openBackupDialog} />

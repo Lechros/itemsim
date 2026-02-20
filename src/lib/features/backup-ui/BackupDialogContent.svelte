@@ -8,6 +8,7 @@
 	import { Switch } from '$lib/components/ui/switch';
 	import { createGearCountLiveQuery } from '$lib/features/gear-inventory/header';
 	import { backupInventory, restoreInventory } from '$lib/gear/export-helper';
+	import { buildDownloadFilename } from '$lib/utils';
 	import { parseExportPayload } from '$lib/gear/export/parse';
 	import type { ExportPayload } from '$lib/gear/export/types';
 	import { DownloadIcon, FolderDownIcon, FolderUpIcon, UploadIcon } from 'lucide-svelte';
@@ -99,7 +100,7 @@
 							try {
 								const payload = await backupInventory();
 								const count = gearCountQuery.value ?? 0;
-								const filename = `${new Date().toISOString().split('T')[0]}_${count}.simbackup`;
+								const filename = await buildDownloadFilename(payload, 'simbackup');
 								setDownloadResult(payload, filename, count);
 								toast.success('백업 파일 생성을 완료했어요.', {
 									position: 'top-center',

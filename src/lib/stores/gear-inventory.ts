@@ -94,6 +94,15 @@ export function getGearRow(...seqs: number[]) {
 }
 
 /**
+ * DB에서 여러 장비 행을 조회합니다.
+ * @param seqs 조회할 seq 배열
+ * @returns `(GearRow | undefined)[]`
+ */
+export function getGearRows(seqs: number[]) {
+	return db.inventory.bulkGet(seqs);
+}
+
+/**
  * DB에서 모든 장비 행을 조회합니다.
  * @returns 모든 장비 행
  */
