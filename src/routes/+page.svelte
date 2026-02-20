@@ -12,7 +12,7 @@
 	import { GearDialog } from '$lib/features/gear-inventory/dialog';
 	import {
 		GearInventoryGrid,
-		GearInventoryGridDeleteItem,
+		GearInventoryGridSelectItem,
 		GearInventoryGridItem,
 		GearInventoryGridItemContent
 	} from '$lib/features/gear-inventory/grid';
@@ -38,7 +38,7 @@
 	const deleter = createDeleter();
 	const pointerDetection = createPointerDetection();
 
-	let mode = $state<'default' | 'delete'>('default');
+	let mode = $state<'default' | 'select'>('default');
 
 	const settingsStore = getContext<SettingsStore>('settingsStore')!;
 
@@ -57,8 +57,8 @@
 		hoverGearData = null;
 	});
 
-	function toggleDeleteMode() {
-		mode = mode === 'delete' ? 'default' : 'delete';
+	function toggleSelectMode() {
+		mode = mode === 'select' ? 'default' : 'select';
 		deleter.clear();
 	}
 
@@ -92,7 +92,7 @@
 	<title>아이템 시뮬레이터</title>
 </svelte:head>
 
-<ScrollArea class={cn('h-dvh', mode === 'delete' && 'bg-muted')} bind:viewportRef {onscroll}>
+<ScrollArea class={cn('h-dvh', mode === 'select' && 'bg-muted')} bind:viewportRef {onscroll}>
 	<MainNavbar />
 
 	<!-- Inventory Header -->
@@ -105,7 +105,7 @@
 					<div class="flex items-center gap-x-2">
 						{#if countQuery.isLoading}
 							<Skeleton class="h-5 w-20" />
-						{:else if mode === 'delete'}
+						{:else if mode === 'select'}
 							<div>
 								선택된 아이템 <span
 									class={cn('font-semibold', deleter.count === 0 && 'text-muted-foreground')}
@@ -133,7 +133,7 @@
 								<DropdownMenu.Content align="end">
 									<DropdownMenu.Label>아이템 관리</DropdownMenu.Label>
 									<DropdownMenu.Group>
-										<DropdownMenu.Item onclick={toggleDeleteMode}>삭제하기</DropdownMenu.Item>
+										<DropdownMenu.Item onclick={toggleSelectMode}>삭제하기</DropdownMenu.Item>
 										<DropdownMenu.Item onclick={() => (openBackupDialog = true)}>
 											아이템 백업
 										</DropdownMenu.Item>
@@ -169,7 +169,7 @@
 							<DeleteButton {deleter} postDelete={() => (mode = 'default')} />
 							<Button
 								variant="outline"
-								onclick={toggleDeleteMode}
+								onclick={toggleSelectMode}
 								disabled={gearQuery.isLoadedAndEmpty}
 							>
 								취소
@@ -221,8 +221,8 @@
 				maxColumns={settingsStore.columns === 'auto' ? undefined : settingsStore.columns}
 			>
 				{#snippet children(item)}
-					{#if mode === 'delete'}
-						<GearInventoryGridDeleteItem
+					{#if mode === 'select'}
+						<GearInventoryGridSelectItem
 							selected={deleter.has(item.seq)}
 							onclick={() =>
 								deleter.has(item.seq) ? deleter.delete(item.seq) : deleter.add(item.seq)}
@@ -230,7 +230,7 @@
 							onmouseleave={() => handleItemHover(null)}
 						>
 							<GearInventoryGridItemContent gearData={extractGearData(item)} scale={2} />
-						</GearInventoryGridDeleteItem>
+						</GearInventoryGridSelectItem>
 					{:else}
 						<GearInventoryGridItem
 							href={pointerDetection.isPointerFine ? `/gear/${item.seq}` : undefined}
