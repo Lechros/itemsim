@@ -11,8 +11,15 @@ export interface GearRow {
 	updatedAt: Date;
 }
 
+/** 슬롯 인벤토리: slot index → gearRow.seq 매핑 (IDB) */
+export interface SlotRow {
+	index: number;
+	gearSeq: number;
+}
+
 export const db = new Dexie('itemsim') as Dexie & {
 	inventory: EntityTable<GearRow, 'seq'>;
+	slots: EntityTable<SlotRow, 'index'>;
 };
 
 db.version(1).stores({
@@ -21,6 +28,11 @@ db.version(1).stores({
 
 db.version(2).stores({
 	inventory: '++seq, gear.name, gear.meta.id, gear.meta.version, createdAt, updatedAt'
+});
+
+db.version(3).stores({
+	inventory: '++seq, gear.name, gear.meta.id, gear.meta.version, createdAt, updatedAt',
+	slots: 'index, &gearSeq'
 });
 
 /**

@@ -1,4 +1,5 @@
 import { deleteGearData } from '$lib/stores/gear-inventory';
+import { removeSeqsFromSlots } from '$lib/stores/slot-layout';
 import { SvelteSet } from 'svelte/reactivity';
 
 export class Selector {
@@ -13,7 +14,9 @@ export class Selector {
 	clear = () => this.seqs.clear();
 
 	deleteSelected = async () => {
-		await deleteGearData(...this.seqs.values());
+		const seqs = [...this.seqs.values()];
+		await deleteGearData(...seqs);
+		await removeSeqsFromSlots(seqs);
 		const count = this.count;
 		this.clear();
 		return count;

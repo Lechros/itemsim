@@ -20,12 +20,14 @@
 		GearInventoryGrid,
 		GearInventoryGridItem,
 		GearInventoryGridItemContent,
-		GearInventoryGridSelectItem
+		GearInventoryGridSelectItem,
+		SlotInventoryGrid
 	} from '$lib/features/gear-inventory/grid';
 	import {
 		createGearCountLiveQuery,
 		createGearLiveQuery,
-		createSelector
+		createSelector,
+		createSlotLayoutLiveQuery
 	} from '$lib/features/gear-inventory/header';
 	import SortButton from '$lib/features/gear-inventory/header/components/SortButton.svelte';
 	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
@@ -39,6 +41,12 @@
 		getGearRows,
 		type GearRow
 	} from '$lib/stores/gear-inventory';
+	import {
+		getSlotLayout,
+		hasSeqInSlot,
+		removeSeqFromSlots,
+		setSlot
+	} from '$lib/stores/slot-layout';
 	import type { SettingsStore } from '$lib/stores/settings.svelte';
 	import { buildDownloadFilename, cn, createPointerDetection } from '$lib/utils';
 	import { ReadonlyGear, type GearData } from '@malib/gear';
@@ -53,6 +61,8 @@
 		Folder,
 		FolderUpIcon,
 		ImageIcon,
+		LayoutGridIcon,
+		PackagePlusIcon,
 		PlusIcon,
 		SearchIcon,
 		SquareDashedMousePointerIcon,
@@ -66,6 +76,7 @@
 	const gearQuery = createGearLiveQuery();
 	const countQuery = createGearCountLiveQuery();
 	const selector = createSelector();
+	const slotLayoutQuery = createSlotLayoutLiveQuery(() => settingsStore.slotCount);
 	const pointerDetection = createPointerDetection();
 
 	let mode = $state<'default' | 'select'>('default');
@@ -184,9 +195,80 @@
 	async function handleDeleteSingleItem(seq: number) {
 		try {
 			await deleteGearData(seq);
+			await removeSeqFromSlots(seq);
 			toast.success('아이템이 삭제되었어요.', { position: 'top-center' });
 		} catch (e) {
 			toast.error('아이템 삭제에 실패했어요.', {
+				description: e instanceof Error ? e.message : String(e),
+				position: 'top-center'
+			});
+		}
+	}
+
+	async function handleAddToInventorySingle(seq: number) {
+		try {
+			if (await hasSeqInSlot(seq)) {
+				toast.info('이미 인벤토리에 있어요.', { position: 'top-center' });
+				return;
+			}
+			const slotCount = settingsStore.slotCount;
+			const layout = await getSlotLayout(slotCount);
+			const emptyIndex = layout.findIndex((e) => !e.gearRow);
+			if (emptyIndex < 0) {
+				toast.warning('인벤토리 슬롯이 가득 찼어요.', { position: 'top-center' });
+				return;
+			}
+			const ok = await setSlot(emptyIndex, seq, slotCount);
+			if (ok) {
+				toast.success('인벤토리에 추가했어요.', { position: 'top-center' });
+			}
+		} catch (e) {
+			toast.error('인벤토리에 추가하지 못했어요.', {
+				description: e instanceof Error ? e.message : String(e),
+				position: 'top-center'
+			});
+		}
+	}
+
+	async function handleAddSelectedToInventory() {
+		if (selector.isEmpty) {
+			toast.info('아이템을 선택해주세요.', { position: 'top-center' });
+			return;
+		}
+		try {
+			const slotCount = settingsStore.slotCount;
+			const layout = await getSlotLayout(slotCount);
+			const emptyIndices = layout
+				.map((e, i) => (e.gearRow ? -1 : i))
+				.filter((i) => i >= 0);
+			const emptyCount = emptyIndices.length;
+			const seqs = [...selector.seqs.values()];
+			const n = seqs.length;
+
+			if (n > emptyCount) {
+				toast.warning('빈 슬롯이 부족해서 추가하지 않았어요.', { position: 'top-center' });
+				return;
+			}
+
+			let added = 0;
+			for (const seq of seqs) {
+				if (await hasSeqInSlot(seq)) continue;
+				if (emptyIndices.length === 0) break;
+				const slotIndex = emptyIndices.shift()!;
+				const ok = await setSlot(slotIndex, seq, slotCount);
+				if (ok) added++;
+			}
+
+			if (added > 0) {
+				toast.success(
+					added < n ? `${n}개 중 ${added}개를 인벤토리에 추가했어요.` : `${added}개를 인벤토리에 추가했어요.`,
+					{ position: 'top-center' }
+				);
+			} else if (n > 0) {
+				toast.info('선택한 아이템이 모두 이미 인벤토리에 있어요.', { position: 'top-center' });
+			}
+		} catch (e) {
+			toast.error('인벤토리에 추가하지 못했어요.', {
 				description: e instanceof Error ? e.message : String(e),
 				position: 'top-center'
 			});
@@ -272,6 +354,43 @@
 									<DropdownMenu.Separator />
 									<DropdownMenu.Group>
 										<DropdownMenu.GroupHeading>보기 설정</DropdownMenu.GroupHeading>
+										<DropdownMenu.Sub>
+											<DropdownMenu.SubTrigger>
+												<LayoutGridIcon />
+												보기 모드
+											</DropdownMenu.SubTrigger>
+											<DropdownMenu.SubContent>
+												<DropdownMenu.RadioGroup
+													bind:value={
+														() => settingsStore.inventoryView,
+														(v) => (settingsStore.inventoryView = v as 'list' | 'slots')
+													}
+												>
+													<DropdownMenu.RadioItem value="list">일반</DropdownMenu.RadioItem>
+													<DropdownMenu.RadioItem value="slots">인벤토리</DropdownMenu.RadioItem>
+												</DropdownMenu.RadioGroup>
+											</DropdownMenu.SubContent>
+										</DropdownMenu.Sub>
+										{#if settingsStore.inventoryView === 'slots'}
+											<DropdownMenu.Sub>
+												<DropdownMenu.SubTrigger>
+													<Columns3CogIcon />
+													슬롯 개수
+												</DropdownMenu.SubTrigger>
+												<DropdownMenu.SubContent>
+													<DropdownMenu.RadioGroup
+														bind:value={
+															() => String(settingsStore.slotCount),
+															(v) => (settingsStore.slotCount = Number(v))
+														}
+													>
+														{#each [20, 30, 40, 50] as n}
+															<DropdownMenu.RadioItem value={String(n)}>{n}개</DropdownMenu.RadioItem>
+														{/each}
+													</DropdownMenu.RadioGroup>
+												</DropdownMenu.SubContent>
+											</DropdownMenu.Sub>
+										{/if}
 										{#if settingsStore.layout === 'grid'}
 											<DropdownMenu.Sub>
 												<DropdownMenu.SubTrigger>
@@ -331,6 +450,10 @@
 												<DownloadIcon />
 												내보내기
 											</DropdownMenu.Item>
+											<DropdownMenu.Item onclick={() => handleAddSelectedToInventory()}>
+												<PackagePlusIcon />
+												인벤토리에 추가
+											</DropdownMenu.Item>
 										</DropdownMenu.Group>
 										<DropdownMenu.Separator />
 										<DropdownMenu.Group>
@@ -384,7 +507,26 @@
 		</div>
 	</div>
 
-	{#if gearQuery.isLoading}
+	{#if settingsStore.inventoryView === 'slots'}
+		{#if slotLayoutQuery.isLoading}
+			<div class="flex h-32 items-center justify-center">
+				<Spinner class="size-8" />
+			</div>
+		{:else if slotLayoutQuery.error}
+			<div class="flex h-32 items-center justify-center">
+				<div>인벤토리 정보를 불러오는 중 오류가 발생했어요.</div>
+			</div>
+		{:else if slotLayoutQuery.value && viewportRef}
+			<SlotInventoryGrid
+				slotLayout={slotLayoutQuery.value}
+				slotCount={settingsStore.slotCount}
+				scrollRef={viewportRef}
+				maxColumns={settingsStore.columns === 'auto' ? undefined : settingsStore.columns}
+				onItemHover={handleItemHover}
+				onItemClick={(seq, gear) => handleItemClick(seq, gear)}
+			/>
+		{/if}
+	{:else if gearQuery.isLoading}
 		<div class="flex h-32 items-center justify-center">
 			<Spinner class="size-8" />
 		</div>
@@ -447,6 +589,17 @@
 									<ContextMenu.Item onclick={() => handleExportSingleItem(item)}>
 										<DownloadIcon />
 										내보내기
+									</ContextMenu.Item>
+									<ContextMenu.Item
+										disabled={
+											!slotLayoutQuery.value ||
+											slotLayoutQuery.value.some((e) => e.gearRow?.seq === item.seq) ||
+											!slotLayoutQuery.value.some((e) => !e.gearRow)
+										}
+										onclick={() => handleAddToInventorySingle(item.seq)}
+									>
+										<PackagePlusIcon />
+										인벤토리에 추가
 									</ContextMenu.Item>
 								</ContextMenu.Group>
 								<ContextMenu.Separator />
