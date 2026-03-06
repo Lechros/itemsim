@@ -481,13 +481,13 @@
 				</Empty.Media>
 				<Empty.Title>인벤토리가 비어있어요</Empty.Title>
 				<Empty.Description>
-					아이템을 검색하여 추가할 수 있어요. <br /> 불러오기 기능은 아직 준비 중이에요.
+					아이템을 검색하여 추가하거나, 기존 아이템을 불러올 수 있어요.
 				</Empty.Description>
 			</Empty.Header>
 			<Empty.Content>
 				<div class="flex gap-2">
 					<Button href="/gear/search">아이템 추가</Button>
-					<Button variant="outline" disabled>불러오기</Button>
+					<Button variant="outline" onclick={() => (openImportDialog = true)}>불러오기</Button>
 				</div>
 			</Empty.Content>
 		</Empty.Root>
