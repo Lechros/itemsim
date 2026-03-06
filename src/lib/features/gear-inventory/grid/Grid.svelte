@@ -83,11 +83,11 @@
 					style:grid-template-columns={`repeat(${columnCount}, 1fr)`}
 					style:max-width={maxWidth ? `${maxWidth}px` : undefined}
 				>
-					{#each row as item, index}
+					{#each row as item, index (item.seq)}
 						{@render itemChildren(item, rowIndex * columnCount + index)}
 					{/each}
 					{#if row.length < columnCount}
-						{#each Array(columnCount - row.length) as _}
+						{#each Array(columnCount - row.length)}
 							<div class="border-r"></div>
 						{/each}
 					{/if}
@@ -103,7 +103,7 @@
 		style:grid-template-columns={`repeat(${columnCount}, 1fr)`}
 		style:max-width={maxWidth ? `${maxWidth}px` : undefined}
 	>
-		{#each Array(columnCount) as _}
+		{#each Array(columnCount)}
 			<div class="border-r"></div>
 		{/each}
 	</div>

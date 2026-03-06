@@ -55,7 +55,7 @@
 		<FormControl>
 			<Tabs.Root bind:value={() => String(grade), (v) => (grade = Number(v))}>
 				<Tabs.List class="w-full">
-					{#each grades as { label, value }}
+					{#each grades as { label, value } (value)}
 						<Tabs.Trigger value={String(value)}>
 							<PotentialTitle grade={value} />
 							{label}
@@ -72,7 +72,7 @@
 		<FormLabel title={optionLabel} />
 	</FormItem>
 	<div class="flex flex-col gap-y-3">
-		{#each potentials as potential, index}
+		{#each potentials as potential, index (index)}
 			{@const options = index === 0 ? gradePotentials : concatPotentials}
 			<Select.Root
 				type="single"
@@ -91,7 +91,7 @@
 				</Select.Trigger>
 				<Select.Content avoidCollisions={false}>
 					<Select.Item value={defaultValue}>{defaultLabel}</Select.Item>
-					{#each options as option}
+					{#each options as option, index (index)}
 						<Select.Item value={option.summary}>
 							<PotentialSummary potential={option} />
 						</Select.Item>

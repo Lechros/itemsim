@@ -28,7 +28,6 @@
 	const patches = $derived(getSpecialPatches(gear));
 
 	let abortController = $state<AbortController | null>(null);
-	let isAborting = $state(false);
 
 	$effect(() => {
 		if (seq == null) return;
@@ -61,9 +60,6 @@
 		} finally {
 			isApplyingTransmit = false;
 			abortController = null;
-			setTimeout(() => {
-				isAborting = false;
-			}, 200);
 		}
 	}
 </script>
@@ -98,7 +94,7 @@
 			disabled={patches.length === 0}
 		/>
 	</FormItem>
-	{#each patches as patch}
+	{#each patches as patch (patch.name)}
 		{@const isSatisfied = isPatchSatisfied(new ReadonlyGear($state.snapshot(gear.data)), patch)}
 		<Item.Root variant="muted" size="sm">
 			<Item.Content>

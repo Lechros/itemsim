@@ -103,14 +103,14 @@
 			star={gear.star}
 			maxStar={gear.attributes.canStarforce === GearCapability.Fixed ? gear.star : gear.maxStar}
 			color={gear.starScroll ? 'blue' : 'yellow'}
-			class="mx-auto mt-[10px] pr-[1px]"
+			class="mx-auto mt-[10px] pr-px"
 		/>
 		{#if gear.star >= 23}
 			<UIImage2 image="particleStar" class="absolute top-px left-0" />
 		{/if}
 		<Spacer height={8} />
 		{#if gear.itemTag}
-			<DetailText color="gray" class="mt-[1px] self-center" value="{gear.itemTag}의" />
+			<DetailText color="gray" class="mt-px self-center" value="{gear.itemTag}의" />
 		{/if}
 		<ItemNameText
 			class="self-center pl-[3px]"
@@ -120,7 +120,7 @@
 			<DetailText value="스페셜 아이템" class="self-center pr-[2px]" />
 		{/if}
 		{#if topAttributeStrings.length > 0}
-			{#each topAttributeStrings as html}
+			{#each topAttributeStrings as html (html)}
 				<FormattedDetailText value={html} class="self-center pr-[2px]" />
 			{/each}
 		{/if}
@@ -154,7 +154,7 @@
 				{/if}
 				<Spacer height={19} />
 				<div class="flex gap-[3px]">
-					{#each getCategories(gear.type) as category}
+					{#each getCategories(gear.type) as category (category)}
 						<Chip value={category} />
 					{/each}
 				</div>
@@ -217,7 +217,7 @@
 			</div>
 		{/if}
 		<div class="flex flex-col">
-			{#each stats as stat}
+			{#each stats as stat (stat)}
 				<StatLine {gear} key={stat} />
 			{/each}
 		</div>
@@ -275,7 +275,7 @@
 					label="잠재능력"
 				/>
 				{#if gear.potentials.length > 0}
-					{#each gear.potentials as potential}
+					{#each gear.potentials as potential, index (index)}
 						<PotentialDetail {potential} />
 					{/each}
 				{/if}
@@ -286,7 +286,7 @@
 					label="에디셔널 잠재능력"
 				/>
 				{#if gear.additionalPotentials.length > 0}
-					{#each gear.additionalPotentials as additionalPotential}
+					{#each gear.additionalPotentials as additionalPotential, index (index)}
 						<PotentialDetail potential={additionalPotential} />
 					{/each}
 				{/if}
@@ -308,7 +308,7 @@
 	{#if attributeStrings.length > 0}
 		<FrameMiddle class="px-[15px]">
 			<Spacer height={4} />
-			{#each attributeStrings as html}
+			{#each attributeStrings as html (html)}
 				<FormattedDetailText value={html} maxWidth={294} />
 			{/each}
 		</FrameMiddle>

@@ -29,10 +29,13 @@
 				{getGearOptionString(type, sum)}
 			</span>
 			({base}{p}{#if add !== 0}
+				<!-- eslint-disable-next-line svelte/no-useless-mustaches -->
 				<span class="gt--green">{' '}+{add}{p}</span>
 			{/if}{#if upgrade !== 0}
+				<!-- eslint-disable-next-line svelte/no-useless-mustaches -->
 				<span class={upgrade > 0 ? 'gt--purple2' : 'gt--red'}>{' '}+{upgrade}{p}</span>
 			{/if}{#if star !== 0}
+				<!-- eslint-disable-next-line svelte/no-useless-mustaches -->
 				<span class="gt--orange2">{' '}+{star}{p}</span>
 			{/if})
 		</div>

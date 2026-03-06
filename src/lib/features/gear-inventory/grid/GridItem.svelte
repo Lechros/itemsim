@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { Button, buttonVariants } from '$lib/components/ui/button';
-	import { cn } from '$lib/utils';
+	import { Button } from '$lib/components/ui/button';
 	import type { Snippet } from 'svelte';
 
 	let {

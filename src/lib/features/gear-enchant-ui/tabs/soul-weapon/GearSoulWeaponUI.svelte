@@ -118,7 +118,7 @@
 					{getSoulOptionString(selectedItem.souls[selectedItem.index].option)}
 				</Select.Trigger>
 				<Select.Content>
-					{#each selectedItem.souls as soul, index}
+					{#each selectedItem.souls as soul, index (index)}
 						<Select.Item value={String(index)}>
 							{getSoulOptionString(soul.option)}
 						</Select.Item>

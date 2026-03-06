@@ -1,4 +1,4 @@
-import { AddOptionType, Gear, getAddOptionValue, ReadonlyGear } from '@malib/gear';
+import { AddOptionType, getAddOptionValue, ReadonlyGear } from '@malib/gear';
 
 export function getAvailableTypes(gear: ReadonlyGear) {
 	const types: ReturnType<typeof addOptionTypes.slice> = [];
@@ -10,7 +10,9 @@ export function getAvailableTypes(gear: ReadonlyGear) {
 		try {
 			getAddOptionValue(gear, type.value, 1);
 			types.push(type);
-		} catch {}
+		} catch {
+			/* ignore */
+		}
 	}
 	return types;
 }
@@ -24,7 +26,9 @@ export function getAvailableGrades(gear: ReadonlyGear, type: AddOptionType) {
 		try {
 			getAddOptionValue(gear, type, grade);
 			grades.push(grade);
-		} catch {}
+		} catch {
+			/* ignore */
+		}
 	}
 	return grades;
 }

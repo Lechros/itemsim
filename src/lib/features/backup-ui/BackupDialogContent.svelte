@@ -12,7 +12,6 @@
 	import { parseExportPayload } from '$lib/gear/export/parse';
 	import type { ExportPayload } from '$lib/gear/export/types';
 	import {
-		CircleXIcon,
 		CopyXIcon,
 		DownloadIcon,
 		FolderDownIcon,

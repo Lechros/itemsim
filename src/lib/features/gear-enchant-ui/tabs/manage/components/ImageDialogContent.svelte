@@ -20,6 +20,7 @@
 	const tooltipVersion = $derived(settingsStore.tooltipVersion);
 
 	$effect(() => {
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		gear;
 		dataUrl = null;
 		maybeInvalidImage = false;

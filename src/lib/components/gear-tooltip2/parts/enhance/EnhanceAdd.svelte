@@ -64,7 +64,7 @@
 		<DetailText color="white" value={getStr(can)} />
 	</div>
 	<div class="grid grid-cols-[147px_1fr] pl-[5px]">
-		{#each addOptions as option}
+		{#each addOptions as option, index (index)}
 			<div class="flex items-center gap-[4px]">
 				<UIImage2 image="bonus_{option.grade}" />
 				<DetailText value={getString(option.type, option.value)} />

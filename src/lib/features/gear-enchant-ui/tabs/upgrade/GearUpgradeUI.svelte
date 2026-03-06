@@ -34,7 +34,7 @@
 			activeTabs.length === 3 && 'grid-cols-3'
 		)}
 	>
-		{#each activeTabs as tab, index}
+		{#each activeTabs as tab, index (tab.value)}
 			<LineTabsTrigger
 				value={tab.value}
 				class={cn(index === activeTabs.length - 1 ? '' : 'border-r')}

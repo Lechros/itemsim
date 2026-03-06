@@ -8,6 +8,7 @@ export type FontCharacter = {
 export class FontRender {
 	isLoading = $state(true);
 	private bytes: Uint8Array | undefined = undefined;
+	// eslint-disable-next-line svelte/prefer-svelte-reactivity
 	private indexMap = new Map<number, number>();
 
 	constructor(loadFontBinary: Promise<ArrayBuffer>) {

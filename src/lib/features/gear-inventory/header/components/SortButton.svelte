@@ -35,7 +35,7 @@
 	<DropdownMenu.Content>
 		<DropdownMenu.Label>아이템 정렬</DropdownMenu.Label>
 		<DropdownMenu.RadioGroup bind:value={sort}>
-			{#each sortItems as item}
+			{#each sortItems as item (item.value)}
 				<DropdownMenu.RadioItem value={item.value}>
 					{item.label}
 				</DropdownMenu.RadioItem>

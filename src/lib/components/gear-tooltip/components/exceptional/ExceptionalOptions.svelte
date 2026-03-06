@@ -5,6 +5,6 @@
 	let { exceptionalOption }: { exceptionalOption: GearExceptionalOption } = $props();
 </script>
 
-{#each convertGearOptionToSummaries(exceptionalOption) as summary}
+{#each convertGearOptionToSummaries(exceptionalOption) as summary, index (index)}
 	<div class="gt--detail gt--white">{summary}</div>
 {/each}

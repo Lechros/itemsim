@@ -37,7 +37,7 @@
 		{:else if value < 0}
 			<UIImage image="numberLookaheadMinus" class="mr-[3px]" />
 		{/if}
-		{#each digits.split('') as digit}
+		{#each digits.split('') as digit, index (index)}
 			<Digit {digit} variant="Lookahead" />
 		{/each}
 		{#if percent}

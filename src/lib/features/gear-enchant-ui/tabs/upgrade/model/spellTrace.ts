@@ -28,7 +28,9 @@ export function getSpellTraceScrolls(gear: ReadonlyGear) {
 					scrolls.push(scroll);
 					names.add(scroll.name);
 				}
-			} catch {}
+			} catch {
+				/* ignore */
+			}
 		}
 	}
 	return scrolls;

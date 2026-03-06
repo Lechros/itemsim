@@ -20,9 +20,9 @@
 </script>
 
 <div class={cn('auto-rows-1 grid', items.length > size && 'sm:grid-cols-2', className)}>
-	{#each splitHalf(items) as columnItems}
+	{#each splitHalf(items) as columnItems, index (index)}
 		<div class={cn('flex flex-col', classes?.column)}>
-			{#each columnItems as item}
+			{#each columnItems as item, index (index)}
 				{@render itemRenderer(item)}
 			{/each}
 		</div>

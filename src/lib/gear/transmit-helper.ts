@@ -8,7 +8,9 @@ import { transmit } from './transmit';
  * 저장된 hash가 존재하지 않는 경우 항상 true를 반환합니다.
  */
 export async function shouldTransmit(seq: number): Promise<boolean> {
-	const row = await getGearRow(seq);
+	const rows = await getGearRow(seq);
+	if (!rows) return false;
+	const row = rows[0];
 	if (!row) return false;
 
 	const currentGear = extractGearData(row);
@@ -30,7 +32,9 @@ export async function runTransmit(
 	seq: number,
 	abortSignal?: AbortSignal
 ): Promise<{ gear: GearData; hash: string } | null> {
-	const row = await getGearRow(seq);
+	const rows = await getGearRow(seq);
+	if (!rows) return null;
+	const row = rows[0];
 	if (!row) return null;
 
 	const currentGear = extractGearData(row);

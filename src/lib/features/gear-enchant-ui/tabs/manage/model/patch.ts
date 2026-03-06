@@ -1,9 +1,7 @@
 import {
 	Gear,
 	GearCapability,
-	getSpellTraceScroll,
 	SpellTraceType,
-	toGearOption,
 	type AddOptionGrade,
 	type AddOptionType,
 	type GearUpgradeOption,

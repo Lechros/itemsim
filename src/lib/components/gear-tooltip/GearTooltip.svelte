@@ -125,6 +125,7 @@
 	{#if gear.itemTag}
 		<div class="-mt-[2px] mb-[11px] flex">
 			<div class="gt--tag gt--orange">{gear.itemTag}</div>
+			<!-- eslint-disable-next-line svelte/no-useless-mustaches -->
 			<div class="gt--tag gt--white">{' '}의</div>
 		</div>
 	{/if}
@@ -192,7 +193,7 @@
 	<DetailWrapper>
 		<DetailSuperior superior={gear.attributes.superior} />
 		<DetailGearType gearType={gear.type} attackSpeed={gear.attributes.attackSpeed} />
-		{#each detailOptions as [type, isPercent]}
+		{#each detailOptions as [type, isPercent], index (index)}
 			<DetailOption
 				{type}
 				base={gear.baseOption[type]}
@@ -227,7 +228,7 @@
 		{/snippet}
 		<PotentialLabel grade={gear.potentialGrade} label="잠재옵션" />
 		<PotentialOptionsWrapper>
-			{#each gear.potentials as potential}
+			{#each gear.potentials as potential, index (index)}
 				<PotentialOption summary={potential.summary} />
 			{/each}
 		</PotentialOptionsWrapper>
@@ -240,7 +241,7 @@
 		{/snippet}
 		<PotentialLabel grade={gear.additionalPotentialGrade} label="에디셔널 잠재옵션" />
 		<PotentialOptionsWrapper>
-			{#each gear.additionalPotentials as potential}
+			{#each gear.additionalPotentials as potential, index (index)}
 				<PotentialOption summary="+ {potential.summary}" />
 			{/each}
 		</PotentialOptionsWrapper>
@@ -279,7 +280,7 @@
 		<DotLine />
 		<Spacer height={4} />
 		<DescriptionsWrapper>
-			{#each descriptions as description}
+			{#each descriptions as description, index (index)}
 				<Description {description} />
 			{/each}
 		</DescriptionsWrapper>

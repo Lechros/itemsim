@@ -106,7 +106,7 @@
 	<aside
 		class="sticky top-14 hidden h-[calc(100dvh-3.5rem)] flex-col overflow-y-auto border-r px-3 py-6 lg:col-start-1 lg:flex"
 	>
-		{#each tabStore.tabs as tab}
+		{#each tabStore.tabs as tab (tab.value)}
 			{@const isCurrent = tab.value === tabStore.currentTab.value}
 			<Button
 				variant={isCurrent ? 'default' : 'ghost'}
@@ -147,7 +147,7 @@
 				class="flex gap-1.5 overflow-x-auto"
 				style="scrollbar-width: none"
 			>
-				{#each tabStore.tabs as tab}
+				{#each tabStore.tabs as tab (tab.value)}
 					{@const isCurrent = tab.value === tabStore.currentTab.value}
 					<Button
 						size="sm"

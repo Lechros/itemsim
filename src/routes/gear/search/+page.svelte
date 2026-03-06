@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { getGearDatas, getGearHashes, getGearSearch } from '$lib/api';
 	import { Highlight } from '$lib/components/highlight';
 	import { GearIcon } from '$lib/components/icons';
@@ -37,12 +38,8 @@
 
 	const selected = createSearchSelectState();
 
-	let scrollTop = $state(0);
 	let viewportRef = $state<HTMLDivElement | null>(null);
 
-	function onscroll(event: Event) {
-		scrollTop = (event.target as HTMLElement).scrollTop;
-	}
 	let open = $state(false);
 	let isAdding = $state(false);
 
@@ -61,7 +58,7 @@
 					action: {
 						label: '이동',
 						onClick: () => {
-							goto(`/gear/${seq}`);
+							goto(resolve(`/gear/${seq}`));
 						}
 					}
 				});
@@ -85,7 +82,7 @@
 	<title>아이템 추가 - 아이템 시뮬레이터</title>
 </svelte:head>
 
-<ScrollArea class="h-dvh" bind:viewportRef {onscroll}>
+<ScrollArea class="h-dvh" bind:viewportRef>
 	<MainNavbar />
 
 	<div class="mx-auto min-h-[calc(100%-3.5rem)] max-w-screen-sm sm:border-x">

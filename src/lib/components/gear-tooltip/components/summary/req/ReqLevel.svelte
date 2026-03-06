@@ -31,7 +31,7 @@
 		image={`number${variant}ReqLev` as 'numberCanReqLev'}
 		style="margin-right: {variant === 'Can' ? '4px' : '3px'}"
 	/>
-	{#each digits.split('') as digit}
+	{#each digits.split('') as digit, index (index)}
 		{#if digit === '_'}
 			<Spacer width={5} />
 		{:else}
@@ -41,7 +41,7 @@
 	{#if vary != 0}
 		<Spacer width={1} />
 		<UIImage image="numberCanOpen" />
-		{#each baseDigits.split('') as digit}
+		{#each baseDigits.split('') as digit, index (index)}
 			<Digit {digit} variant="Can" allowGap />
 		{/each}
 		{#if vary > 0}
@@ -49,7 +49,7 @@
 		{:else if vary < 0}
 			<UIImage image="numberYellowMinus" style="margin-top: 2px" />
 		{/if}
-		{#each varyDigits.split('') as digit}
+		{#each varyDigits.split('') as digit, index (index)}
 			<Digit {digit} variant="Yellow" allowGap />
 		{/each}
 		<UIImage image="numberCanClose" />

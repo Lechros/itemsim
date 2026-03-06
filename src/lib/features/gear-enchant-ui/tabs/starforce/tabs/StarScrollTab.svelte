@@ -31,7 +31,7 @@
 	<FormItem>
 		<FormLabel title="강화 적용" variant="nested" />
 		<FormControl>
-			{#each [1, 5] as star}
+			{#each [1, 5] as star (star)}
 				<Button
 					variant="outline"
 					size="sm"
@@ -59,7 +59,7 @@
 	<FormItem>
 		<FormLabel title="강화 적용" variant="nested" />
 		<FormControl>
-			{#each [1, 5] as star}
+			{#each [1, 5] as star (star)}
 				<Button
 					variant="outline"
 					size="sm"

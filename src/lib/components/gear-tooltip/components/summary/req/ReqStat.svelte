@@ -41,7 +41,7 @@
 
 <div class="flex items-start gap-px">
 	<UIImage image={`number${variant}Req${typePascalCase}` as 'numberCanReqStr'} class="mr-[3px]" />
-	{#each digits.split('') as digit}
+	{#each digits.split('') as digit, index (index)}
 		<Digit {digit} {variant} />
 	{/each}
 </div>

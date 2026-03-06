@@ -28,7 +28,7 @@
 {#snippet content()}
 	<div class="flex gap-[14px] pt-[7px]">
 		{@render jobClass(0, reqJob === 0)}
-		{#each [1, 2, 3, 4, 5] as const as index}
+		{#each [1, 2, 3, 4, 5] as const as index (index)}
 			{@render jobClass(index, reqJob === 0 || (reqJob & (1 << (index - 1))) !== 0)}
 		{/each}
 	</div>

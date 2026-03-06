@@ -69,7 +69,7 @@
 						{selectedTradeLabel}
 					</Select.Trigger>
 					<Select.Content>
-						{#each tradeTypes as tradeType}
+						{#each tradeTypes as tradeType (tradeType.value)}
 							<Select.Item value={String(tradeType.value)} label={tradeType.label}>
 								{tradeType.label}
 							</Select.Item>
@@ -98,7 +98,7 @@
 						{selectedCuttableLabel}
 					</Select.Trigger>
 					<Select.Content>
-						{#each cuttableTypes as cuttableType}
+						{#each cuttableTypes as cuttableType (cuttableType.value)}
 							<Select.Item value={String(cuttableType.value)} label={cuttableType.label}>
 								{cuttableType.label}
 							</Select.Item>
@@ -124,7 +124,7 @@
 						}
 					>
 						<Tabs.List class="w-full">
-							{#each totalCuttableCounts as count}
+							{#each totalCuttableCounts as count (count.value)}
 								<Tabs.Trigger
 									value={count.value === undefined ? 'none' : String(count.value)}
 									class="px-3"
@@ -209,7 +209,7 @@
 					}
 				>
 					<Tabs.List class="w-full">
-						{#each reqLevelIncreases as reqLevelIncrease}
+						{#each reqLevelIncreases as reqLevelIncrease (reqLevelIncrease.value)}
 							<Tabs.Trigger
 								value={String(reqLevelIncrease.value)}
 								disabled={!canIncreaseLevelIncrease}

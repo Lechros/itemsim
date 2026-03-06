@@ -29,11 +29,11 @@
 
 {#if lines}
 	<div class="flex flex-col items-center">
-		{#each lines as line}
+		{#each lines as line, index (index)}
 			<div class="mb-2 flex h-2.5 gap-1.5 pl-px">
-				{#each line as group}
+				{#each line as group, index (index)}
 					<div class="flex">
-						{#each group as isFilled}
+						{#each group as isFilled, index (index)}
 							{@render starIcon(color, !isFilled)}
 						{/each}
 					</div>

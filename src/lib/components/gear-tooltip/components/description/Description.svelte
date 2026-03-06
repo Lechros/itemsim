@@ -5,6 +5,7 @@
 </script>
 
 <div class="gt--detail gt--white">
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html parseColorString(description)}
 </div>
 

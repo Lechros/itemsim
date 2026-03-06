@@ -11,7 +11,7 @@
 
 <div class="flex gap-[2px]" style="margin-right: -{unitCount * 4}px;">
 	<UIImage2 image="inclinePlus_sign" class="mr-[5px]" />
-	{#each digits as digit}
+	{#each digits as digit, index (index)}
 		{@render image(digit)}
 	{/each}
 </div>

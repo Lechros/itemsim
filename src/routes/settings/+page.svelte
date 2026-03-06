@@ -53,7 +53,7 @@
 								?.label}
 						</Select.Trigger>
 						<Select.Content>
-							{#each tooltipVersions as version}
+							{#each tooltipVersions as version (version.value)}
 								<Select.Item value={version.value}>{version.label}</Select.Item>
 							{/each}
 						</Select.Content>

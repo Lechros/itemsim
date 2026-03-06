@@ -23,7 +23,7 @@
 		<DetailText color="exceptional" value="익셉셔널 : {upgrade}회" />
 		<DetailText value=" (최대 {total}회)" />
 	</div>
-	{#each getGearOptionGroupedStrings(option) as summary}
+	{#each getGearOptionGroupedStrings(option) as summary, index (index)}
 		<DetailText value={summary.join(' ')} />
 	{/each}
 {:else}

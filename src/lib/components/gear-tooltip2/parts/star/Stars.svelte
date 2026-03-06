@@ -38,11 +38,11 @@
 
 {#if lines.length > 0}
 	<div class={['flex flex-col items-center gap-y-[8px]', className]}>
-		{#each lines as line}
+		{#each lines as line, index (index)}
 			<div class="flex gap-x-[10px]">
-				{#each line as group}
+				{#each line as group, index (index)}
 					<div class="flex">
-						{#each group as isFilled}
+						{#each group as isFilled, index (index)}
 							{@render starIcon(color, !isFilled)}
 						{/each}
 					</div>

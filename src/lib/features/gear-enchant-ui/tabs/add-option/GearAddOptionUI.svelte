@@ -45,7 +45,7 @@
 		<FormLabel title="단계" class="pl-1" />
 	</div>
 	<div class="grid grid-cols-2 gap-x-2 gap-y-4">
-		{#each selectedOptions as option}
+		{#each selectedOptions as option, index (index)}
 			<Select.Root
 				type="single"
 				bind:value={
@@ -62,7 +62,7 @@
 					{types.find((type) => type.value === option.type)?.label}
 				</Select.Trigger>
 				<Select.Content>
-					{#each types as type}
+					{#each types as type (type.value)}
 						<Select.Item value={type.value}>{type.label}</Select.Item>
 					{/each}
 				</Select.Content>
@@ -83,9 +83,9 @@
 					{/if}
 				</Select.Trigger>
 				<Select.Content>
-					<Select.Item value={'0'}>-</Select.Item>
+					<Select.Item value="0">-</Select.Item>
 					{#if option.type}
-						{#each getAvailableGrades(gear, option.type) as grade}
+						{#each getAvailableGrades(gear, option.type) as grade (grade)}
 							<Select.Item value={String(grade)}>
 								<GradeItem {gear} type={option.type} {grade} />
 							</Select.Item>

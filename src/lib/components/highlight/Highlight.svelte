@@ -38,7 +38,7 @@
 	}
 </script>
 
-{#each segments as segment}
+{#each segments as segment, index (index)}
 	{#if segment.highlighted}
 		<span class="bg-accent">{segment.text}</span>
 	{:else}

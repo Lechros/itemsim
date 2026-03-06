@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { FollowCursor } from '$lib/components/follow-cursor';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog';
 	import { Button, buttonVariants } from '$lib/components/ui/button';
@@ -97,6 +98,7 @@
 	let isImporting = $state(false);
 
 	$effect(() => {
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		gearQuery.value;
 		hoverGearData = null;
 	});
@@ -285,7 +287,7 @@
 															(v) => (settingsStore.columns = v === 'auto' ? 'auto' : Number(v))
 														}
 													>
-														{#each columnItems as item}
+														{#each columnItems as item (item.value)}
 															<DropdownMenu.RadioItem value={String(item.value)}>
 																{item.label}
 															</DropdownMenu.RadioItem>
@@ -431,7 +433,7 @@
 							</ContextMenu.Trigger>
 							<ContextMenu.Content>
 								<ContextMenu.Group>
-									<ContextMenu.Item onclick={() => goto(`/gear/${item.seq}`)}>
+									<ContextMenu.Item onclick={() => goto(resolve(`/gear/${item.seq}`))}>
 										<ExternalLinkIcon />
 										열기
 									</ContextMenu.Item>
@@ -515,7 +517,7 @@
 	<GearDialog
 		gear={new ReadonlyGear(popupGearData)}
 		bind:open={showPopup}
-		onAccept={() => goto(`/gear/${popupSeq}`)}
+		onAccept={() => goto(resolve(`/gear/${popupSeq}`))}
 	/>
 {/if}
 

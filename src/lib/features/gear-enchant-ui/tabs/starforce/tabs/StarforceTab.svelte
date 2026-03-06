@@ -133,7 +133,7 @@
 					{gear.star}성
 				</Select.Trigger>
 				<Select.Content>
-					{#each getPresets() as preset}
+					{#each getPresets() as preset (preset)}
 						<Select.Item value={String(preset)}>
 							{preset}성
 						</Select.Item>
@@ -147,7 +147,7 @@
 				onValueChange={(value) => setStarforce(gear, Number(value), ignoreMaxStar)}
 			>
 				<Tabs.List class="hidden flex-row gap-1 sm:flex">
-					{#each getPresets() as preset}
+					{#each getPresets() as preset (preset)}
 						<Tabs.Trigger
 							class={buttonVariants({
 								variant: preset === gear.star ? 'default' : 'ghost',

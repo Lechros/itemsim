@@ -39,12 +39,13 @@
 		}
 	]}
 >
+	<!-- eslint-disable-next-line svelte/no-useless-mustaches -->
 	<div class="gt--detail gt--gray2 whitespace-pre">{label}{' '}</div>
 	<div class={['flex items-center justify-end', { '-mr-0.5': size === '_10digit' }]}>
 		{#if sign}
 			{@render signImage(sign, size)}
 		{/if}
-		{#each digits.split('') as digit}
+		{#each digits.split('') as digit, index (index)}
 			{@render digitImage(digit, size, diff < 0)}
 		{/each}
 	</div>

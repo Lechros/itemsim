@@ -10,6 +10,7 @@
 			(el) => el.classList.add('gt--comma'),
 			(el) => el.classList.remove('gt--comma')
 		);
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		tags;
 	});
 
@@ -34,7 +35,7 @@
 
 {#if tags.length > 0}
 	<div class="flex flex-wrap justify-center pr-[20px] pl-[19px]" bind:this={div}>
-		{#each tags as tag}
+		{#each tags as tag, index (index)}
 			<span class="gt--detail gt--orange gt--comma whitespace-pre">{tag}</span>
 		{/each}
 	</div>
