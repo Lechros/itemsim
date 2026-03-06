@@ -44,7 +44,7 @@
 
 {#if selectedScroll}
 	{@const optionStrings = getGearOptionStrings(selectedScroll?.option ?? {})}
-	<FormSection class={cn("gap-3", !selectedScroll && 'bg-muted')}>
+	<FormSection class={cn('gap-3', !selectedScroll && 'bg-muted')}>
 		<!-- Title -->
 		<div class="flex h-9 items-center gap-2">
 			{#if selectedScroll.icon}

@@ -45,8 +45,7 @@
 			const img = document.createElement('img');
 			img.src = url;
 			img.onload = () => {
-				maybeInvalidImage =
-					img.width !== expectedWidth || devicePixelRatio.current !== 1;
+				maybeInvalidImage = img.width !== expectedWidth || devicePixelRatio.current !== 1;
 				img.remove();
 			};
 		});
@@ -80,10 +79,5 @@
 	style="width: {widthPx}px; image-rendering: pixelated;"
 	aria-hidden="true"
 >
-	<GearTooltipRenderer
-		{gear}
-		{tooltipVersion}
-		{tooltip1Options}
-		{tooltip2Options}
-	/>
+	<GearTooltipRenderer {gear} {tooltipVersion} {tooltip1Options} {tooltip2Options} />
 </div>

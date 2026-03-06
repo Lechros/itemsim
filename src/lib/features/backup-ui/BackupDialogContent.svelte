@@ -11,7 +11,15 @@
 	import { buildDownloadFilename } from '$lib/utils';
 	import { parseExportPayload } from '$lib/gear/export/parse';
 	import type { ExportPayload } from '$lib/gear/export/types';
-	import { CircleXIcon, CopyXIcon, DownloadIcon, FolderDownIcon, FolderUpIcon, PlusIcon, UploadIcon } from 'lucide-svelte';
+	import {
+		CircleXIcon,
+		CopyXIcon,
+		DownloadIcon,
+		FolderDownIcon,
+		FolderUpIcon,
+		PlusIcon,
+		UploadIcon
+	} from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
 
 	let {
@@ -29,7 +37,11 @@
 	let downloadFilename = $state<string | null>(null);
 	let downloadCount = $state(0);
 
-	function setDownloadResult(payload: Uint8Array<ArrayBuffer> | null, filename: string | null, count: number) {
+	function setDownloadResult(
+		payload: Uint8Array<ArrayBuffer> | null,
+		filename: string | null,
+		count: number
+	) {
 		if (downloadBlobUrl) {
 			URL.revokeObjectURL(downloadBlobUrl);
 			downloadBlobUrl = null;
@@ -38,7 +50,9 @@
 		downloadFilename = filename;
 		downloadCount = count;
 		if (payload) {
-			downloadBlobUrl = URL.createObjectURL(new Blob([payload], { type: 'application/octet-stream' }));
+			downloadBlobUrl = URL.createObjectURL(
+				new Blob([payload], { type: 'application/octet-stream' })
+			);
 		}
 	}
 
@@ -73,12 +87,14 @@
 		<Item.Root variant="outline">
 			<Item.Content>
 				<Item.Title>백업</Item.Title>
-				<Item.Description>인벤토리의 모든 아이템을 백업 파일로 만들고 다운로드해요.</Item.Description>
+				<Item.Description
+					>인벤토리의 모든 아이템을 백업 파일로 만들고 다운로드해요.</Item.Description
+				>
 				<div class="mt-2 flex flex-col gap-4">
 					{#if downloadPayload && downloadFilename}
 						<Item.Root variant="muted">
 							<Item.Media>
-								<FolderDownIcon/>
+								<FolderDownIcon />
 							</Item.Media>
 							<Item.Content>
 								<Item.Title>{downloadFilename}</Item.Title>
@@ -87,7 +103,7 @@
 								</Item.Description>
 							</Item.Content>
 							<Item.Actions>
-								<Button  onclick={() => downloadRef?.click()}>
+								<Button onclick={() => downloadRef?.click()}>
 									<DownloadIcon />
 									다운로드
 								</Button>
@@ -95,7 +111,7 @@
 						</Item.Root>
 					{/if}
 					<Button
-					variant="outline"
+						variant="outline"
 						onclick={async () => {
 							isBackuping = true;
 							try {
@@ -152,13 +168,13 @@
 									<AlertDialog.Trigger
 										class={buttonVariants({ variant: overwrite ? 'destructive' : 'default' })}
 									>
-									{#if overwrite}
-									<CopyXIcon/>
-									덮어쓰기
-									{:else}
-									<PlusIcon/>
-									추가하기
-									{/if}
+										{#if overwrite}
+											<CopyXIcon />
+											덮어쓰기
+										{:else}
+											<PlusIcon />
+											추가하기
+										{/if}
 									</AlertDialog.Trigger>
 									<AlertDialog.Content>
 										<AlertDialog.Header>

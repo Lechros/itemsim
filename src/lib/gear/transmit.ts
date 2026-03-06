@@ -89,7 +89,7 @@ export function transmit(src: GearData, dst: GearData): boolean {
 	}
 	dstGear.data.attributes.canPotential = canPotential;
 
-    // Additional Potential
+	// Additional Potential
 	const canAdditionalPotential = dstGear.attributes.canAdditionalPotential;
 	dstGear.data.attributes.canAdditionalPotential = GearCapability.Can;
 	dstGear.resetAdditionalPotential();

@@ -44,7 +44,7 @@ function isDestinyWeapon(gear: ReadonlyGear): boolean {
 }
 
 function getGenesisPatch(stat: SpellTraceType): Patch {
-    const statName = getStatName(stat);
+	const statName = getStatName(stat);
 	return {
 		name: `제네시스 무기 해방 (${statName})`,
 		desc: `${statName} 15% 주문서 강화 8회, 스타포스 22성`,

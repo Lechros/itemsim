@@ -7,10 +7,9 @@ export interface ExclusiveEquipData {
 }
 
 export interface ExclusiveEquip {
-    itemIds: number[];
-    names: string[];
+	itemIds: number[];
+	names: string[];
 }
-
 
 export async function getExclusiveEquips(): Promise<ExclusiveEquipData> {
 	return await ky.get(join(env.API_URL, '/exclusive-equips')).json<ExclusiveEquipData>();

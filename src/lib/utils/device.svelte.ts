@@ -30,6 +30,6 @@ export function createPointerDetection() {
 	return {
 		get isPointerFine() {
 			return isPointerFine;
-		},
+		}
 	};
 }

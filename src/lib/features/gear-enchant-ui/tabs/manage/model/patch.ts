@@ -107,7 +107,7 @@ export function isPatchSatisfied(gear: ReadonlyGear, patch: Patch): boolean {
 		}
 		const tempGear = new Gear(structuredClone(gear.data));
 		tempGear.data.attributes.canScroll = GearCapability.Can;
-		tempGear.resetUpgrade();		
+		tempGear.resetUpgrade();
 		for (const [count, type, rate] of patch.scroll) {
 			for (let i = 0; i < count; i++) {
 				tempGear.applySpellTrace(type, rate);

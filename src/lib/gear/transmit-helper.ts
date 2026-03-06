@@ -26,7 +26,10 @@ export async function shouldTransmit(seq: number): Promise<boolean> {
  * @param seq 장비 id
  * @returns 업데이트할 데이터가 있으면 { gear, hash }, 이미 최신이면 null
  */
-export async function runTransmit(seq: number, abortSignal?: AbortSignal): Promise<{ gear: GearData; hash: string } | null> {
+export async function runTransmit(
+	seq: number,
+	abortSignal?: AbortSignal
+): Promise<{ gear: GearData; hash: string } | null> {
 	const row = await getGearRow(seq);
 	if (!row) return null;
 
@@ -34,7 +37,10 @@ export async function runTransmit(seq: number, abortSignal?: AbortSignal): Promi
 	const gearId = currentGear.id;
 	const storedHash = row.hash;
 
-	const [newGearData, serverHash] = await Promise.all([getGearData(gearId, abortSignal), getGearHash(gearId, abortSignal)]);
+	const [newGearData, serverHash] = await Promise.all([
+		getGearData(gearId, abortSignal),
+		getGearHash(gearId, abortSignal)
+	]);
 
 	if (storedHash === serverHash) return null;
 

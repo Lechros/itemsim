@@ -8,13 +8,12 @@ export interface SetItemData {
 }
 
 export interface SetItem {
-    name: string;
-    itemIds: number[];
-    effects?: Record<string, GearOption>;
-    jokerPossible?: boolean;
-    zeroWeaponJokerPossible?: boolean;
+	name: string;
+	itemIds: number[];
+	effects?: Record<string, GearOption>;
+	jokerPossible?: boolean;
+	zeroWeaponJokerPossible?: boolean;
 }
-
 
 export async function getSetItems(): Promise<SetItemData> {
 	return await ky.get(join(env.API_URL, '/set-items')).json<SetItemData>();

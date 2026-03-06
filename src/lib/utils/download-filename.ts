@@ -8,8 +8,6 @@ export async function buildDownloadFilename(
 ): Promise<string> {
 	const date = new Date().toISOString().split('T')[0].split('-').join('');
 	const hashBuffer = await crypto.subtle.digest('SHA-1', payload);
-	const hash = [...new Uint8Array(hashBuffer)]
-		.map((b) => b.toString(16).padStart(2, '0'))
-		.join('');
+	const hash = [...new Uint8Array(hashBuffer)].map((b) => b.toString(16).padStart(2, '0')).join('');
 	return `${date}_${hash.slice(0, 8)}.${extension}`;
 }

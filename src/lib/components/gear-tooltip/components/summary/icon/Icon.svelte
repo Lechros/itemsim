@@ -28,7 +28,7 @@
 	{/if}
 	<UIImage image="iconBase">
 		<div class="flex h-20 w-20 items-center justify-center">
-			<GearIcon icon={icon} scale={2} />
+			<GearIcon {icon} scale={2} />
 		</div>
 	</UIImage>
 	<UIImage
