@@ -21,10 +21,6 @@
 	let option = $state<Partial<GearUpgradeOption>>({});
 	let randomizeEmptyValues = $state(false);
 
-	const minmax = $state({ min: -6, max: 6 });
-	const min = $derived(minmax.min);
-	const max = $derived(minmax.max);
-
 	function applyChaosScroll() {
 		const scroll = createChaosScroll(option);
 		if (randomizeEmptyValues) {
@@ -50,6 +46,8 @@
 	</FormItem>
 	<BalancedGrid items={chaosOptionTypes} class="gap-x-8 gap-y-3" classes={{ column: 'gap-y-3' }}>
 		{#snippet itemRenderer(stat: (typeof chaosOptionTypes)[number])}
+			{@const min = -6 * stat.weight}
+			{@const max = 6 * stat.weight}
 			<FormItem class="gap-y-1">
 				<FormLabel title={stat.label} variant="nested" for="chaos-scroll-{stat.value}" />
 				<FormControl>
@@ -58,7 +56,7 @@
 							<InputGroup.Button
 								size="icon-xs"
 								disabled={(option[stat.value] ?? 0) <= min}
-								onclick={() => (option[stat.value] = (option[stat.value] ?? 0) - 1)}
+								onclick={() => (option[stat.value] = (option[stat.value] ?? 0) - stat.weight)}
 							>
 								<Minus />
 							</InputGroup.Button>
@@ -74,13 +72,20 @@
 									(option[stat.value] =
 										value == null ? value : (clamp(Number(value), min, max) ?? 0))
 							}
-							placeholder={randomizeEmptyValues ? `0 ~ 6` : '0'}
+							onblur={() => {
+								const current = option[stat.value];
+								if (current != null) {
+									option[stat.value] =
+										Math.trunc(clamp(current, min, max) / stat.weight) * stat.weight;
+								}
+							}}
+							placeholder={randomizeEmptyValues ? `0 ~ ${6 * stat.weight}` : '0'}
 						/>
 						<InputGroup.Addon align="inline-end">
 							<InputGroup.Button
 								size="icon-xs"
 								disabled={(option[stat.value] ?? 0) >= max}
-								onclick={() => (option[stat.value] = (option[stat.value] ?? 0) + 1)}
+								onclick={() => (option[stat.value] = (option[stat.value] ?? 0) + stat.weight)}
 							>
 								<Plus />
 							</InputGroup.Button>
