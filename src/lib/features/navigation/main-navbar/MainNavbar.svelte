@@ -2,6 +2,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Settings } from 'lucide-svelte';
 	import DarkModeButton from './DarkModeButton.svelte';
+	import DiscordIcon from './DiscordIcon.svelte';
 	import Logo from './logo.png';
 </script>
 
@@ -17,6 +18,17 @@
 			</Button>
 		</div>
 		<div class="ml-auto flex items-center gap-1 px-4">
+			<Button
+				variant="ghost"
+				size="icon"
+				href="https://discord.gg/Kzzn8zuj2p"
+				target="_blank"
+				rel="noopener noreferrer"
+				title="공식 디스코드"
+				class="hover:text-[#5865F2]"
+			>
+				<DiscordIcon class="size-4" />
+			</Button>
 			<DarkModeButton />
 			<Button variant="ghost" size="icon" href="/settings" title="설정">
 				<Settings />
