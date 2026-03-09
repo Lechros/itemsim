@@ -30,7 +30,7 @@ export async function restoreInventory(payload: ExportPayload, clear: boolean = 
 	let rows: Omit<GearRow, 'seq'>[];
 	try {
 		rows = payload.items.map((item) => ({
-			gear: ensureGearData(migrate(item.gear, GEAR_VERSION)),
+			gear: ensureGearData(migrate(item.gear as GearData, GEAR_VERSION)),
 			hash: item.hash,
 			createdAt: new Date(item.createdAt),
 			updatedAt: new Date(item.updatedAt)
@@ -76,7 +76,7 @@ export async function importGears(payloadStr: Uint8Array<ArrayBuffer>) {
 	let rows: Omit<GearRow, 'seq'>[];
 	try {
 		rows = payload.items.map((item) => ({
-			gear: ensureGearData(migrate(item.gear, GEAR_VERSION)),
+			gear: ensureGearData(migrate(item.gear as GearData, GEAR_VERSION)),
 			hash: item.hash,
 			createdAt: new Date(),
 			updatedAt: new Date()

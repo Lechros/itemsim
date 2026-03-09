@@ -1,1 +1,1 @@
-export const GEAR_VERSION = 2;
+export const GEAR_VERSION = 3;

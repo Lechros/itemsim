@@ -1,6 +1,6 @@
 import { GearType, type GearReqData } from '@malib/gear';
 
-export function getReqJobNames(
+export function getSpecJobNames(
 	type: GearType,
 	reqJob: NonNullable<Required<GearReqData['job']>>
 ): string[] {
@@ -10,20 +10,16 @@ export function getReqJobNames(
 	}
 
 	if (reqJob.fullJobs.length > 0) {
+		if (reqJob.fullJobs.join(',') === '222,212,232') {
+			return ['모험가 마법사 직업군'];
+		}
 		return reqJob.fullJobs.map((fullJob) => getFullJobName(fullJob)).filter(Boolean) as string[];
 	}
 	if (reqJob.jobs.length > 0) {
 		return reqJob.jobs.map((job) => getJobName(job)).filter(Boolean) as string[];
 	}
 
-	switch (reqJob.class) {
-		case -1:
-			return ['초보자'];
-		case 0:
-			return ['공용'];
-		default:
-			return ['전사', '마법사', '궁수', '도적', '해적'].filter((_, i) => reqJob.class & (1 << i));
-	}
+	return [];
 }
 
 function getGearTypeJobName(type: GearType, fullJobs: number[]): string | string[] | undefined {

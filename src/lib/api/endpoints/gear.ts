@@ -35,7 +35,7 @@ export function getGearData(id: number, signal?: AbortSignal) {
 	return ky
 		.get(getGearDataUrl(id), { signal })
 		.json<object>()
-		.then((data) => migrate(data, GEAR_VERSION) as GearData);
+		.then((data) => migrate(data as GearData, GEAR_VERSION) as GearData);
 }
 
 export function getGearDatasUrl(ids: number[]) {
@@ -47,7 +47,7 @@ export async function getGearDatas(ids: number[]) {
 		return [];
 	}
 	return (await ky.get(getGearDatasUrl(ids)).json<object[]>()).map(
-		(data) => migrate(data, GEAR_VERSION) as GearData
+		(data) => migrate(data as GearData, GEAR_VERSION) as GearData
 	);
 }
 

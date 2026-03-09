@@ -3,7 +3,7 @@
 	import { GearCapability, GearGender, GearType, isWeapon, ReadonlyGear } from '@malib/gear';
 	import { getAttributeHtmlStrings, getTopAttributeHtmlStrings } from './model/attribute';
 	import { getCategories, isEnhanceable } from './model/category';
-	import { getJobString } from './model/job';
+	import { getReqJobNames } from './model/job';
 	import Chip from '$lib/components/gear-tooltip2/parts/Chip.svelte';
 	import EnhanceAdd from '$lib/components/gear-tooltip2/parts/enhance/EnhanceAdd.svelte';
 	import EnhanceCannot from '$lib/components/gear-tooltip2/parts/enhance/EnhanceCannot.svelte';
@@ -56,6 +56,7 @@
 	const attributeStrings = $derived(
 		getAttributeHtmlStrings(gear.attributes, loadExclusiveEquips(gear.id))
 	);
+	const reqJobNames = $derived(getReqJobNames(gear.type, gear.req.job));
 	const gender = $derived(
 		gear.req.gender === GearGender.Male
 			? '남'
@@ -170,7 +171,11 @@
 			{/if}
 			<div class="flex">
 				<DetailText color="gray" class="w-[85px]" value="착용 직업" />
-				<DetailText value={getJobString(gear.type, gear.req.job, gear.req.class)} />
+				<div class="flex max-w-[200px] flex-wrap gap-x-1">
+					{#each reqJobNames as jobName, i (jobName)}
+						<DetailText value={i === reqJobNames.length - 1 ? jobName : jobName + ','} />
+					{/each}
+				</div>
 			</div>
 			{#if gear.req.level > 0 || gear.req.levelIncrease > 0 || gear.req.gender !== undefined}
 				<div class="grid grid-cols-[217px_1fr]">

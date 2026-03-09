@@ -4,19 +4,19 @@
 	let {
 		reqJob,
 		can,
-		message
+		jobNames
 	}: {
 		reqJob: number;
 		can: boolean;
-		message?: string;
+		jobNames?: string[];
 	} = $props();
 </script>
 
-{#if message}
+{#if jobNames && jobNames.length > 0}
 	<UIImage image="jobExpand" class="flex flex-col items-center">
 		{@render content()}
-		<div class="gt--detail gt--orange2 mt-[5px] pr-px">
-			{message}
+		<div class="gt--detail gt--orange2 mt-[5px] max-w-[200px] pr-px text-center">
+			{jobNames.join(', ')} 착용 가능
 		</div>
 	</UIImage>
 {:else}

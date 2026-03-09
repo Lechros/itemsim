@@ -64,7 +64,7 @@
 	},
 	"packageManager": "pnpm@10.28.2",
 	"dependencies": {
-		"@malib/gear": "1.0.0-next.15",
+		"@malib/gear": "1.2.0",
 		"@tanstack/svelte-query": "^6.0.18",
 		"dexie": "^4.3.0",
 		"es-hangul": "^2.3.8",

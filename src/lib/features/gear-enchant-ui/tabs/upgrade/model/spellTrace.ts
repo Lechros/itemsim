@@ -45,7 +45,7 @@ function getSpellTraceTypes(gear: ReadonlyGear) {
 		[SpellTraceType.str, SpellTraceType.dex, SpellTraceType.luk]
 	];
 	const typeSet = new Set<SpellTraceType>();
-	if (gear.req.beginner()) {
+	if (gear.req.job.beginner()) {
 		typeSet.add(SpellTraceType.str);
 		typeSet.add(SpellTraceType.dex);
 		typeSet.add(SpellTraceType.int);
@@ -53,7 +53,7 @@ function getSpellTraceTypes(gear: ReadonlyGear) {
 		typeSet.add(SpellTraceType.maxHp);
 	} else {
 		for (let i = 0; i < 5; i++) {
-			if ((gear.req.job & (1 << i)) !== 0) {
+			if ((gear.req.job.class & (1 << i)) !== 0) {
 				for (const stat of jobStat[i]) {
 					typeSet.add(stat);
 				}

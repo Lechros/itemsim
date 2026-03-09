@@ -56,7 +56,8 @@
 	import NameTitle from './components/title/NameTitle.svelte';
 	import SoulTitle from './components/title/SoulTitle.svelte';
 	import TitleWrapper from './components/title/TitleWrapper.svelte';
-	import { getDescriptions, getExtraJobReqString, getTags } from './model/strings';
+	import { getSpecJobNames } from './model/job';
+	import { getDescriptions, getTags } from './model/strings';
 	import './tooltip.css';
 
 	let {
@@ -186,7 +187,11 @@
 		<DiffExtra type="igpddr" value={0} percent />
 	</DiffExtraWrapper>
 	<Spacer height={3} />
-	<JobReq reqJob={gear.req.job} message={getExtraJobReqString(gear.type)} can={!cannot.job} />
+	<JobReq
+		reqJob={gear.req.job.class}
+		jobNames={getSpecJobNames(gear.type, gear.req.job)}
+		can={!cannot.job}
+	/>
 	<Spacer height={9} />
 	<DotLine />
 	<Spacer height={4} />

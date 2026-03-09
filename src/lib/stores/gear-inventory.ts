@@ -150,7 +150,7 @@ export function useGearQuery({ filter, sort = 'createdAtDesc' }: GearQueryOption
  * @returns GearData
  */
 export function extractGearData(row: GearRow) {
-	return migrate(row.gear, GEAR_VERSION) as GearData;
+	return migrate(row.gear as GearData, GEAR_VERSION) as GearData;
 }
 
 export interface GearQueryOptions {
