@@ -96,14 +96,17 @@ let instance: SettingsStore | null = null;
 
 export function getSettingsStore(): SettingsStore {
 	if (typeof window === 'undefined') {
-		return new SettingsStore();
+		return {
+			layout: 'grid',
+			columns: 5,
+			batchAction: 'export',
+			tooltipVersion: '2',
+			tooltip1Options: { cannot: {}, incline: { combat: 0 } },
+			tooltip2Options: { cannot: {}, expand: false, incline: { combat: 0 } }
+		};
 	}
 	if (!instance) {
 		instance = new SettingsStore();
 	}
 	return instance;
-}
-
-export function createSettingsStore() {
-	return getSettingsStore();
 }
