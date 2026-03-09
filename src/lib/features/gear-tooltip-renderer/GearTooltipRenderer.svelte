@@ -29,7 +29,7 @@
 		tooltip1Options,
 		tooltip2Options
 	}: {
-		gear: ReadonlyGear;
+		gear: ReadonlyGear | undefined;
 		tooltipVersion: '1' | '2';
 		tooltip1Options: Tooltip1Props;
 		tooltip2Options: Tooltip2Props;
@@ -42,8 +42,10 @@
 	const loadExclusiveEquips = $derived(createExclusiveEquipsLoader(exclusiveEquips.data));
 </script>
 
-{#if tooltipVersion === '1'}
-	<GearTooltip {gear} {loadExclusiveEquips} {...tooltip1Options} />
-{:else if tooltipVersion === '2'}
-	<GearTooltip2 {gear} {loadSetItemName} {loadExclusiveEquips} {...tooltip2Options} />
+{#if gear}
+	{#if tooltipVersion === '1'}
+		<GearTooltip {gear} {loadExclusiveEquips} {...tooltip1Options} />
+	{:else if tooltipVersion === '2'}
+		<GearTooltip2 {gear} {loadSetItemName} {loadExclusiveEquips} {...tooltip2Options} />
+	{/if}
 {/if}

@@ -1,15 +1,16 @@
 <script lang="ts">
 	let { tags }: { tags: string[] } = $props();
 
-	// svelte-ignore non_reactive_update
-	let div: HTMLDivElement;
+	let div = $state<HTMLDivElement | null>(null);
 
 	$effect(() => {
-		forEachChildren(
-			div,
-			(el) => el.classList.add('gt--comma'),
-			(el) => el.classList.remove('gt--comma')
-		);
+		if (div) {
+			forEachChildren(
+				div,
+				(el) => el.classList.add('gt--comma'),
+				(el) => el.classList.remove('gt--comma')
+			);
+		}
 		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		tags;
 	});

@@ -504,7 +504,7 @@
 {#if hoverGearData && pointerDetection.isPointerFine && !contextMenuOpen}
 	<FollowCursor paddingRight={9}>
 		<GearTooltipRenderer
-			gear={new ReadonlyGear(hoverGearData)}
+			gear={hoverGearData ? new ReadonlyGear(hoverGearData) : undefined}
 			tooltipVersion={settingsStore.tooltipVersion}
 			tooltip1Options={settingsStore.tooltip1Options}
 			tooltip2Options={settingsStore.tooltip2Options}
