@@ -1,0 +1,110 @@
+<script lang="ts">
+	import type { GearRow } from '$lib/stores/gear-inventory';
+	import { chunk, cn } from '$lib/utils';
+	import type { Snippet } from 'svelte';
+	import { Virtualizer } from 'virtua/svelte';
+
+	let {
+		items,
+		children: itemChildren,
+		maxColumns,
+		startMargin = 0,
+		scrollRef
+	}: {
+		items: GearRow[];
+		children: Snippet<[item: GearRow, index: number]>;
+		maxColumns?: number;
+		startMargin?: number;
+		scrollRef: HTMLElement;
+	} = $props();
+
+	const ITEM_WIDTH = 128;
+	const GAP = 0;
+	const PADDING = 0;
+
+	let width = $state<number | null>(null);
+	const { columnCount, maxWidth } = $derived(getGridProps(width, maxColumns));
+	const rows = $derived(chunk(items, columnCount));
+
+	$effect(() => {
+		const observer = new ResizeObserver((entries) => {
+			const entry = entries.find((e) => e.target === scrollRef);
+			if (entry) {
+				width = entry.contentBoxSize[0].inlineSize;
+			}
+		});
+		if (scrollRef) {
+			observer.observe(scrollRef);
+		}
+	});
+
+	function getGridProps(
+		width: number | null,
+		maxColumns?: number
+	): {
+		columnCount: number;
+		maxWidth: number | undefined;
+	} {
+		if (!width || width < 320) {
+			return { columnCount: 2, maxWidth: undefined };
+		} else if (width < 384) {
+			return { columnCount: 3, maxWidth: undefined };
+		} else {
+			const columnCount = getColumnCount(width, maxColumns);
+			const maxWidth = getMaxWidth(columnCount);
+			return { columnCount, maxWidth };
+		}
+	}
+
+	function getColumnCount(width: number, maxColumns?: number) {
+		const workableWidth = width - PADDING * 2;
+		const count = Math.floor((workableWidth + GAP) / (ITEM_WIDTH + GAP));
+		if (maxColumns) return Math.min(maxColumns, count);
+		return count;
+	}
+
+	function getMaxWidth(columnCount: number) {
+		return columnCount * ITEM_WIDTH + (columnCount - 1) * GAP + PADDING * 2;
+	}
+</script>
+
+<div class="flex h-[calc(100%-110px-56px)] flex-col">
+	<Virtualizer
+		data={rows}
+		getKey={(row) => `${row[0].seq}-${row[row.length - 1].seq}`}
+		bufferSize={150}
+		scrollRef={scrollRef ?? undefined}
+		{startMargin}
+	>
+		{#snippet children(row, rowIndex)}
+			<div class="border-b">
+				<div
+					class={cn('mx-auto box-content grid', width && width >= 384 && 'border-l')}
+					style:grid-template-columns={`repeat(${columnCount}, 1fr)`}
+					style:max-width={maxWidth ? `${maxWidth}px` : undefined}
+				>
+					{#each row as item, index (item.seq)}
+						{@render itemChildren(item, rowIndex * columnCount + index)}
+					{/each}
+					{#if row.length < columnCount}
+						{#each Array(columnCount - row.length)}
+							<div class="border-r"></div>
+						{/each}
+					{/if}
+				</div>
+			</div>
+		{/snippet}
+	</Virtualizer>
+	<div
+		class={cn(
+			'mx-auto box-content grid h-full min-h-32 w-full',
+			width && width >= 384 && 'border-l'
+		)}
+		style:grid-template-columns={`repeat(${columnCount}, 1fr)`}
+		style:max-width={maxWidth ? `${maxWidth}px` : undefined}
+	>
+		{#each Array(columnCount)}
+			<div class="border-r"></div>
+		{/each}
+	</div>
+</div>

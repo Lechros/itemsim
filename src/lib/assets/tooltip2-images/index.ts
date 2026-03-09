@@ -1,0 +1,152 @@
+import { default as frameTop } from './frame/top.png';
+import { default as frameLine } from './frame/line.png';
+import { default as frameMiddle } from './frame/mid.png';
+import { default as frameBottom } from './frame/btm.png';
+
+import { default as particleStar } from './particle/star.png';
+
+import { default as star } from './star/star.png';
+import { default as blueStar } from './star/blue.png';
+import { default as emptyStar } from './star/empty.png';
+
+import { default as iconBase } from './icon/base.png';
+import { default as iconShade } from './icon/shade.png';
+
+import { default as inclineEquipped } from './incline/equipped.png';
+import { default as inclineMinus_0 } from './incline/minus_0.png';
+import { default as inclineMinus_1 } from './incline/minus_1.png';
+import { default as inclineMinus_2 } from './incline/minus_2.png';
+import { default as inclineMinus_3 } from './incline/minus_3.png';
+import { default as inclineMinus_4 } from './incline/minus_4.png';
+import { default as inclineMinus_5 } from './incline/minus_5.png';
+import { default as inclineMinus_6 } from './incline/minus_6.png';
+import { default as inclineMinus_7 } from './incline/minus_7.png';
+import { default as inclineMinus_8 } from './incline/minus_8.png';
+import { default as inclineMinus_9 } from './incline/minus_9.png';
+import { default as inclineMinus_a } from './incline/minus_a.png';
+import { default as inclineMinus_b } from './incline/minus_b.png';
+import { default as inclineMinus_sign } from './incline/minus_sign.png';
+import { default as inclinePlus_0 } from './incline/plus_0.png';
+import { default as inclinePlus_1 } from './incline/plus_1.png';
+import { default as inclinePlus_2 } from './incline/plus_2.png';
+import { default as inclinePlus_3 } from './incline/plus_3.png';
+import { default as inclinePlus_4 } from './incline/plus_4.png';
+import { default as inclinePlus_5 } from './incline/plus_5.png';
+import { default as inclinePlus_6 } from './incline/plus_6.png';
+import { default as inclinePlus_7 } from './incline/plus_7.png';
+import { default as inclinePlus_8 } from './incline/plus_8.png';
+import { default as inclinePlus_9 } from './incline/plus_9.png';
+import { default as inclinePlus_a } from './incline/plus_a.png';
+import { default as inclinePlus_b } from './incline/plus_b.png';
+import { default as inclinePlus_sign } from './incline/plus_sign.png';
+
+import { default as categoryMiddle } from './category/c.png';
+import { default as categoryRight } from './category/e.png';
+import { default as categoryLeft } from './category/w.png';
+
+import { default as setGuide } from './textIcon/set_guide.png';
+
+import { default as bonus_0 } from './bonusStat/0.png';
+import { default as bonus_1 } from './bonusStat/1.png';
+import { default as bonus_2 } from './bonusStat/2.png';
+import { default as bonus_3 } from './bonusStat/3.png';
+import { default as bonus_4 } from './bonusStat/4.png';
+import { default as bonus_5 } from './bonusStat/5.png';
+import { default as bonus_6 } from './bonusStat/6.png';
+import { default as bonus_7 } from './bonusStat/7.png';
+import { default as bonus_8 } from './bonusStat/8.png';
+import { default as bonus_9 } from './bonusStat/9.png';
+
+import { default as potentialTitleNormal } from './potential/title/normal.png';
+import { default as potentialTitleRare } from './potential/title/rare.png';
+import { default as potentialTitleEpic } from './potential/title/epic.png';
+import { default as potentialTitleUnique } from './potential/title/unique.png';
+import { default as potentialTitleLegendary } from './potential/title/legendary.png';
+import { default as potentialDetailRare } from './potential/detail/rare.png';
+import { default as potentialDetailEpic } from './potential/detail/epic.png';
+import { default as potentialDetailUnique } from './potential/detail/unique.png';
+import { default as potentialDetailLegendary } from './potential/detail/legendary.png';
+
+import { default as soulNormal } from './soul/normal.png';
+
+import { default as exceptionalNormal } from './exceptional/normal.png';
+
+import { default as scrollIcon } from './textIcon/scroll.png';
+import { default as starNormal } from './textIcon/starNormal.png';
+import { default as starEnhanced } from './textIcon/starEnhanced.png';
+import { default as scrollNormal } from './textIcon/scrollNormal.png';
+import { default as scrollEnhanced } from './textIcon/scrollEnhanced.png';
+import { default as addOptionNormal } from './textIcon/addOptionNormal.png';
+import { default as addOptionEnhanced } from './textIcon/addOptionEnhanced.png';
+
+export const tooltip2Images = {
+	frameTop,
+	frameLine,
+	frameMiddle,
+	frameBottom,
+	particleStar,
+	star,
+	blueStar,
+	emptyStar,
+	iconBase,
+	iconShade,
+	inclineEquipped,
+	inclineMinus_0,
+	inclineMinus_1,
+	inclineMinus_2,
+	inclineMinus_3,
+	inclineMinus_4,
+	inclineMinus_5,
+	inclineMinus_6,
+	inclineMinus_7,
+	inclineMinus_8,
+	inclineMinus_9,
+	inclineMinus_a,
+	inclineMinus_b,
+	inclineMinus_sign,
+	inclinePlus_0,
+	inclinePlus_1,
+	inclinePlus_2,
+	inclinePlus_3,
+	inclinePlus_4,
+	inclinePlus_5,
+	inclinePlus_6,
+	inclinePlus_7,
+	inclinePlus_8,
+	inclinePlus_9,
+	inclinePlus_a,
+	inclinePlus_b,
+	inclinePlus_sign,
+	categoryMiddle,
+	categoryLeft,
+	categoryRight,
+	setGuide,
+	bonus_0,
+	bonus_1,
+	bonus_2,
+	bonus_3,
+	bonus_4,
+	bonus_5,
+	bonus_6,
+	bonus_7,
+	bonus_8,
+	bonus_9,
+	potentialTitleNormal,
+	potentialTitleRare,
+	potentialTitleEpic,
+	potentialTitleUnique,
+	potentialTitleLegendary,
+	potentialDetailRare,
+	potentialDetailEpic,
+	potentialDetailUnique,
+	potentialDetailLegendary,
+	soulNormal,
+	exceptionalNormal,
+	scrollIcon,
+	starNormal,
+	starEnhanced,
+	scrollNormal,
+	scrollEnhanced,
+	addOptionNormal,
+	addOptionEnhanced
+};
