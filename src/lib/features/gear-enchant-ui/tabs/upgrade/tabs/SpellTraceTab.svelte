@@ -4,14 +4,15 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
 	import { BalancedGrid } from '$lib/features/gear-enchant-ui/balanced-grid';
+	import FormControl from '$lib/features/gear-enchant-ui/form/FormControl.svelte';
 	import FormItem from '$lib/features/gear-enchant-ui/form/FormItem.svelte';
 	import FormSection from '$lib/features/gear-enchant-ui/form/FormSection.svelte';
 	import { cn, getGearOptionStrings } from '$lib/utils';
 	import { type Gear, type SpellTrace } from '@malib/gear';
 	import { XIcon } from 'lucide-svelte';
-	import SharedSections from '../components/SharedSections.svelte';
+	import ResetSection from '../components/ResetSection.svelte';
+	import ResileSection from '../components/ResileSection.svelte';
 	import { getSpellTraceScrolls } from '../model/spellTrace';
-	import FormControl from '$lib/features/gear-enchant-ui/form/FormControl.svelte';
 
 	let { gear }: { gear: Gear } = $props();
 
@@ -96,4 +97,5 @@
 	</FormSection>
 {/if}
 
-<SharedSections {gear} />
+<ResileSection {gear} />
+<ResetSection {gear} />

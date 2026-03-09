@@ -10,26 +10,21 @@
 	import { getGearOptionStrings } from '$lib/utils';
 	import { type Gear, type Scroll } from '@malib/gear';
 	import { XIcon } from 'lucide-svelte';
-	import SharedSections from '../components/SharedSections.svelte';
+	import ResetSection from '../components/ResetSection.svelte';
+	import ResileSection from '../components/ResileSection.svelte';
 	import { getEtcScrolls, getOnlyScrolls } from '../model/etcScroll';
 
 	let { gear }: { gear: Gear } = $props();
 
-	let scrolls = $derived(getScrolls(gear));
+	const onlyScrolls = $derived(getOnlyScrolls(gear));
+	const etcScrolls = $derived(getEtcScrolls(gear));
+	const scrolls = $derived<Scroll[]>(onlyScrolls.length > 0 ? onlyScrolls : etcScrolls);
 	let selectedScroll = $state<Scroll | null>(scrolls.length === 1 ? scrolls[0] : null);
 
 	function applyScroll(gear: Gear, scroll: Scroll, count: number = 1) {
 		for (let i = 0; i < count; i++) {
 			gear.applyScroll(scroll);
 		}
-	}
-
-	function getScrolls(gear: Gear): Scroll[] {
-		const onlyScrolls = getOnlyScrolls(gear);
-		if (onlyScrolls.length > 0) {
-			return onlyScrolls;
-		}
-		return getEtcScrolls(gear);
 	}
 </script>
 
@@ -99,4 +94,8 @@
 	</FormSection>
 {/if}
 
-<SharedSections {gear} />
+{#if onlyScrolls.length === 0}
+	<ResileSection {gear} />
+{/if}
+
+<ResetSection {gear} />

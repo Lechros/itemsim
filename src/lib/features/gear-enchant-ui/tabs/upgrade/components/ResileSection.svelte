@@ -32,20 +32,3 @@
 		</FormControl>
 	</FormItem>
 </FormSection>
-
-<FormSection>
-	<FormItem>
-		<FormLabel title="주문서 강화 초기화" />
-		<FormControl>
-			<Button
-				variant="destructive"
-				size="sm"
-				disabled={!gear.canResetUpgrade ||
-					gear.scrollUpgradeableCount === gear.scrollTotalUpgradeableCount}
-				onclick={() => gear.resetUpgrade()}
-			>
-				초기화
-			</Button>
-		</FormControl>
-	</FormItem>
-</FormSection>

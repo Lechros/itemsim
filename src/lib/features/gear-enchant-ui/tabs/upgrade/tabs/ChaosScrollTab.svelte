@@ -9,7 +9,8 @@
 	import FormSection from '$lib/features/gear-enchant-ui/form/FormSection.svelte';
 	import type { Gear, GearUpgradeOption } from '@malib/gear';
 	import { Minus, Plus, TrashIcon } from 'lucide-svelte';
-	import SharedSections from '../components/SharedSections.svelte';
+	import ResetSection from '../components/ResetSection.svelte';
+	import ResileSection from '../components/ResileSection.svelte';
 	import {
 		chaosOptionTypes,
 		createChaosScroll,
@@ -123,4 +124,5 @@
 	</FormControl>
 </FormSection>
 
-<SharedSections {gear} />
+<ResileSection {gear} />
+<ResetSection {gear} />
