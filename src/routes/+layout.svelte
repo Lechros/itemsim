@@ -1,61 +1,32 @@
 <script lang="ts">
-	import {
-		Header,
-		HeaderActionLink,
-		HeaderGlobalAction,
-		HeaderUtilities,
-		SkipToContent
-	} from 'carbon-components-svelte';
-	import 'carbon-components-svelte/css/all.css';
-	import { BrightnessContrast, LogoDiscord } from 'carbon-icons-svelte';
+	import { browser } from '$app/environment';
+	import { setContext } from 'svelte';
+	import { FontRenderProvider } from '$lib/components/gear-tooltip2';
+	import { Toaster } from '$lib/components/ui/sonner';
+	import { getSettingsStore, type SettingsStore } from '$lib/stores/settings.svelte';
+	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
+	import { ModeWatcher } from 'mode-watcher';
 	import '../app.css';
 
-	function toggle() {
-		const theme = document.documentElement.getAttribute('theme');
-		if (theme === 'g10') {
-			setTheme('g80');
-		} else {
-			setTheme('g10');
-		}
-	}
+	let { children } = $props();
 
-	function setTheme(theme: 'g10' | 'g80') {
-		document.documentElement.setAttribute('theme', theme);
-		localStorage.setItem('theme', theme);
-	}
-</script>
+	// 서버에서는 기본값 스토어, 클라이언트에서는 싱글톤(영속화) — SSR 시 undefined 접근 방지
+	setContext<SettingsStore>('settingsStore', getSettingsStore());
 
-<svelte:head>
-	<script lang="js">
-		if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-			const theme = window.localStorage.getItem('theme');
-			if (theme !== null) {
-				document.documentElement.setAttribute('theme', theme);
-			} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-				document.documentElement.setAttribute('theme', 'g80');
-			} else {
-				document.documentElement.setAttribute('theme', 'g10');
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				enabled: browser
 			}
 		}
-	</script>
-</svelte:head>
+	});
+</script>
 
-<Header company="메이플스토리" platformName="아이템 시뮬레이터">
-	<svelte:fragment slot="skip-to-content">
-		<SkipToContent />
-	</svelte:fragment>
-	<HeaderUtilities>
-		<HeaderGlobalAction icon={BrightnessContrast} on:click={toggle} />
-		<HeaderActionLink icon={LogoDiscord} target="_blank" href="https://discord.gg/Kzzn8zuj2p" />
-	</HeaderUtilities>
-</Header>
+<ModeWatcher />
+<Toaster />
 
-<div>
-	<slot />
-</div>
-
-<style>
-	div {
-		padding-top: var(--cds-spacing-09);
-	}
-</style>
+<QueryClientProvider client={queryClient}>
+	<FontRenderProvider>
+		{@render children()}
+	</FontRenderProvider>
+</QueryClientProvider>
