@@ -283,8 +283,8 @@
 					{#each gear.potentials as potential, index (index)}
 						<PotentialDetail {potential} />
 					{/each}
+					<Spacer height={4} />
 				{/if}
-				<Spacer height={4} />
 				<PotentialTitle
 					can={gear.attributes.canAdditionalPotential}
 					grade={gear.additionalPotentialGrade}
