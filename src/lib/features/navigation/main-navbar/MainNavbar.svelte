@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import { Settings } from 'lucide-svelte';
+	import { ExternalLink, Settings } from 'lucide-svelte';
 	import DarkModeButton from './DarkModeButton.svelte';
 	import Logo from './logo.png';
 </script>
@@ -11,6 +11,10 @@
 			<Button variant="ghost" href="/">
 				<img src={Logo} alt="logo" class="size-5" />
 				<span class="font-semibold"> 아이템 시뮬레이터 </span>
+			</Button>
+			<Button variant="primary" href="https://itemsim.com/">
+				<ExternalLink />
+				정식 사이트로 이동
 			</Button>
 		</div>
 		<div class="ml-auto flex items-center gap-1 px-4">

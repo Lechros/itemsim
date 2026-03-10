@@ -26,7 +26,7 @@
 			const version = sessionStorage.getItem('next-version') ?? '0';
 			if (version < '1') {
 				sessionStorage.setItem('next-version', '1');
-				alert('아이템 시뮬레이터 프리뷰 버전입니다. 미완성된 기능이나 버그가 있을 수 있습니다.');
+				alert('[알림] 업데이트가 완료되었습니다. 프리뷰는 일정 기간 유지 후 접속이 불가하므로 https://itemsim.com/를 이용해주세요.');
 			}
 		}
 	});
