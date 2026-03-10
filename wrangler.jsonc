@@ -1,5 +1,5 @@
 {
-	"name": "itemsim",
+	"name": "itemsim-next",
 	"compatibility_date": "2025-06-07",
 	"main": ".svelte-kit/cloudflare/_worker.js",
 	"assets": {
