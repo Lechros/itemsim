@@ -16,7 +16,7 @@ importers:
         version: 6.0.18(svelte@5.50.0)
       dexie:
         specifier: ^4.3.0
-        version: 4.3.0
+        version: 4.4.2
       es-hangul:
         specifier: ^2.3.8
         version: 2.3.8
@@ -1523,8 +1523,8 @@ packages:
   devalue@5.7.1:
     resolution: {integrity: sha512-MUbZ586EgQqdRnC4yDrlod3BEdyvE4TapGYHMW2CiaW+KkkFmWEFqBUaLltEZCGi0iFXCEjRF0OjF0DV2QHjOA==}
 
-  dexie@4.3.0:
-    resolution: {integrity: sha512-5EeoQpJvMKHe6zWt/FSIIuRa3CWlZeIl6zKXt+Lz7BU6RoRRLgX9dZEynRfXrkLcldKYCBiz7xekTEylnie1Ug==}
+  dexie@4.4.2:
+    resolution: {integrity: sha512-zMtV8q79EFE5U8FKZvt0Y/77PCU/Hr/RDxv1EDeo228L+m/HTbeN2AjoQm674rhQCX8n3ljK87lajt7UQuZfvw==}
 
   diff-match-patch-es@1.0.1:
     resolution: {integrity: sha512-KhSofrZDERg/NE6Nd+TK53knp2qz0o2Ix8rhkXd3Chfm7Wlo58Eq/juNmkyS6bS+3xS26L3Pstz3BdY/q+e9UQ==}
@@ -3953,7 +3953,7 @@ snapshots:
 
   devalue@5.7.1: {}
 
-  dexie@4.3.0: {}
+  dexie@4.4.2: {}
 
   diff-match-patch-es@1.0.1: {}
 
