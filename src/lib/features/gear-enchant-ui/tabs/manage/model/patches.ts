@@ -10,6 +10,29 @@ export function getSpecialPatches(gear: ReadonlyGear): Patch[] {
 		}
 	}
 	switch (gear.id) {
+		case 1122372: // 이벤트 도미네이터 펜던트
+		case 1122373:
+		case 1122374:
+		case 1122375:
+		case 1122376:
+		case 1122377: {
+			const stat = [
+				SpellTraceType.str,
+				SpellTraceType.dex,
+				SpellTraceType.int,
+				SpellTraceType.luk,
+				SpellTraceType.maxHp,
+				SpellTraceType.allStat
+			][gear.id - 1122372];
+			return [
+				{
+					name: '이벤트 도미네이터 펜던트',
+					desc: `30% ${getStatName(stat)} 주문서 강화 5회, 스타포스 15성`,
+					star: 15,
+					scroll: [[5, stat, 30]]
+				}
+			];
+		}
 		case 1152155: // 스칼렛 숄더
 			return [
 				{
