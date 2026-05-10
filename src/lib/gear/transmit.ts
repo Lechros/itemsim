@@ -78,16 +78,18 @@ export function transmit(src: GearData, dst: GearData): boolean {
 	dstGear.data.attributes.canAddOption = canAddOption;
 
 	// Potential
-	const canPotential = dstGear.attributes.canPotential;
-	dstGear.data.attributes.canPotential = GearCapability.Can;
-	dstGear.resetPotential();
-	if (srcGear.potentialGrade && srcGear.potentials.length > 0) {
-		dstGear.setPotential(
-			srcGear.potentialGrade,
-			srcGear.potentials.map((p) => safeGetPotentialData(dstGear, p))
-		);
+	if (!dstGear.attributes.specialGrade) {
+		const canPotential = dstGear.attributes.canPotential;
+		dstGear.data.attributes.canPotential = GearCapability.Can;
+		dstGear.resetPotential();
+		if (srcGear.potentialGrade && srcGear.potentials.length > 0) {
+			dstGear.setPotential(
+				srcGear.potentialGrade,
+				srcGear.potentials.map((p) => safeGetPotentialData(dstGear, p))
+			);
+		}
+		dstGear.data.attributes.canPotential = canPotential;
 	}
-	dstGear.data.attributes.canPotential = canPotential;
 
 	// Additional Potential
 	const canAdditionalPotential = dstGear.attributes.canAdditionalPotential;
@@ -120,6 +122,9 @@ export function transmit(src: GearData, dst: GearData): boolean {
 
 function safeGetPotentialData(gear: ReadonlyGear, potential: PotentialData): PotentialData {
 	if (!potential.id) {
+		return potential;
+	}
+	if (potential.id >= 60000) {
 		return potential;
 	}
 	return getPotentialData(potential.id, gear.req.level + gear.req.levelIncrease);
