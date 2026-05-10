@@ -13,7 +13,7 @@ importers:
         version: 1.2.0
       '@tanstack/svelte-query':
         specifier: ^6.0.18
-        version: 6.0.18(svelte@5.50.0)
+        version: 6.1.28(svelte@5.50.0)
       dexie:
         specifier: ^4.3.0
         version: 4.3.0
@@ -1123,11 +1123,11 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
 
-  '@tanstack/query-core@5.90.20':
-    resolution: {integrity: sha512-OMD2HLpNouXEfZJWcKeVKUgQ5n+n3A2JFmBaScpNDUqSrQSjiveC7dKMe53uJUg1nDG16ttFPz2xfilz6i2uVg==}
+  '@tanstack/query-core@5.100.9':
+    resolution: {integrity: sha512-SJSFw1S8+kQ0+knv/XGfrbocWoAlT7vDKsSImtLx3ZPQmEcR46hkDjLSvynSy25N8Ms4tIEini1FuBd5k7IscQ==}
 
-  '@tanstack/svelte-query@6.0.18':
-    resolution: {integrity: sha512-iGS8osfrIVUW5pkV4Ig6pspNIMtiNjGnVTNJKDas0m/QaNDFFIKbgg74rCzcjwrTIvO38tMpzb4VUKklvAmjxw==}
+  '@tanstack/svelte-query@6.1.28':
+    resolution: {integrity: sha512-B4uh/fvn+t67LyWzY8Sb+yqyxJS2hc27Nwf+bfz7vy+ilzfJIHORoCm9/6Arsg4pdH8DCBMLMWZTvMgvSUd/pg==}
     peerDependencies:
       svelte: ^5.25.0
 
@@ -2632,8 +2632,8 @@ packages:
     peerDependencies:
       typescript: '>=4.8.0 <5.10.0'
 
-  ufo@1.6.3:
-    resolution: {integrity: sha512-yDJTmhydvl5lJzBmy/hyOAA0d+aqCBuwl818haVdYCRrWV84o7YyeVm4QlVHStqNrrJSTb6jKuFAVqAFsr+K3Q==}
+  ufo@1.6.4:
+    resolution: {integrity: sha512-JFNbkD1Svwe0KvGi8GOeLcP4kAWQ609twvCdcHxq1oSL8svv39ZuSvajcD8B+5D0eL4+s1Is2D/O6KN3qcTeRA==}
 
   undici@5.29.0:
     resolution: {integrity: sha512-raqeBD6NQK4SkWhQzeYKd1KmIG6dllBOTt55Rmkt4HtI9mwdWtJljnrXjAFUBLTSN67HWrOIZ3EPF4kjUw80Bg==}
@@ -3557,11 +3557,11 @@ snapshots:
       tailwindcss: 4.1.18
       vite: 7.3.2(jiti@2.6.1)(lightningcss@1.30.2)
 
-  '@tanstack/query-core@5.90.20': {}
+  '@tanstack/query-core@5.100.9': {}
 
-  '@tanstack/svelte-query@6.0.18(svelte@5.50.0)':
+  '@tanstack/svelte-query@6.1.28(svelte@5.50.0)':
     dependencies:
-      '@tanstack/query-core': 5.90.20
+      '@tanstack/query-core': 5.100.9
       svelte: 5.50.0
 
   '@testing-library/dom@10.4.1':
@@ -5056,7 +5056,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  ufo@1.6.3: {}
+  ufo@1.6.4: {}
 
   undici@5.29.0:
     dependencies:
@@ -5068,7 +5068,7 @@ snapshots:
       exsolve: 1.0.8
       ohash: 2.0.11
       pathe: 2.0.3
-      ufo: 1.6.3
+      ufo: 1.6.4
 
   unplugin@2.3.11:
     dependencies:
