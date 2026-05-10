@@ -70,7 +70,7 @@ function getGenesisPatch(stat: SpellTraceType): Patch {
 	const statName = getStatName(stat);
 	return {
 		name: `제네시스 무기 해방 (${statName})`,
-		desc: `${statName} 15% 주문서 강화 8회, 스타포스 22성`,
+		desc: `15% ${statName} 주문서 강화 8회, 스타포스 22성`,
 		star: 22,
 		scroll: [[8, stat, 15]]
 	};
@@ -80,7 +80,7 @@ function getDestinyPatch(stat: SpellTraceType): Patch {
 	const statName = getStatName(stat);
 	return {
 		name: `데스티니 무기 해방 (${statName})`,
-		desc: `${statName} 15% 주문서 강화 8회, 스타포스 22성`,
+		desc: `15% ${statName} 주문서 강화 8회, 스타포스 22성`,
 		star: 22,
 		scroll: [[8, stat, 15]]
 	};
