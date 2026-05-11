@@ -881,6 +881,69 @@
 			"ignoreMonsterArmor": { "ignoreMonsterArmor": 7 }
 		}
 	},
+	"2591288": {
+		"name": "기운찬 무르무르의 소울",
+		"skill": "무르무르의 이상한 동행",
+		"chargeFactor": 2,
+		"option": { "str": 24 }
+	},
+	"2591289": {
+		"name": "날렵한 무르무르의 소울",
+		"skill": "무르무르의 이상한 동행",
+		"chargeFactor": 2,
+		"option": { "dex": 24 }
+	},
+	"2591290": {
+		"name": "총명한 무르무르의 소울",
+		"skill": "무르무르의 이상한 동행",
+		"chargeFactor": 2,
+		"option": { "int": 24 }
+	},
+	"2591291": {
+		"name": "놀라운 무르무르의 소울",
+		"skill": "무르무르의 이상한 동행",
+		"chargeFactor": 2,
+		"option": { "luk": 24 }
+	},
+	"2591292": {
+		"name": "화려한 무르무르의 소울",
+		"skill": "무르무르의 이상한 동행",
+		"chargeFactor": 2,
+		"option": { "str": 15, "dex": 15, "int": 15, "luk": 15 }
+	},
+	"2591293": {
+		"name": "강력한 무르무르의 소울",
+		"skill": "무르무르의 이상한 동행",
+		"chargeFactor": 2,
+		"option": { "attackPower": 6 }
+	},
+	"2591294": {
+		"name": "빛나는 무르무르의 소울",
+		"skill": "무르무르의 이상한 동행",
+		"chargeFactor": 2,
+		"option": { "magicPower": 6 }
+	},
+	"2591295": {
+		"name": "강인한 무르무르의 소울",
+		"skill": "무르무르의 이상한 동행",
+		"chargeFactor": 2,
+		"option": { "maxHp": 960 }
+	},
+	"2591296": {
+		"name": "위대한 무르무르의 소울",
+		"skill": "무르무르의 수상한 동행",
+		"chargeFactor": 2,
+		"magnificent": true,
+		"options": {
+			"attackPower": { "attackPowerRate": 3 },
+			"magicPower": { "magicPowerRate": 3 },
+			"allStat": { "strRate": 5, "dexRate": 5, "intRate": 5, "lukRate": 5 },
+			"maxHp": { "maxHp": 2000 },
+			"criticalRate": { "criticalRate": 12 },
+			"bossDamage": { "bossDamage": 7 },
+			"ignoreMonsterArmor": { "ignoreMonsterArmor": 7 }
+		}
+	},
 	"2591297": {
 		"name": "기운찬 모카딘의 소울",
 		"skill": "검은 기사 모카딘",
@@ -1953,55 +2016,55 @@
 		}
 	},
 	"2591701": {
-		"name": "기운찬 칼로스의 소울",
+		"name": "기운찬 감시자 칼로스의 소울",
 		"skill": "감시자의 포효",
 		"chargeFactor": 2,
 		"option": { "str": 24 }
 	},
 	"2591702": {
-		"name": "날렵한 칼로스의 소울",
+		"name": "날렵한 감시자 칼로스의 소울",
 		"skill": "감시자의 포효",
 		"chargeFactor": 2,
 		"option": { "dex": 24 }
 	},
 	"2591703": {
-		"name": "총명한 칼로스의 소울",
+		"name": "총명한 감시자 칼로스의 소울",
 		"skill": "감시자의 포효",
 		"chargeFactor": 2,
 		"option": { "int": 24 }
 	},
 	"2591704": {
-		"name": "놀라운 칼로스의 소울",
+		"name": "놀라운 감시자 칼로스의 소울",
 		"skill": "감시자의 포효",
 		"chargeFactor": 2,
 		"option": { "luk": 24 }
 	},
 	"2591705": {
-		"name": "화려한 칼로스의 소울",
+		"name": "화려한 감시자 칼로스의 소울",
 		"skill": "감시자의 포효",
 		"chargeFactor": 2,
 		"option": { "str": 15, "dex": 15, "int": 15, "luk": 15 }
 	},
 	"2591706": {
-		"name": "강력한 칼로스의 소울",
+		"name": "강력한 감시자 칼로스의 소울",
 		"skill": "감시자의 포효",
 		"chargeFactor": 2,
 		"option": { "attackPower": 6 }
 	},
 	"2591707": {
-		"name": "빛나는 칼로스의 소울",
+		"name": "빛나는 감시자 칼로스의 소울",
 		"skill": "감시자의 포효",
 		"chargeFactor": 2,
 		"option": { "magicPower": 6 }
 	},
 	"2591708": {
-		"name": "강인한 칼로스의 소울",
+		"name": "강인한 감시자 칼로스의 소울",
 		"skill": "감시자의 포효",
 		"chargeFactor": 2,
 		"option": { "maxHp": 960 }
 	},
 	"2591709": {
-		"name": "위대한 칼로스의 소울",
+		"name": "위대한 감시자 칼로스의 소울",
 		"skill": "침입자 처단",
 		"chargeFactor": 2,
 		"magnificent": true,
@@ -2318,6 +2381,132 @@
 	"2591826": {
 		"name": "위대한 최초의 대적자의 소울",
 		"skill": "화살 폭우",
+		"chargeFactor": 2,
+		"magnificent": true,
+		"options": {
+			"attackPower": { "attackPowerRate": 3 },
+			"magicPower": { "magicPowerRate": 3 },
+			"allStat": { "strRate": 5, "dexRate": 5, "intRate": 5, "lukRate": 5 },
+			"maxHp": { "maxHp": 2000 },
+			"criticalRate": { "criticalRate": 12 },
+			"bossDamage": { "bossDamage": 7 },
+			"ignoreMonsterArmor": { "ignoreMonsterArmor": 7 }
+		}
+	},
+	"2591851": {
+		"name": "기운찬 찬란한 흉성의 소울",
+		"skill": "환혹",
+		"chargeFactor": 2,
+		"option": { "str": 24 }
+	},
+	"2591852": {
+		"name": "날렵한 찬란한 흉성의 소울",
+		"skill": "환혹",
+		"chargeFactor": 2,
+		"option": { "dex": 24 }
+	},
+	"2591853": {
+		"name": "총명한 찬란한 흉성의 소울",
+		"skill": "환혹",
+		"chargeFactor": 2,
+		"option": { "int": 24 }
+	},
+	"2591854": {
+		"name": "놀라운 찬란한 흉성의 소울",
+		"skill": "환혹",
+		"chargeFactor": 2,
+		"option": { "luk": 24 }
+	},
+	"2591855": {
+		"name": "화려한 찬란한 흉성의 소울",
+		"skill": "환혹",
+		"chargeFactor": 2,
+		"option": { "str": 15, "dex": 15, "int": 15, "luk": 15 }
+	},
+	"2591856": {
+		"name": "강력한 찬란한 흉성의 소울",
+		"skill": "환혹",
+		"chargeFactor": 2,
+		"option": { "attackPower": 6 }
+	},
+	"2591857": {
+		"name": "빛나는 찬란한 흉성의 소울",
+		"skill": "환혹",
+		"chargeFactor": 2,
+		"option": { "magicPower": 6 }
+	},
+	"2591858": {
+		"name": "강인한 찬란한 흉성의 소울",
+		"skill": "환혹",
+		"chargeFactor": 2,
+		"option": { "maxHp": 960 }
+	},
+	"2591859": {
+		"name": "위대한 찬란한 흉성의 소울",
+		"skill": "메아리치는 성광",
+		"chargeFactor": 2,
+		"magnificent": true,
+		"options": {
+			"attackPower": { "attackPowerRate": 3 },
+			"magicPower": { "magicPowerRate": 3 },
+			"allStat": { "strRate": 5, "dexRate": 5, "intRate": 5, "lukRate": 5 },
+			"maxHp": { "maxHp": 2000 },
+			"criticalRate": { "criticalRate": 12 },
+			"bossDamage": { "bossDamage": 7 },
+			"ignoreMonsterArmor": { "ignoreMonsterArmor": 7 }
+		}
+	},
+	"2591868": {
+		"name": "기운찬 유피테르의 소울",
+		"skill": "거부 반응",
+		"chargeFactor": 2,
+		"option": { "str": 24 }
+	},
+	"2591869": {
+		"name": "날렵한 유피테르의 소울",
+		"skill": "거부 반응",
+		"chargeFactor": 2,
+		"option": { "dex": 24 }
+	},
+	"2591870": {
+		"name": "총명한 유피테르의 소울",
+		"skill": "거부 반응",
+		"chargeFactor": 2,
+		"option": { "int": 24 }
+	},
+	"2591871": {
+		"name": "놀라운 유피테르의 소울",
+		"skill": "거부 반응",
+		"chargeFactor": 2,
+		"option": { "luk": 24 }
+	},
+	"2591872": {
+		"name": "화려한 유피테르의 소울",
+		"skill": "거부 반응",
+		"chargeFactor": 2,
+		"option": { "str": 15, "dex": 15, "int": 15, "luk": 15 }
+	},
+	"2591873": {
+		"name": "강력한 유피테르의 소울",
+		"skill": "거부 반응",
+		"chargeFactor": 2,
+		"option": { "attackPower": 6 }
+	},
+	"2591874": {
+		"name": "빛나는 유피테르의 소울",
+		"skill": "거부 반응",
+		"chargeFactor": 2,
+		"option": { "magicPower": 6 }
+	},
+	"2591875": {
+		"name": "강인한 유피테르의 소울",
+		"skill": "거부 반응",
+		"chargeFactor": 2,
+		"option": { "maxHp": 960 }
+	},
+	"2591876": {
+		"name": "위대한 유피테르의 소울",
+		"skill": "질서와 혼돈",
 		"chargeFactor": 2,
 		"magnificent": true,
 		"options": {
