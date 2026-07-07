@@ -272,6 +272,11 @@ export function getGearTypeString(type: GearType) {
 
 		case GearType.hourGlass:
 			return '모래시계';
+
+		case GearType.carta:
+			return '카르타';
+		case GearType.magicQuill:
+			return '마법깃펜';
 	}
 }
 

@@ -153,6 +153,10 @@ function getGearTypeJobName(type: GearType, fullJobs: number[]): string | string
 		case GearType.longSword2:
 		case GearType.sacredJewel:
 			return getJobName(161);
+
+		case GearType.carta:
+		case GearType.magicQuill:
+			return getJobName(192);
 	}
 }
 
@@ -216,6 +220,8 @@ function getJobName(job: number): string | undefined {
 			return '라라';
 		case 164:
 			return '호영';
+		case 192:
+			return '레테';
 	}
 }
 
