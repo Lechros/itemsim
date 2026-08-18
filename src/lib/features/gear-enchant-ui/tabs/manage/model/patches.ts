@@ -113,6 +113,8 @@ function getStatsFromWeaponType(type: GearType): SpellTraceType[] {
 			return [SpellTraceType.dex];
 		case GearType.longSword2:
 			return [SpellTraceType.str];
+		case GearType.carta:
+			return [SpellTraceType.int];
 		case GearType.soulShooter:
 			return [SpellTraceType.dex];
 		case GearType.desperado:
