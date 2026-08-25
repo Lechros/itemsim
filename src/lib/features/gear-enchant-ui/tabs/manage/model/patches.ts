@@ -2,12 +2,13 @@ import { GearCapability, GearType, isWeapon, SpellTraceType, type ReadonlyGear }
 import type { Patch } from './patch';
 
 export function getSpecialPatches(gear: ReadonlyGear): Patch[] {
-	if (isGenesisOrDestinyWeapon(gear)) {
-		if (isDestinyWeapon(gear)) {
-			return getStatsFromWeaponType(gear.type).map(getDestinyPatch);
-		} else {
-			return getStatsFromWeaponType(gear.type).map(getGenesisPatch);
-		}
+	if (isSpecialWeapon(gear)) {
+		const getPatch = isDestinyWeapon(gear)
+			? isDestiny2Weapon(gear)
+				? getDestiny2Patch
+				: getDestinyPatch
+			: getGenesisPatch;
+		return getStatsFromWeaponType(gear.type).map(getPatch);
 	}
 	switch (gear.id) {
 		case 1122372: // 이벤트 도미네이터 펜던트
@@ -57,13 +58,17 @@ export function getSpecialPatches(gear: ReadonlyGear): Patch[] {
 	return [];
 }
 
-function isGenesisOrDestinyWeapon(gear: ReadonlyGear): boolean {
+function isSpecialWeapon(gear: ReadonlyGear): boolean {
 	const setItemId = gear.attributes.setItemId;
 	return isWeapon(gear.type) && setItemId !== undefined && 886 <= setItemId && setItemId <= 890;
 }
 
 function isDestinyWeapon(gear: ReadonlyGear): boolean {
-	return isGenesisOrDestinyWeapon(gear) && gear.req.level === 250;
+	return isSpecialWeapon(gear) && gear.req.level === 250;
+}
+
+function isDestiny2Weapon(gear: ReadonlyGear): boolean {
+	return isDestinyWeapon(gear) && gear.scrollTotalUpgradeableCount === 9;
 }
 
 function getGenesisPatch(stat: SpellTraceType): Patch {
@@ -79,10 +84,24 @@ function getGenesisPatch(stat: SpellTraceType): Patch {
 function getDestinyPatch(stat: SpellTraceType): Patch {
 	const statName = getStatName(stat);
 	return {
-		name: `데스티니 무기 해방 (${statName})`,
+		name: `데스티니 무기 1차 초월 (${statName})`,
 		desc: `15% ${statName} 주문서 강화 8회, 스타포스 22성`,
 		star: 22,
 		scroll: [[8, stat, 15]]
+	};
+}
+
+function getDestiny2Patch(stat: SpellTraceType): Patch {
+	const statName = getStatName(stat);
+	return {
+		name: `데스티니 무기 2차 초월 (${statName})`,
+		desc: `15% ${statName} 주문서 강화 9회, 스타포스 22성 (최대 25성)`,
+		can: {
+			star: GearCapability.Can
+		},
+		star: 22,
+		maxStar: 25,
+		scroll: [[9, stat, 15]]
 	};
 }
 

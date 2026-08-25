@@ -19,6 +19,7 @@ export interface Patch {
 		potential?: GearCapability;
 		additionalPotential?: GearCapability;
 	};
+	maxStar?: number;
 	star?: number;
 	scroll?: [number, SpellTraceType, SpellTraceRate][];
 	add?: [AddOptionType, AddOptionGrade][];
@@ -39,6 +40,9 @@ export function applyPatch(gear: Gear, patch: Patch) {
 	}
 	if (patch.can?.additionalPotential !== undefined) {
 		gear.data.attributes.canAdditionalPotential = patch.can.additionalPotential;
+	}
+	if (patch.maxStar !== undefined) {
+		gear.data.attributes.fixedMaxStar = patch.maxStar;
 	}
 	if (patch.star !== undefined) {
 		const can = gear.data.attributes.canStarforce;
@@ -94,6 +98,9 @@ export function isPatchSatisfied(gear: ReadonlyGear, patch: Patch): boolean {
 		patch.can?.additionalPotential !== undefined &&
 		gear.data.attributes.canAdditionalPotential !== patch.can.additionalPotential
 	) {
+		return false;
+	}
+	if (patch.maxStar !== undefined && gear.data.attributes.fixedMaxStar !== patch.maxStar) {
 		return false;
 	}
 	if (patch.star !== undefined && gear.star !== patch.star) {
