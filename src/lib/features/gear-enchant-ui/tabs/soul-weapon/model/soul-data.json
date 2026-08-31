@@ -2518,5 +2518,68 @@
 			"bossDamage": { "bossDamage": 7 },
 			"ignoreMonsterArmor": { "ignoreMonsterArmor": 7 }
 		}
+	},
+	"2591889": {
+		"name": "기운찬 벨로나의 소울",
+		"skill": "드레드 레이스",
+		"chargeFactor": 2,
+		"option": { "str": 24 }
+	},
+	"2591890": {
+		"name": "날렵한 벨로나의 소울",
+		"skill": "드레드 레이스",
+		"chargeFactor": 2,
+		"option": { "dex": 24 }
+	},
+	"2591891": {
+		"name": "총명한 벨로나의 소울",
+		"skill": "드레드 레이스",
+		"chargeFactor": 2,
+		"option": { "int": 24 }
+	},
+	"2591892": {
+		"name": "놀라운 벨로나의 소울",
+		"skill": "드레드 레이스",
+		"chargeFactor": 2,
+		"option": { "luk": 24 }
+	},
+	"2591893": {
+		"name": "화려한 벨로나의 소울",
+		"skill": "드레드 레이스",
+		"chargeFactor": 2,
+		"option": { "str": 15, "dex": 15, "int": 15, "luk": 15 }
+	},
+	"2591894": {
+		"name": "강력한 벨로나의 소울",
+		"skill": "드레드 레이스",
+		"chargeFactor": 2,
+		"option": { "attackPower": 6 }
+	},
+	"2591895": {
+		"name": "빛나는 벨로나의 소울",
+		"skill": "드레드 레이스",
+		"chargeFactor": 2,
+		"option": { "magicPower": 6 }
+	},
+	"2591896": {
+		"name": "강인한 벨로나의 소울",
+		"skill": "드레드 레이스",
+		"chargeFactor": 2,
+		"option": { "maxHp": 960 }
+	},
+	"2591897": {
+		"name": "위대한 벨로나의 소울",
+		"skill": "크리핑 데스",
+		"chargeFactor": 2,
+		"magnificent": true,
+		"options": {
+			"attackPower": { "attackPowerRate": 3 },
+			"magicPower": { "magicPowerRate": 3 },
+			"allStat": { "strRate": 5, "dexRate": 5, "intRate": 5, "lukRate": 5 },
+			"maxHp": { "maxHp": 2000 },
+			"criticalRate": { "criticalRate": 12 },
+			"bossDamage": { "bossDamage": 7 },
+			"ignoreMonsterArmor": { "ignoreMonsterArmor": 7 }
+		}
 	}
 }
