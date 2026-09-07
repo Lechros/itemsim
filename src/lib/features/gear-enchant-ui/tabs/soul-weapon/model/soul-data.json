@@ -2393,6 +2393,13 @@
 			"ignoreMonsterArmor": { "ignoreMonsterArmor": 7 }
 		}
 	},
+	"2591849": {
+		"name": "위대한 카이의 소울",
+		"skill": "리콜 스트라이크",
+		"chargeFactor": 2,
+		"magnificent": true,
+		"options": { "attackPower": { "attackPowerRate": 3 }, "magicPower": { "magicPowerRate": 3 } }
+	},
 	"2591851": {
 		"name": "기운찬 찬란한 흉성의 소울",
 		"skill": "환혹",
@@ -2518,6 +2525,20 @@
 			"bossDamage": { "bossDamage": 7 },
 			"ignoreMonsterArmor": { "ignoreMonsterArmor": 7 }
 		}
+	},
+	"2591885": {
+		"name": "위대한 드래곤 로어의 소울",
+		"skill": "드래곤 로어",
+		"chargeFactor": 2,
+		"magnificent": true,
+		"options": { "attackPower": { "attackPowerRate": 3 }, "magicPower": { "magicPowerRate": 3 } }
+	},
+	"2591887": {
+		"name": "위대한 메이린의 소울",
+		"skill": "그림자 검, 아퀼라",
+		"chargeFactor": 2,
+		"magnificent": true,
+		"options": { "attackPower": { "attackPowerRate": 3 }, "magicPower": { "magicPowerRate": 3 } }
 	},
 	"2591889": {
 		"name": "기운찬 벨로나의 소울",
