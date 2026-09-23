@@ -28,7 +28,6 @@
 			<DetailText value="소울 : {soul.name}" />
 		</div>
 		<DetailText value={getFirstSoulOptionString(soul.option)} />
-		<DetailText value="[{soul.skill}] 스킬 사용 가능" />
 	{:else}
 		<div class="flex items-center">
 			<UIImage2 image="soulNormal" />

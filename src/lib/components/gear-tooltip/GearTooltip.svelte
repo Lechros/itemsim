@@ -35,10 +35,8 @@
 	import PotentialWrapper from './components/potential/PotentialWrapper.svelte';
 	import ShapeRow from './components/shape/ShapeRow.svelte';
 	import ShapeWrapper from './components/shape/ShapeWrapper.svelte';
-	import SoulChargeRow from './components/soul/SoulChargeRow.svelte';
 	import SoulNameRow from './components/soul/SoulNameRow.svelte';
 	import SoulOptionRow from './components/soul/SoulOptionRow.svelte';
-	import SoulSkillRow from './components/soul/SoulSkillRow.svelte';
 	import SoulWrapper from './components/soul/SoulWrapper.svelte';
 	import Spacer from './components/Spacer.svelte';
 	import Stars from './components/Stars.svelte';
@@ -276,9 +274,7 @@
 			<Spacer height={4} />
 		{/snippet}
 		<SoulNameRow name={gear.soul?.name} />
-		<SoulChargeRow charge={gear.soulCharge} chargeOption={gear.soulChargeOption} />
 		<SoulOptionRow soulOption={gear.soul?.option} />
-		<SoulSkillRow skill={gear.soul?.skill} />
 	</SoulWrapper>
 	{#if descriptions.length > 0}
 		<Spacer height={2} />

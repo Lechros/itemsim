@@ -15,11 +15,9 @@ export type MagnificentOptionType =
 
 interface SoulRawData {
 	name: string;
-	skill: string;
-	chargeFactor?: number;
 	magnificent?: boolean;
 	option?: Partial<SoulOption>;
-	options?: Record<MagnificentOptionType, Partial<SoulOption>>;
+	options?: Partial<Record<MagnificentOptionType, Partial<SoulOption>>>;
 }
 
 export interface SoulSummary {
@@ -43,8 +41,6 @@ export function getNormalSoulData(id: number): SoulData {
 
 	return {
 		name: data.name,
-		skill: data.skill,
-		chargeFactor: data.chargeFactor as 1 | 2 | undefined,
 		option: data.option!
 	};
 }
@@ -56,8 +52,6 @@ export function getMagnificentSoulDatas(id: number): SoulData[] {
 
 	return Object.entries(data.options!).map(([, option]) => ({
 		name: data.name,
-		skill: data.skill,
-		chargeFactor: data.chargeFactor as 1 | 2 | undefined,
 		option: {
 			...option
 		}

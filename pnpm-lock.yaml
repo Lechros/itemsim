@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@malib/gear':
-        specifier: 1.2.2
-        version: 1.2.2
+        specifier: 2.0.0
+        version: 2.0.0
       '@tanstack/svelte-query':
         specifier: ^6.0.18
         version: 6.1.28(svelte@5.50.0)
@@ -796,8 +796,8 @@ packages:
     peerDependencies:
       svelte: ^5
 
-  '@malib/gear@1.2.2':
-    resolution: {integrity: sha512-TUkyqKoOxTt4IyuCRL0neUKyGcjt5tNhVP+O6iakTaahijYGzYC6J4fdwWfh1Yny7W39r9IOUg9VlMklqrKCmg==}
+  '@malib/gear@2.0.0':
+    resolution: {integrity: sha512-umlsgWiX7384wYorIL2ipN8YTHLrXmkVAa4dfB1dgvGtQfShYFrlXtK0buIiwQyvDLUnwnU5+MVm73xJpb4XVg==}
 
   '@playwright/test@1.58.2':
     resolution: {integrity: sha512-akea+6bHYBBfA9uQqSYmlJXn61cTa+jbO87xVLCWbTqbWadRVmhxlXATaOjOgcBaWU4ePo0wB41KMFv3o35IXA==}
@@ -3320,7 +3320,7 @@ snapshots:
     dependencies:
       svelte: 5.50.0
 
-  '@malib/gear@1.2.2': {}
+  '@malib/gear@2.0.0': {}
 
   '@playwright/test@1.58.2':
     dependencies:
