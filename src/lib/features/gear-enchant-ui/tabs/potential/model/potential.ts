@@ -7,7 +7,7 @@ import {
 	type GearOption,
 	type PotentialData
 } from '@malib/gear';
-import { getAdditionalPotentialCodes, getPotentialCodes } from './codes';
+import { getAdditionalPotentialCodes, getPotentialCodes, getSoulPotentialCodes } from './codes';
 import itemOptionData from './item-option.json';
 
 export interface ItemOption {
@@ -29,6 +29,18 @@ export function getGradeAdditionalPotentialDatas(
 ): PotentialData[] {
 	const codes = getAdditionalPotentialCodes(grade);
 	return getPotentialDatasByCodes(codes, gear.type, gear.req.level + gear.req.levelIncrease);
+}
+
+export function getGradeSoulPotentialDatas(
+	gear: ReadonlyGear,
+	grade: PotentialGrade
+): PotentialData[] {
+	const level = gear.soulAmplificationLevel;
+	if (!Number.isInteger(level) || level < 1 || level > 4) return [];
+	return getSoulPotentialCodes(grade).map((code) => {
+		const levelData = itemOptions[code].level[level];
+		return { id: code, grade, summary: levelData.string, option: { ...levelData.option } };
+	});
 }
 
 export function getPotentialDatasByCodes(

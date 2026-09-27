@@ -16,6 +16,9 @@
 		getGradePotentials,
 		gradeLabel,
 		optionLabel,
+		minimumGrade = PotentialGrade.Normal,
+		disabled = false,
+		allowEmpty = true,
 		onChange
 	}: {
 		initialGrade?: PotentialGrade;
@@ -23,17 +26,31 @@
 		getGradePotentials: (grade: PotentialGrade) => PotentialData[];
 		gradeLabel: string;
 		optionLabel: string;
+		minimumGrade?: PotentialGrade;
+		disabled?: boolean;
+		allowEmpty?: boolean;
 		onChange?: (grade: PotentialGrade, potentials: PotentialData[]) => void;
 	} = $props();
 
 	let grade = $state(initialGrade ?? PotentialGrade.Normal);
 	let potentials = $state(getInitialPotentialOptions(initialPotentials ?? []));
 
-	const gradePotentials = $derived(getGradePotentials(grade));
+	const gradePotentials = $derived(
+		getGradePotentials(grade).filter(
+			(option, index, options) =>
+				options.findIndex((item) => item.summary === option.summary) === index
+		)
+	);
 	const subGradePotentials = $derived(getGradePotentials(grade - 1));
-	const concatPotentials = $derived([...subGradePotentials, ...gradePotentials]);
+	const concatPotentials = $derived(
+		[...subGradePotentials, ...gradePotentials].filter(
+			(option, index, options) =>
+				options.findIndex((item) => item.summary === option.summary) === index
+		)
+	);
 
 	$effect(() => {
+		if (disabled) return;
 		onChange?.(
 			grade,
 			potentials.filter((p) => p !== null)
@@ -44,19 +61,22 @@
 	const defaultValue = '-';
 
 	function getInitialPotentialOptions(potentials: PotentialData[]): (PotentialData | null)[] {
-		const length = 3;
-		return potentials.concat(Array(length - potentials.length).fill(null));
+		const first = allowEmpty ? undefined : getGradePotentials(initialGrade ?? minimumGrade)[0];
+		return Array.from(
+			{ length: 3 },
+			(_, index) => potentials[index] ?? (first ? { ...first, option: { ...first.option } } : null)
+		);
 	}
 </script>
 
 <FormSection>
 	<FormItem>
-		<FormLabel title={gradeLabel} />
+		<FormLabel title={gradeLabel} {disabled} />
 		<FormControl>
 			<Tabs.Root bind:value={() => String(grade), (v) => (grade = Number(v))}>
 				<Tabs.List class="w-full">
-					{#each grades as { label, value } (value)}
-						<Tabs.Trigger value={String(value)}>
+					{#each grades.filter(({ value }) => value >= minimumGrade) as { label, value } (value)}
+						<Tabs.Trigger value={String(value)} {disabled}>
 							<PotentialTitle grade={value} />
 							{label}
 						</Tabs.Trigger>
@@ -69,7 +89,7 @@
 
 <FormSection class="gap-3">
 	<FormItem>
-		<FormLabel title={optionLabel} />
+		<FormLabel title={optionLabel} {disabled} />
 	</FormItem>
 	<div class="flex flex-col gap-y-3">
 		{#each potentials as potential, index (index)}
@@ -78,9 +98,11 @@
 				type="single"
 				bind:value={
 					() => potential?.summary ?? defaultValue,
-					(v) => (potentials[index] = options.find((p) => p.summary === v) ?? null)
+					(v) =>
+						(potentials[index] =
+							options.find((p) => p.summary === v) ?? (allowEmpty ? null : potential))
 				}
-				disabled={grade === PotentialGrade.Normal}
+				disabled={disabled || grade === PotentialGrade.Normal}
 			>
 				<Select.Trigger class="w-full" size="sm">
 					{#if potential}
@@ -90,7 +112,9 @@
 					{/if}
 				</Select.Trigger>
 				<Select.Content avoidCollisions={false}>
-					<Select.Item value={defaultValue}>{defaultLabel}</Select.Item>
+					{#if allowEmpty}
+						<Select.Item value={defaultValue}>{defaultLabel}</Select.Item>
+					{/if}
 					{#each options as option, index (index)}
 						<Select.Item value={option.summary}>
 							<PotentialSummary potential={option} />

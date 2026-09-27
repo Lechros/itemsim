@@ -113,8 +113,8 @@ export function transmit(src: GearData, dst: GearData): boolean {
 	}
 
 	// Soul
-	if (srcGear.soulEnchanted) {
-		dstGear.data.soulSlot = srcGear.data.soulSlot;
+	if (srcGear.data.soulWeapon) {
+		dstGear.data.soulWeapon = srcGear.data.soulWeapon;
 	}
 
 	return true;

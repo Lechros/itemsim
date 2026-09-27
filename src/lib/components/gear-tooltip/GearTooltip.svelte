@@ -274,7 +274,7 @@
 			<Spacer height={4} />
 		{/snippet}
 		<SoulNameRow name={gear.soul?.name} />
-		<SoulOptionRow soulOption={gear.soul?.option} />
+		<SoulOptionRow soulOption={gear.soul?.option} baseOption={gear.soulBaseOption} />
 	</SoulWrapper>
 	{#if descriptions.length > 0}
 		<Spacer height={2} />

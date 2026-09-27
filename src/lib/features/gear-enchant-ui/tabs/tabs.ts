@@ -72,7 +72,7 @@ export const tabs: GearEnchantTab[] = [
 	{
 		label: '소울웨폰',
 		value: 'soul',
-		disabled: (gear: Gear) => !gear.supportsSoul,
+		disabled: (gear: Gear) => !gear.supportsSoulWeapon,
 		icon: Flame
 	}
 ] as const;

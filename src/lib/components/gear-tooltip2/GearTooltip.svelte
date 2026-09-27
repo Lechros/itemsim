@@ -1,9 +1,4 @@
 <script lang="ts">
-	import { UIImage2 } from '$lib/components/ui-image';
-	import { GearCapability, GearGender, GearType, isWeapon, ReadonlyGear } from '@malib/gear';
-	import { getAttributeHtmlStrings, getTopAttributeHtmlStrings } from './model/attribute';
-	import { getCategories, isEnhanceable } from './model/category';
-	import { getReqJobNames } from './model/job';
 	import Chip from '$lib/components/gear-tooltip2/parts/Chip.svelte';
 	import EnhanceAdd from '$lib/components/gear-tooltip2/parts/enhance/EnhanceAdd.svelte';
 	import EnhanceCannot from '$lib/components/gear-tooltip2/parts/enhance/EnhanceCannot.svelte';
@@ -31,6 +26,11 @@
 	import DetailText from '$lib/components/gear-tooltip2/parts/text/DetailText.svelte';
 	import FormattedDetailText from '$lib/components/gear-tooltip2/parts/text/FormattedDetailText.svelte';
 	import ItemNameText from '$lib/components/gear-tooltip2/parts/text/ItemNameText.svelte';
+	import { UIImage2 } from '$lib/components/ui-image';
+	import { GearCapability, GearGender, GearType, isWeapon, ReadonlyGear } from '@malib/gear';
+	import { getAttributeHtmlStrings, getTopAttributeHtmlStrings } from './model/attribute';
+	import { getCategories, isEnhanceable } from './model/category';
+	import { getReqJobNames } from './model/job';
 
 	let {
 		gear,
@@ -305,7 +305,7 @@
 				{/if}
 				{#if isWeapon(gear.type)}
 					<Spacer height={3} />
-					<SoulWeapon enchanted={gear.soulEnchanted} soul={gear.soul} />
+					<SoulWeapon {gear} />
 				{/if}
 			{/if}
 		</FrameMiddle>
