@@ -1,13 +1,16 @@
 <script lang="ts">
-	import { getCorrectedGearOptionString } from '$lib/components/gear-tooltip/model/strings';
-	import type { SoulOption } from '@malib/gear';
+	import { getGearOptionGroupedStrings } from '$lib/utils';
+	import type { SoulBaseOption, SoulOption } from '@malib/gear';
 
-	let { soulOption: option }: { soulOption?: SoulOption } = $props();
+	let {
+		soulOption: option,
+		baseOption
+	}: { soulOption?: SoulOption; baseOption: Partial<SoulBaseOption> } = $props();
 
 	function getSoulOptionString(option: SoulOption) {
-		const [type, value] = Object.entries(option)[0] as [keyof SoulOption, number];
-
-		return getCorrectedGearOptionString(type, value);
+		return [...getGearOptionGroupedStrings(option), ...getGearOptionGroupedStrings(baseOption)]
+			.map((summary) => summary.join(' : '))
+			.join(', ');
 	}
 </script>
 

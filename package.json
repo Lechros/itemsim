@@ -55,7 +55,8 @@
 		"vaul-svelte": "1.0.0-next.7",
 		"vite": "^7.3.1",
 		"vite-plugin-devtools-json": "^1.0.0",
-		"vitest": "^4.0.18"
+		"vitest": "^4.0.18",
+		"wrangler": "^4.141.0"
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [
@@ -64,7 +65,7 @@
 	},
 	"packageManager": "pnpm@10.28.2",
 	"dependencies": {
-		"@malib/gear": "1.2.2",
+		"@malib/gear": "2.2.0",
 		"@tanstack/svelte-query": "^6.0.18",
 		"dexie": "^4.3.0",
 		"es-hangul": "^2.3.8",

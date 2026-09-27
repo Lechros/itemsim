@@ -66,3 +66,32 @@ export function getAdditionalPotentialCodes(grade: PotentialGrade) {
 			return [];
 	}
 }
+
+export function getSoulPotentialCodes(grade: PotentialGrade) {
+	switch (grade) {
+		case PotentialGrade.Normal:
+			return [5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009, 5010, 5011];
+		case PotentialGrade.Rare:
+			return [
+				15001, 15002, 15003, 15004, 15005, 15006, 15007, 15008, 15009, 15010, 15011, 15041, 15042,
+				15043, 15044, 15045, 15046, 15047, 15048, 15049, 15050, 15081
+			];
+		case PotentialGrade.Epic:
+			return [
+				25041, 25042, 25043, 25044, 25045, 25046, 25047, 25048, 25049, 25050, 25086, 25201, 25206,
+				25291
+			];
+		case PotentialGrade.Unique:
+			return [
+				35001, 35002, 35003, 35004, 35041, 35042, 35043, 35044, 35045, 35046, 35047, 35048, 35049,
+				35050, 35086, 35201, 35206, 35291, 35601
+			];
+		case PotentialGrade.Legendary:
+			return [
+				45001, 45002, 45003, 45004, 45005, 45006, 45041, 45042, 45043, 45044, 45045, 45046, 45047,
+				45048, 45049, 45050, 45086, 45291, 45601
+			];
+		default:
+			return [];
+	}
+}

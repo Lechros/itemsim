@@ -35,7 +35,7 @@ function createDestiny2Weapon() {
 		},
 		scrollUpgradeableCount: 9,
 		type: GearType.shiningRod,
-		version: 3
+		version: 4
 	} satisfies GearData);
 }
 
