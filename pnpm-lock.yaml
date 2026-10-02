@@ -95,7 +95,7 @@ importers:
         version: 10.1.8(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-svelte:
         specifier: ^3.14.0
-        version: 3.14.0(eslint@9.39.2(jiti@2.6.1))(svelte@5.50.0)
+        version: 3.23.0(eslint@9.39.2(jiti@2.6.1))(svelte@5.50.0)
       globals:
         specifier: ^16.5.0
         version: 16.5.0
@@ -575,6 +575,12 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@eslint-community/eslint-utils@4.10.1':
+    resolution: {integrity: sha512-cuadcxVFE8sDK6iWJbs8Sn0av2Nrh2QSGQhVlBW9AaAHqHwjWsZHT8LJ4hFGPh7ASBV2deFdM7H/DPjulmh8rg==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    peerDependencies:
+      eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
 
   '@eslint-community/eslint-utils@4.9.1':
     resolution: {integrity: sha512-phrYmNiYppR7znFEdqgfWHXR6NCkZEK7hwWDHZUjit/2/U0r6XvkDl0SYnoM51Hq7FhCGdLDT6zxCCOY1hexsQ==}
@@ -1627,11 +1633,11 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
-  eslint-plugin-svelte@3.14.0:
-    resolution: {integrity: sha512-Isw0GvaMm0yHxAj71edAdGFh28ufYs+6rk2KlbbZphnqZAzrH3Se3t12IFh2H9+1F/jlDhBBL4oiOJmLqmYX0g==}
+  eslint-plugin-svelte@3.23.0:
+    resolution: {integrity: sha512-n9jRklDqy0+W834568a4ZIZTK7DHXxvvHHxxGP8nNq7N//pOZMubttskHOquyGgfTR4Z05q2NdGNlsTpIEA48w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      eslint: ^8.57.1 || ^9.0.0
+      eslint: ^8.57.1 || ^9.0.0 || ^10.0.0
       svelte: ^3.37.0 || ^4.0.0 || ^5.0.0
     peerDependenciesMeta:
       svelte:
@@ -1652,6 +1658,7 @@ packages:
   eslint@9.39.2:
     resolution: {integrity: sha512-LEyamqS7W5HB3ujJyvi0HQK/dtVINZvd5mAAp9eT5S/ujByGjiZLCzPcHVzuXbpJDJF/cxwHlfceVUDZ2lnSTw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -2050,6 +2057,7 @@ packages:
 
   lucide-svelte@0.563.0:
     resolution: {integrity: sha512-pjZKw7TpQcamfQrx7YdbOHgmrcNeKiGGMD0tKZQaVktwSsbqw28CsKc2Q97ttwjytiCWkJyOa8ij2Q+Og0nPfQ==}
+    deprecated: Package deprecated. Please use @lucide/svelte instead.
     peerDependencies:
       svelte: ^3 || ^4 || ^5.0.0-next.42
 
@@ -2103,6 +2111,11 @@ packages:
 
   nanoid@3.3.11:
     resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+
+  nanoid@3.3.19:
+    resolution: {integrity: sha512-Y2tUNy4ouw6tq5oDSKeQYGOyhkUBhNOcGV/02KC+6kd9eDGqdZd++mjMiIDilrBYvjEnCYvVtsuHCuP+okSfug==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -2214,8 +2227,8 @@ packages:
       ts-node:
         optional: true
 
-  postcss-safe-parser@7.0.1:
-    resolution: {integrity: sha512-0AioNCJZ2DPYz5ABT6bddIqlhgwhpHZ/l65YAYo0BCIn0xiDpsnTHz0gnoTGk0OXZW0JRs+cDwL8u/teRdz+8A==}
+  postcss-safe-parser@7.1.0:
+    resolution: {integrity: sha512-1WzZxRLaAFwEh6Do+zyGpjWV3nGJNxxhuh7Ubu/q1ICImMgZJnLwhoaEpRbG4pJppp2Y1ncL9ffA2f+LhrefQg==}
     engines: {node: '>=18.0'}
     peerDependencies:
       postcss: ^8.4.31
@@ -2226,16 +2239,16 @@ packages:
     peerDependencies:
       postcss: ^8.4.29
 
-  postcss-selector-parser@7.1.1:
-    resolution: {integrity: sha512-orRsuYpJVw8LdAwqqLykBj9ecS5/cRHlI5+nvTo8LcCKmzDmqVORXtOIYEEQuL9D4BxtA1lm5isAqzQZCoQ6Eg==}
+  postcss-selector-parser@7.1.6:
+    resolution: {integrity: sha512-7qASPzhKF2l2KLboRZux8CCTRMdGiV08vWmyKzPz22qZ7ZjQBOeY7rNzNoCLSUiftJ7HUq0GERHmxw/t0dCdMw==}
     engines: {node: '>=4'}
 
   postcss@8.5.10:
     resolution: {integrity: sha512-pMMHxBOZKFU6HgAZ4eyGnwXF/EvPGGqUr0MnZ5+99485wwW41kW91A4LOGxSHhgugZmSChL5AlElNdwlNgcnLQ==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postcss@8.5.6:
-    resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
+  postcss@8.5.28:
+    resolution: {integrity: sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A==}
     engines: {node: ^10 || ^12 || >=14}
 
   prelude-ls@1.2.1:
@@ -2456,6 +2469,10 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
+  source-map-js@1.2.2:
+    resolution: {integrity: sha512-KGj/8Y43x35aZVDtt+J4mK1hoLGHULMYfSkODJNQjNDC3oW1PqPoxMwo0pLUsWM/UEGzON/NxeHywEfNXNP3Vw==}
+    engines: {node: '>=0.10.0'}
+
   stackback@0.0.2:
     resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==}
 
@@ -2504,9 +2521,9 @@ packages:
       svelte: ^4.0.0 || ^5.0.0-next.0
       typescript: '>=5.0.0'
 
-  svelte-eslint-parser@1.4.1:
-    resolution: {integrity: sha512-1eqkfQ93goAhjAXxZiu1SaKI9+0/sxp4JIWQwUpsz7ybehRE5L8dNuz7Iry7K22R47p5/+s9EM+38nHV2OlgXA==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0, pnpm: 10.24.0}
+  svelte-eslint-parser@1.8.1:
+    resolution: {integrity: sha512-5zgKBqAf6V8Jyrmr1jViksyG4NKT8NheYwkdxRaMRDAqpGWi9wR8ktcGrAZbfMn/PHUp1BWzAp0cYQECkWuAMA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0, pnpm: 10.34.5}
     peerDependencies:
       svelte: ^3.37.0 || ^4.0.0 || ^5.0.0
     peerDependenciesMeta:
@@ -2887,8 +2904,8 @@ packages:
   xmlchars@2.2.0:
     resolution: {integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==}
 
-  yaml@1.10.2:
-    resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
+  yaml@1.10.3:
+    resolution: {integrity: sha512-vIYeF1u3CjlhAFekPPAk2h/Kv4T3mAkMox5OymRiJQB0spDP10LHvt+K7G9Ny6NuuMAb25/6n1qyUjAcGNf/AA==}
     engines: {node: '>= 6'}
 
   yocto-queue@0.1.0:
@@ -3140,6 +3157,11 @@ snapshots:
   '@esbuild/win32-x64@0.28.1':
     optional: true
 
+  '@eslint-community/eslint-utils@4.10.1(eslint@9.39.2(jiti@2.6.1))':
+    dependencies:
+      eslint: 9.39.2(jiti@2.6.1)
+      eslint-visitor-keys: 3.4.3
+
   '@eslint-community/eslint-utils@4.9.1(eslint@9.39.2(jiti@2.6.1))':
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
@@ -3331,7 +3353,7 @@ snapshots:
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
-      '@jridgewell/sourcemap-codec': 1.6.0
+      '@jridgewell/sourcemap-codec': 1.5.5
       '@jridgewell/trace-mapping': 0.3.31
 
   '@jridgewell/remapping@2.3.5':
@@ -3348,7 +3370,7 @@ snapshots:
   '@jridgewell/trace-mapping@0.3.31':
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
-      '@jridgewell/sourcemap-codec': 1.5.5
+      '@jridgewell/sourcemap-codec': 1.6.0
 
   '@jridgewell/trace-mapping@0.3.9':
     dependencies:
@@ -3743,7 +3765,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 8.54.0
       debug: 4.4.3
       minimatch: 9.0.5
-      semver: 7.7.4
+      semver: 7.8.5
       tinyglobby: 0.2.16
       ts-api-utils: 2.4.0(typescript@5.9.3)
       typescript: 5.9.3
@@ -3752,7 +3774,7 @@ snapshots:
 
   '@typescript-eslint/utils@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.2(jiti@2.6.1))
+      '@eslint-community/eslint-utils': 4.10.1(eslint@9.39.2(jiti@2.6.1))
       '@typescript-eslint/scope-manager': 8.54.0
       '@typescript-eslint/types': 8.54.0
       '@typescript-eslint/typescript-estree': 8.54.0(typescript@5.9.3)
@@ -4085,19 +4107,19 @@ snapshots:
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
 
-  eslint-plugin-svelte@3.14.0(eslint@9.39.2(jiti@2.6.1))(svelte@5.50.0):
+  eslint-plugin-svelte@3.23.0(eslint@9.39.2(jiti@2.6.1))(svelte@5.50.0):
     dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.2(jiti@2.6.1))
-      '@jridgewell/sourcemap-codec': 1.5.5
+      '@eslint-community/eslint-utils': 4.10.1(eslint@9.39.2(jiti@2.6.1))
+      '@jridgewell/sourcemap-codec': 1.6.0
       eslint: 9.39.2(jiti@2.6.1)
       esutils: 2.0.3
       globals: 16.5.0
       known-css-properties: 0.37.0
-      postcss: 8.5.6
-      postcss-load-config: 3.1.4(postcss@8.5.6)
-      postcss-safe-parser: 7.0.1(postcss@8.5.6)
-      semver: 7.7.4
-      svelte-eslint-parser: 1.4.1(svelte@5.50.0)
+      postcss: 8.5.28
+      postcss-load-config: 3.1.4(postcss@8.5.28)
+      postcss-safe-parser: 7.1.0(postcss@8.5.28)
+      semver: 7.8.5
+      svelte-eslint-parser: 1.8.1(svelte@5.50.0)
     optionalDependencies:
       svelte: 5.50.0
     transitivePeerDependencies:
@@ -4550,6 +4572,8 @@ snapshots:
 
   nanoid@3.3.11: {}
 
+  nanoid@3.3.19: {}
+
   natural-compare@1.4.0: {}
 
   nwsapi@2.2.23: {}
@@ -4645,22 +4669,22 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  postcss-load-config@3.1.4(postcss@8.5.6):
+  postcss-load-config@3.1.4(postcss@8.5.28):
     dependencies:
       lilconfig: 2.1.0
-      yaml: 1.10.2
+      yaml: 1.10.3
     optionalDependencies:
-      postcss: 8.5.6
+      postcss: 8.5.28
 
-  postcss-safe-parser@7.0.1(postcss@8.5.6):
+  postcss-safe-parser@7.1.0(postcss@8.5.28):
     dependencies:
-      postcss: 8.5.6
+      postcss: 8.5.28
 
-  postcss-scss@4.0.9(postcss@8.5.6):
+  postcss-scss@4.0.9(postcss@8.5.28):
     dependencies:
-      postcss: 8.5.6
+      postcss: 8.5.28
 
-  postcss-selector-parser@7.1.1:
+  postcss-selector-parser@7.1.6:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
@@ -4671,11 +4695,11 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postcss@8.5.6:
+  postcss@8.5.28:
     dependencies:
-      nanoid: 3.3.11
+      nanoid: 3.3.19
       picocolors: 1.1.1
-      source-map-js: 1.2.1
+      source-map-js: 1.2.2
 
   prelude-ls@1.2.1: {}
 
@@ -4870,6 +4894,8 @@ snapshots:
 
   source-map-js@1.2.1: {}
 
+  source-map-js@1.2.2: {}
+
   stackback@0.0.2: {}
 
   std-env@3.10.0: {}
@@ -4918,14 +4944,15 @@ snapshots:
     transitivePeerDependencies:
       - picomatch
 
-  svelte-eslint-parser@1.4.1(svelte@5.50.0):
+  svelte-eslint-parser@1.8.1(svelte@5.50.0):
     dependencies:
       eslint-scope: 8.4.0
       eslint-visitor-keys: 4.2.1
       espree: 10.4.0
-      postcss: 8.5.6
-      postcss-scss: 4.0.9(postcss@8.5.6)
-      postcss-selector-parser: 7.1.1
+      postcss: 8.5.28
+      postcss-scss: 4.0.9(postcss@8.5.28)
+      postcss-selector-parser: 7.1.6
+      semver: 7.8.5
     optionalDependencies:
       svelte: 5.50.0
 
@@ -5249,7 +5276,7 @@ snapshots:
 
   xmlchars@2.2.0: {}
 
-  yaml@1.10.2: {}
+  yaml@1.10.3: {}
 
   yocto-queue@0.1.0: {}
 
