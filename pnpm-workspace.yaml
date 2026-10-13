@@ -19,3 +19,7 @@ minimumReleaseAgeExclude:
   - '@ttsc/win32-arm64@0.32.0'
   - '@ttsc/win32-x64@0.32.0'
   - ttsc@0.32.0
+  - virtua@0.53.5
+  - '@vitest/mocker@5.0.4'
+  - '@vitest/spy@5.0.4'
+  - vitest@5.0.4
