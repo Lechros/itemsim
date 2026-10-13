@@ -1,4 +1,4 @@
-import type { SearchGearSummary } from '$lib/api';
+import type { SearchGearSummary } from '#lib/api/index.ts';
 import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 
 export class SearchSelectState {

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { useFontRenderContext } from '$lib/components/gear-tooltip2/font-render/FontRenderContext';
-	import { tokenizeColorString } from '$lib/components/gear-tooltip2/model/parser';
-	import { getColorValue } from '$lib/components/gear-tooltip2/model/text';
+	import { useFontRenderContext } from '#lib/components/gear-tooltip2/font-render/FontRenderContext.ts';
+	import { tokenizeColorString } from '#lib/components/gear-tooltip2/model/parser.ts';
+	import { getColorValue } from '#lib/components/gear-tooltip2/model/text.ts';
 	import InternalTextRenderer from './InternalTextRenderer.svelte';
 
 	const {

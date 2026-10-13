@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Toggle } from '$lib/components/ui/toggle';
-	import { cn } from '$lib/utils';
+	import { Toggle } from '#lib/components/ui/toggle/index.ts';
+	import { cn } from '#lib/utils/index.ts';
 	import { Check } from '@lucide/svelte';
 	import { getContext, type Snippet } from 'svelte';
 	import type { SelectListContextType } from './types';

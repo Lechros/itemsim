@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Button, buttonVariants } from '$lib/components/ui/button';
-	import * as Dialog from '$lib/components/ui/dialog';
-	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
-	import type { SettingsStore } from '$lib/stores/settings.svelte';
+	import { Button, buttonVariants } from '#lib/components/ui/button/index.ts';
+	import * as Dialog from '#lib/components/ui/dialog/index.ts';
+	import { GearTooltipRenderer } from '#lib/features/gear-tooltip-renderer/index.ts';
+	import type { SettingsStore } from '#lib/stores/settings.svelte.ts';
 	import { ReadonlyGear } from '@malib/gear';
 	import { getContext } from 'svelte';
 

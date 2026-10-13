@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '#lib/components/ui/button/index.ts';
 	import { Gear } from '@malib/gear';
 	import FormControl from '../../../form/FormControl.svelte';
 	import FormItem from '../../../form/FormItem.svelte';

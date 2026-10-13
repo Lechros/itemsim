@@ -1,10 +1,10 @@
 import { GearType, type GearData } from '@malib/gear';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import { addGearRows } from '$lib/stores/gear-inventory';
+import { addGearRows } from '#lib/stores/gear-inventory.ts';
 import { importGears, restoreInventory } from './export-helper';
 import { serializeExportPayload } from './export/serialize';
 
-vi.mock('$lib/stores/gear-inventory', () => ({
+vi.mock('#lib/stores/gear-inventory.ts', () => ({
 	addGearRows: vi.fn(),
 	deleteAllGearData: vi.fn(),
 	getAllGearRows: vi.fn(),

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import * as Alert from '$lib/components/ui/alert';
-	import { Button, buttonVariants } from '$lib/components/ui/button';
-	import * as Dialog from '$lib/components/ui/dialog';
-	import { Skeleton } from '$lib/components/ui/skeleton';
-	import Spinner from '$lib/components/ui/spinner/spinner.svelte';
-	import GearTooltipImageRenderer from '$lib/features/gear-tooltip-image-renderer/GearTooltipImageRenderer.svelte';
-	import type { SettingsStore } from '$lib/stores/settings.svelte';
+	import * as Alert from '#lib/components/ui/alert/index.ts';
+	import { Button, buttonVariants } from '#lib/components/ui/button/index.ts';
+	import * as Dialog from '#lib/components/ui/dialog/index.ts';
+	import { Skeleton } from '#lib/components/ui/skeleton/index.ts';
+	import Spinner from '#lib/components/ui/spinner/spinner.svelte';
+	import GearTooltipImageRenderer from '#lib/features/gear-tooltip-image-renderer/GearTooltipImageRenderer.svelte';
+	import type { SettingsStore } from '#lib/stores/settings.svelte.ts';
 	import { ReadonlyGear } from '@malib/gear';
 	import { CircleAlertIcon } from '@lucide/svelte';
 	import { getContext } from 'svelte';

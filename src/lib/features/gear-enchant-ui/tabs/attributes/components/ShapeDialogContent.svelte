@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { getGearSearch, type SearchGearSummary } from '$lib/api';
-	import { Highlight } from '$lib/components/highlight';
-	import { GearIcon } from '$lib/components/icons';
-	import { SelectList, SelectListItem } from '$lib/components/select-list';
-	import { Button, buttonVariants } from '$lib/components/ui/button';
-	import * as Dialog from '$lib/components/ui/dialog';
-	import * as InputGroup from '$lib/components/ui/input-group';
+	import { getGearSearch, type SearchGearSummary } from '#lib/api/index.ts';
+	import { Highlight } from '#lib/components/highlight/index.ts';
+	import { GearIcon } from '#lib/components/icons/index.ts';
+	import { SelectList, SelectListItem } from '#lib/components/select-list/index.ts';
+	import { Button, buttonVariants } from '#lib/components/ui/button/index.ts';
+	import * as Dialog from '#lib/components/ui/dialog/index.ts';
+	import * as InputGroup from '#lib/components/ui/input-group/index.ts';
 	import type { Gear } from '@malib/gear';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { SearchIcon, XIcon } from '@lucide/svelte';
@@ -54,11 +54,11 @@
 		{#if results && results.length > 0}
 			<SelectList
 				items={results ?? []}
-				getKey={(item) => String(item.id)}
+				getKey={(item: SearchGearSummary) => String(item.id)}
 				size={6}
 				selected={selected ? String(selected.id) : null}
 			>
-				{#snippet children(item)}
+				{#snippet children(item: SearchGearSummary)}
 					<SelectListItem
 						value={String(item.id)}
 						onSelect={() => (selected = item)}

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
-	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import { GearEnchantUI } from '$lib/features/gear-enchant-ui';
-	import { MainNavbar } from '$lib/features/navigation/main-navbar';
-	import { getGearData, updateGearData } from '$lib/stores/gear-inventory';
+	import { Button } from '#lib/components/ui/button/index.ts';
+	import { ScrollArea } from '#lib/components/ui/scroll-area/index.ts';
+	import { GearEnchantUI } from '#lib/features/gear-enchant-ui/index.ts';
+	import { MainNavbar } from '#lib/features/navigation/main-navbar/index.ts';
+	import { getGearData, updateGearData } from '#lib/stores/gear-inventory.ts';
 	import { Gear, type GearData } from '@malib/gear';
 	import { Loader2 } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';

@@ -1,7 +1,7 @@
 import type { SoulOption } from '@malib/gear';
 import ky from 'ky';
-import { env } from '$lib/config/env';
-import { join } from '$lib/api/url';
+import { env } from '#lib/config/env.ts';
+import { join } from '#lib/api/url.ts';
 
 export interface SearchSoulSummary {
 	id: number;

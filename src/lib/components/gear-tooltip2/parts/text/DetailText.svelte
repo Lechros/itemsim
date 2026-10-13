@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { useFontRenderContext } from '$lib/components/gear-tooltip2/font-render/FontRenderContext';
-	import { getColorValue, type NamedColor } from '$lib/components/gear-tooltip2/model/text';
+	import { useFontRenderContext } from '#lib/components/gear-tooltip2/font-render/FontRenderContext.ts';
+	import { getColorValue, type NamedColor } from '#lib/components/gear-tooltip2/model/text.ts';
 	import InternalTextRenderer from './InternalTextRenderer.svelte';
 
 	const {

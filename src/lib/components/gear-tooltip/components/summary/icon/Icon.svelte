@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GearIcon } from '$lib/components/icons';
+	import { GearIcon } from '#lib/components/icons/index.ts';
 	import { PotentialGrade } from '@malib/gear';
 	import UIImage from '../../UIImage.svelte';
 

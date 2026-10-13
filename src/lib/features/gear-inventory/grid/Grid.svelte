@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { GearRow } from '$lib/stores/gear-inventory';
-	import { chunk, cn } from '$lib/utils';
+	import type { GearRow } from '#lib/stores/gear-inventory.ts';
+	import { chunk, cn } from '#lib/utils/index.ts';
 	import type { Snippet } from 'svelte';
 	import { Virtualizer } from 'virtua/svelte';
 

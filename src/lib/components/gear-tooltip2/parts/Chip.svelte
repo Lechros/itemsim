@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { UIImage2 } from '$lib/components/ui-image';
+	import { UIImage2 } from '#lib/components/ui-image/index.ts';
 	import DetailText from './text/DetailText.svelte';
 
 	let { value }: { value: string } = $props();

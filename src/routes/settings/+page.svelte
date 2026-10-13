@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
-	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import * as Select from '$lib/components/ui/select';
-	import { Switch } from '$lib/components/ui/switch';
-	import FormControl from '$lib/features/gear-enchant-ui/form/FormControl.svelte';
-	import FormItem from '$lib/features/gear-enchant-ui/form/FormItem.svelte';
-	import FormLabel from '$lib/features/gear-enchant-ui/form/FormLabel.svelte';
-	import FormSection from '$lib/features/gear-enchant-ui/form/FormSection.svelte';
-	import { MainNavbar } from '$lib/features/navigation/main-navbar';
-	import type { SettingsStore } from '$lib/stores/settings.svelte';
+	import { Button } from '#lib/components/ui/button/index.ts';
+	import { ScrollArea } from '#lib/components/ui/scroll-area/index.ts';
+	import * as Select from '#lib/components/ui/select/index.ts';
+	import { Switch } from '#lib/components/ui/switch/index.ts';
+	import FormControl from '#lib/features/gear-enchant-ui/form/FormControl.svelte';
+	import FormItem from '#lib/features/gear-enchant-ui/form/FormItem.svelte';
+	import FormLabel from '#lib/features/gear-enchant-ui/form/FormLabel.svelte';
+	import FormSection from '#lib/features/gear-enchant-ui/form/FormSection.svelte';
+	import { MainNavbar } from '#lib/features/navigation/main-navbar/index.ts';
+	import type { SettingsStore } from '#lib/stores/settings.svelte.ts';
 	import { ArrowLeft } from '@lucide/svelte';
 	import { getContext } from 'svelte';
 

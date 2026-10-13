@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getColorValue, type NamedColor } from '$lib/components/gear-tooltip2/model/text';
+	import { getColorValue, type NamedColor } from '#lib/components/gear-tooltip2/model/text.ts';
 
 	const {
 		value,

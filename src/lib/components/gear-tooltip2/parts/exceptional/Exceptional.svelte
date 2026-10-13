@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { UIImage2 } from '$lib/components/ui-image';
+	import { UIImage2 } from '#lib/components/ui-image/index.ts';
 	import type { GearExceptionalOption } from '@malib/gear';
 	import { getGearOptionGroupedStrings } from '../../model/option';
 	import Spacer from '../Spacer.svelte';

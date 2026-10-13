@@ -1,5 +1,5 @@
 import { createQuery } from '@tanstack/svelte-query';
-import { getExclusiveEquips, type ExclusiveEquipData } from '$lib/api';
+import { getExclusiveEquips, type ExclusiveEquipData } from '#lib/api/index.ts';
 
 export function useExclusiveEquips() {
 	return createQuery(() => ({

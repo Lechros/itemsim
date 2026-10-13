@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
+	import { GearTooltipRenderer } from '#lib/features/gear-tooltip-renderer/index.ts';
 	import type { ReadonlyGear } from '@malib/gear';
 	import { devicePixelRatio } from 'svelte/reactivity/window';
 	import { strategies } from './captureStrategies';

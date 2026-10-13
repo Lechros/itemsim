@@ -1,5 +1,5 @@
 <script lang="ts" generics="T">
-	import { cn, splitHalf } from '$lib/utils';
+	import { cn, splitHalf } from '#lib/utils/index.ts';
 	import type { Snippet } from 'svelte';
 
 	let {

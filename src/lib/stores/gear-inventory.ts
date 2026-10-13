@@ -1,4 +1,4 @@
-import { GEAR_VERSION } from '$lib/config/constant';
+import { GEAR_VERSION } from '#lib/config/constant.ts';
 import { migrate, type GearData } from '@malib/gear';
 import Dexie, { liveQuery, type EntityTable } from 'dexie';
 import { getRegExp } from 'korean-regexp';

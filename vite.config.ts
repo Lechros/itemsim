@@ -1,12 +1,18 @@
 /// <reference types="vitest/config" />
 import ttsc from '@ttsc/unplugin/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
+import adapter from '@sveltejs/adapter-cloudflare';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import tailwindcss from '@tailwindcss/vite';
 import { svelteTesting } from '@testing-library/svelte/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-	plugins: [ttsc({ project: './tsconfig.typia.json' }), sveltekit(), tailwindcss()],
+	plugins: [
+		ttsc({ project: './tsconfig.typia.json' }),
+		sveltekit({ adapter: adapter(), preprocess: vitePreprocess() }),
+		tailwindcss()
+	],
 
 	test: {
 		projects: [

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { GearIcon } from '$lib/components/icons';
-	import PotentialTitle from '$lib/features/gear-enchant-ui/tabs/potential/components/PotentialTitle.svelte';
-	import { Badge } from '$lib/components/ui/badge';
-	import { UIImage2 } from '$lib/components/ui-image';
+	import { GearIcon } from '#lib/components/icons/index.ts';
+	import PotentialTitle from '#lib/features/gear-enchant-ui/tabs/potential/components/PotentialTitle.svelte';
+	import { Badge } from '#lib/components/ui/badge/index.ts';
+	import { UIImage2 } from '#lib/components/ui-image/index.ts';
 	import { GearCapability, type GearData, ReadonlyGear } from '@malib/gear';
-	import { Separator } from '$lib/components/ui/separator';
+	import { Separator } from '#lib/components/ui/separator/index.ts';
 
 	let {
 		gearData,

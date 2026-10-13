@@ -1,5 +1,5 @@
-import { env } from '$lib/config/env';
-import { join } from '$lib/api/url';
+import { env } from '#lib/config/env.ts';
+import { join } from '#lib/api/url.ts';
 
 export function getItemRawIconUrl(iconId: string) {
 	return join(env.IMAGE_URL, `/items/iconRaw/${iconId}.png`);

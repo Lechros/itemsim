@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { GearIcon } from '$lib/components/icons';
-	import { UIImage2 } from '$lib/components/ui-image';
+	import { GearIcon } from '#lib/components/icons/index.ts';
+	import { UIImage2 } from '#lib/components/ui-image/index.ts';
 
 	let { icon }: { icon: string } = $props();
 </script>

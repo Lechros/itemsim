@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '#lib/components/ui/button/index.ts';
 	import { Settings } from '@lucide/svelte';
 	import DarkModeButton from './DarkModeButton.svelte';
 	import DiscordIcon from './DiscordIcon.svelte';

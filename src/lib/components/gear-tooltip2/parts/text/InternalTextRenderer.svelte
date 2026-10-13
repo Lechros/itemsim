@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { FontRender } from '$lib/components/gear-tooltip2/font-render/FontRender.svelte.js';
+	import type { FontRender } from '#lib/components/gear-tooltip2/font-render/FontRender.svelte.ts';
 
 	const {
 		items,

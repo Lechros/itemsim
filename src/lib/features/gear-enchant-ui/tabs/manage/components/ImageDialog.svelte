@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { buttonVariants } from '$lib/components/ui/button';
-	import * as Dialog from '$lib/components/ui/dialog';
+	import { buttonVariants } from '#lib/components/ui/button/index.ts';
+	import * as Dialog from '#lib/components/ui/dialog/index.ts';
 	import { ReadonlyGear } from '@malib/gear';
 	import { ImageIcon } from '@lucide/svelte';
 	import ImageDialogContent from './ImageDialogContent.svelte';

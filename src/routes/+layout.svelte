@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
+	import { browser } from '$app/env';
 	import { setContext } from 'svelte';
-	import { FontRenderProvider } from '$lib/components/gear-tooltip2';
-	import { Toaster } from '$lib/components/ui/sonner';
-	import { getSettingsStore, type SettingsStore } from '$lib/stores/settings.svelte';
+	import { FontRenderProvider } from '#lib/components/gear-tooltip2/index.ts';
+	import { Toaster } from '#lib/components/ui/sonner/index.ts';
+	import { getSettingsStore, type SettingsStore } from '#lib/stores/settings.svelte.ts';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
 	import { ModeWatcher } from 'mode-watcher';
 	import '../app.css';

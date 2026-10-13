@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getGearOptionGroupedStrings } from '$lib/utils';
+	import { getGearOptionGroupedStrings } from '#lib/utils/index.ts';
 	import type { SoulBaseOption, SoulOption } from '@malib/gear';
 
 	let {

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { ItemRawIcon } from '$lib/components/icons';
-	import { Button } from '$lib/components/ui/button';
-	import { BalancedGrid } from '$lib/features/gear-enchant-ui/balanced-grid';
-	import { getGearOptionGroupedStrings } from '$lib/utils';
+	import { ItemRawIcon } from '#lib/components/icons/index.ts';
+	import { Button } from '#lib/components/ui/button/index.ts';
+	import { BalancedGrid } from '#lib/features/gear-enchant-ui/balanced-grid/index.ts';
+	import { getGearOptionGroupedStrings } from '#lib/utils/index.ts';
 	import { Gear } from '@malib/gear';
 	import FormControl from '../../form/FormControl.svelte';
 	import FormItem from '../../form/FormItem.svelte';

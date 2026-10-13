@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tooltip2Images } from '$lib/assets/tooltip2-images';
+	import { tooltip2Images } from '#lib/assets/tooltip2-images/index.ts';
 	import type { Snippet } from 'svelte';
 	import type { ClassValue } from 'svelte/elements';
 

@@ -1,11 +1,11 @@
-import { GEAR_VERSION } from '$lib/config/constant';
+import { GEAR_VERSION } from '#lib/config/constant.ts';
 import {
 	addGearRows,
 	db,
 	deleteAllGearData,
 	getAllGearRows,
 	type GearRow
-} from '$lib/stores/gear-inventory';
+} from '#lib/stores/gear-inventory.ts';
 import { migrate, type GearData } from '@malib/gear';
 import typia from 'typia';
 import { parseExportPayload } from './export/parse';

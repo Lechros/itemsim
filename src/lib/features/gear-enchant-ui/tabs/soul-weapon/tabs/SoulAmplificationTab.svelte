@@ -1,7 +1,7 @@
 <script lang="ts">
-	import * as Alert from '$lib/components/ui/alert';
-	import * as InputGroup from '$lib/components/ui/input-group';
-	import { Slider } from '$lib/components/ui/slider';
+	import * as Alert from '#lib/components/ui/alert/index.ts';
+	import * as InputGroup from '#lib/components/ui/input-group/index.ts';
+	import { Slider } from '#lib/components/ui/slider/index.ts';
 	import { Gear, PotentialGrade, type PotentialData } from '@malib/gear';
 	import GearPotentialUiBase from '../../potential/components/GearPotentialUIBase.svelte';
 	import { getGradeSoulPotentialDatas } from '../../potential/model/potential';

@@ -1,24 +1,24 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { GearIcon } from '$lib/components/icons';
-	import { UIImage2 } from '$lib/components/ui-image';
-	import { Badge } from '$lib/components/ui/badge';
-	import { Button, buttonVariants } from '$lib/components/ui/button';
-	import * as Drawer from '$lib/components/ui/drawer';
-	import { Separator } from '$lib/components/ui/separator';
-	import * as Tabs from '$lib/components/ui/tabs';
-	import { createTabStore } from '$lib/features/gear-enchant-ui/tab-selector/TabStore.svelte';
-	import GearAddOptionUI from '$lib/features/gear-enchant-ui/tabs/add-option/GearAddOptionUI.svelte';
-	import GearAttributeUI from '$lib/features/gear-enchant-ui/tabs/attributes/GearAttributeUI.svelte';
-	import GearExceptionalUI from '$lib/features/gear-enchant-ui/tabs/exceptional/GearExceptionalUI.svelte';
-	import GearAdditionalPotentialUI from '$lib/features/gear-enchant-ui/tabs/potential/GearAdditionalPotentialUI.svelte';
-	import GearPotentialUI from '$lib/features/gear-enchant-ui/tabs/potential/GearPotentialUI.svelte';
-	import GearSoulWeaponUI from '$lib/features/gear-enchant-ui/tabs/soul-weapon/GearSoulWeaponUI.svelte';
-	import GearStarforceUI from '$lib/features/gear-enchant-ui/tabs/starforce/GearStarforceUI.svelte';
-	import GearUpgradeUI from '$lib/features/gear-enchant-ui/tabs/upgrade/GearUpgradeUI.svelte';
-	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
-	import type { SettingsStore } from '$lib/stores/settings.svelte';
-	import { cn } from '$lib/utils';
+	import { page } from '$app/state';
+	import { GearIcon } from '#lib/components/icons/index.ts';
+	import { UIImage2 } from '#lib/components/ui-image/index.ts';
+	import { Badge } from '#lib/components/ui/badge/index.ts';
+	import { Button, buttonVariants } from '#lib/components/ui/button/index.ts';
+	import * as Drawer from '#lib/components/ui/drawer/index.ts';
+	import { Separator } from '#lib/components/ui/separator/index.ts';
+	import * as Tabs from '#lib/components/ui/tabs/index.ts';
+	import { createTabStore } from '#lib/features/gear-enchant-ui/tab-selector/TabStore.svelte.ts';
+	import GearAddOptionUI from '#lib/features/gear-enchant-ui/tabs/add-option/GearAddOptionUI.svelte';
+	import GearAttributeUI from '#lib/features/gear-enchant-ui/tabs/attributes/GearAttributeUI.svelte';
+	import GearExceptionalUI from '#lib/features/gear-enchant-ui/tabs/exceptional/GearExceptionalUI.svelte';
+	import GearAdditionalPotentialUI from '#lib/features/gear-enchant-ui/tabs/potential/GearAdditionalPotentialUI.svelte';
+	import GearPotentialUI from '#lib/features/gear-enchant-ui/tabs/potential/GearPotentialUI.svelte';
+	import GearSoulWeaponUI from '#lib/features/gear-enchant-ui/tabs/soul-weapon/GearSoulWeaponUI.svelte';
+	import GearStarforceUI from '#lib/features/gear-enchant-ui/tabs/starforce/GearStarforceUI.svelte';
+	import GearUpgradeUI from '#lib/features/gear-enchant-ui/tabs/upgrade/GearUpgradeUI.svelte';
+	import { GearTooltipRenderer } from '#lib/features/gear-tooltip-renderer/index.ts';
+	import type { SettingsStore } from '#lib/stores/settings.svelte.ts';
+	import { cn } from '#lib/utils/index.ts';
 	import { PotentialGrade, type Gear } from '@malib/gear';
 	import { ArrowLeft, Check, ChevronUp } from '@lucide/svelte';
 	import { getContext } from 'svelte';
@@ -111,7 +111,7 @@
 			<Button
 				variant={isCurrent ? 'default' : 'ghost'}
 				size="lg"
-				href={tab.disabled ? undefined : `${$page.url.pathname}?tab=${tab.value}`}
+				href={tab.disabled ? undefined : `${page.url.pathname}?tab=${tab.value}`}
 				disabled={tab.disabled}
 				class={cn('relative justify-start text-sm font-medium', !isCurrent && 'text-foreground/80')}
 			>
@@ -152,7 +152,7 @@
 					<Button
 						size="sm"
 						variant={isCurrent ? 'default' : 'secondary'}
-						href={tab.disabled ? undefined : `${$page.url.pathname}?tab=${tab.value}`}
+						href={tab.disabled ? undefined : `${page.url.pathname}?tab=${tab.value}`}
 						disabled={tab.disabled}
 						data-pill-tab={tab.value}
 						class={cn('shrink-0 rounded-full px-4')}

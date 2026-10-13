@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
-	import * as Item from '$lib/components/ui/item';
-	import { Spinner } from '$lib/components/ui/spinner';
-	import { runTransmit, shouldTransmit } from '$lib/gear';
+	import { Button } from '#lib/components/ui/button/index.ts';
+	import * as Item from '#lib/components/ui/item/index.ts';
+	import { Spinner } from '#lib/components/ui/spinner/index.ts';
+	import { runTransmit, shouldTransmit } from '#lib/gear/index.ts';
 	import { Gear, ReadonlyGear, type GearData } from '@malib/gear';
 	import { toast } from 'svelte-sonner';
 	import FormControl from '../../form/FormControl.svelte';

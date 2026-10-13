@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { GearTooltip } from '$lib/components/gear-tooltip';
-	import { GearTooltip as GearTooltip2 } from '$lib/components/gear-tooltip2';
+	import { GearTooltip } from '#lib/components/gear-tooltip/index.ts';
+	import { GearTooltip as GearTooltip2 } from '#lib/components/gear-tooltip2/index.ts';
 	import type { ReadonlyGear } from '@malib/gear';
 	import { createExclusiveEquipsLoader, useExclusiveEquips } from './exclusive-equip';
 	import { createSetItemNameLoader, useSetItems } from './set-item';

@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import { getSoulData, getSoulSearch } from './soul';
 
-vi.mock('$lib/config/env', () => ({ env: { API_URL: 'https://api.example.com' } }));
+vi.mock('#lib/config/env.ts', () => ({ env: { API_URL: 'https://api.example.com' } }));
 
 afterEach(() => vi.unstubAllGlobals());
 

@@ -20,3 +20,6 @@ Svelte 포맷과 Tailwind 클래스 정렬은 Oxfmt 설정에서 활성화합니
 Typia 변환은 Vite의 공식 `@ttsc/unplugin`이 처리하며 `ts-patch`는 사용하지 않습니다.
 `tsconfig.typia.json`은 임시 설정을 통한 상속에서도 변환 대상 경로를 유지하도록 `${configDir}`로 소스 범위를 지정합니다.
 `ttsc`와 `@ttsc/unplugin`은 같은 버전으로 함께 업데이트합니다. 최초 Typia 네이티브 플러그인 컴파일은 수 분 걸릴 수 있습니다.
+
+Bits UI의 간접 의존성 `runed@0.35.1`은 선택적 SvelteKit peer 범위를 아직 2.x로 선언하여 설치 시 경고가 발생합니다.
+현재 프로젝트와 Bits UI는 Kit 전용 `runed/kit`을 사용하지 않습니다. 이 경고를 숨기거나 지원 범위를 강제로 덮어쓰지 않습니다.

@@ -1,16 +1,16 @@
 <script lang="ts">
-	import * as AlertDialog from '$lib/components/ui/alert-dialog';
-	import { Button, buttonVariants } from '$lib/components/ui/button';
-	import * as Dialog from '$lib/components/ui/dialog';
-	import * as Item from '$lib/components/ui/item';
-	import { Label } from '$lib/components/ui/label';
-	import { Spinner } from '$lib/components/ui/spinner';
-	import { Switch } from '$lib/components/ui/switch';
-	import { createGearCountLiveQuery } from '$lib/features/gear-inventory/header';
-	import { backupInventory, restoreInventory } from '$lib/gear/export-helper';
-	import { buildDownloadFilename } from '$lib/utils';
-	import { parseExportPayload } from '$lib/gear/export/parse';
-	import type { ExportPayload } from '$lib/gear/export/types';
+	import * as AlertDialog from '#lib/components/ui/alert-dialog/index.ts';
+	import { Button, buttonVariants } from '#lib/components/ui/button/index.ts';
+	import * as Dialog from '#lib/components/ui/dialog/index.ts';
+	import * as Item from '#lib/components/ui/item/index.ts';
+	import { Label } from '#lib/components/ui/label/index.ts';
+	import { Spinner } from '#lib/components/ui/spinner/index.ts';
+	import { Switch } from '#lib/components/ui/switch/index.ts';
+	import { createGearCountLiveQuery } from '#lib/features/gear-inventory/header/index.ts';
+	import { backupInventory, restoreInventory } from '#lib/gear/export-helper.ts';
+	import { buildDownloadFilename } from '#lib/utils/index.ts';
+	import { parseExportPayload } from '#lib/gear/export/parse.ts';
+	import type { ExportPayload } from '#lib/gear/export/types.ts';
 	import {
 		CopyXIcon,
 		DownloadIcon,
