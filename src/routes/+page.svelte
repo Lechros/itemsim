@@ -98,7 +98,7 @@
 	let isImporting = $state(false);
 
 	$effect(() => {
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		// oxlint-disable-next-line no-unused-expressions
 		gearQuery.value;
 		hoverGearData = null;
 	});

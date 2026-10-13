@@ -1,9 +1,9 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended",
-    "abandonments:recommended",
-    "security:minimumReleaseAgeNpm",
-    ":maintainLockFilesWeekly"
-  ]
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"config:recommended",
+		"abandonments:recommended",
+		"security:minimumReleaseAgeNpm",
+		":maintainLockFilesWeekly"
+	]
 }

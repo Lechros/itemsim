@@ -11,7 +11,7 @@
 				(el) => el.classList.remove('gt--comma')
 			);
 		}
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		// oxlint-disable-next-line no-unused-expressions
 		tags;
 	});
 
