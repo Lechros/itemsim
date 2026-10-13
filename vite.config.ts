@@ -1,12 +1,12 @@
 /// <reference types="vitest/config" />
-import UnpluginTypia from '@ryoppippi/unplugin-typia/vite';
+import ttsc from '@ttsc/unplugin/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { svelteTesting } from '@testing-library/svelte/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-	plugins: [sveltekit(), tailwindcss(), UnpluginTypia({ cache: true })],
+	plugins: [ttsc({ project: './tsconfig.typia.json' }), sveltekit(), tailwindcss()],
 
 	test: {
 		projects: [

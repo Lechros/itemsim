@@ -5,5 +5,11 @@
 		"abandonments:recommended",
 		"security:minimumReleaseAgeNpm",
 		":maintainLockFilesWeekly"
+	],
+	"packageRules": [
+		{
+			"matchPackageNames": ["ttsc", "@ttsc/*"],
+			"groupName": "ttsc"
+		}
 	]
 }

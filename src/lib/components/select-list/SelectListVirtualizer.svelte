@@ -72,7 +72,7 @@
 </script>
 
 <Virtualizer data={items} getKey={safeGetKey} {startMargin} {bufferSize} {scrollRef}>
-	{#snippet children(item, index)}
+	{#snippet children(item: T | undefined, index: number)}
 		{#if item}
 			{@render childrenProp(item, index)}
 		{/if}

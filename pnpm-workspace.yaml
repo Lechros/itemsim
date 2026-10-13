@@ -10,3 +10,12 @@ minimumReleaseAgeExclude:
   - '@typescript-eslint/typescript-estree@8.71.2'
   - '@typescript-eslint/visitor-keys@8.71.2'
   - '@lucide/svelte@1.56.0'
+  - '@ttsc/darwin-arm64@0.32.0'
+  - '@ttsc/darwin-x64@0.32.0'
+  - '@ttsc/linux-arm64@0.32.0'
+  - '@ttsc/linux-arm@0.32.0'
+  - '@ttsc/linux-x64@0.32.0'
+  - '@ttsc/unplugin@0.32.0'
+  - '@ttsc/win32-arm64@0.32.0'
+  - '@ttsc/win32-x64@0.32.0'
+  - ttsc@0.32.0
