@@ -5,7 +5,7 @@
 	import { MainNavbar } from '$lib/features/navigation/main-navbar';
 	import { getGearData, updateGearData } from '$lib/stores/gear-inventory';
 	import { Gear, type GearData } from '@malib/gear';
-	import { Loader2 } from 'lucide-svelte';
+	import { Loader2 } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 	import type { PageProps } from './$types';
 

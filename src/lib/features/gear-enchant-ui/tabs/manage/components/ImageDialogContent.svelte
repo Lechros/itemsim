@@ -7,7 +7,7 @@
 	import GearTooltipImageRenderer from '$lib/features/gear-tooltip-image-renderer/GearTooltipImageRenderer.svelte';
 	import type { SettingsStore } from '$lib/stores/settings.svelte';
 	import { ReadonlyGear } from '@malib/gear';
-	import { CircleAlertIcon } from 'lucide-svelte';
+	import { CircleAlertIcon } from '@lucide/svelte';
 	import { getContext } from 'svelte';
 
 	let { gear }: { gear: ReadonlyGear } = $props();

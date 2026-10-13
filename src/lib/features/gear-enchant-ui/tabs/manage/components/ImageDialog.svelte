@@ -2,7 +2,7 @@
 	import { buttonVariants } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { ReadonlyGear } from '@malib/gear';
-	import { ImageIcon } from 'lucide-svelte';
+	import { ImageIcon } from '@lucide/svelte';
 	import ImageDialogContent from './ImageDialogContent.svelte';
 
 	let { gear }: { gear: ReadonlyGear } = $props();

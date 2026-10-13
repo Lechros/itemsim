@@ -20,7 +20,7 @@
 	import type { SettingsStore } from '$lib/stores/settings.svelte';
 	import { cn } from '$lib/utils';
 	import { PotentialGrade, type Gear } from '@malib/gear';
-	import { ArrowLeft, Check, ChevronUp } from 'lucide-svelte';
+	import { ArrowLeft, Check, ChevronUp } from '@lucide/svelte';
 	import { getContext } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import GearManageUI from './tabs/manage/GearManageUI.svelte';

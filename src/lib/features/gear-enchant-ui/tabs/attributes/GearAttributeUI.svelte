@@ -6,7 +6,7 @@
 	import * as Select from '$lib/components/ui/select';
 	import * as Tabs from '$lib/components/ui/tabs';
 	import { Gear } from '@malib/gear';
-	import { Minus, Plus } from 'lucide-svelte';
+	import { Minus, Plus } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 	import FormControl from '../../form/FormControl.svelte';
 	import FormItem from '../../form/FormItem.svelte';

@@ -17,7 +17,7 @@
 	import { cn } from '$lib/utils';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { josa } from 'es-hangul';
-	import { ArrowLeft, SearchIcon, TrashIcon, XIcon } from 'lucide-svelte';
+	import { ArrowLeft, SearchIcon, TrashIcon, XIcon } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 
 	let searchQuery = $state('');

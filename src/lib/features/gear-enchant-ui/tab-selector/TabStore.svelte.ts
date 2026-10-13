@@ -1,11 +1,10 @@
-import type { IconProps } from 'lucide-svelte';
-import type { Component, SvelteComponent } from 'svelte';
+import type { LucideIcon } from '@lucide/svelte';
 
 export interface Tab {
 	label: string;
 	value: string;
 	disabled?: boolean;
-	icon?: Component<IconProps> | typeof SvelteComponent<IconProps>;
+	icon?: LucideIcon;
 }
 
 export class TabStore {

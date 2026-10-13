@@ -9,15 +9,14 @@ import {
 	Scroll,
 	Settings2,
 	Star,
-	type IconProps
-} from 'lucide-svelte';
-import type { Component, SvelteComponent } from 'svelte';
+	type LucideIcon
+} from '@lucide/svelte';
 
 export type GearEnchantTab = {
 	label: string;
 	value: string;
 	disabled?: (gear: Gear) => boolean;
-	icon?: Component<IconProps> | typeof SvelteComponent<IconProps>;
+	icon?: LucideIcon;
 };
 
 export const tabs: GearEnchantTab[] = [

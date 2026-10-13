@@ -60,7 +60,7 @@
 		Trash2Icon,
 		UploadIcon,
 		XIcon
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 	import { getContext } from 'svelte';
 	import { toast } from 'svelte-sonner';
 

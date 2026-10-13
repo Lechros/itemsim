@@ -21,7 +21,7 @@
 	"devDependencies": {
 		"@eslint/compat": "2.1.1",
 		"@internationalized/date": "^3.12.4",
-		"@lucide/svelte": "^0.561.0",
+		"@lucide/svelte": "1.56.0",
 		"@playwright/test": "^1.63.0",
 		"@ryoppippi/unplugin-typia": "^2.6.5",
 		"@sveltejs/adapter-auto": "^4.0.0",
@@ -66,7 +66,6 @@
 		"html2canvas-pro": "^1.6.7",
 		"korean-regexp": "^1.0.13",
 		"ky": "^1.14.3",
-		"lucide-svelte": "^0.563.0",
 		"lz-string": "^1.5.0",
 		"virtua": "^0.48.8"
 	},

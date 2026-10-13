@@ -9,7 +9,7 @@
 	import FormSection from '$lib/features/gear-enchant-ui/form/FormSection.svelte';
 	import { MainNavbar } from '$lib/features/navigation/main-navbar';
 	import type { SettingsStore } from '$lib/stores/settings.svelte';
-	import { ArrowLeft } from 'lucide-svelte';
+	import { ArrowLeft } from '@lucide/svelte';
 	import { getContext } from 'svelte';
 
 	const settingsStore = getContext<SettingsStore>('settingsStore');

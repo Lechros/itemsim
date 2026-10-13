@@ -9,3 +9,4 @@ minimumReleaseAgeExclude:
   - '@typescript-eslint/types@8.71.2'
   - '@typescript-eslint/typescript-estree@8.71.2'
   - '@typescript-eslint/visitor-keys@8.71.2'
+  - '@lucide/svelte@1.56.0'

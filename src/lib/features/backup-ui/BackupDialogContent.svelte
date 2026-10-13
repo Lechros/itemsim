@@ -18,7 +18,7 @@
 		FolderUpIcon,
 		PlusIcon,
 		UploadIcon
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 
 	let {

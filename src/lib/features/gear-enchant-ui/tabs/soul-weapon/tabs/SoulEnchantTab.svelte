@@ -12,7 +12,7 @@
 	import { Switch } from '$lib/components/ui/switch';
 	import { Gear, type SoulOption } from '@malib/gear';
 	import { createQuery } from '@tanstack/svelte-query';
-	import { SearchIcon, XIcon } from 'lucide-svelte';
+	import { SearchIcon, XIcon } from '@lucide/svelte';
 	import FormControl from '../../../form/FormControl.svelte';
 	import FormItem from '../../../form/FormItem.svelte';
 	import FormLabel from '../../../form/FormLabel.svelte';

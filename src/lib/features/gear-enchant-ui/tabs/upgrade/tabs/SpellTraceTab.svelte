@@ -9,7 +9,7 @@
 	import FormSection from '$lib/features/gear-enchant-ui/form/FormSection.svelte';
 	import { cn, getGearOptionStrings } from '$lib/utils';
 	import { type Gear, type SpellTrace } from '@malib/gear';
-	import { XIcon } from 'lucide-svelte';
+	import { XIcon } from '@lucide/svelte';
 	import ResetSection from '../components/ResetSection.svelte';
 	import ResileSection from '../components/ResileSection.svelte';
 	import { getSpellTraceScrolls } from '../model/spellTrace';

@@ -8,7 +8,7 @@
 	import * as InputGroup from '$lib/components/ui/input-group';
 	import type { Gear } from '@malib/gear';
 	import { createQuery } from '@tanstack/svelte-query';
-	import { SearchIcon, XIcon } from 'lucide-svelte';
+	import { SearchIcon, XIcon } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 
 	const { gear }: { gear: Gear } = $props();

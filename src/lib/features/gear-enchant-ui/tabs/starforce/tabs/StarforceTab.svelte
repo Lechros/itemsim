@@ -11,7 +11,7 @@
 	import FormSection from '$lib/features/gear-enchant-ui/form/FormSection.svelte';
 	import { Gear } from '@malib/gear';
 	import { Tabs } from 'bits-ui';
-	import { CircleAlert, Minus, Plus } from 'lucide-svelte';
+	import { CircleAlert, Minus, Plus } from '@lucide/svelte';
 	import {
 		addStarforce,
 		canAddStarforce,
