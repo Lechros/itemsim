@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getGearOptionString } from '$lib/components/gear-tooltip/model/strings';
+	import { getGearOptionString } from '#lib/components/gear-tooltip/model/strings.ts';
 	import type { GearOption } from '@malib/gear';
 
 	let {

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { buttonVariants } from '$lib/components/ui/button';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import { ChevronDown } from 'lucide-svelte';
+	import { buttonVariants } from '#lib/components/ui/button/index.ts';
+	import * as DropdownMenu from '#lib/components/ui/dropdown-menu/index.ts';
+	import { ChevronDown } from '@lucide/svelte';
 
 	let {
 		sort = $bindable()

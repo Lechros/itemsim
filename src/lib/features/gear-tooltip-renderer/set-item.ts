@@ -1,4 +1,4 @@
-import { getSetItems, type SetItemData } from '$lib/api';
+import { getSetItems, type SetItemData } from '#lib/api/index.ts';
 import { createQuery } from '@tanstack/svelte-query';
 
 export function useSetItems() {

@@ -1,7 +1,7 @@
 import { Gear, GearType, type SoulOption } from '@malib/gear';
 import { fireEvent, render, screen, waitFor } from '@testing-library/svelte';
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
-import { getSoulData, getSoulSearch } from '$lib/api';
+import { getSoulData, getSoulSearch } from '#lib/api/index.ts';
 import SoulEnchantTabHarness from './test/SoulEnchantTabHarness.svelte';
 
 // jsdom에는 레이아웃이 없으므로 가상 목록의 항목을 직접 렌더링합니다.
@@ -9,7 +9,7 @@ vi.mock('virtua/svelte', async () => ({
 	Virtualizer: (await import('./test/Virtualizer.svelte')).default
 }));
 
-vi.mock('$lib/api', () => ({
+vi.mock('#lib/api/index.ts', () => ({
 	getSoulSearch: vi.fn(async () => []),
 	getSoulData: vi.fn(),
 	getItemRawIconOrigin: vi.fn(async () => ({ x: 0, y: 0 })),

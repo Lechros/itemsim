@@ -1,4 +1,4 @@
-import type { GearRow } from '$lib/stores/gear-inventory';
+import type { GearRow } from '#lib/stores/gear-inventory.ts';
 import lzs from 'lz-string';
 import type { ExportPayload } from './types';
 

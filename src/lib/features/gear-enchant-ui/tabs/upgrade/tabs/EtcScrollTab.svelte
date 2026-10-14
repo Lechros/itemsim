@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { ItemRawIcon } from '$lib/components/icons';
-	import { SelectList, SelectListItem } from '$lib/components/select-list';
-	import { Button } from '$lib/components/ui/button';
-	import { Separator } from '$lib/components/ui/separator';
-	import { BalancedGrid } from '$lib/features/gear-enchant-ui/balanced-grid';
-	import FormControl from '$lib/features/gear-enchant-ui/form/FormControl.svelte';
-	import FormItem from '$lib/features/gear-enchant-ui/form/FormItem.svelte';
-	import FormSection from '$lib/features/gear-enchant-ui/form/FormSection.svelte';
-	import { getGearOptionStrings } from '$lib/utils';
+	import { ItemRawIcon } from '#lib/components/icons/index.ts';
+	import { SelectList, SelectListItem } from '#lib/components/select-list/index.ts';
+	import { Button } from '#lib/components/ui/button/index.ts';
+	import { Separator } from '#lib/components/ui/separator/index.ts';
+	import { BalancedGrid } from '#lib/features/gear-enchant-ui/balanced-grid/index.ts';
+	import FormControl from '#lib/features/gear-enchant-ui/form/FormControl.svelte';
+	import FormItem from '#lib/features/gear-enchant-ui/form/FormItem.svelte';
+	import FormSection from '#lib/features/gear-enchant-ui/form/FormSection.svelte';
+	import { getGearOptionStrings } from '#lib/utils/index.ts';
 	import { type Gear, type Scroll } from '@malib/gear';
-	import { XIcon } from 'lucide-svelte';
+	import { XIcon } from '@lucide/svelte';
 	import ResetSection from '../components/ResetSection.svelte';
 	import ResileSection from '../components/ResileSection.svelte';
 	import { getEtcScrolls, getOnlyScrolls } from '../model/etcScroll';
@@ -29,7 +29,7 @@
 </script>
 
 <SelectList items={scrolls} selected={selectedScroll?.name} size={6} allowDeselect={false}>
-	{#snippet children(scroll)}
+	{#snippet children(scroll: Scroll)}
 		<SelectListItem
 			value={scroll.name}
 			class="rounded-none ps-4"

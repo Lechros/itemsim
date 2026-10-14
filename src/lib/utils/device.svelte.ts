@@ -1,4 +1,4 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 
 /**
  * pointer: fine 미디어 쿼리를 사용해서 정밀한 포인팅 장치(마우스 등)가 있는지 감지

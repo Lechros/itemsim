@@ -1,7 +1,7 @@
 <script>
-	import { Button } from '$lib/components/ui/button';
-	import { cn } from '$lib/utils';
-	import { MoonIcon, SunIcon } from 'lucide-svelte';
+	import { Button } from '#lib/components/ui/button/index.ts';
+	import { cn } from '#lib/utils/index.ts';
+	import { MoonIcon, SunIcon } from '@lucide/svelte';
 	import { toggleMode, mode } from 'mode-watcher';
 
 	const dark = $derived(mode.current === 'dark');

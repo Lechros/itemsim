@@ -1,47 +1,47 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { FollowCursor } from '$lib/components/follow-cursor';
-	import * as AlertDialog from '$lib/components/ui/alert-dialog';
-	import { Button, buttonVariants } from '$lib/components/ui/button';
-	import * as ButtonGroup from '$lib/components/ui/button-group';
-	import * as ContextMenu from '$lib/components/ui/context-menu';
-	import * as Dialog from '$lib/components/ui/dialog';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import * as Empty from '$lib/components/ui/empty';
-	import * as InputGroup from '$lib/components/ui/input-group';
-	import * as Item from '$lib/components/ui/item';
-	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import { Skeleton } from '$lib/components/ui/skeleton';
-	import { Spinner } from '$lib/components/ui/spinner';
-	import BackupDialogContent from '$lib/features/backup-ui/BackupDialogContent.svelte';
-	import ImageDialogContent from '$lib/features/gear-enchant-ui/tabs/manage/components/ImageDialogContent.svelte';
-	import { GearDialog } from '$lib/features/gear-inventory/dialog';
+	import { FollowCursor } from '#lib/components/follow-cursor/index.ts';
+	import * as AlertDialog from '#lib/components/ui/alert-dialog/index.ts';
+	import { Button, buttonVariants } from '#lib/components/ui/button/index.ts';
+	import * as ButtonGroup from '#lib/components/ui/button-group/index.ts';
+	import * as ContextMenu from '#lib/components/ui/context-menu/index.ts';
+	import * as Dialog from '#lib/components/ui/dialog/index.ts';
+	import * as DropdownMenu from '#lib/components/ui/dropdown-menu/index.ts';
+	import * as Empty from '#lib/components/ui/empty/index.ts';
+	import * as InputGroup from '#lib/components/ui/input-group/index.ts';
+	import * as Item from '#lib/components/ui/item/index.ts';
+	import { ScrollArea } from '#lib/components/ui/scroll-area/index.ts';
+	import { Skeleton } from '#lib/components/ui/skeleton/index.ts';
+	import { Spinner } from '#lib/components/ui/spinner/index.ts';
+	import BackupDialogContent from '#lib/features/backup-ui/BackupDialogContent.svelte';
+	import ImageDialogContent from '#lib/features/gear-enchant-ui/tabs/manage/components/ImageDialogContent.svelte';
+	import { GearDialog } from '#lib/features/gear-inventory/dialog/index.ts';
 	import {
 		GearInventoryGrid,
 		GearInventoryGridItem,
 		GearInventoryGridItemContent,
 		GearInventoryGridSelectItem
-	} from '$lib/features/gear-inventory/grid';
+	} from '#lib/features/gear-inventory/grid/index.ts';
 	import {
 		createGearCountLiveQuery,
 		createGearLiveQuery,
 		createSelector
-	} from '$lib/features/gear-inventory/header';
-	import SortButton from '$lib/features/gear-inventory/header/components/SortButton.svelte';
-	import { GearTooltipRenderer } from '$lib/features/gear-tooltip-renderer';
-	import { MainNavbar } from '$lib/features/navigation/main-navbar';
-	import { ScrollTopButton } from '$lib/features/scroll-top-button';
-	import { exportGears, importGears } from '$lib/gear/export-helper';
-	import { parseExportPayload } from '$lib/gear/export/parse';
+	} from '#lib/features/gear-inventory/header/index.ts';
+	import SortButton from '#lib/features/gear-inventory/header/components/SortButton.svelte';
+	import { GearTooltipRenderer } from '#lib/features/gear-tooltip-renderer/index.ts';
+	import { MainNavbar } from '#lib/features/navigation/main-navbar/index.ts';
+	import { ScrollTopButton } from '#lib/features/scroll-top-button/index.ts';
+	import { exportGears, importGears } from '#lib/gear/export-helper.ts';
+	import { parseExportPayload } from '#lib/gear/export/parse.ts';
 	import {
 		deleteGearData,
 		extractGearData,
 		getGearRows,
 		type GearRow
-	} from '$lib/stores/gear-inventory';
-	import type { SettingsStore } from '$lib/stores/settings.svelte';
-	import { buildDownloadFilename, cn, createPointerDetection } from '$lib/utils';
+	} from '#lib/stores/gear-inventory.ts';
+	import type { SettingsStore } from '#lib/stores/settings.svelte.ts';
+	import { buildDownloadFilename, cn, createPointerDetection } from '#lib/utils/index.ts';
 	import { ReadonlyGear, type GearData } from '@malib/gear';
 	import { josa } from 'es-hangul';
 	import {
@@ -60,7 +60,7 @@
 		Trash2Icon,
 		UploadIcon,
 		XIcon
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 	import { getContext } from 'svelte';
 	import { toast } from 'svelte-sonner';
 
@@ -98,7 +98,7 @@
 	let isImporting = $state(false);
 
 	$effect(() => {
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		// oxlint-disable-next-line no-unused-expressions
 		gearQuery.value;
 		hoverGearData = null;
 	});
@@ -433,7 +433,9 @@
 							</ContextMenu.Trigger>
 							<ContextMenu.Content>
 								<ContextMenu.Group>
-									<ContextMenu.Item onclick={() => goto(resolve(`/gear/${item.seq}`))}>
+									<ContextMenu.Item
+										onclick={() => goto(resolve('/gear/[seq]', { seq: String(item.seq) }))}
+									>
 										<ExternalLinkIcon />
 										열기
 									</ContextMenu.Item>
@@ -517,7 +519,7 @@
 	<GearDialog
 		gear={new ReadonlyGear(popupGearData)}
 		bind:open={showPopup}
-		onAccept={() => goto(resolve(`/gear/${popupSeq}`))}
+		onAccept={() => popupSeq !== null && goto(resolve('/gear/[seq]', { seq: String(popupSeq) }))}
 	/>
 {/if}
 

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
-	import { ArrowUp } from 'lucide-svelte';
+	import { Button } from '#lib/components/ui/button/index.ts';
+	import { ArrowUp } from '@lucide/svelte';
 
 	let {
 		scrollRef

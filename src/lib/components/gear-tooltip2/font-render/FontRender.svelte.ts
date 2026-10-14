@@ -15,7 +15,7 @@ export class FontRender {
 		loadFontBinary
 			.then((buffer) => {
 				this.bytes = new Uint8Array(buffer);
-				for (let i = 0; i < this.bytes.length; ) {
+				for (let i = 0; i < this.bytes.length;) {
 					const codePointLow = this.bytes[i];
 					const codePointHigh = this.bytes[i + 1];
 					const codePoint = (codePointHigh << 8) | codePointLow;

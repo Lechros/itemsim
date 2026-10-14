@@ -1,17 +1,23 @@
 /// <reference types="vitest/config" />
-import UnpluginTypia from '@ryoppippi/unplugin-typia/vite';
+import ttsc from '@ttsc/unplugin/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
+import adapter from '@sveltejs/adapter-cloudflare';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import tailwindcss from '@tailwindcss/vite';
 import { svelteTesting } from '@testing-library/svelte/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-	plugins: [sveltekit(), tailwindcss(), UnpluginTypia({ cache: true })],
+	plugins: [
+		ttsc({ project: './tsconfig.typia.json' }),
+		sveltekit({ adapter: adapter(), preprocess: vitePreprocess() }),
+		tailwindcss()
+	],
 
 	test: {
 		projects: [
 			{
-				extends: './vite.config.ts',
+				extends: true,
 				plugins: [svelteTesting()],
 
 				test: {
@@ -24,7 +30,7 @@ export default defineConfig({
 				}
 			},
 			{
-				extends: './vite.config.ts',
+				extends: true,
 
 				test: {
 					name: 'server',

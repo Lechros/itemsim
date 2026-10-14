@@ -1,6 +1,6 @@
 <script lang="ts" generics="T">
-	import { SelectListVirtualizer } from '$lib/components/select-list/index';
-	import { ScrollArea } from '$lib/components/ui/scroll-area';
+	import { SelectListVirtualizer } from '#lib/components/select-list/index.ts';
+	import { ScrollArea } from '#lib/components/ui/scroll-area/index.ts';
 	import { type Snippet } from 'svelte';
 	import { SvelteSet } from 'svelte/reactivity';
 

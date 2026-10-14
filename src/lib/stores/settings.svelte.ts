@@ -1,5 +1,5 @@
-import type { GearTooltip } from '$lib/components/gear-tooltip';
-import type { GearTooltip as GearTooltip2 } from '$lib/components/gear-tooltip2';
+import type { GearTooltip } from '#lib/components/gear-tooltip/index.ts';
+import type { GearTooltip as GearTooltip2 } from '#lib/components/gear-tooltip2/index.ts';
 import type { ComponentProps } from 'svelte';
 
 export type BatchAction = 'export' | 'delete';

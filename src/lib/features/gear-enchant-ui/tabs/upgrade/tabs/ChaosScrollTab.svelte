@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
-	import * as InputGroup from '$lib/components/ui/input-group';
-	import { Switch } from '$lib/components/ui/switch';
-	import { BalancedGrid } from '$lib/features/gear-enchant-ui/balanced-grid';
-	import FormControl from '$lib/features/gear-enchant-ui/form/FormControl.svelte';
-	import FormItem from '$lib/features/gear-enchant-ui/form/FormItem.svelte';
-	import FormLabel from '$lib/features/gear-enchant-ui/form/FormLabel.svelte';
-	import FormSection from '$lib/features/gear-enchant-ui/form/FormSection.svelte';
+	import { Button } from '#lib/components/ui/button/index.ts';
+	import * as InputGroup from '#lib/components/ui/input-group/index.ts';
+	import { Switch } from '#lib/components/ui/switch/index.ts';
+	import { BalancedGrid } from '#lib/features/gear-enchant-ui/balanced-grid/index.ts';
+	import FormControl from '#lib/features/gear-enchant-ui/form/FormControl.svelte';
+	import FormItem from '#lib/features/gear-enchant-ui/form/FormItem.svelte';
+	import FormLabel from '#lib/features/gear-enchant-ui/form/FormLabel.svelte';
+	import FormSection from '#lib/features/gear-enchant-ui/form/FormSection.svelte';
 	import type { Gear, GearUpgradeOption } from '@malib/gear';
-	import { Minus, Plus, TrashIcon } from 'lucide-svelte';
+	import { Minus, Plus, TrashIcon } from '@lucide/svelte';
 	import ResetSection from '../components/ResetSection.svelte';
 	import ResileSection from '../components/ResileSection.svelte';
 	import {

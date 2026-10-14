@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ItemRawIcon } from '$lib/components/icons';
+	import { ItemRawIcon } from '#lib/components/icons/index.ts';
 	import { Gear } from '@malib/gear';
 	import { Tabs } from 'bits-ui';
 	import LineTabsTrigger from '../../tab/LineTabsTrigger.svelte';

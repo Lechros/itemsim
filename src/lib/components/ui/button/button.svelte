@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	import { cn, type WithElementRef } from '$lib/utils';
+	import { cn, type WithElementRef } from '#lib/utils/index.ts';
 	import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
 	import { type VariantProps, tv } from 'tailwind-variants';
 
@@ -56,6 +56,7 @@
 </script>
 
 {#if href}
+	<!-- eslint-disable svelte/no-navigation-without-resolve -- Callers resolve internal routes; this component also accepts external URLs. -->
 	<a
 		bind:this={ref}
 		data-slot="button"
@@ -68,6 +69,7 @@
 	>
 		{@render children?.()}
 	</a>
+	<!-- eslint-enable svelte/no-navigation-without-resolve -->
 {:else}
 	<button
 		bind:this={ref}

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { ContextMenu as ContextMenuPrimitive } from 'bits-ui';
-	import { cn } from '$lib/utils';
+	import { cn } from '#lib/utils/index.ts';
 	import ContextMenuPortal from './context-menu-portal.svelte';
 	import type { ComponentProps } from 'svelte';
-	import type { WithoutChildrenOrChild } from '$lib/utils';
+	import type { WithoutChildrenOrChild } from '#lib/utils/index.ts';
 
 	let {
 		ref = $bindable(null),

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import * as Select from '$lib/components/ui/select';
-	import * as Tabs from '$lib/components/ui/tabs';
-	import FormControl from '$lib/features/gear-enchant-ui/form/FormControl.svelte';
-	import FormItem from '$lib/features/gear-enchant-ui/form/FormItem.svelte';
-	import FormLabel from '$lib/features/gear-enchant-ui/form/FormLabel.svelte';
-	import FormSection from '$lib/features/gear-enchant-ui/form/FormSection.svelte';
+	import * as Select from '#lib/components/ui/select/index.ts';
+	import * as Tabs from '#lib/components/ui/tabs/index.ts';
+	import FormControl from '#lib/features/gear-enchant-ui/form/FormControl.svelte';
+	import FormItem from '#lib/features/gear-enchant-ui/form/FormItem.svelte';
+	import FormLabel from '#lib/features/gear-enchant-ui/form/FormLabel.svelte';
+	import FormSection from '#lib/features/gear-enchant-ui/form/FormSection.svelte';
 	import { PotentialGrade, type PotentialData } from '@malib/gear';
 	import { grades } from '../model/grades';
 	import PotentialSummary from './PotentialSummary.svelte';

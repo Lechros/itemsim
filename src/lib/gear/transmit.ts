@@ -1,4 +1,4 @@
-import { getPotentialData } from '$lib/features/gear-enchant-ui/tabs/potential/model/potential';
+import { getPotentialData } from '#lib/features/gear-enchant-ui/tabs/potential/model/potential.ts';
 import { Gear, GearCapability, ReadonlyGear, type GearData, type PotentialData } from '@malib/gear';
 
 /**

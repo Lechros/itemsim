@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { convertGearOptionToSummaries } from '$lib/components/gear-tooltip/model/strings';
+	import { convertGearOptionToSummaries } from '#lib/components/gear-tooltip/model/strings.ts';
 	import type { GearExceptionalOption } from '@malib/gear';
 
 	let { exceptionalOption }: { exceptionalOption: GearExceptionalOption } = $props();

@@ -1,17 +1,17 @@
 <script lang="ts">
-	import * as Alert from '$lib/components/ui/alert';
-	import { buttonVariants } from '$lib/components/ui/button';
-	import * as InputGroup from '$lib/components/ui/input-group';
-	import * as Select from '$lib/components/ui/select';
-	import { Slider } from '$lib/components/ui/slider';
-	import { Switch } from '$lib/components/ui/switch';
-	import FormControl from '$lib/features/gear-enchant-ui/form/FormControl.svelte';
-	import FormItem from '$lib/features/gear-enchant-ui/form/FormItem.svelte';
-	import FormLabel from '$lib/features/gear-enchant-ui/form/FormLabel.svelte';
-	import FormSection from '$lib/features/gear-enchant-ui/form/FormSection.svelte';
+	import * as Alert from '#lib/components/ui/alert/index.ts';
+	import { buttonVariants } from '#lib/components/ui/button/index.ts';
+	import * as InputGroup from '#lib/components/ui/input-group/index.ts';
+	import * as Select from '#lib/components/ui/select/index.ts';
+	import { Slider } from '#lib/components/ui/slider/index.ts';
+	import { Switch } from '#lib/components/ui/switch/index.ts';
+	import FormControl from '#lib/features/gear-enchant-ui/form/FormControl.svelte';
+	import FormItem from '#lib/features/gear-enchant-ui/form/FormItem.svelte';
+	import FormLabel from '#lib/features/gear-enchant-ui/form/FormLabel.svelte';
+	import FormSection from '#lib/features/gear-enchant-ui/form/FormSection.svelte';
 	import { Gear } from '@malib/gear';
 	import { Tabs } from 'bits-ui';
-	import { CircleAlert, Minus, Plus } from 'lucide-svelte';
+	import { CircleAlert, Minus, Plus } from '@lucide/svelte';
 	import {
 		addStarforce,
 		canAddStarforce,

@@ -1,18 +1,18 @@
 <script lang="ts">
-	import { getSoulData, getSoulSearch, type SearchSoulSummary } from '$lib/api';
-	import { Highlight } from '$lib/components/highlight';
-	import { ItemRawIcon } from '$lib/components/icons';
-	import { SelectList, SelectListItem } from '$lib/components/select-list';
-	import { Button } from '$lib/components/ui/button';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Label } from '$lib/components/ui/label';
-	import * as InputGroup from '$lib/components/ui/input-group';
-	import * as Select from '$lib/components/ui/select';
-	import { Separator } from '$lib/components/ui/separator';
-	import { Switch } from '$lib/components/ui/switch';
+	import { getSoulData, getSoulSearch, type SearchSoulSummary } from '#lib/api/index.ts';
+	import { Highlight } from '#lib/components/highlight/index.ts';
+	import { ItemRawIcon } from '#lib/components/icons/index.ts';
+	import { SelectList, SelectListItem } from '#lib/components/select-list/index.ts';
+	import { Button } from '#lib/components/ui/button/index.ts';
+	import { Checkbox } from '#lib/components/ui/checkbox/index.ts';
+	import { Label } from '#lib/components/ui/label/index.ts';
+	import * as InputGroup from '#lib/components/ui/input-group/index.ts';
+	import * as Select from '#lib/components/ui/select/index.ts';
+	import { Separator } from '#lib/components/ui/separator/index.ts';
+	import { Switch } from '#lib/components/ui/switch/index.ts';
 	import { Gear, type SoulOption } from '@malib/gear';
 	import { createQuery } from '@tanstack/svelte-query';
-	import { SearchIcon, XIcon } from 'lucide-svelte';
+	import { SearchIcon, XIcon } from '@lucide/svelte';
 	import FormControl from '../../../form/FormControl.svelte';
 	import FormItem from '../../../form/FormItem.svelte';
 	import FormLabel from '../../../form/FormLabel.svelte';
@@ -149,12 +149,12 @@
 {:else if results?.length}
 	<SelectList
 		items={results}
-		getKey={(item) => String(item.id)}
+		getKey={(item: SearchSoulSummary) => String(item.id)}
 		selected={selectedSummary ? String(selectedSummary.id) : null}
 		size={6}
 		allowDeselect={false}
 	>
-		{#snippet children(soulSummary)}
+		{#snippet children(soulSummary: SearchSoulSummary)}
 			<SelectListItem
 				value={String(soulSummary.id)}
 				class="rounded-none ps-4"

@@ -1,0 +1,4 @@
+{
+	"extends": "./tsconfig.json",
+	"include": ["${configDir}/src/**/*.ts", "${configDir}/vitest-setup-client.ts"]
+}

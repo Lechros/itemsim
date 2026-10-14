@@ -1,23 +1,28 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { getGearDatas, getGearHashes, getGearSearch } from '$lib/api';
-	import { Highlight } from '$lib/components/highlight';
-	import { GearIcon } from '$lib/components/icons';
-	import { SelectListItem, SelectListVirtualizer } from '$lib/components/select-list';
-	import { Button, buttonVariants } from '$lib/components/ui/button';
-	import * as Drawer from '$lib/components/ui/drawer';
-	import * as InputGroup from '$lib/components/ui/input-group';
-	import { ScrollArea } from '$lib/components/ui/scroll-area';
-	import { Spinner } from '$lib/components/ui/spinner';
-	import FormSection from '$lib/features/gear-enchant-ui/form/FormSection.svelte';
-	import MainNavbar from '$lib/features/navigation/main-navbar/MainNavbar.svelte';
-	import { createSearchSelectState } from '$lib/features/search';
-	import { addGearData } from '$lib/stores/gear-inventory';
-	import { cn } from '$lib/utils';
+	import {
+		getGearDatas,
+		getGearHashes,
+		getGearSearch,
+		type SearchGearSummary
+	} from '#lib/api/index.ts';
+	import { Highlight } from '#lib/components/highlight/index.ts';
+	import { GearIcon } from '#lib/components/icons/index.ts';
+	import { SelectListItem, SelectListVirtualizer } from '#lib/components/select-list/index.ts';
+	import { Button, buttonVariants } from '#lib/components/ui/button/index.ts';
+	import * as Drawer from '#lib/components/ui/drawer/index.ts';
+	import * as InputGroup from '#lib/components/ui/input-group/index.ts';
+	import { ScrollArea } from '#lib/components/ui/scroll-area/index.ts';
+	import { Spinner } from '#lib/components/ui/spinner/index.ts';
+	import FormSection from '#lib/features/gear-enchant-ui/form/FormSection.svelte';
+	import MainNavbar from '#lib/features/navigation/main-navbar/MainNavbar.svelte';
+	import { createSearchSelectState } from '#lib/features/search/index.ts';
+	import { addGearData } from '#lib/stores/gear-inventory.ts';
+	import { cn } from '#lib/utils/index.ts';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { josa } from 'es-hangul';
-	import { ArrowLeft, SearchIcon, TrashIcon, XIcon } from 'lucide-svelte';
+	import { ArrowLeft, SearchIcon, TrashIcon, XIcon } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 
 	let searchQuery = $state('');
@@ -58,7 +63,7 @@
 					action: {
 						label: '이동',
 						onClick: () => {
-							goto(resolve(`/gear/${seq}`));
+							goto(resolve('/gear/[seq]', { seq: String(seq) }));
 						}
 					}
 				});
@@ -131,12 +136,12 @@
 					allowDeselect
 					selectedSet={selected.ids}
 					items={results}
-					getKey={(item) => String(item.id)}
+					getKey={(item: SearchGearSummary) => String(item.id)}
 					startMargin={237}
 					bufferSize={96}
 					scrollRef={viewportRef}
 				>
-					{#snippet children(item)}
+					{#snippet children(item: SearchGearSummary)}
 						<SelectListItem
 							class="rounded-none pl-4"
 							value={String(item.id)}

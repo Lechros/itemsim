@@ -1,4 +1,4 @@
-import { deleteGearData } from '$lib/stores/gear-inventory';
+import { deleteGearData } from '#lib/stores/gear-inventory.ts';
 import { SvelteSet } from 'svelte/reactivity';
 
 export class Selector {

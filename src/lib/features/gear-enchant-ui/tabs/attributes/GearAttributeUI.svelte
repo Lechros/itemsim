@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { Button, buttonVariants } from '$lib/components/ui/button';
-	import * as Dialog from '$lib/components/ui/dialog';
-	import { Input } from '$lib/components/ui/input';
-	import * as InputGroup from '$lib/components/ui/input-group';
-	import * as Select from '$lib/components/ui/select';
-	import * as Tabs from '$lib/components/ui/tabs';
+	import { Button, buttonVariants } from '#lib/components/ui/button/index.ts';
+	import * as Dialog from '#lib/components/ui/dialog/index.ts';
+	import { Input } from '#lib/components/ui/input/index.ts';
+	import * as InputGroup from '#lib/components/ui/input-group/index.ts';
+	import * as Select from '#lib/components/ui/select/index.ts';
+	import * as Tabs from '#lib/components/ui/tabs/index.ts';
 	import { Gear } from '@malib/gear';
-	import { Minus, Plus } from 'lucide-svelte';
+	import { Minus, Plus } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 	import FormControl from '../../form/FormControl.svelte';
 	import FormItem from '../../form/FormItem.svelte';

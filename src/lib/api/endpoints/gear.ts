@@ -1,8 +1,8 @@
 import { migrate, type GearData } from '@malib/gear';
 import ky from 'ky';
-import { env } from '$lib/config/env';
-import { GEAR_VERSION } from '$lib/config/constant';
-import { join } from '$lib/api/url';
+import { env } from '#lib/config/env.ts';
+import { GEAR_VERSION } from '#lib/config/constant.ts';
+import { join } from '#lib/api/url.ts';
 
 export interface SearchGearSummary {
 	id: number;

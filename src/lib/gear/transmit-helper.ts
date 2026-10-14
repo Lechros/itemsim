@@ -1,5 +1,5 @@
-import { getGearData, getGearHash } from '$lib/api';
-import { extractGearData, getGearRow } from '$lib/stores/gear-inventory';
+import { getGearData, getGearHash } from '#lib/api/index.ts';
+import { extractGearData, getGearRow } from '#lib/stores/gear-inventory.ts';
 import type { GearData } from '@malib/gear';
 import { transmit } from './transmit';
 

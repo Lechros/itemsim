@@ -1,4 +1,4 @@
-import { indexChoice } from '$lib/utils';
+import { indexChoice } from '#lib/utils/index.ts';
 import type { Gear, GearUpgradeOption, Scroll } from '@malib/gear';
 
 export function createChaosScroll(option: Partial<GearUpgradeOption>) {

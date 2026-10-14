@@ -1,5 +1,5 @@
 <script lang="ts" generics="T">
-	import { cn, splitHalf } from '$lib/utils';
+	import { cn, splitHalf } from '#lib/utils/index.ts';
 	import type { Snippet } from 'svelte';
 
 	let {
@@ -19,7 +19,7 @@
 	} = $props();
 </script>
 
-<div class={cn('auto-rows-1 grid', items.length > size && 'sm:grid-cols-2', className)}>
+<div class={cn('grid auto-rows-1', items.length > size && 'sm:grid-cols-2', className)}>
 	{#each splitHalf(items) as columnItems, index (index)}
 		<div class={cn('flex flex-col', classes?.column)}>
 			{#each columnItems as item, index (index)}

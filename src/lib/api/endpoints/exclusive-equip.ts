@@ -1,6 +1,6 @@
 import ky from 'ky';
-import { env } from '$lib/config/env';
-import { join } from '$lib/api/url';
+import { env } from '#lib/config/env.ts';
+import { join } from '#lib/api/url.ts';
 
 export interface ExclusiveEquipData {
 	[id: number]: ExclusiveEquip;

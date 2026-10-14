@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
-	import { cn } from '$lib/utils';
-	import { CheckIcon } from 'lucide-svelte';
+	import { Button } from '#lib/components/ui/button/index.ts';
+	import { cn } from '#lib/utils/index.ts';
+	import { CheckIcon } from '@lucide/svelte';
 	import type { Snippet } from 'svelte';
 
 	let {

@@ -1,6 +1,6 @@
 import ky from 'ky';
-import { env } from '$lib/config/env';
-import { join } from '$lib/api/url';
+import { env } from '#lib/config/env.ts';
+import { join } from '#lib/api/url.ts';
 import type { GearOption } from '@malib/gear';
 
 export interface SetItemData {

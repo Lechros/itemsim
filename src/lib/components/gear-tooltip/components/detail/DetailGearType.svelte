@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getGearTypeString } from '$lib/components/gear-tooltip/model/strings';
+	import { getGearTypeString } from '#lib/components/gear-tooltip/model/strings.ts';
 	import { GearType, isLeftWeapon, isWeapon } from '@malib/gear';
 
 	let {

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { GearRow } from '$lib/stores/gear-inventory';
-	import { chunk, cn } from '$lib/utils';
+	import type { GearRow } from '#lib/stores/gear-inventory.ts';
+	import { chunk, cn } from '#lib/utils/index.ts';
 	import type { Snippet } from 'svelte';
 	import { Virtualizer } from 'virtua/svelte';
 
@@ -71,12 +71,12 @@
 <div class="flex h-[calc(100%-110px-56px)] flex-col">
 	<Virtualizer
 		data={rows}
-		getKey={(row) => `${row[0].seq}-${row[row.length - 1].seq}`}
+		getKey={(row: GearRow[]) => `${row[0].seq}-${row[row.length - 1].seq}`}
 		bufferSize={150}
 		scrollRef={scrollRef ?? undefined}
 		{startMargin}
 	>
-		{#snippet children(row, rowIndex)}
+		{#snippet children(row: GearRow[], rowIndex: number)}
 			<div class="border-b">
 				<div
 					class={cn('mx-auto box-content grid', width && width >= 384 && 'border-l')}

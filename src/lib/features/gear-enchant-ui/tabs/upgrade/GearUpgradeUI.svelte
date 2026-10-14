@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { ItemRawIcon } from '$lib/components/icons';
-	import { cn } from '$lib/utils';
+	import { ItemRawIcon } from '#lib/components/icons/index.ts';
+	import { cn } from '#lib/utils/index.ts';
 	import { Gear, ReadonlyGear } from '@malib/gear';
 	import { Tabs } from 'bits-ui';
 	import LineTabsTrigger from '../../tab/LineTabsTrigger.svelte';
