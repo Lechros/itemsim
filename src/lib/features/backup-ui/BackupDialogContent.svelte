@@ -237,6 +237,7 @@
 	</Dialog.Content>
 </Dialog.Root>
 
+<!-- eslint-disable svelte/no-navigation-without-resolve -- This URL comes from URL.createObjectURL for a file download. -->
 <a
 	bind:this={downloadRef}
 	href={downloadBlobUrl ?? undefined}
@@ -245,6 +246,7 @@
 	class="hidden"
 	title="hidden download"
 ></a>
+<!-- eslint-enable svelte/no-navigation-without-resolve -->
 <input
 	bind:this={fileInputRef}
 	type="file"

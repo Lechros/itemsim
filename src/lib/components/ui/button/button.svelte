@@ -56,6 +56,7 @@
 </script>
 
 {#if href}
+	<!-- eslint-disable svelte/no-navigation-without-resolve -- Callers resolve internal routes; this component also accepts external URLs. -->
 	<a
 		bind:this={ref}
 		data-slot="button"
@@ -68,6 +69,7 @@
 	>
 		{@render children?.()}
 	</a>
+	<!-- eslint-enable svelte/no-navigation-without-resolve -->
 {:else}
 	<button
 		bind:this={ref}
